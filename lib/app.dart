@@ -1,0 +1,126 @@
+import 'package:authentication_repository/authentication_repository.dart';
+import 'package:craftmate_client/auth/auth.dart';
+import 'package:craftmate_client/login/login.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_repository/user_repository.dart';
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late final AuthenticationRepository _authenticationRepository;
+  late final UserRepository _userRepository;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _authenticationRepository = AuthenticationRepository();
+    _userRepository = UserRepository();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _authenticationRepository.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RepositoryProvider.value(
+      value: _authenticationRepository,
+      child: BlocProvider(
+        create: (_) => AuthBloc(
+          authenticationRepository: _authenticationRepository,
+          userRepository: _userRepository,
+        ),
+        child: const AppView(),
+      ),
+    );
+  }
+}
+
+class AppView extends StatefulWidget {
+  const AppView({super.key});
+
+  @override
+  State<AppView> createState() => _AppViewState();
+}
+
+class _AppViewState extends State<AppView> {
+  final _navigatorKey = GlobalKey<NavigatorState>();
+
+  NavigatorState get _navigator => _navigatorKey.currentState!;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      navigatorKey: _navigatorKey,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xff316A42),
+        ),
+      ),
+      title: 'CraftMate',
+      builder: (context, child) {
+        return BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            switch (state.status) {
+              case AuthenticationStatus.authenticated:
+                _navigator.pushAndRemoveUntil<void>(
+                  StatusScreen.route('authenticated'),
+                  (route) => false,
+                );
+              case AuthenticationStatus.unauthenticated:
+                _navigator.pushAndRemoveUntil<void>(
+                  LoginPage.route(),
+                  (route) => false,
+                );
+              case AuthenticationStatus.unknown:
+                _navigator.pushAndRemoveUntil<void>(
+                  StatusScreen.route('unknown'),
+                  (route) => false,
+                );
+              default:
+                _navigator.pushAndRemoveUntil<void>(
+                  StatusScreen.route('nothing is working'),
+                  (route) => false,
+                );
+                break;
+            }
+          },
+          child: child,
+        );
+      },
+      onGenerateRoute: (_) => StatusScreen.route('Loading'),
+    );
+  }
+}
+
+class StatusScreen extends StatelessWidget {
+  const StatusScreen({super.key, required this.status});
+
+  final String status;
+
+  static Route<void> route(String status) {
+    return MaterialPageRoute(
+      builder: (_) => StatusScreen(status: status),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(status),
+      ),
+    );
+  }
+}
