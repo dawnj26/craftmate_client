@@ -26,6 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _userRepository = userRepository,
         super(const _AuthInitial()) {
     on<AuthStatusChanged>(_onAuthenticationStatusChanged);
+    on<AuthLogoutRequest>(_onLogOut);
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
       (status) => add(AuthStatusChanged(status)),
     );
@@ -76,6 +77,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       log.e(e);
       return null;
+    }
+  }
+
+  Future<void> _onLogOut(
+    AuthLogoutRequest event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      await _authenticationRepository.logOut();
+    } catch (e) {
+      log.e(e);
     }
   }
 }
