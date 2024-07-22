@@ -11,7 +11,7 @@ abstract class IAuthenticationRepository {
   Future<void> signUpWithEmailAndPassword(
       {required String name, required String email, required String password});
 
-  Future<void> logOut({required String token});
+  Future<void> logOut();
 }
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
@@ -74,11 +74,18 @@ class AuthenticationRepository implements IAuthenticationRepository {
   }
 
   @override
-  Future<void> logOut({required String token}) async {
+  Future<void> logOut() async {
     // TODO: implement logOut
+    final token = await _config.storage.read(key: 'token');
 
     final dio = _config.api;
-    dio.options.headers['Authorization'] = 'Bearer $token';
+    dio.options = BaseOptions(
+      baseUrl: dio.options.baseUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
 
     try {
       await dio.post(
