@@ -99,7 +99,24 @@ class _AppViewState extends State<AppView> {
           child: child,
         );
       },
-      onGenerateRoute: (_) => StatusScreen.route('Loading'),
+      onGenerateRoute: (_) => SplashScreen.route(),
+    );
+  }
+}
+
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
+
+  static Route<void> route() {
+    return MaterialPageRoute(builder: (_) => const SplashScreen());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Image.asset('assets/images/logo_without_label.png'),
+      ),
     );
   }
 }
@@ -118,8 +135,18 @@ class StatusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(status),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(status),
+          FilledButton(
+            onPressed: () {
+              context.read<AuthBloc>().add(AuthLogoutRequest());
+            },
+            child: const Text('Logout'),
+          ),
+        ],
       ),
     );
   }
