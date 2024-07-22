@@ -8,6 +8,8 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  dio: ^5.5.0+1
+  flutter_secure_storage: ^9.2.2
   # path: ^1.8.0
 
 dev_dependencies:

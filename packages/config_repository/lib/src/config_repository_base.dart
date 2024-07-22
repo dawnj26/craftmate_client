@@ -1,6 +1,23 @@
-// TODO: Put public facing types in this file.
+import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-/// Checks if you are awesome. Spoiler: you are.
-class Awesome {
-  bool get isAwesome => true;
+class ConfigRepository {
+  final _apiUrl = 'http://192.168.254.101:9000/api/auth';
+  final _storage = FlutterSecureStorage();
+  static final instance = ConfigRepository();
+
+  Dio get api {
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: _apiUrl,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      ),
+    );
+
+    return dio;
+  }
+
+  FlutterSecureStorage get storage => _storage;
 }
