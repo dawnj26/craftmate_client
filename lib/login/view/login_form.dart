@@ -2,6 +2,7 @@ import 'package:craftmate_client/login/bloc/login_bloc.dart';
 import 'package:craftmate_client/login/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:gap/gap.dart';
 
@@ -13,33 +14,126 @@ class LoginForm extends StatelessWidget {
     final theme = Theme.of(context);
 
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: BlocListener<LoginBloc, LoginState>(
-          listener: (context, state) {
-            if (state.status.isFailure) {
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  const SnackBar(
-                    content: Text('Authentication Failure'),
+      child: BlocListener<LoginBloc, LoginState>(
+        listener: (context, state) {
+          if (state.status.isFailure) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(
+                  content: Text('Authentication Failure'),
+                ),
+              );
+          }
+        },
+        child: LayoutBuilder(
+          builder: (_, constraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Gap(8.0),
+                      Image.asset(
+                        'assets/images/logo_with_label.png',
+                        height: 32.0,
+                      ),
+                      const Gap(48.0),
+                      _HeaderTitle(
+                        theme: theme,
+                      ),
+                      const Gap(32.0),
+                      const _LoginForm(),
+                      const Gap(40.0),
+                      const AlternativeDivider(),
+                      const Gap(40.0),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _AlternativeButton(
+                            icon: FaIcon(FontAwesomeIcons.google),
+                          ),
+                          _AlternativeButton(
+                            icon: FaIcon(FontAwesomeIcons.facebook),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      const _SignUpButton(),
+                    ],
                   ),
-                );
-            }
-          },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _HeaderTitle(
-                theme: theme,
+                ),
               ),
-              const Gap(32.0),
-              const _LoginForm(),
-            ],
+            ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _SignUpButton extends StatelessWidget {
+  const _SignUpButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text("Don't have an account?"),
+        TextButton(
+          onPressed: () {},
+          child: const Text('Sign up'),
+        ),
+      ],
+    );
+  }
+}
+
+class _AlternativeButton extends StatelessWidget {
+  const _AlternativeButton({
+    required this.icon,
+  });
+
+  final FaIcon icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      style: OutlinedButton.styleFrom(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+        ),
+        padding: const EdgeInsets.all(12.0),
+      ),
+      onPressed: () {},
+      label: icon,
+    );
+  }
+}
+
+class AlternativeDivider extends StatelessWidget {
+  const AlternativeDivider({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        const Divider(),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          color: theme.colorScheme.surface,
+          child: const Text('Or log in with'),
+        ),
+      ],
     );
   }
 }
