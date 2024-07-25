@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'dart:async';
 
 import 'package:authentication_repository/src/exceptions/auth_exception.dart';
@@ -109,16 +111,17 @@ class AuthenticationRepository implements IAuthenticationRepository {
   }
 
   @override
-  Future<void> signUpWithEmailAndPassword(
-      {required String name,
-      required String email,
-      required String password}) async {
+  Future<void> signUpWithEmailAndPassword({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
     final dio = _config.api;
 
     try {
       final response = await dio.post(
         '/signup',
-        data: {
+        queryParameters: {
           'name': name,
           'email': email,
           'password': password,
@@ -147,6 +150,8 @@ class AuthenticationRepository implements IAuthenticationRepository {
             ? metadata['message'].toString()
             : message;
       }
+
+      _controller.add(AuthenticationStatus.unauthenticated);
 
       throw AuthException(message);
     }
