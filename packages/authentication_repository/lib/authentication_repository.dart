@@ -4,5 +4,6 @@
 library;
 
 export 'src/authentication_repository_base.dart';
+export 'src/exceptions/auth_exception.dart';
 
 // TODO: Export any libraries intended for clients of this package.
