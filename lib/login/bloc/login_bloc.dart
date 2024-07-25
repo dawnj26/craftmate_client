@@ -13,7 +13,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({
     required AuthenticationRepository authenticationRepository,
   })  : _authenticationRepository = authenticationRepository,
-        super(const LoginState()) {
+        super(const LoginInitial()) {
     on<LoginEmailChanged>(_onEmailChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onSubmitted);
@@ -26,11 +26,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) {
     final email = Email.dirty(event.email);
+
     emit(
-      state.copyWith(
+      LoginInitial(
         email: email,
-        isValid: Formz.validate([state.password, email]),
-        status: FormzSubmissionStatus.initial,
+        password: state.password,
+        isValid: Formz.validate(
+          [state.password, email],
+        ),
       ),
     );
   }
@@ -40,11 +43,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) {
     final password = Password.dirty(event.password);
+
     emit(
-      state.copyWith(
+      LoginInitial(
+        email: state.email,
         password: password,
-        isValid: Formz.validate([password, state.email]),
-        status: FormzSubmissionStatus.initial,
+        isValid: Formz.validate(
+          [password, state.email],
+        ),
       ),
     );
   }
@@ -54,17 +60,48 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     if (state.isValid) {
-      emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+      emit(
+        LoginInProgress(
+          email: state.email,
+          password: state.password,
+          isValid: state.isValid,
+        ),
+      );
       try {
         await _authenticationRepository.logInWithEmailAndPassword(
           email: state.email.value,
           password: state.password.value,
         );
-        emit(state.copyWith(status: FormzSubmissionStatus.success));
-      } catch (e) {
+        emit(
+          LoginSuccess(
+            email: state.email,
+            password: state.password,
+            isValid: state.isValid,
+          ),
+        );
+      } on AuthException catch (e) {
         log.e(e);
-        emit(state.copyWith(status: FormzSubmissionStatus.failure));
+        emit(
+          LoginFailed(
+            message: e.message,
+            email: state.email,
+            password: state.password,
+            isValid: state.isValid,
+          ),
+        );
       }
+    } else {
+      final email = Email.dirty(event.email);
+      final password = Password.dirty(event.password);
+      emit(
+        LoginInitial(
+          email: email,
+          password: password,
+          isValid: Formz.validate(
+            [password, email],
+          ),
+        ),
+      );
     }
   }
 }
