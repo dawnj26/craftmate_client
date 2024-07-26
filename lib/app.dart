@@ -1,8 +1,10 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:craftmate_client/auth/auth.dart';
+import 'package:craftmate_client/logger.dart';
 import 'package:craftmate_client/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatefulWidget {
@@ -20,9 +22,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    _authenticationRepository = AuthenticationRepository();
-    _userRepository = UserRepository();
+    _authenticationRepository = AuthenticationRepository(config: config);
+    _userRepository = UserRepository(config: config);
   }
 
   @override
@@ -74,15 +75,29 @@ class _AppViewState extends State<AppView> {
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  StatusScreen.route('authenticated'),
-                  (route) => false,
-                );
+                if (config.apiUrl.isEmpty) {
+                  _navigator.pushAndRemoveUntil<void>(
+                    GetApiScreen.route(StatusScreen.route('authenticated')),
+                    (route) => false,
+                  );
+                } else {
+                  _navigator.pushAndRemoveUntil<void>(
+                    StatusScreen.route('authenticated'),
+                    (route) => false,
+                  );
+                }
               case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
-                  (route) => false,
-                );
+                if (config.apiUrl.isEmpty) {
+                  _navigator.pushAndRemoveUntil<void>(
+                    GetApiScreen.route(LoginPage.route()),
+                    (route) => false,
+                  );
+                } else {
+                  _navigator.pushAndRemoveUntil<void>(
+                    LoginPage.route(),
+                    (route) => false,
+                  );
+                }
               case AuthenticationStatus.unknown:
                 _navigator.pushAndRemoveUntil<void>(
                   StatusScreen.route('unknown'),
@@ -147,6 +162,72 @@ class StatusScreen extends StatelessWidget {
             child: const Text('Logout'),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class GetApiScreen extends StatefulWidget {
+  const GetApiScreen({super.key, required this.nextScreen});
+
+  final Route<void> nextScreen;
+
+  static Route<void> route(Route<void> screen) {
+    return MaterialPageRoute(builder: (_) => GetApiScreen(nextScreen: screen));
+  }
+
+  @override
+  State<GetApiScreen> createState() => _GetApiScreenState();
+}
+
+class _GetApiScreenState extends State<GetApiScreen> {
+  final apiController = TextEditingController();
+  String? errorText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              const Text(
+                'Get API from your best programmer in the world',
+                style: TextStyle(fontSize: 24.0),
+              ),
+              const Gap(12.0),
+              TextField(
+                controller: apiController,
+                decoration: InputDecoration(
+                  labelText: 'API Url',
+                  border: const OutlineInputBorder(),
+                  errorText: errorText,
+                ),
+              ),
+              const Gap(12.0),
+              FilledButton(
+                onPressed: () {
+                  if (apiController.text.isEmpty) {
+                    setState(() {
+                      errorText = 'Lagyan mo naman';
+                    });
+                    return;
+                  }
+                  //https://b4be-2001-fd8-2110-8c36-5e3a-45ff-fe44-947b.ngrok-free.app
+                  config.apiUrl = apiController.text;
+
+                  Navigator.of(context).pushReplacement(
+                    widget.nextScreen,
+                  );
+                },
+                child: const Text(
+                  'Add url',
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

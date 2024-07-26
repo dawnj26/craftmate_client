@@ -28,8 +28,6 @@ class LoginForm extends StatelessWidget {
               },
             );
           } else if (state is LoginFailed) {
-            Navigator.of(context).pop();
-
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
@@ -62,13 +60,26 @@ class LoginForm extends StatelessWidget {
                       const Gap(40.0),
                       const AlternativeDivider(message: 'Or log in with'),
                       const Gap(40.0),
-                      GoogleOrFacebookButtons(
-                        googleCallback: () {
-                          RepositoryProvider.of<AuthenticationRepository>(
-                            context,
-                          ).googleAuth();
+                      BlocBuilder<LoginBloc, LoginState>(
+                        builder: (context, state) {
+                          final bloc = context.read<LoginBloc>();
+                          return GoogleOrFacebookButtons(
+                            googleCallback: () {
+                              bloc.add(
+                                const LoginSocialClick(
+                                  type: AuthenticationType.google,
+                                ),
+                              );
+                            },
+                            facebookCallback: () {
+                              bloc.add(
+                                const LoginSocialClick(
+                                  type: AuthenticationType.facebook,
+                                ),
+                              );
+                            },
+                          );
                         },
-                        facebookCallback: () {},
                       ),
                       const Spacer(),
                       const _SignUpButton(),

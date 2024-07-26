@@ -57,3 +57,8 @@ final class SignUpSubmitted extends SignUpEvent {
     required this.confirmPassword,
   });
 }
+
+final class SignUpSocialClick extends SignUpEvent {
+  final AuthenticationType type;
+  const SignUpSocialClick({required this.type});
+}

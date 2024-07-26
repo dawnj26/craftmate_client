@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:craftmate_client/components/components.dart';
 import 'package:craftmate_client/login/models/email.dart';
 import 'package:craftmate_client/login/view/login_page.dart';
@@ -70,9 +71,26 @@ class SignUpForm extends StatelessWidget {
                         const AlternativeDivider(message: 'Or sign up with'),
                         const Gap(8.0),
                         const Spacer(),
-                        GoogleOrFacebookButtons(
-                          googleCallback: () {},
-                          facebookCallback: () {},
+                        BlocBuilder<SignUpBloc, SignUpState>(
+                          builder: (context, state) {
+                            final bloc = context.read<SignUpBloc>();
+                            return GoogleOrFacebookButtons(
+                              googleCallback: () {
+                                bloc.add(
+                                  const SignUpSocialClick(
+                                    type: AuthenticationType.google,
+                                  ),
+                                );
+                              },
+                              facebookCallback: () {
+                                bloc.add(
+                                  const SignUpSocialClick(
+                                    type: AuthenticationType.facebook,
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         ),
                         const Spacer(),
                         const _LoginButton(),

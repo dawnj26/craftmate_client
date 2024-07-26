@@ -8,22 +8,33 @@ import 'package:dio/dio.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 
 abstract class IAuthenticationRepository {
-  Future<void> logInWithEmailAndPassword(
-      {required String email, required String password});
+  Future<void> logInWithEmailAndPassword({
+    required String email,
+    required String password,
+  });
 
-  Future<void> signUpWithEmailAndPassword(
-      {required String name, required String email, required String password});
+  Future<void> signUpWithEmailAndPassword({
+    required String name,
+    required String email,
+    required String password,
+  });
 
-  Future<void> googleAuth();
+  Future<void> socialAuth(AuthenticationType type);
 
   Future<void> logOut();
 }
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
+enum AuthenticationType { google, facebook }
+
 class AuthenticationRepository implements IAuthenticationRepository {
-  final _controller = StreamController<AuthenticationStatus>();
-  final _config = ConfigRepository.instance;
+  final StreamController<AuthenticationStatus> _controller;
+  final ConfigRepository _config;
+
+  AuthenticationRepository({required ConfigRepository config})
+      : _config = config,
+        _controller = StreamController<AuthenticationStatus>();
 
   Stream<AuthenticationStatus> get status async* {
     final token = await _config.storage.read(key: 'token');
@@ -162,16 +173,25 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
 //P4A@h1xw!*hf
   @override
-  Future<void> googleAuth() async {
+  Future<void> socialAuth(AuthenticationType type) async {
     // TODO: implement googleAuth
-    final result = await FlutterWebAuth2.authenticate(
-      url: '${_config.api.options.baseUrl}/google',
-      callbackUrlScheme: 'craftmate',
-    );
+    final social = type == AuthenticationType.google ? 'google' : 'facebook';
+    final String url = '${_config.api.options.baseUrl}/$social';
 
-    final token = Uri.parse(result).queryParameters['token'];
+    try {
+      final result = await FlutterWebAuth2.authenticate(
+        url: url,
+        callbackUrlScheme: 'craftmate',
+      );
 
-    print(token);
+      final token = Uri.parse(result).queryParameters['token'];
+
+      _config.storage.write(key: 'token', value: token);
+      _controller.add(AuthenticationStatus.authenticated);
+    } catch (e) {
+      _controller.add(AuthenticationStatus.unauthenticated);
+      throw AuthException('Token is null or authentication canceled');
+    }
   }
 
   void dispose() {

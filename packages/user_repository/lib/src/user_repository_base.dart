@@ -7,7 +7,9 @@ abstract class IUserRepository {
 }
 
 class UserRepository implements IUserRepository {
-  final ConfigRepository _config = ConfigRepository();
+  final ConfigRepository _config;
+
+  UserRepository({required ConfigRepository config}) : _config = config;
 
   @override
   Future<User> getUser() async {

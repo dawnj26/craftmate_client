@@ -17,6 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginEmailChanged>(_onEmailChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onSubmitted);
+    on<LoginSocialClick>(_onSocialAuthClick);
   }
 
   final AuthenticationRepository _authenticationRepository;
@@ -100,6 +101,40 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           isValid: Formz.validate(
             [password, email],
           ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onSocialAuthClick(
+    LoginSocialClick event,
+    Emitter<LoginState> emit,
+  ) async {
+    try {
+      // emit(
+      //   LoginInProgress(
+      //     email: state.email,
+      //     password: state.password,
+      //     isValid: state.isValid,
+      //   ),
+      // );
+
+      await _authenticationRepository.socialAuth(event.type);
+      emit(
+        LoginSuccess(
+          email: state.email,
+          password: state.password,
+          isValid: state.isValid,
+        ),
+      );
+    } on AuthException catch (e) {
+      log.w(e);
+      emit(
+        LoginFailed(
+          message: e.message,
+          email: state.email,
+          password: state.password,
+          isValid: state.isValid,
         ),
       );
     }

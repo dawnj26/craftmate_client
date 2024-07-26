@@ -21,6 +21,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     on<SignUpPasswordChanged>(_onPasswordChanged);
     on<SignUpSubmitted>(_onSubmit);
     on<SignUpConfirmPasswordChanged>(_onConfirmPasswordChange);
+    on<SignUpSocialClick>(_onSocialAuthClick);
   }
 
   final AuthenticationRepository _authRepo;
@@ -156,6 +157,46 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           isValid: Formz.validate(
             [name, email, password, confirmPassword],
           ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onSocialAuthClick(
+    SignUpSocialClick event,
+    Emitter<SignUpState> emit,
+  ) async {
+    try {
+      emit(
+        SignUpInProgress(
+          isValid: state.isValid,
+          email: state.email,
+          name: state.name,
+          password: state.password,
+          confirmPassword: state.confirmPassword,
+        ),
+      );
+
+      await _authRepo.socialAuth(event.type);
+      emit(
+        SignUpSuccess(
+          isValid: state.isValid,
+          email: state.email,
+          name: state.name,
+          password: state.password,
+          confirmPassword: state.confirmPassword,
+        ),
+      );
+    } on AuthException catch (e) {
+      log.w(e);
+      emit(
+        SignUpFailed(
+          message: e.message,
+          isValid: state.isValid,
+          email: state.email,
+          name: state.name,
+          password: state.password,
+          confirmPassword: state.confirmPassword,
         ),
       );
     }
