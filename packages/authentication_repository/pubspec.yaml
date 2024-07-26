@@ -12,6 +12,7 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   config_repository:
     path: ../config_repository
+  flutter_web_auth_2: ^3.1.2
 # path: ^1.8.0
 
 dev_dependencies:

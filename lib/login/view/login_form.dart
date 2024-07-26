@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:craftmate_client/components/components.dart';
 import 'package:craftmate_client/login/bloc/login_bloc.dart';
 import 'package:craftmate_client/login/models/models.dart';
@@ -62,7 +63,11 @@ class LoginForm extends StatelessWidget {
                       const AlternativeDivider(message: 'Or log in with'),
                       const Gap(40.0),
                       GoogleOrFacebookButtons(
-                        googleCallback: () {},
+                        googleCallback: () {
+                          RepositoryProvider.of<AuthenticationRepository>(
+                            context,
+                          ).googleAuth();
+                        },
                         facebookCallback: () {},
                       ),
                       const Spacer(),

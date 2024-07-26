@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:authentication_repository/src/exceptions/auth_exception.dart';
 import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 
 abstract class IAuthenticationRepository {
   Future<void> logInWithEmailAndPassword(
@@ -12,6 +13,8 @@ abstract class IAuthenticationRepository {
 
   Future<void> signUpWithEmailAndPassword(
       {required String name, required String email, required String password});
+
+  Future<void> googleAuth();
 
   Future<void> logOut();
 }
@@ -155,6 +158,20 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
       throw AuthException(message);
     }
+  }
+
+//P4A@h1xw!*hf
+  @override
+  Future<void> googleAuth() async {
+    // TODO: implement googleAuth
+    final result = await FlutterWebAuth2.authenticate(
+      url: '${_config.api.options.baseUrl}/google',
+      callbackUrlScheme: 'craftmate',
+    );
+
+    final token = Uri.parse(result).queryParameters['token'];
+
+    print(token);
   }
 
   void dispose() {
