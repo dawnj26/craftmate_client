@@ -185,12 +185,18 @@ class AuthenticationRepository implements IAuthenticationRepository {
       );
 
       final token = Uri.parse(result).queryParameters['token'];
+      final error = Uri.parse(result).queryParameters['error'];
 
+      if (error != null && error.isNotEmpty) {
+        throw Exception(error);
+      }
+// AX&3iiAk
       _config.storage.write(key: 'token', value: token);
       _controller.add(AuthenticationStatus.authenticated);
     } catch (e) {
       _controller.add(AuthenticationStatus.unauthenticated);
-      throw AuthException('Token is null or authentication canceled');
+
+      throw AuthException(e.toString());
     }
   }
 
