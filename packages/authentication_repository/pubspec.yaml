@@ -1,0 +1,21 @@
+name: authentication_repository
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ^3.4.3
+
+# Add regular dependencies here.
+dependencies:
+  dio: ^5.5.0+1
+  flutter_secure_storage: ^9.2.2
+  config_repository:
+    path: ../config_repository
+  flutter_web_auth_2: ^3.1.2
+# path: ^1.8.0
+
+dev_dependencies:
+  mockito: ^5.4.4
+  lint: ^2.3.0
+  test: ^1.25.2
