@@ -28,6 +28,7 @@ class LoginForm extends StatelessWidget {
               },
             );
           } else if (state is LoginFailed) {
+            Navigator.of(context).pop();
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(

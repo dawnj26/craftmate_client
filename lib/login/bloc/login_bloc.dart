@@ -111,22 +111,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     try {
-      // emit(
-      //   LoginInProgress(
-      //     email: state.email,
-      //     password: state.password,
-      //     isValid: state.isValid,
-      //   ),
-      // );
-
-      await _authenticationRepository.socialAuth(event.type);
       emit(
-        LoginSuccess(
+        LoginInProgress(
           email: state.email,
           password: state.password,
           isValid: state.isValid,
         ),
       );
+
+      await _authenticationRepository.socialAuth(event.type);
     } on AuthException catch (e) {
       log.w(e);
       emit(
