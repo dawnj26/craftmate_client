@@ -61,6 +61,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
       }
 
       await _config.storage.write(key: 'token', value: token.toString());
+
       _controller.add(AuthenticationStatus.authenticated);
     } on DioException catch (e) {
       var message = 'Login failed';

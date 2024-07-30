@@ -74,7 +74,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final user = await _userRepository.getUserByToken();
       return user;
-    }on UserException catch (e) {
+    } on UserException catch (e) {
       log.e(e);
       return null;
     }
