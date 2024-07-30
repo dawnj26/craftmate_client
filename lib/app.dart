@@ -1,7 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:config_repository/config_repository.dart';
 import 'package:craftmate_client/auth/auth.dart';
-import 'package:craftmate_client/login/login.dart';
+import 'package:craftmate_client/auth/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
@@ -76,9 +76,9 @@ class _AppViewState extends State<AppView> {
       ),
       title: 'CraftMate',
       builder: (context, child) {
+        // Listen to status changes
         return BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
-            // Pages base on AuthenticationStatus
             switch (state.status) {
               case AuthenticationStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(

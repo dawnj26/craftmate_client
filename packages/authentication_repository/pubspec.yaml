@@ -3,6 +3,9 @@ description: A starting point for Dart libraries or applications.
 version: 1.0.0
 # repository: https://github.com/my_org/my_repo
 
+
+publish_to: none
+
 environment:
   sdk: ^3.4.3
 
@@ -12,6 +15,8 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   config_repository:
     path: ../config_repository
+  user_repository:
+    path: ../user_repository
   flutter_web_auth_2: ^3.1.2
 # path: ^1.8.0
 

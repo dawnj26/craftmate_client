@@ -72,9 +72,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   /// Returns a [User] if successful, or null if an error occurs.
   Future<User?> _tryGetUser() async {
     try {
-      final user = await _userRepository.getUser();
+      final user = await _userRepository.getUserByToken();
       return user;
-    } catch (e) {
+    } on UserException catch (e) {
       log.e(e);
       return null;
     }

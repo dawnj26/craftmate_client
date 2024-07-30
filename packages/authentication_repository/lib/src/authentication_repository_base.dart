@@ -3,30 +3,13 @@
 import 'dart:async';
 
 import 'package:authentication_repository/src/exceptions/auth_exception.dart';
+import 'package:authentication_repository/src/interfaces/auth_repository.dart';
 import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
-
-abstract class IAuthenticationRepository {
-  Future<void> logInWithEmailAndPassword({
-    required String email,
-    required String password,
-  });
-
-  Future<void> signUpWithEmailAndPassword({
-    required String name,
-    required String email,
-    required String password,
-  });
-
-  Future<void> socialAuth(AuthenticationType type);
-
-  Future<void> logOut();
-}
+import 'package:user_repository/user_repository.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
-
-enum AuthenticationType { google, facebook }
 
 class AuthenticationRepository implements IAuthenticationRepository {
   final StreamController<AuthenticationStatus> _controller;
@@ -37,15 +20,20 @@ class AuthenticationRepository implements IAuthenticationRepository {
         _controller = StreamController<AuthenticationStatus>();
 
   Stream<AuthenticationStatus> get status async* {
-    final token = await _config.storage.read(key: 'token');
+    final userRepo = UserRepository(config: _config);
 
-    if (token != null) {
+    try {
+      // Validate token
+      await userRepo.getUserByToken();
+
       yield AuthenticationStatus.authenticated;
-    } else {
+      yield* _controller.stream;
+    } on UserException catch (e) {
+      // Throw error
       yield AuthenticationStatus.unauthenticated;
+      yield* _controller.stream;
+      throw AuthException(e.message);
     }
-
-    yield* _controller.stream;
   }
 
   @override
@@ -65,7 +53,6 @@ class AuthenticationRepository implements IAuthenticationRepository {
         },
       );
 
-      _controller.add(AuthenticationStatus.authenticated);
       final token = response.data['data']['token'];
 
       if (token == null) {
@@ -74,6 +61,8 @@ class AuthenticationRepository implements IAuthenticationRepository {
       }
 
       await _config.storage.write(key: 'token', value: token.toString());
+
+      _controller.add(AuthenticationStatus.authenticated);
     } on DioException catch (e) {
       var message = 'Login failed';
 
@@ -133,7 +122,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
     final dio = _config.api;
 
     try {
-      final response = await dio.post(
+      final response = await dio.post<Map<String, dynamic>>(
         '/signup',
         queryParameters: {
           'name': name,
@@ -142,11 +131,11 @@ class AuthenticationRepository implements IAuthenticationRepository {
         },
       );
 
-      if (response.data['data'] == null) {
-        throw AuthException('Signup failed');
+      if (response.data == null) {
+        throw AuthException('Something went wrong');
       }
 
-      final token = response.data['data']['token'];
+      final token = response.data!['data']['token'];
 
       if (token == null) {
         throw AuthException('Token not found');
@@ -171,7 +160,6 @@ class AuthenticationRepository implements IAuthenticationRepository {
     }
   }
 
-//P4A@h1xw!*hf
   @override
   Future<void> socialAuth(AuthenticationType type) async {
     // TODO: implement googleAuth
@@ -184,13 +172,15 @@ class AuthenticationRepository implements IAuthenticationRepository {
         callbackUrlScheme: 'craftmate',
       );
 
-      final token = Uri.parse(result).queryParameters['token'];
-      final error = Uri.parse(result).queryParameters['error'];
+      final uri = Uri.parse(result);
+
+      final token = uri.queryParameters['token'];
+      final error = uri.queryParameters['error'];
 
       if (error != null && error.isNotEmpty) {
         throw Exception(error);
       }
-// AX&3iiAk
+
       _config.storage.write(key: 'token', value: token);
       _controller.add(AuthenticationStatus.authenticated);
     } catch (e) {
