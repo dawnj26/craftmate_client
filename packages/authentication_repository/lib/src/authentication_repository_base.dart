@@ -190,6 +190,31 @@ class AuthenticationRepository implements IAuthenticationRepository {
     }
   }
 
+  @override
+  Future<void> sendOTP(String email) async {
+    try {
+      final dio = _config.api;
+
+      await dio.post(
+        '/otp/send',
+        queryParameters: {
+          'email': email,
+        },
+      );
+    } on DioException catch (e) {
+      var message = 'Verification failed';
+
+      if (e.response != null) {
+        final metadata = e.response!.data['metadata'] ?? {};
+        message = metadata['message'] != null
+            ? metadata['message'].toString()
+            : message;
+      }
+
+      throw AuthException(message);
+    }
+  }
+
   void dispose() {
     _controller.close();
   }

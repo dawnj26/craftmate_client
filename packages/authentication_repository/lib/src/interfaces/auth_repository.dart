@@ -15,4 +15,5 @@ abstract class IAuthenticationRepository {
   Future<void> socialAuth(AuthenticationType type);
 
   Future<void> logOut();
+  Future<void> sendOTP(String email);
 }
