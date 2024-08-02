@@ -48,7 +48,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
     try {
       final response = await dio.post(
         '/login',
-        queryParameters: {
+        data: {
           'email': email,
           'password': password,
         },
@@ -125,7 +125,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
     try {
       final response = await dio.post<Map<String, dynamic>>(
         '/signup',
-        queryParameters: {
+        data: {
           'name': name,
           'email': email,
           'password': password,
@@ -198,12 +198,37 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
       await dio.post(
         '/otp/send',
-        queryParameters: {
+        data: {
           'email': email,
         },
       );
     } on DioException catch (e) {
       var message = 'Verification failed';
+
+      if (e.response != null) {
+        final metadata = e.response!.data['metadata'] ?? {};
+        message = metadata['message'] != null
+            ? metadata['message'].toString()
+            : message;
+      }
+
+      throw AuthException(message);
+    }
+  }
+
+  @override
+  Future<void> verifyOtp(String email, String otp) async {
+    final dio = _config.api;
+    try {
+      await dio.post<Map<String, dynamic>>(
+        '/otp/verify',
+        data: {
+          'email': email,
+          'otp': otp,
+        },
+      );
+    } on DioException catch (e) {
+      var message = 'OTP verification failed';
 
       if (e.response != null) {
         final metadata = e.response!.data['metadata'] ?? {};
