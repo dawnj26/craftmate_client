@@ -37,6 +37,8 @@ dependencies:
     path: packages/user_repository
   config_repository:
     path: packages/config_repository
+  log_collector:
+    path: packages/log_collector
 
 
   # The following adds the Cupertino Icons font to your application.

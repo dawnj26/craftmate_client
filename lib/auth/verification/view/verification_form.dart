@@ -1,5 +1,6 @@
 import 'package:craftmate_client/auth/components/components.dart';
 import 'package:craftmate_client/auth/login/models/models.dart';
+import 'package:craftmate_client/auth/otp/view/otp_page.dart';
 import 'package:craftmate_client/auth/verification/bloc/verification_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,23 @@ class VerificationForm extends StatelessWidget {
       child: BlocListener<VerificationBloc, VerificationState>(
         listener: (context, state) {
           // TODO: implement listener
+          final nav = Navigator.of(context);
+
+          if (state is VerificationInProgress) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            );
+          }
+
           if (state is VerificationFailed) {
+            nav.pop();
+
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
@@ -24,14 +41,10 @@ class VerificationForm extends StatelessWidget {
                   content: Text(state.message),
                 ),
               );
-          } else if (state is VerificationSuccess) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text('Email sent'),
-                ),
-              );
+          }
+          if (state is VerificationSuccess) {
+            nav.pop();
+            nav.pushReplacement(OtpPage.route());
           }
         },
         child: FixedContainer(

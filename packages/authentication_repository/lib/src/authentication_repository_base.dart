@@ -15,8 +15,9 @@ class AuthenticationRepository implements IAuthenticationRepository {
   final StreamController<AuthenticationStatus> _controller;
   final ConfigRepository _config;
 
-  AuthenticationRepository({required ConfigRepository config})
-      : _config = config,
+  AuthenticationRepository({
+    required ConfigRepository config,
+  })  : _config = config,
         _controller = StreamController<AuthenticationStatus>();
 
   Stream<AuthenticationStatus> get status async* {

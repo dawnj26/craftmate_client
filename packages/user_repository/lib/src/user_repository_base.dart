@@ -2,6 +2,7 @@
 
 import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:log_collector/log_collector.dart';
 import 'package:user_repository/src/exceptions/user_exception.dart';
 import 'package:user_repository/src/models/user.dart';
 
@@ -12,7 +13,9 @@ abstract class IUserRepository {
 class UserRepository implements IUserRepository {
   final ConfigRepository _config;
 
-  UserRepository({required ConfigRepository config}) : _config = config;
+  UserRepository({
+    required ConfigRepository config,
+  }) : _config = config;
 
   @override
   Future<User> getUserByToken() async {
@@ -27,7 +30,8 @@ class UserRepository implements IUserRepository {
 
     try {
       final response = await dio.get<Map<String, dynamic>>('/user');
-      final user = User.fromJson(response.data!['data'] as Map<String, dynamic>);
+      final user =
+          User.fromJson(response.data!['data'] as Map<String, dynamic>);
 
       return user;
     } on DioException catch (e) {
