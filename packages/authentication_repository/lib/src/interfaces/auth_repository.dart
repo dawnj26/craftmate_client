@@ -16,4 +16,5 @@ abstract class IAuthenticationRepository {
 
   Future<void> logOut();
   Future<void> sendOTP(String email);
+  Future<void> verifyOtp(String email, String otp);
 }
