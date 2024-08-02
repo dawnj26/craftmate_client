@@ -44,7 +44,7 @@ class VerificationForm extends StatelessWidget {
           }
           if (state is VerificationSuccess) {
             nav.pop();
-            nav.pushReplacement(OtpPage.route());
+            nav.push(OtpPage.route(state.email.value));
           }
         },
         child: FixedContainer(
