@@ -1,5 +1,4 @@
 import 'package:craftmate_client/auth/components/components.dart';
-import 'package:craftmate_client/auth/components/form/fixed_container.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 

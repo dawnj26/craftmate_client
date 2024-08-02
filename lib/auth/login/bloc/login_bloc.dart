@@ -1,7 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:craftmate_client/logger.dart';
 import 'package:craftmate_client/auth/login/models/models.dart';
+import 'package:craftmate_client/logger.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';

@@ -2,7 +2,6 @@
 
 import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
-import 'package:log_collector/log_collector.dart';
 import 'package:user_repository/src/exceptions/user_exception.dart';
 import 'package:user_repository/src/models/user.dart';
 
