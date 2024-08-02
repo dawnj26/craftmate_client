@@ -6,3 +6,13 @@ sealed class OtpEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class OtpSubmit extends OtpEvent {
+  final String otp;
+
+  const OtpSubmit({required this.otp});
+}
+
+final class OtpResend extends OtpEvent {
+  const OtpResend();
+}
