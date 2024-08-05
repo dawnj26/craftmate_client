@@ -14,7 +14,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
         _email = email,
         super(const OtpInitial()) {
     on<OtpSubmit>(_onSubmit);
-    on<OtpResend>(_onResend);
+    on<OtpSend>(_onSend);
   }
 
   final String _email;
@@ -29,8 +29,9 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
       logger.logInfo('Email: $_email, OTP: ${state.otp.value}');
 
       try {
-        await _authenticationRepository.verifyOtp(_email, state.otp.value);
-        emit(OtpSuccess(otp: state.otp, isValid: state.isValid));
+        final token =
+            await _authenticationRepository.verifyOtp(_email, state.otp.value);
+        emit(OtpSuccess(token: token, otp: state.otp, isValid: state.isValid));
       } on AuthException catch (e) {
         emit(
           OtpFailed(message: e.message, otp: state.otp, isValid: state.isValid),
@@ -41,13 +42,13 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     }
   }
 
-  Future<void> _onResend(OtpResend event, Emitter<OtpState> emit) async {
+  Future<void> _onSend(OtpSend event, Emitter<OtpState> emit) async {
     try {
       emit(OtpInProgress(otp: state.otp, isValid: state.isValid));
 
       await _authenticationRepository.sendOTP(_email);
 
-      emit(OtpResendSuccess(otp: state.otp, isValid: state.isValid));
+      emit(OtpSendSuccess(otp: state.otp, isValid: state.isValid));
     } on AuthException catch (e) {
       emit(
         OtpFailed(message: e.message, otp: state.otp, isValid: state.isValid),

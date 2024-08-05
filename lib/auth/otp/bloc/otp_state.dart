@@ -29,7 +29,8 @@ final class OtpFailed extends OtpState {
 }
 
 final class OtpSuccess extends OtpState {
-  const OtpSuccess({super.otp, super.isValid})
+  final String token;
+  const OtpSuccess({required this.token, super.otp, super.isValid})
       : super(status: FormzSubmissionStatus.success);
 }
 
@@ -38,6 +39,6 @@ final class OtpInProgress extends OtpState {
       : super(status: FormzSubmissionStatus.inProgress);
 }
 
-final class OtpResendSuccess extends OtpState {
-  const OtpResendSuccess({super.otp, super.isValid});
+final class OtpSendSuccess extends OtpState {
+  const OtpSendSuccess({super.otp, super.isValid});
 }

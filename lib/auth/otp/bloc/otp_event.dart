@@ -13,6 +13,6 @@ final class OtpSubmit extends OtpEvent {
   const OtpSubmit({required this.otp});
 }
 
-final class OtpResend extends OtpEvent {
-  const OtpResend();
+final class OtpSend extends OtpEvent {
+  const OtpSend();
 }

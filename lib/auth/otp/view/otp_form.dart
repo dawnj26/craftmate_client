@@ -2,19 +2,33 @@ import 'package:craftmate_client/auth/components/components.dart';
 import 'package:craftmate_client/auth/otp/bloc/otp_bloc.dart';
 import 'package:craftmate_client/auth/otp/models/otp.dart';
 import 'package:craftmate_client/auth/otp/timer/bloc/timer_bloc.dart';
+import 'package:craftmate_client/auth/reset_password/view/reset_password_page.dart';
 import 'package:craftmate_client/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-class OtpForm extends StatelessWidget {
+class OtpForm extends StatefulWidget {
   const OtpForm({super.key});
+
+  @override
+  State<OtpForm> createState() => _OtpFormState();
+}
+
+class _OtpFormState extends State<OtpForm> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<OtpBloc>().add(const OtpSend());
+  }
 
   @override
   Widget build(BuildContext context) {
     final safePadding = MediaQuery.of(context).padding.top;
     return BlocListener<OtpBloc, OtpState>(
       listener: (context, state) {
+        final nav = Navigator.of(context);
         // TODO: implement listener
         if (state is OtpInProgress) {
           showDialog(
@@ -29,7 +43,7 @@ class OtpForm extends StatelessWidget {
         }
 
         if (state is OtpFailed) {
-          Navigator.of(context).pop();
+          nav.pop();
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -39,8 +53,8 @@ class OtpForm extends StatelessWidget {
             );
         }
 
-        if (state is OtpResendSuccess) {
-          Navigator.of(context).pop();
+        if (state is OtpSendSuccess) {
+          nav.pop();
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -52,7 +66,8 @@ class OtpForm extends StatelessWidget {
         }
 
         if (state is OtpSuccess) {
-          Navigator.of(context).pop();
+          nav.pop();
+          nav.pushReplacement(ResetPasswordPage.route(state.token));
         }
       },
       child: SafeArea(
@@ -94,7 +109,7 @@ class _Fields extends StatelessWidget {
         ),
         _ResendButton(
           callback: () {
-            context.read<OtpBloc>().add(const OtpResend());
+            context.read<OtpBloc>().add(const OtpSend());
           },
         ),
         FilledButton(
@@ -142,6 +157,7 @@ class _ResendButtonState extends State<_ResendButton> {
         return Row(
           children: [
             TextButton(
+              key: const Key('otpForm_resendOtp_button'),
               onPressed: canResend ? widget.callback : null,
               child: Text(text),
             ),
