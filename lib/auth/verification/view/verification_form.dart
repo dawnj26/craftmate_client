@@ -70,48 +70,75 @@ class VerificationForm extends StatelessWidget {
   }
 }
 
-class _Form extends StatelessWidget {
+class _Form extends StatefulWidget {
   const _Form();
+
+  @override
+  State<_Form> createState() => _FormState();
+}
+
+class _FormState extends State<_Form> {
+  final focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        BlocBuilder<VerificationBloc, VerificationState>(
-          buildWhen: (previous, current) => previous.email != current.email,
-          builder: (context, state) {
-            String? errorText;
-
-            if (state.email.displayError == EmailValidationError.empty) {
-              errorText = 'Email is empty';
-            }
-            if (state.email.displayError == EmailValidationError.invalid) {
-              errorText = 'Email is invalid';
-            }
-
-            return TextField(
-              key: const Key('verificationForm_emailInput_textField'),
-              onChanged: (email) => context
-                  .read<VerificationBloc>()
-                  .add(EmailInputChange(email: email)),
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: 'Email address',
-                errorText: errorText,
-              ),
-            );
-          },
-        ),
+        _EmailInput(focusNode),
         const Gap(12.0),
         FilledButton(
           onPressed: () {
+            focusNode.unfocus();
             context.read<VerificationBloc>().add(const FormSubmitted());
           },
           child: const Text('Verify'),
         ),
       ],
+    );
+  }
+}
+
+class _EmailInput extends StatelessWidget {
+  const _EmailInput(this.focusNode);
+
+  final FocusNode focusNode;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<VerificationBloc, VerificationState>(
+      buildWhen: (previous, current) => previous.email != current.email,
+      builder: (context, state) {
+        String? errorText;
+
+        if (state.email.displayError == EmailValidationError.empty) {
+          errorText = 'Email is empty';
+        }
+        if (state.email.displayError == EmailValidationError.invalid) {
+          errorText = 'Email is invalid';
+        }
+
+        return TextField(
+          key: const Key('verificationForm_emailInput_textField'),
+          focusNode: focusNode,
+          onChanged: (email) => context
+              .read<VerificationBloc>()
+              .add(EmailInputChange(email: email)),
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            labelText: 'Email address',
+            errorText: errorText,
+          ),
+        );
+      },
     );
   }
 }

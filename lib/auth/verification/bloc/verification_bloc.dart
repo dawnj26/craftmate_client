@@ -1,4 +1,3 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:craftmate_client/auth/login/models/email.dart';
 import 'package:craftmate_client/logger.dart';
