@@ -1,3 +1,3 @@
-import 'package:logger/logger.dart';
+import 'package:log_collector/log_collector.dart';
 
-final log = Logger();
+late final LogCollector logger;

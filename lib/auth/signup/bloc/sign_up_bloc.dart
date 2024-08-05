@@ -1,8 +1,8 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:craftmate_client/logger.dart';
 import 'package:craftmate_client/auth/login/models/email.dart';
 import 'package:craftmate_client/auth/signup/models/models.dart';
+import 'package:craftmate_client/logger.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
@@ -100,7 +100,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   }
 
   Future<void> _onSubmit(
-      SignUpSubmitted event, Emitter<SignUpState> emit) async {
+    SignUpSubmitted event,
+    Emitter<SignUpState> emit,
+  ) async {
     if (state.isValid) {
       emit(
         SignUpInProgress(
@@ -128,7 +130,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           ),
         );
       } on AuthException catch (e) {
-        log.e(e);
+        logger.logError(e.message, e);
         emit(
           SignUpFailed(
             message: e.message,
@@ -188,7 +190,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         ),
       );
     } on AuthException catch (e) {
-      log.w(e);
+      logger.logError(e.message, e);
       emit(
         SignUpFailed(
           message: e.message,

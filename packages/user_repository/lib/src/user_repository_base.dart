@@ -7,12 +7,15 @@ import 'package:user_repository/src/models/user.dart';
 
 abstract class IUserRepository {
   Future<User> getUserByToken();
+  Future<void> getUserByEmail(String email);
 }
 
 class UserRepository implements IUserRepository {
   final ConfigRepository _config;
 
-  UserRepository({required ConfigRepository config}) : _config = config;
+  UserRepository({
+    required ConfigRepository config,
+  }) : _config = config;
 
   @override
   Future<User> getUserByToken() async {
@@ -27,9 +30,36 @@ class UserRepository implements IUserRepository {
 
     try {
       final response = await dio.get<Map<String, dynamic>>('/user');
-      final user = User.fromJson(response.data!['data'] as Map<String, dynamic>);
+      final user =
+          User.fromJson(response.data!['data'] as Map<String, dynamic>);
 
       return user;
+    } on DioException catch (e) {
+      var message = 'Login failed';
+
+      if (e.response != null) {
+        // null checks if response provides error
+        final metadata = e.response!.data['metadata'] ?? {};
+        message = metadata['message'] != null
+            ? metadata['message'].toString()
+            : message;
+      }
+
+      throw UserException(message);
+    }
+  }
+
+  @override
+  Future<void> getUserByEmail(String email) async {
+    final dio = _config.api;
+
+    try {
+      await dio.get<Map<String, dynamic>>(
+        '/user/verify',
+        queryParameters: {
+          'email': email,
+        },
+      );
     } on DioException catch (e) {
       var message = 'Login failed';
 

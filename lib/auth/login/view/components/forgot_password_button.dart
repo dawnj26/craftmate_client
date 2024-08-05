@@ -1,3 +1,4 @@
+import 'package:craftmate_client/auth/verification/view/verification_page.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordButton extends StatelessWidget {
@@ -18,5 +19,6 @@ class ForgotPasswordButton extends StatelessWidget {
 
   void gotoForgotScreen(BuildContext context) {
     // TODO: impletement navigation to forgot pass screen
+    Navigator.of(context).push(VerificationPage.route());
   }
 }

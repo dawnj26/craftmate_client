@@ -15,8 +15,9 @@ class AuthenticationRepository implements IAuthenticationRepository {
   final StreamController<AuthenticationStatus> _controller;
   final ConfigRepository _config;
 
-  AuthenticationRepository({required ConfigRepository config})
-      : _config = config,
+  AuthenticationRepository({
+    required ConfigRepository config,
+  })  : _config = config,
         _controller = StreamController<AuthenticationStatus>();
 
   Stream<AuthenticationStatus> get status async* {
@@ -47,7 +48,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
     try {
       final response = await dio.post(
         '/login',
-        queryParameters: {
+        data: {
           'email': email,
           'password': password,
         },
@@ -124,7 +125,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
     try {
       final response = await dio.post<Map<String, dynamic>>(
         '/signup',
-        queryParameters: {
+        data: {
           'name': name,
           'email': email,
           'password': password,
@@ -187,6 +188,95 @@ class AuthenticationRepository implements IAuthenticationRepository {
       _controller.add(AuthenticationStatus.unauthenticated);
 
       throw AuthException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> sendOTP(String email) async {
+    try {
+      final dio = _config.api;
+
+      await dio.post(
+        '/otp/send',
+        data: {
+          'email': email,
+        },
+      );
+    } on DioException catch (e) {
+      var message = 'Verification failed';
+
+      if (e.response != null) {
+        final metadata = e.response!.data['metadata'] ?? {};
+        message = metadata['message'] != null
+            ? metadata['message'].toString()
+            : message;
+      }
+
+      throw AuthException(message);
+    }
+  }
+
+  @override
+  Future<String> verifyOtp(String email, String otp) async {
+    final dio = _config.api;
+    try {
+      final response = await dio.post<Map<String, dynamic>>(
+        '/otp/verify',
+        data: {
+          'email': email,
+          'otp': otp,
+        },
+      );
+
+      final token = response.data!['data']['reset_token'];
+
+      if (token == null) {
+        throw AuthException('Token missing');
+      }
+
+      return token.toString();
+    } on DioException catch (e) {
+      var message = 'OTP verification failed';
+
+      if (e.response != null) {
+        final metadata = e.response!.data['metadata'] ?? {};
+        message = metadata['message'] != null
+            ? metadata['message'].toString()
+            : message;
+      }
+
+      throw AuthException(message);
+    }
+  }
+
+  @override
+  Future<void> resetPassword(String token, String password) async {
+    final dio = _config.api;
+
+    dio.options = BaseOptions(
+      baseUrl: dio.options.baseUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    try {
+      await dio.post(
+        '/password/reset',
+        data: {'password': password},
+      );
+    } on DioException catch (e) {
+      var message = 'Something went wrong';
+
+      if (e.response != null) {
+        final metadata = e.response!.data['metadata'] ?? {};
+        message = metadata['message'] != null
+            ? metadata['message'].toString()
+            : message;
+      }
+
+      throw AuthException(message);
     }
   }
 
