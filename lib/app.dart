@@ -2,6 +2,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:config_repository/config_repository.dart';
 import 'package:craftmate_client/auth/auth.dart';
 import 'package:craftmate_client/auth/login/login.dart';
+import 'package:craftmate_client/dashboard/view/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
@@ -23,8 +24,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     // initialize repositories
-    final config =
-        ConfigRepository(apiUrl: 'https://moved-wasp-willingly.ngrok-free.app');
+    final config = ConfigRepository(apiUrl: 'http://192.168.254.101:9000');
     _authenticationRepository = AuthenticationRepository(config: config);
     _userRepository = UserRepository(config: config);
   }
@@ -81,11 +81,12 @@ class _AppViewState extends State<AppView> {
       builder: (context, child) {
         // Listen to status changes
         return BlocListener<AuthBloc, AuthState>(
+          listenWhen: (previous, current) => previous.status != current.status,
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  StatusScreen.route('authenticated'),
+                  DashboardPage.route(),
                   (route) => false,
                 );
 
