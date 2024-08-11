@@ -21,11 +21,11 @@ class AuthenticationRepository implements IAuthenticationRepository {
         _controller = StreamController<AuthenticationStatus>();
 
   Stream<AuthenticationStatus> get status async* {
-    final userRepo = UserRepository(config: _config);
+    // final userRepo = UserRepository(config: _config);
 
     try {
       // Validate token
-      await userRepo.getUserByToken();
+      // await userRepo.getUserByToken();
 
       yield AuthenticationStatus.authenticated;
       yield* _controller.stream;
