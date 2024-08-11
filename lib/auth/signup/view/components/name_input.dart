@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NameInput extends StatelessWidget {
-  const NameInput();
+  const NameInput(this.unfocusCallback);
+
+  final void Function() unfocusCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class NameInput extends StatelessWidget {
           onChanged: (String name) => bloc.add(
             SignUpNameChanged(name: name),
           ),
+          onTapOutside: (_) => unfocusCallback(),
           decoration: InputDecoration(
             border: const OutlineInputBorder(),
             labelText: 'Name',

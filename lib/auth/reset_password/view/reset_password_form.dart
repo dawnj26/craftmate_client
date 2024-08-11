@@ -62,7 +62,7 @@ class ResetPasswordForm extends StatelessWidget {
                         (route) => false,
                       );
                     },
-                    child: const Text('Log in'),
+                    child: const Text('Ok'),
                   ),
                 ],
               );

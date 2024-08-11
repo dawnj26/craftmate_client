@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PasswordInput extends StatelessWidget {
-  const PasswordInput();
+  const PasswordInput(this.unfocusCallback);
+  final void Function() unfocusCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,7 @@ class PasswordInput extends StatelessWidget {
           onChanged: (String password) => bloc.add(
             SignUpPasswordChanged(password: password),
           ),
+          onTapOutside: (_) => unfocusCallback(),
           decoration: InputDecoration(
             border: const OutlineInputBorder(),
             labelText: 'Password',

@@ -11,7 +11,7 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final topPadding = MediaQuery.of(context).padding.top;
-    
+
     return SafeArea(
       child: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
@@ -81,18 +81,38 @@ class _LoginForm extends StatelessWidget {
   }
 }
 
-class _Fields extends StatelessWidget {
+class _Fields extends StatefulWidget {
   const _Fields();
 
   @override
+  State<_Fields> createState() => _FieldsState();
+}
+
+class _FieldsState extends State<_Fields> {
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        EmailInput(),
-        Gap(8.0),
-        PasswordInput(),
-        ForgotPasswordButton(),
+        EmailInput(
+          focusNode: _emailFocusNode,
+        ),
+        const Gap(8.0),
+        PasswordInput(
+          focusNode: _passwordFocusNode,
+        ),
+        const ForgotPasswordButton(),
       ],
     );
   }

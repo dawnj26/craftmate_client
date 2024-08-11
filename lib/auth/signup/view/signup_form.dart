@@ -67,24 +67,26 @@ class SignUpForm extends StatelessWidget {
   }
 }
 
-
 class _Form extends StatelessWidget {
   const _Form();
 
+  void unfocusFields() =>
+      WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        NameInput(),
-        Gap(8.0),
-        EmailInput(),
-        Gap(8.0),
-        PasswordInput(),
-        Gap(8.0),
-        ConfirmPasswordInput(),
-        Gap(32.0),
-        SignUpButton(),
+        NameInput(unfocusFields),
+        const Gap(8.0),
+        EmailInput(unfocusFields),
+        const Gap(8.0),
+        PasswordInput(unfocusFields),
+        const Gap(8.0),
+        ConfirmPasswordInput(unfocusFields),
+        const Gap(32.0),
+        const SignUpButton(),
       ],
     );
   }

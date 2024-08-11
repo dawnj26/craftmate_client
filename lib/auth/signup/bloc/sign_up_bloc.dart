@@ -63,15 +63,19 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     Emitter<SignUpState> emit,
   ) {
     final password = Password.dirty(event.password);
+    final confirmPassword = ConfirmPassword.dirty(
+      password: password.value,
+      value: state.confirmPassword.value,
+    );
 
     emit(
       SignUpInitial(
         name: state.name,
         email: state.email,
         password: password,
-        confirmPassword: state.confirmPassword,
+        confirmPassword: confirmPassword,
         isValid: Formz.validate(
-          [state.name, state.email, password],
+          [state.name, state.email, password, confirmPassword],
         ),
       ),
     );

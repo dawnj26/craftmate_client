@@ -11,15 +11,19 @@ class SignUpButton extends StatelessWidget {
       children: [
         const Text("Don't have an account?"),
         TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              SignUpPage.route(),
-            );
-          },
+          onPressed: () => gotoSignUpPage(context),
           child: const Text('Sign up'),
         ),
       ],
+    );
+  }
+
+  void gotoSignUpPage(BuildContext context) {
+    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+
+    Navigator.push(
+      context,
+      SignUpPage.route(),
     );
   }
 }
