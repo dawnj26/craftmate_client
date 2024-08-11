@@ -15,6 +15,13 @@ sealed class AuthState extends Equatable {
   List<Object?> get props => [status, user];
 }
 
+final class AuthInProgress extends AuthState {
+  const AuthInProgress({
+    super.user,
+    super.status,
+  });
+}
+
 final class _AuthInitial extends AuthState {
   const _AuthInitial() : super();
 }

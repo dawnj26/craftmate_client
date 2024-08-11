@@ -85,6 +85,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
+      emit(AuthInProgress(user: state.user, status: state.status));
       await _authenticationRepository.logOut();
     } catch (e) {
       logger.logError('Logout error', e, StackTrace.current);
