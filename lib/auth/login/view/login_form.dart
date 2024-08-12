@@ -38,7 +38,7 @@ class LoginForm extends StatelessWidget {
         },
         child: FixedContainer(
           safePadding: topPadding,
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
