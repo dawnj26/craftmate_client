@@ -1,6 +1,8 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
+import 'package:craftmate_client/project_management/view/create_project_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -120,17 +122,23 @@ class _HomeScreenState extends State<HomeScreen>
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            child: const Icon(Icons.add),
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.of(context).push(CreateProjectPage.route());
+            },
+            label: const Text('New Project'),
+            icon: const Icon(Icons.add),
           ),
           appBar: AppBar(
-            leading: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                'assets/images/logo_without_label.png',
-              ),
+            leading: IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {},
             ),
+            title: Image.asset(
+              'assets/images/logo_with_label.png',
+              width: 104.0,
+            ),
+            centerTitle: true,
             actions: [
               IconButton(
                 onPressed: () {},
