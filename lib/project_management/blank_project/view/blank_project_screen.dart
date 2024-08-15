@@ -21,63 +21,65 @@ class BlankProjectScreen extends StatelessWidget {
         ),
         actions: [
           TextButton.icon(
-            onPressed: () {
-              final stepTitle = context.read<StepTitleCubit>();
-
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (_) {
-                  final controller = TextEditingController();
-
-                  controller.text = stepTitle.state.title;
-
-                  return AlertDialog(
-                    title: const Text('Step title'),
-                    content: TextField(
-                      controller: controller,
-                      decoration: const InputDecoration(
-                        // border: OutlineInputBorder(),
-                        labelText: 'Title',
-                      ),
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Cancel'),
-                      ),
-                      FilledButton(
-                        onPressed: () {
-                          stepTitle.changeTitle(controller.text);
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Ok'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
+            onPressed: () => showChangeTitle(context),
             label: const Text('Edit title'),
             icon: const Icon(Icons.edit),
           ),
         ],
       ),
-      body: const SampleEditor(),
+      body: const ContentEditor(),
+    );
+  }
+
+  void showChangeTitle(BuildContext context) {
+    final stepTitle = context.read<StepTitleCubit>();
+
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) {
+        final controller = TextEditingController();
+
+        controller.text = stepTitle.state.title;
+
+        return AlertDialog(
+          title: const Text('Step title'),
+          content: TextField(
+            controller: controller,
+            decoration: const InputDecoration(
+              // border: OutlineInputBorder(),
+              labelText: 'Title',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () {
+                stepTitle.changeTitle(controller.text);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
 
-class SampleEditor extends StatefulWidget {
-  const SampleEditor({super.key});
+class ContentEditor extends StatefulWidget {
+  const ContentEditor({super.key});
 
   @override
-  State<SampleEditor> createState() => _SampleEditorState();
+  State<ContentEditor> createState() => _ContentEditorState();
 }
 
-class _SampleEditorState extends State<SampleEditor> {
+class _ContentEditorState extends State<ContentEditor> {
   final _editorFocusNode = FocusNode();
   late final QuillController _editorController;
 
@@ -85,7 +87,6 @@ class _SampleEditorState extends State<SampleEditor> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     _editorController =
         QuillController.basic(editorFocusNode: _editorFocusNode);
   }
@@ -101,68 +102,90 @@ class _SampleEditorState extends State<SampleEditor> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        QuillToolbar(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Wrap(
-              children: [
-                QuillToolbarToggleStyleButton(
-                  controller: _editorController,
-                  attribute: Attribute.bold,
-                ),
-                QuillToolbarToggleStyleButton(
-                  controller: _editorController,
-                  attribute: Attribute.italic,
-                ),
-                QuillToolbarToggleStyleButton(
-                  controller: _editorController,
-                  attribute: Attribute.underline,
-                ),
-                QuillToolbarSelectHeaderStyleDropdownButton(
-                  controller: _editorController,
-                ),
-                const VerticalDivider(),
-                QuillToolbarColorButton(
-                  controller: _editorController,
-                  isBackground: false,
-                ),
-                QuillToolbarToggleStyleButton(
-                  controller: _editorController,
-                  attribute: Attribute.ul,
-                ),
-                QuillToolbarToggleStyleButton(
-                  controller: _editorController,
-                  attribute: Attribute.ol,
-                ),
-                const VerticalDivider(),
-                QuillToolbarIndentButton(
-                  controller: _editorController,
-                  isIncrease: true,
-                ),
-                QuillToolbarIndentButton(
-                  controller: _editorController,
-                  isIncrease: false,
-                ),
-                QuillToolbarImageButton(controller: _editorController),
-              ],
-            ),
-          ),
-        ),
-        const Divider(
-          indent: 12.0,
-          endIndent: 12.0,
-        ),
         Expanded(
-          flex: 5,
-          child: QuillEditor.basic(
+          child: QuillEditor(
             controller: _editorController,
             configurations: const QuillEditorConfigurations(
               padding: EdgeInsets.all(12.0),
-              placeholder: 'Enter you shit here',
+              placeholder: 'Create your content here',
             ),
+            focusNode: _editorFocusNode,
+            scrollController: ScrollController(),
           ),
         ),
+        EditorToolBar(editorController: _editorController),
       ],
+    );
+  }
+}
+
+class EditorToolBar extends StatelessWidget {
+  const EditorToolBar({
+    super.key,
+    required QuillController editorController,
+  }) : _editorController = editorController;
+
+  final QuillController _editorController;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Container(
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerHigh,
+      ),
+      child: QuillToolbar(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Wrap(
+            children: [
+              QuillToolbarHistoryButton(
+                controller: _editorController,
+                isUndo: true,
+              ),
+              QuillToolbarToggleStyleButton(
+                controller: _editorController,
+                attribute: Attribute.bold,
+              ),
+              QuillToolbarToggleStyleButton(
+                controller: _editorController,
+                attribute: Attribute.italic,
+              ),
+              QuillToolbarToggleStyleButton(
+                controller: _editorController,
+                attribute: Attribute.underline,
+              ),
+              QuillToolbarSelectHeaderStyleButtons(
+                controller: _editorController,
+              ),
+              const VerticalDivider(),
+              QuillToolbarColorButton(
+                controller: _editorController,
+                isBackground: false,
+              ),
+              QuillToolbarToggleStyleButton(
+                controller: _editorController,
+                attribute: Attribute.ul,
+              ),
+              QuillToolbarToggleStyleButton(
+                controller: _editorController,
+                attribute: Attribute.ol,
+              ),
+              const VerticalDivider(),
+              QuillToolbarIndentButton(
+                controller: _editorController,
+                isIncrease: true,
+              ),
+              QuillToolbarIndentButton(
+                controller: _editorController,
+                isIncrease: false,
+              ),
+              QuillToolbarImageButton(controller: _editorController),
+              QuillToolbarVideoButton(controller: _editorController),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
