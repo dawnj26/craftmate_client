@@ -1,4 +1,3 @@
-import 'package:craftmate_client/auth/components/components.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:flutter/material.dart';
 

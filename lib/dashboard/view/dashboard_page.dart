@@ -2,7 +2,6 @@ import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/project_management/view/create_project_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
