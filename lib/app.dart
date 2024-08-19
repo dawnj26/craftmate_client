@@ -24,9 +24,9 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     // initialize repositories
-    // final config = ConfigRepository(apiUrl: 'http://192.168.254.101:9000');
-    final config =
-        ConfigRepository(apiUrl: 'https://moved-wasp-willingly.ngrok-free.app');
+    final config = ConfigRepository(apiUrl: 'http://192.168.100.110:9000');
+    // final config =
+    //     ConfigRepository(apiUrl: 'https://moved-wasp-willingly.ngrok-free.app');
     _authenticationRepository = AuthenticationRepository(config: config);
     _userRepository = UserRepository(config: config);
   }
