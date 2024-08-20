@@ -11,7 +11,7 @@ class ConfigRepository {
   Dio get api {
     final dio = Dio(
       BaseOptions(
-        baseUrl: '$apiUrl/api/auth',
+        baseUrl: '$apiUrl/api',
         headers: {
           'Content-Type': 'application/json',
         },

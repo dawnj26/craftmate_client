@@ -47,7 +47,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
     try {
       final response = await dio.post(
-        '/login',
+        '/auth/login',
         data: {
           'email': email,
           'password': password,
@@ -95,7 +95,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
     try {
       await dio.post(
-        '/logout',
+        '/auth/logout',
       );
       _controller.add(AuthenticationStatus.unauthenticated);
 
@@ -124,7 +124,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
     try {
       final response = await dio.post<Map<String, dynamic>>(
-        '/signup',
+        '/auth/signup',
         data: {
           'name': name,
           'email': email,
@@ -197,7 +197,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
       final dio = _config.api;
 
       await dio.post(
-        '/otp/send',
+        '/auth/otp/send',
         data: {
           'email': email,
         },
@@ -221,7 +221,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
     final dio = _config.api;
     try {
       final response = await dio.post<Map<String, dynamic>>(
-        '/otp/verify',
+        '/auth/otp/verify',
         data: {
           'email': email,
           'otp': otp,
@@ -263,7 +263,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
     try {
       await dio.post(
-        '/password/reset',
+        '/auth/password/reset',
         data: {'password': password},
       );
     } on DioException catch (e) {

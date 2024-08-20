@@ -29,7 +29,7 @@ class UserRepository implements IUserRepository {
     dio.options.headers['Authorization'] = 'Bearer $token';
 
     try {
-      final response = await dio.get<Map<String, dynamic>>('/user');
+      final response = await dio.get('/auth/user');
       final user =
           User.fromJson(response.data!['data'] as Map<String, dynamic>);
 
@@ -55,7 +55,7 @@ class UserRepository implements IUserRepository {
 
     try {
       await dio.get<Map<String, dynamic>>(
-        '/user/verify',
+        '/auth/user/verify',
         queryParameters: {
           'email': email,
         },
