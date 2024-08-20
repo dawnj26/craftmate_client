@@ -165,7 +165,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
   Future<void> socialAuth(AuthenticationType type) async {
     // TODO: implement googleAuth
     final social = type == AuthenticationType.google ? 'google' : 'facebook';
-    final String url = '${_config.api.options.baseUrl}/$social';
+    final String url = '${_config.api.options.baseUrl}/auth/$social';
 
     try {
       final result = await FlutterWebAuth2.authenticate(
