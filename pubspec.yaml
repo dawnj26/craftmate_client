@@ -50,6 +50,8 @@ dependencies:
     path: packages/log_collector
   logger: ^2.4.0
   meta: ^1.12.0
+  project_repository:
+    path: packages/project_repository
   user_repository:
     path: packages/user_repository
 
