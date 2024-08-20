@@ -67,6 +67,11 @@ class AppView extends StatefulWidget {
 
 class _AppViewState extends State<AppView> {
   final _navigatorKey = GlobalKey<NavigatorState>();
+  final _theme = ThemeData(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: const Color(0xff316A42),
+    ),
+  );
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
@@ -74,47 +79,45 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: _navigatorKey,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xff316A42),
-        ),
-      ),
+      theme: _theme,
       title: 'CraftMate',
       builder: (context, child) {
         // Listen to status changes
         return BlocListener<AuthBloc, AuthState>(
           listenWhen: (previous, current) => previous.status != current.status,
-          listener: (context, state) {
-            switch (state.status) {
-              case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  DashboardPage.route(),
-                  (route) => false,
-                );
-
-              case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
-                  (route) => false,
-                );
-              case AuthenticationStatus.unknown:
-                _navigator.pushAndRemoveUntil<void>(
-                  StatusScreen.route('unknown'),
-                  (route) => false,
-                );
-              default:
-                _navigator.pushAndRemoveUntil<void>(
-                  StatusScreen.route('nothing is working'),
-                  (route) => false,
-                );
-                break;
-            }
-          },
+          listener: _handleState,
           child: child,
         );
       },
       onGenerateRoute: (_) => SplashScreen.route(),
     );
+  }
+
+  void _handleState(BuildContext context, AuthState state) {
+    switch (state.status) {
+      case AuthenticationStatus.authenticated:
+        _navigator.pushAndRemoveUntil<void>(
+          DashboardPage.route(),
+          (route) => false,
+        );
+
+      case AuthenticationStatus.unauthenticated:
+        _navigator.pushAndRemoveUntil<void>(
+          LoginPage.route(),
+          (route) => false,
+        );
+      case AuthenticationStatus.unknown:
+        _navigator.pushAndRemoveUntil<void>(
+          StatusScreen.route('unknown'),
+          (route) => false,
+        );
+      default:
+        _navigator.pushAndRemoveUntil<void>(
+          StatusScreen.route('nothing is working'),
+          (route) => false,
+        );
+        break;
+    }
   }
 }
 
