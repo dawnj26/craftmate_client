@@ -73,6 +73,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<User?> _tryGetUser() async {
     try {
       final user = await _userRepository.getUserByToken();
+      logger.logInfo('Getting current user...');
       return user;
     } on UserException catch (e) {
       logger.logWarning(e.message);
