@@ -5,6 +5,7 @@ import 'package:craftmate_client/auth/login/login.dart';
 import 'package:craftmate_client/dashboard/view/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatefulWidget {
@@ -24,9 +25,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     // initialize repositories
-    final config = ConfigRepository(apiUrl: 'http://192.168.100.110:9000');
-    // final config =
-    //     ConfigRepository(apiUrl: 'https://moved-wasp-willingly.ngrok-free.app');
+    final config = ConfigRepository(apiUrl: dotenv.get('API_URL'));
     _authenticationRepository = AuthenticationRepository(config: config);
     _userRepository = UserRepository(config: config);
   }
