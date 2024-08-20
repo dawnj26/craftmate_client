@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:craftmate_client/auth/otp/timer/models/ticker.dart';
-import 'package:craftmate_client/logger.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:equatable/equatable.dart';
 
 part 'timer_event.dart';

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:craftmate_client/logger.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:user_repository/user_repository.dart';

@@ -3,7 +3,7 @@ import 'package:craftmate_client/auth/otp/bloc/otp_bloc.dart';
 import 'package:craftmate_client/auth/otp/models/otp.dart';
 import 'package:craftmate_client/auth/otp/timer/bloc/timer_bloc.dart';
 import 'package:craftmate_client/auth/reset_password/view/reset_password_page.dart';
-import 'package:craftmate_client/logger.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
