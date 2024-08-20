@@ -26,3 +26,38 @@ final class BlankProjectModified extends BlankProjectState {
     required super.isPulic,
   });
 }
+
+final class BlankProjectInProgress extends BlankProjectState {
+  const BlankProjectInProgress({
+    required super.projectTitle,
+    required super.valid,
+    required super.isPulic,
+  });
+}
+
+final class BlankProjectInvalid extends BlankProjectState {
+  const BlankProjectInvalid({
+    required super.projectTitle,
+    required super.valid,
+    required super.isPulic,
+  });
+}
+
+final class BlankProjectFailed extends BlankProjectState {
+  final String errorMsg;
+
+  const BlankProjectFailed({
+    required super.projectTitle,
+    required super.valid,
+    required super.isPulic,
+    required this.errorMsg,
+  });
+}
+
+final class BlankProjectSuccess extends BlankProjectState {
+  const BlankProjectSuccess({
+    required super.projectTitle,
+    required super.valid,
+    required super.isPulic,
+  });
+}
