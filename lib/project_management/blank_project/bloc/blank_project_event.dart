@@ -8,7 +8,8 @@ sealed class BlankProjectEvent extends Equatable {
 }
 
 final class BlankProjectCreate extends BlankProjectEvent {
-  const BlankProjectCreate();
+  final String? tags;
+  const BlankProjectCreate({this.tags});
 }
 
 final class BlankProjectTitleChange extends BlankProjectEvent {
