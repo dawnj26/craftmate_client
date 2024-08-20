@@ -1,5 +1,6 @@
-import 'package:craftmate_client/project_management/blank_project/bloc/blank_project_bloc.dart';
-import 'package:craftmate_client/project_management/blank_project/models/title.dart';
+import 'package:craftmate_client/project_management/create_project/blank_project/bloc/blank_project_bloc.dart';
+import 'package:craftmate_client/project_management/create_project/blank_project/models/title.dart';
+import 'package:craftmate_client/project_management/view_project/view/view_project_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -10,47 +11,7 @@ class BlankProjectCreateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<BlankProjectBloc, BlankProjectState>(
-      listener: (context, state) {
-        if (state is BlankProjectInProgress) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-          );
-        }
-
-        if (state is BlankProjectFailed) {
-          Navigator.of(context).pop();
-
-          final msg = SnackBar(
-            content: Text(
-              state.errorMsg,
-            ),
-          );
-
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(msg);
-        }
-
-        if (state is BlankProjectSuccess) {
-          Navigator.of(context).pop();
-
-          const msg = SnackBar(
-            content: Text(
-              'Created successfully',
-            ),
-          );
-
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(msg);
-        }
-      },
+      listener: _handleState,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Blank project'),
@@ -63,19 +24,52 @@ class BlankProjectCreateScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
-              _Switch(),
+              _VisibilitySwitch(),
               Gap(4.0),
-              _Form(),
+              _CreateProjectForm(),
             ],
           ),
         ),
       ),
     );
   }
+
+  void _handleState(BuildContext context, BlankProjectState state) {
+    if (state is BlankProjectInProgress) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+    } else if (state is BlankProjectFailed) {
+      Navigator.of(context).pop();
+
+      _showSnackbar(context, state.errorMsg);
+    } else if (state is BlankProjectSuccess) {
+      Navigator.of(context).pop();
+      Navigator.of(context).pushReplacement(ViewProjectPage.route());
+    }
+  }
+
+  void _showSnackbar(BuildContext context, String textMsg) {
+    final msg = SnackBar(
+      content: Text(
+        textMsg,
+      ),
+    );
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(msg);
+  }
 }
 
-class _Switch extends StatelessWidget {
-  const _Switch();
+class _VisibilitySwitch extends StatelessWidget {
+  const _VisibilitySwitch();
 
   @override
   Widget build(BuildContext context) {
@@ -104,8 +98,8 @@ class _Switch extends StatelessWidget {
   }
 }
 
-class _Form extends StatelessWidget {
-  const _Form();
+class _CreateProjectForm extends StatelessWidget {
+  const _CreateProjectForm();
 
   @override
   Widget build(BuildContext context) {
@@ -153,20 +147,23 @@ class _Form extends StatelessWidget {
         ),
         const Gap(40.0),
         FilledButton(
-          onPressed: () {
-            String? tags;
-            if (tagController.text.isNotEmpty) {
-              tags = tagController.text;
-            }
-
-            context.read<BlankProjectBloc>().add(
-                  BlankProjectCreate(tags: tags),
-                );
-          },
+          onPressed: () => _createProject(context, tagController),
           child: const Text('Create Project'),
         ),
       ],
     );
+  }
+
+  void _createProject(
+    BuildContext context,
+    TextEditingController tagController,
+  ) {
+    String? tags;
+    if (tagController.text.isNotEmpty) {
+      tags = tagController.text;
+    }
+
+    context.read<BlankProjectBloc>().add(BlankProjectCreate(tags: tags));
   }
 }
 

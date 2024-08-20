@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:craftmate_client/project_management/blank_project/models/title.dart';
+import 'package:craftmate_client/project_management/create_project/blank_project/models/title.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:project_repository/project_repository.dart';
