@@ -8,11 +8,11 @@ part 'blank_project_state.dart';
 
 class BlankProjectBloc extends Bloc<BlankProjectEvent, BlankProjectState> {
   BlankProjectBloc() : super(const BlankProjectInitial()) {
-    on<BlankProjectTitleChange>(onTitleChange);
-    on<BlankProjectToggleVisibility>(onToggleVisibility);
+    on<BlankProjectTitleChange>(_onTitleChange);
+    on<BlankProjectToggleVisibility>(_onToggleVisibility);
   }
 
-  void onTitleChange(
+  void _onTitleChange(
     BlankProjectTitleChange event,
     Emitter<BlankProjectState> emit,
   ) {
@@ -28,7 +28,7 @@ class BlankProjectBloc extends Bloc<BlankProjectEvent, BlankProjectState> {
     );
   }
 
-  void onToggleVisibility(
+  void _onToggleVisibility(
     BlankProjectToggleVisibility event,
     Emitter<BlankProjectState> emit,
   ) {
