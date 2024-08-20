@@ -19,6 +19,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Create environment variables
+      run: |
+        echo "API_URL=${{ secrets.API_URL }}" >> .env
+
     - name: Set up java SDK
       uses: actions/setup-java@v4
       with:
@@ -39,6 +43,11 @@ jobs:
 
     - name: Build App Bundle
       run: flutter build appbundle --release
+
+    - name: Rename release files
+      run: |
+        mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/craftmate-release.apk
+        mv build/app/outputs/bundle/release/app-release.aab build/app/outputs/bundle/release/craftmate-release.aab
     
     - name: Create release
       uses: softprops/action-gh-release@v2
