@@ -3,6 +3,7 @@ import 'package:config_repository/config_repository.dart';
 import 'package:craftmate_client/auth/auth.dart';
 import 'package:craftmate_client/auth/login/login.dart';
 import 'package:craftmate_client/dashboard/view/dashboard_page.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -25,7 +26,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     // initialize repositories
-    final config = ConfigRepository(apiUrl: dotenv.get('API_URL'));
+    config = ConfigRepository(apiUrl: dotenv.get('API_URL'));
     _authenticationRepository = AuthenticationRepository(config: config);
     _userRepository = UserRepository(config: config);
   }
