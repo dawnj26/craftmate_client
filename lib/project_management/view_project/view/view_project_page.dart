@@ -43,28 +43,29 @@ class _ProjectCardHeader extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return Container(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(16.0),
       color: colorScheme.surfaceContainer,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ListTile(
-            onTap: () {},
-            horizontalTitleGap: 12.0,
-            contentPadding: EdgeInsets.zero,
-            leading: const CircleAvatar(
-              radius: 16.0,
-              child: Text('A'),
-            ),
-            title: Text(
-              'John doe',
-              style: theme.textTheme.bodyMedium,
-            ),
+          Row(
+            children: [
+              const CircleAvatar(
+                radius: 16.0,
+                child: Text('A'),
+              ),
+              const Gap(12.0),
+              Text(
+                'John doe',
+                style: theme.textTheme.bodyMedium,
+              ),
+            ],
           ),
-          const Gap(8.0),
+          const Gap(16.0),
           const _ProjectInfo(
             projectTitle: 'My favorite project',
-            projectDescription: 'No description',
+            projectDescription:
+                'No description No description No description No description No description No description No description No description No description No description No description No description',
           ),
           const Gap(16.0),
           const Tags(),
@@ -173,7 +174,7 @@ class _SocialCounters extends StatelessWidget {
 }
 
 class _ActionButtons extends StatelessWidget {
-  const _ActionButtons({super.key});
+  const _ActionButtons();
 
   @override
   Widget build(BuildContext context) {
@@ -247,12 +248,12 @@ class _ProjectInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'My favorite project',
+          projectTitle,
           style: textTheme.titleLarge,
         ),
         const Gap(4.0),
         Text(
-          'No description',
+          projectDescription,
           style: TextStyle(
             fontSize: textTheme.bodyLarge!.fontSize,
             color: colorScheme.onSurfaceVariant,
