@@ -13,6 +13,8 @@ dependencies:
   config_repository:
     path: ../config_repository
   dio: ^5.5.0+1
+  user_repository:
+    path: ../user_repository
   # path: ^1.8.0
 
 dev_dependencies:
