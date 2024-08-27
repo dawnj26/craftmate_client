@@ -51,7 +51,8 @@ class BlankProjectCreateScreen extends StatelessWidget {
       _showSnackbar(context, state.errorMsg);
     } else if (state is BlankProjectSuccess) {
       Navigator.of(context).pop();
-      Navigator.of(context).pushReplacement(ViewProjectPage.route());
+      Navigator.of(context)
+          .pushReplacement(ViewProjectPage.route(state.project));
     }
   }
 
