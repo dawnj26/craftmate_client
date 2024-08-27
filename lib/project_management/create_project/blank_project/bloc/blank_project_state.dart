@@ -55,9 +55,12 @@ final class BlankProjectFailed extends BlankProjectState {
 }
 
 final class BlankProjectSuccess extends BlankProjectState {
+  final Project project;
+
   const BlankProjectSuccess({
     required super.projectTitle,
     required super.valid,
     required super.isPulic,
+    required this.project,
   });
 }

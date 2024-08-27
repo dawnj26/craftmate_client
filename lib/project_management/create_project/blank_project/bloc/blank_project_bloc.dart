@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/project_management/create_project/blank_project/models/title.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:formz/formz.dart';
 import 'package:project_repository/project_repository.dart';
 
@@ -61,16 +63,19 @@ class BlankProjectBloc extends Bloc<BlankProjectEvent, BlankProjectState> {
       );
 
       try {
-        await _projectRepo.tryCreateProject(
+        final project = await _projectRepo.tryCreateProject(
           state.projectTitle.value,
           state.isPulic,
           event.tags,
         );
+
+        logger.logDebug(project);
         emit(
           BlankProjectSuccess(
             isPulic: state.isPulic,
             projectTitle: state.projectTitle,
             valid: state.valid,
+            project: project,
           ),
         );
       } on ProjectException catch (e) {
