@@ -1,9 +1,11 @@
 import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:project_repository/src/exceptions/project_exception.dart';
+import 'package:project_repository/src/models/project.dart';
 
 abstract class IProjectRepository {
-  Future<void> tryCreateProject(String title, bool isPulic, [String? tags]);
+  Future<Project> tryCreateProject(String title, bool isPulic, [String? tags]);
+  Future<Project> tryGetProject();
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -14,7 +16,7 @@ class ProjectRepository implements IProjectRepository {
   }) : _config = config;
 
   @override
-  Future<void> tryCreateProject(String title, bool isPulic,
+  Future<Project> tryCreateProject(String title, bool isPulic,
       [String? tags]) async {
     final api = _config.api;
     final token = await _config.storage.read(key: 'token');
@@ -35,22 +37,52 @@ class ProjectRepository implements IProjectRepository {
     }
 
     try {
-      await api.post(
+      final response = await api.post<Map<String, dynamic>>(
         '/project/create',
         data: data,
       );
-    } on DioException catch (e) {
-      var message = 'Login failed';
 
-      if (e.response != null) {
-        // null checks if response provides error
-        final metadata = e.response!.data['metadata'] ?? {};
-        message = metadata['message'] != null
-            ? metadata['message'].toString()
-            : message;
+      return Project.fromJson(response.data!['data']);
+    } on DioException catch (e) {
+      var message = 'Something went wrong';
+
+      switch (e.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.receiveTimeout:
+        case DioExceptionType.sendTimeout:
+          message = 'Request timeout. Check internet connection';
+          break;
+        case DioExceptionType.badCertificate:
+          message = 'Bad certificate';
+          break;
+        default:
+          final r = e.response;
+
+          if (r != null) {
+            message = getErrorMsg(r.statusCode);
+          }
       }
 
       throw ProjectException(message: message);
     }
+  }
+
+  String getErrorMsg(int? code) {
+    if (code != null) {
+      switch (code) {
+        case 401:
+          return 'Unauthorized';
+        case 422:
+          return 'Missing required fields or validation error';
+      }
+    }
+
+    return 'Something went wrong.';
+  }
+
+  @override
+  Future<Project> tryGetProject() {
+    // TODO: implement tryGetProject
+    throw UnimplementedError();
   }
 }
