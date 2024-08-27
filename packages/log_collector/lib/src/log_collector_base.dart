@@ -49,19 +49,19 @@ class LogCollector {
     return formatter.format(time);
   }
 
-  void logInfo(String message) {
+  void logInfo(dynamic message) {
     _logger.i(message);
   }
 
-  void logWarning(String message) {
+  void logWarning(dynamic message) {
     _logger.w(message);
   }
 
-  void logError(String message, [dynamic error, StackTrace? stackTrace]) {
+  void logError(dynamic message, [dynamic error, StackTrace? stackTrace]) {
     _logger.e(message, error: error, stackTrace: stackTrace);
   }
 
-  void logDebug(String message) {
+  void logDebug(dynamic message) {
     _logger.d(message);
   }
 }
