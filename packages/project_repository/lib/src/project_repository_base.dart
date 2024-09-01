@@ -5,7 +5,8 @@ import 'package:project_repository/src/models/project.dart';
 
 abstract class IProjectRepository {
   Future<Project> tryCreateProject(String title, bool isPulic, [String? tags]);
-  Future<Project> tryGetProject();
+  Future<Project> tryGetProjectById(int id);
+  Future<void> tryToggleLikeById(int projectId);
 }
 
 class ProjectRepository implements IProjectRepository {
