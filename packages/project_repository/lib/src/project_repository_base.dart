@@ -51,14 +51,6 @@ class ProjectRepository implements IProjectRepository {
     }
   }
 
-  String getErrorMsg(int? code) {
-    if (code != null) {
-      switch (code) {
-        case 401:
-          return 'Unauthorized';
-        case 422:
-          return 'Missing required fields or validation error';
-      }
   String getErrorMsg(DioExceptionType type) {
     switch (type) {
       case DioExceptionType.connectionTimeout:
