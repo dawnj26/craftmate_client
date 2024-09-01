@@ -70,13 +70,47 @@ class ProjectRepository implements IProjectRepository {
       default:
         return 'Something went wrong.';
     }
-
-    return 'Something went wrong.';
   }
 
   @override
-  Future<Project> tryGetProject() {
-    // TODO: implement tryGetProject
-    throw UnimplementedError();
+  Future<Project> tryGetProjectById(int id) async {
+    final api = _config.api;
+
+    try {
+      final response = await api.get<Map<String, dynamic>>(
+        '/project/$id',
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      return Project.fromJson(response.data!['data']);
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    }
+  }
+
+  @override
+  Future<void> tryToggleLikeById(int projectId) async {
+    final api = _config.api;
+
+    final token = await _config.storage.read(key: 'token');
+
+    if (token == null) {
+      throw const ProjectException(message: 'Token not found');
+    }
+
+    api.options.headers['Authorization'] = 'Bearer $token';
+
+    try {
+      await api.post('/project/$projectId/like');
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    }
   }
 }
