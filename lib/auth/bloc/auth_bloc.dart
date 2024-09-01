@@ -73,10 +73,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<User?> _tryGetUser() async {
     try {
       final user = await _userRepository.getUserByToken();
-      logger.logInfo('Getting current user...');
+      logger.info('Getting current user...');
       return user;
     } on UserException catch (e) {
-      logger.logWarning(e.message);
+      logger.warning(e.message);
       return null;
     }
   }
@@ -89,7 +89,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthInProgress(user: state.user, status: state.status));
       await _authenticationRepository.logOut();
     } catch (e) {
-      logger.logError('Logout error', e, StackTrace.current);
+      logger.error('Logout error', e, StackTrace.current);
     }
   }
 }

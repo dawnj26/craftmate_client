@@ -26,7 +26,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
 
     if (valid) {
       emit(OtpInProgress(otp: otp, isValid: valid));
-      logger.logInfo('Email: $_email, OTP: ${state.otp.value}');
+      logger.info('Email: $_email, OTP: ${state.otp.value}');
 
       try {
         final token =

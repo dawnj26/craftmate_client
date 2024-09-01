@@ -1,6 +1,8 @@
 import 'package:craftmate_client/auth/components/components.dart';
 import 'package:craftmate_client/auth/login/bloc/login_bloc.dart';
 import 'package:craftmate_client/auth/login/view/components/components.dart';
+import 'package:craftmate_client/helpers/alert/alert.dart';
+import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -16,24 +18,10 @@ class LoginForm extends StatelessWidget {
       child: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginInProgress) {
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (_) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            );
+            Modal.instance.showLoadingDialog(context);
           } else if (state is LoginFailed) {
             Navigator.of(context).pop();
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
-              );
+            Alert.instance.showSnackbar(context, state.message);
           }
         },
         child: FixedContainer(

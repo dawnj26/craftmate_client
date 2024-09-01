@@ -15,7 +15,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         super(const VerificationInitial()) {
     on<EmailInputChange>(_onEmailChange);
     on<FormSubmitted>(_onFormSubmitted);
-    logger.logDebug('Initialized Verification Bloc');
+    logger.debug('Initialized Verification Bloc');
   }
 
   final UserRepository _userRepository;

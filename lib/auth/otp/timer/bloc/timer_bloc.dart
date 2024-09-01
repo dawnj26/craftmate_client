@@ -28,7 +28,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   }
 
   void _onStart(TimerStarted event, Emitter<TimerState> emit) {
-    logger.logDebug('Timer started');
+    logger.debug('Timer started');
     emit(TimerInProgress(event.duration));
     _tickerSubscription?.cancel();
     _tickerSubscription = _ticker

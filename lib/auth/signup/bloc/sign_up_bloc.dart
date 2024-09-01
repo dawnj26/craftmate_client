@@ -134,7 +134,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           ),
         );
       } on AuthException catch (e) {
-        logger.logError(e.message, e);
+        logger.error(e.message, e);
         emit(
           SignUpFailed(
             message: e.message,
@@ -194,7 +194,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         ),
       );
     } on AuthException catch (e) {
-      logger.logError(e.message, e);
+      logger.error(e.message, e);
       emit(
         SignUpFailed(
           message: e.message,

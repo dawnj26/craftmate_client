@@ -81,7 +81,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           ),
         );
       } on AuthException catch (e) {
-        logger.logError(e.message, e);
+        logger.error(e.message, e);
         emit(
           LoginFailed(
             message: e.message,
@@ -121,7 +121,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       await _authenticationRepository.socialAuth(event.type);
     } on AuthException catch (e) {
-      logger.logWarning(e.message);
+      logger.warning(e.message);
       emit(
         LoginFailed(
           message: e.message,

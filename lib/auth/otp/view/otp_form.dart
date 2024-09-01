@@ -114,7 +114,7 @@ class _Fields extends StatelessWidget {
         ),
         FilledButton(
           onPressed: () {
-            logger.logDebug('Current OTP input: ${controller.text}');
+            logger.debug('Current OTP input: ${controller.text}');
             context.read<OtpBloc>().add(OtpSubmit(otp: controller.text));
           },
           child: const Text('Submit'),
@@ -178,7 +178,7 @@ class _OtpInput extends StatelessWidget {
     return BlocBuilder<OtpBloc, OtpState>(
       buildWhen: (previous, current) => previous.otp != current.otp,
       builder: (context, state) {
-        logger.logDebug('Building Otp Input');
+        logger.debug('Building Otp Input');
         String? errorText;
         if (state.otp.displayError == OtpValidationError.empty) {
           errorText = 'OTP is required';

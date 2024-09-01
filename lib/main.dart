@@ -6,12 +6,11 @@ import 'package:log_collector/log_collector.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   logger = await LogCollector.getInstance();
 
-  logger.logInfo('Loading enviroment variables.');
+  logger.info('Loading enviroment variables.');
   await dotenv.load();
 
-  logger.logInfo('Starting the app');
+  logger.info('Starting the app');
   runApp(const MyApp());
 }
