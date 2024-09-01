@@ -45,24 +45,7 @@ class ProjectRepository implements IProjectRepository {
 
       return Project.fromJson(response.data!['data']);
     } on DioException catch (e) {
-      var message = 'Something went wrong';
-
-      switch (e.type) {
-        case DioExceptionType.connectionTimeout:
-        case DioExceptionType.receiveTimeout:
-        case DioExceptionType.sendTimeout:
-          message = 'Request timeout. Check internet connection';
-          break;
-        case DioExceptionType.badCertificate:
-          message = 'Bad certificate';
-          break;
-        default:
-          final r = e.response;
-
-          if (r != null) {
-            message = getErrorMsg(r.statusCode);
-          }
-      }
+      final message = getErrorMsg(e.type);
 
       throw ProjectException(message: message);
     }
@@ -76,6 +59,16 @@ class ProjectRepository implements IProjectRepository {
         case 422:
           return 'Missing required fields or validation error';
       }
+  String getErrorMsg(DioExceptionType type) {
+    switch (type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.receiveTimeout:
+      case DioExceptionType.sendTimeout:
+        return 'Request timeout. Check internet connection';
+      case DioExceptionType.badCertificate:
+        return 'Bad certificate';
+      default:
+        return 'Something went wrong.';
     }
 
     return 'Something went wrong.';
