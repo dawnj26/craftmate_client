@@ -22,3 +22,11 @@ final class ViewProjectDirty extends ViewProjectState {
     required super.project,
   });
 }
+
+final class ViewProjectFailed extends ViewProjectState {
+  final String errMessage;
+  const ViewProjectFailed({
+    required super.project,
+    required this.errMessage,
+  });
+}
