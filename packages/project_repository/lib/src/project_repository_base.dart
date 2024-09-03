@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:project_repository/src/exceptions/project_exception.dart';
@@ -6,13 +8,14 @@ import 'package:project_repository/src/models/project.dart';
 abstract class IProjectRepository {
   Future<Project> tryCreateProject(String title, bool isPulic, [String? tags]);
   Future<Project> tryGetProjectById(int id);
-  Future<void> tryToggleLikeById(int projectId);
+  Future<void> tryToggleLikeById(Project project);
 }
 
 class ProjectRepository implements IProjectRepository {
   final ConfigRepository _config;
+  late final StreamController<Project> _streamController;
 
-  const ProjectRepository({
+  ProjectRepository({
     required ConfigRepository config,
   }) : _config = config;
 
@@ -77,7 +80,9 @@ class ProjectRepository implements IProjectRepository {
         throw ProjectException(message: 'Response is null');
       }
 
-      return Project.fromJson(response.data!['data']);
+      final project = Project.fromJson(response.data!['data']);
+
+      return project;
     } on DioException catch (e) {
       final message = getErrorMsg(e.type);
 
@@ -85,8 +90,19 @@ class ProjectRepository implements IProjectRepository {
     }
   }
 
+  void _initController() {
+    _streamController = StreamController<Project>.broadcast();
+  }
+
+  Stream<Project> getProjectStream(Project project) {
+    _initController();
+    _streamController.add(project);
+
+    return _streamController.stream.where((p) => p.id == project.id);
+  }
+
   @override
-  Future<void> tryToggleLikeById(int projectId) async {
+  Future<void> tryToggleLikeById(Project project) async {
     final api = _config.api;
 
     final token = await _config.storage.read(key: 'token');
@@ -98,11 +114,24 @@ class ProjectRepository implements IProjectRepository {
     api.options.headers['Authorization'] = 'Bearer $token';
 
     try {
-      await api.post('/project/$projectId/like');
+      if (!project.isLiked) {
+        _streamController.add(project.copyWith(
+            isLiked: !project.isLiked, likeCount: project.likeCount + 1));
+      } else {
+        _streamController.add(project.copyWith(
+            isLiked: !project.isLiked, likeCount: project.likeCount - 1));
+      }
+
+      await api.post('/project/${project.id}/like');
     } on DioException catch (e) {
       final message = getErrorMsg(e.type);
+      _streamController.add(project);
 
       throw ProjectException(message: message);
     }
+  }
+
+  void dispose() {
+    _streamController.close();
   }
 }
