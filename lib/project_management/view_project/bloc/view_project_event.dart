@@ -10,3 +10,12 @@ sealed class ViewProjectEvent extends Equatable {
 final class ViewProjectLiked extends ViewProjectEvent {
   const ViewProjectLiked();
 }
+
+final class ViewProjectChanged extends ViewProjectEvent {
+  final Project project;
+  const ViewProjectChanged(this.project);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [project, ...super.props];
+}
