@@ -1,4 +1,5 @@
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
+import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +27,9 @@ class ViewProjectScreen extends StatelessWidget {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(EditProjectPage.route());
+            },
             icon: const Icon(Icons.mode_edit_rounded),
           ),
           IconButton(
