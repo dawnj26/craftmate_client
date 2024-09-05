@@ -56,6 +56,6 @@ jobs:
             build/app/outputs/flutter-apk/craftmate-release.apk
             build/app/outputs/bundle/release/craftmate-release.aab
         draft: false
-        prerelease: ${{ contains(github.ref_name, '-alpha') }}
+        # prerelease: ${{ contains(github.ref_name, '-alpha') }}
         generate_release_notes: true
 
