@@ -2,8 +2,11 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:config_repository/config_repository.dart';
 import 'package:craftmate_client/auth/auth.dart';
 import 'package:craftmate_client/auth/login/login.dart';
+import 'package:craftmate_client/dashboard/view/dashboard_page.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatefulWidget {
@@ -23,8 +26,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     // initialize repositories
-    final config =
-        ConfigRepository(apiUrl: 'https://moved-wasp-willingly.ngrok-free.app');
+    config = ConfigRepository(apiUrl: dotenv.get('API_URL'));
     _authenticationRepository = AuthenticationRepository(config: config);
     _userRepository = UserRepository(config: config);
   }
@@ -65,6 +67,11 @@ class AppView extends StatefulWidget {
 
 class _AppViewState extends State<AppView> {
   final _navigatorKey = GlobalKey<NavigatorState>();
+  final _theme = ThemeData(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: const Color(0xff316A42),
+    ),
+  );
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
@@ -72,46 +79,45 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: _navigatorKey,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xff316A42),
-        ),
-      ),
+      theme: _theme,
       title: 'CraftMate',
       builder: (context, child) {
         // Listen to status changes
         return BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            switch (state.status) {
-              case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  StatusScreen.route('authenticated'),
-                  (route) => false,
-                );
-
-              case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
-                  (route) => false,
-                );
-              case AuthenticationStatus.unknown:
-                _navigator.pushAndRemoveUntil<void>(
-                  StatusScreen.route('unknown'),
-                  (route) => false,
-                );
-              default:
-                _navigator.pushAndRemoveUntil<void>(
-                  StatusScreen.route('nothing is working'),
-                  (route) => false,
-                );
-                break;
-            }
-          },
+          listenWhen: (previous, current) => previous.status != current.status,
+          listener: _handleState,
           child: child,
         );
       },
       onGenerateRoute: (_) => SplashScreen.route(),
     );
+  }
+
+  void _handleState(BuildContext context, AuthState state) {
+    switch (state.status) {
+      case AuthenticationStatus.authenticated:
+        _navigator.pushAndRemoveUntil<void>(
+          DashboardPage.route(),
+          (route) => false,
+        );
+
+      case AuthenticationStatus.unauthenticated:
+        _navigator.pushAndRemoveUntil<void>(
+          LoginPage.route(),
+          (route) => false,
+        );
+      case AuthenticationStatus.unknown:
+        _navigator.pushAndRemoveUntil<void>(
+          StatusScreen.route('unknown'),
+          (route) => false,
+        );
+      default:
+        _navigator.pushAndRemoveUntil<void>(
+          StatusScreen.route('nothing is working'),
+          (route) => false,
+        );
+        break;
+    }
   }
 }
 

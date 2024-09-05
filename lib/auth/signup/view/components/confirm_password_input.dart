@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConfirmPasswordInput extends StatelessWidget {
-  const ConfirmPasswordInput();
+  const ConfirmPasswordInput(this.unfocusCallback);
+  final void Function() unfocusCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +13,7 @@ class ConfirmPasswordInput extends StatelessWidget {
 
     return BlocBuilder<SignUpBloc, SignUpState>(
       buildWhen: (previous, current) =>
+          previous.password != current.password ||
           previous.confirmPassword != current.confirmPassword,
       builder: (context, state) {
         final bloc = context.read<SignUpBloc>();
@@ -31,6 +33,7 @@ class ConfirmPasswordInput extends StatelessWidget {
           onChanged: (String password) => bloc.add(
             SignUpConfirmPasswordChanged(confirmPassword: password),
           ),
+          onTapOutside: (_) => unfocusCallback(),
           decoration: InputDecoration(
             border: const OutlineInputBorder(),
             labelText: 'Confirm password',

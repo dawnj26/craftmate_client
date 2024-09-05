@@ -62,7 +62,7 @@ class ResetPasswordForm extends StatelessWidget {
                         (route) => false,
                       );
                     },
-                    child: const Text('Log in'),
+                    child: const Text('Ok'),
                   ),
                 ],
               );
@@ -73,7 +73,7 @@ class ResetPasswordForm extends StatelessWidget {
       child: SafeArea(
         child: FixedContainer(
           safePadding: safePadding,
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

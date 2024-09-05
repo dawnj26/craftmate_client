@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EmailInput extends StatelessWidget {
-  const EmailInput();
+  const EmailInput(this.unfocusCallback);
+  final void Function() unfocusCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,7 @@ class EmailInput extends StatelessWidget {
 
         return TextField(
           key: const Key('signUpForm_emailInput_textField'),
+          onTapOutside: (_) => unfocusCallback(),
           onChanged: (String email) => bloc.add(
             SignUpEmailChanged(email: email),
           ),

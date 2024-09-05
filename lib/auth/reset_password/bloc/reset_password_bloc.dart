@@ -9,9 +9,10 @@ part 'reset_password_event.dart';
 part 'reset_password_state.dart';
 
 class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
-  ResetPasswordBloc(
-      {required AuthenticationRepository authRepo, required String token})
-      : _token = token,
+  ResetPasswordBloc({
+    required AuthenticationRepository authRepo,
+    required String token,
+  })  : _token = token,
         _authenticationRepository = authRepo,
         super(const ResetPasswordInitial()) {
     on<ResetPasswordPasswordChanged>(_onPasswordChange);

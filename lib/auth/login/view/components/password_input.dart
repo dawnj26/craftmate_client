@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PasswordInput extends StatelessWidget {
-  const PasswordInput();
+  const PasswordInput({
+    required this.focusNode,
+  });
+
+  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +22,8 @@ class PasswordInput extends StatelessWidget {
 
         final theme = Theme.of(context);
         return TextField(
+          focusNode: focusNode,
+          onTapOutside: (_) => focusNode.unfocus(),
           key: const Key('loginForm_passwordInput_textField'),
           onChanged: (password) =>
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:craftmate_client/auth/login/models/email.dart';
-import 'package:craftmate_client/logger.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:user_repository/user_repository.dart';
@@ -15,7 +15,7 @@ class VerificationBloc extends Bloc<VerificationEvent, VerificationState> {
         super(const VerificationInitial()) {
     on<EmailInputChange>(_onEmailChange);
     on<FormSubmitted>(_onFormSubmitted);
-    logger.logDebug('Initialized Verification Bloc');
+    logger.debug('Initialized Verification Bloc');
   }
 
   final UserRepository _userRepository;

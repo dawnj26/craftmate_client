@@ -17,10 +17,11 @@ class LogCollector {
 
   Future<void> _init() async {
     if (kReleaseMode) {
-      final directory = await getApplicationDocumentsDirectory();
-      final currentDate = DateTime.now();
-      final formatter = DateFormat('yyyy-MM-dd_HH-mm-ss');
-      final fileName = '${formatter.format(currentDate)}_log.txt';
+      var directory = await getExternalStorageDirectory();
+      directory ??= await getApplicationDocumentsDirectory();
+      // final currentDate = DateTime.now();
+      // final formatter = DateFormat('yyyy-MM-dd_HH-mm-ss');
+      final fileName = 'craftmate_log.txt';
 
       final logFile = File('${directory.path}/$fileName');
 
@@ -32,36 +33,36 @@ class LogCollector {
           lineLength: 50,
           colors: false,
           printEmojis: false,
-          dateTimeFormat: dateTimeFormat,
+          dateTimeFormat: _dateTimeFormat,
         ),
       );
     } else {
       _logger = Logger(
         printer: PrettyPrinter(
-          dateTimeFormat: dateTimeFormat,
+          dateTimeFormat: _dateTimeFormat,
         ),
       );
     }
   }
 
-  String dateTimeFormat(DateTime time) {
+  String _dateTimeFormat(DateTime time) {
     final formatter = DateFormat('yyyy-MM-dd_HH:mm:ss');
     return formatter.format(time);
   }
 
-  void logInfo(String message) {
+  void info(dynamic message) {
     _logger.i(message);
   }
 
-  void logWarning(String message) {
+  void warning(dynamic message) {
     _logger.w(message);
   }
 
-  void logError(String message, [dynamic error, StackTrace? stackTrace]) {
+  void error(dynamic message, [dynamic error, StackTrace? stackTrace]) {
     _logger.e(message, error: error, stackTrace: stackTrace);
   }
 
-  void logDebug(String message) {
+  void debug(dynamic message) {
     _logger.d(message);
   }
 }

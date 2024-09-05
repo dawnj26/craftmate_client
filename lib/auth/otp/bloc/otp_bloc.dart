@@ -1,7 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:craftmate_client/auth/otp/models/otp.dart';
-import 'package:craftmate_client/logger.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 
@@ -26,7 +26,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
 
     if (valid) {
       emit(OtpInProgress(otp: otp, isValid: valid));
-      logger.logInfo('Email: $_email, OTP: ${state.otp.value}');
+      logger.info('Email: $_email, OTP: ${state.otp.value}');
 
       try {
         final token =

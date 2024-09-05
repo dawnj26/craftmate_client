@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:craftmate_client/auth/otp/timer/models/ticker.dart';
-import 'package:craftmate_client/logger.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:equatable/equatable.dart';
 
 part 'timer_event.dart';
@@ -28,7 +28,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   }
 
   void _onStart(TimerStarted event, Emitter<TimerState> emit) {
-    logger.logDebug('Timer started');
+    logger.debug('Timer started');
     emit(TimerInProgress(event.duration));
     _tickerSubscription?.cancel();
     _tickerSubscription = _ticker

@@ -3,7 +3,7 @@ import 'package:craftmate_client/auth/otp/bloc/otp_bloc.dart';
 import 'package:craftmate_client/auth/otp/models/otp.dart';
 import 'package:craftmate_client/auth/otp/timer/bloc/timer_bloc.dart';
 import 'package:craftmate_client/auth/reset_password/view/reset_password_page.dart';
-import 'package:craftmate_client/logger.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -73,7 +73,7 @@ class _OtpFormState extends State<OtpForm> {
       child: SafeArea(
         child: FixedContainer(
           safePadding: safePadding,
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -114,7 +114,7 @@ class _Fields extends StatelessWidget {
         ),
         FilledButton(
           onPressed: () {
-            logger.logDebug('Current OTP input: ${controller.text}');
+            logger.debug('Current OTP input: ${controller.text}');
             context.read<OtpBloc>().add(OtpSubmit(otp: controller.text));
           },
           child: const Text('Submit'),
@@ -178,7 +178,7 @@ class _OtpInput extends StatelessWidget {
     return BlocBuilder<OtpBloc, OtpState>(
       buildWhen: (previous, current) => previous.otp != current.otp,
       builder: (context, state) {
-        logger.logDebug('Building Otp Input');
+        logger.debug('Building Otp Input');
         String? errorText;
         if (state.otp.displayError == OtpValidationError.empty) {
           errorText = 'OTP is required';

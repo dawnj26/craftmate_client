@@ -1,6 +1,8 @@
 import 'package:craftmate_client/auth/components/components.dart';
 import 'package:craftmate_client/auth/login/bloc/login_bloc.dart';
 import 'package:craftmate_client/auth/login/view/components/components.dart';
+import 'package:craftmate_client/helpers/alert/alert.dart';
+import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -11,34 +13,20 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final topPadding = MediaQuery.of(context).padding.top;
-    
+
     return SafeArea(
       child: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginInProgress) {
-            showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (_) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            );
+            Modal.instance.showLoadingDialog(context);
           } else if (state is LoginFailed) {
             Navigator.of(context).pop();
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
-              );
+            Alert.instance.showSnackbar(context, state.message);
           }
         },
         child: FixedContainer(
           safePadding: topPadding,
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -81,18 +69,38 @@ class _LoginForm extends StatelessWidget {
   }
 }
 
-class _Fields extends StatelessWidget {
+class _Fields extends StatefulWidget {
   const _Fields();
 
   @override
+  State<_Fields> createState() => _FieldsState();
+}
+
+class _FieldsState extends State<_Fields> {
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        EmailInput(),
-        Gap(8.0),
-        PasswordInput(),
-        ForgotPasswordButton(),
+        EmailInput(
+          focusNode: _emailFocusNode,
+        ),
+        const Gap(8.0),
+        PasswordInput(
+          focusNode: _passwordFocusNode,
+        ),
+        const ForgotPasswordButton(),
       ],
     );
   }

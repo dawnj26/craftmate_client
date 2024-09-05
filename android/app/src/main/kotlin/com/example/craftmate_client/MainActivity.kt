@@ -1,4 +1,4 @@
-package com.example.craftmate_client
+package com.craftmate.app
 
 import io.flutter.embedding.android.FlutterActivity
 

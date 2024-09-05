@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EmailInput extends StatelessWidget {
-  const EmailInput();
+  const EmailInput({
+    required this.focusNode,
+  });
+
+  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +25,11 @@ class EmailInput extends StatelessWidget {
         final theme = Theme.of(context);
 
         return TextField(
+          focusNode: focusNode,
           key: const Key('loginForm_emailInput_textField'),
           onChanged: (email) =>
               context.read<LoginBloc>().add(LoginEmailChanged(email)),
+          onTapOutside: (_) => focusNode.unfocus(),
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             border: const OutlineInputBorder(),

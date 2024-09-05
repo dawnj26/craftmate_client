@@ -2,7 +2,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:craftmate_client/auth/login/models/email.dart';
 import 'package:craftmate_client/auth/signup/models/models.dart';
-import 'package:craftmate_client/logger.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
@@ -63,15 +63,19 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     Emitter<SignUpState> emit,
   ) {
     final password = Password.dirty(event.password);
+    final confirmPassword = ConfirmPassword.dirty(
+      password: password.value,
+      value: state.confirmPassword.value,
+    );
 
     emit(
       SignUpInitial(
         name: state.name,
         email: state.email,
         password: password,
-        confirmPassword: state.confirmPassword,
+        confirmPassword: confirmPassword,
         isValid: Formz.validate(
-          [state.name, state.email, password],
+          [state.name, state.email, password, confirmPassword],
         ),
       ),
     );
@@ -130,7 +134,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           ),
         );
       } on AuthException catch (e) {
-        logger.logError(e.message, e);
+        logger.error(e.message, e);
         emit(
           SignUpFailed(
             message: e.message,
@@ -190,7 +194,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         ),
       );
     } on AuthException catch (e) {
-      logger.logError(e.message, e);
+      logger.error(e.message, e);
       emit(
         SignUpFailed(
           message: e.message,

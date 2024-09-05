@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:craftmate_client/logger.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:user_repository/user_repository.dart';
@@ -73,9 +73,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<User?> _tryGetUser() async {
     try {
       final user = await _userRepository.getUserByToken();
+      logger.info('Getting current user...');
       return user;
     } on UserException catch (e) {
-      logger.logError(e.message, e, StackTrace.current);
+      logger.warning(e.message);
       return null;
     }
   }
@@ -85,9 +86,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
+      emit(AuthInProgress(user: state.user, status: state.status));
       await _authenticationRepository.logOut();
     } catch (e) {
-      logger.logError('Logout error', e, StackTrace.current);
+      logger.error('Logout error', e, StackTrace.current);
     }
   }
 }

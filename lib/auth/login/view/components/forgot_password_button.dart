@@ -19,6 +19,8 @@ class ForgotPasswordButton extends StatelessWidget {
 
   void gotoForgotScreen(BuildContext context) {
     // TODO: impletement navigation to forgot pass screen
+    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+
     Navigator.of(context).push(VerificationPage.route());
   }
 }

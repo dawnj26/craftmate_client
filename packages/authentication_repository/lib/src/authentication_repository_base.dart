@@ -21,11 +21,11 @@ class AuthenticationRepository implements IAuthenticationRepository {
         _controller = StreamController<AuthenticationStatus>();
 
   Stream<AuthenticationStatus> get status async* {
-    final userRepo = UserRepository(config: _config);
+    // final userRepo = UserRepository(config: _config);
 
     try {
       // Validate token
-      await userRepo.getUserByToken();
+      // await userRepo.getUserByToken();
 
       yield AuthenticationStatus.authenticated;
       yield* _controller.stream;
@@ -47,7 +47,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
     try {
       final response = await dio.post(
-        '/login',
+        '/auth/login',
         data: {
           'email': email,
           'password': password,
@@ -95,7 +95,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
     try {
       await dio.post(
-        '/logout',
+        '/auth/logout',
       );
       _controller.add(AuthenticationStatus.unauthenticated);
 
@@ -124,7 +124,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
     try {
       final response = await dio.post<Map<String, dynamic>>(
-        '/signup',
+        '/auth/signup',
         data: {
           'name': name,
           'email': email,
@@ -165,7 +165,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
   Future<void> socialAuth(AuthenticationType type) async {
     // TODO: implement googleAuth
     final social = type == AuthenticationType.google ? 'google' : 'facebook';
-    final String url = '${_config.api.options.baseUrl}/$social';
+    final String url = '${_config.api.options.baseUrl}/auth/$social';
 
     try {
       final result = await FlutterWebAuth2.authenticate(
@@ -197,7 +197,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
       final dio = _config.api;
 
       await dio.post(
-        '/otp/send',
+        '/auth/otp/send',
         data: {
           'email': email,
         },
@@ -221,7 +221,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
     final dio = _config.api;
     try {
       final response = await dio.post<Map<String, dynamic>>(
-        '/otp/verify',
+        '/auth/otp/verify',
         data: {
           'email': email,
           'otp': otp,
@@ -263,7 +263,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
     try {
       await dio.post(
-        '/password/reset',
+        '/auth/password/reset',
         data: {'password': password},
       );
     } on DioException catch (e) {
