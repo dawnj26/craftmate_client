@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
@@ -9,11 +10,16 @@ abstract class IProjectRepository {
   Future<Project> tryCreateProject(String title, bool isPulic, [String? tags]);
   Future<Project> tryGetProjectById(int id);
   Future<void> tryToggleLikeById(Project project);
+  Future<void> updateDescription({
+    required Project project,
+    required List<dynamic> newDescription,
+  });
 }
 
 class ProjectRepository implements IProjectRepository {
   final ConfigRepository _config;
   late final StreamController<Project> _streamController;
+  bool isStreamInitialized = false;
 
   ProjectRepository({
     required ConfigRepository config,
@@ -70,6 +76,11 @@ class ProjectRepository implements IProjectRepository {
   @override
   Future<Project> tryGetProjectById(int id) async {
     final api = _config.api;
+    final token = await _config.storage.read(key: 'token');
+
+    if (token != null) {
+      api.options.headers['Authorization'] = 'Bearer $token';
+    }
 
     try {
       final response = await api.get<Map<String, dynamic>>(
@@ -92,13 +103,16 @@ class ProjectRepository implements IProjectRepository {
 
   void _initController() {
     _streamController = StreamController<Project>.broadcast();
+    isStreamInitialized = true;
   }
 
   Stream<Project> getProjectStream(Project project) {
-    _initController();
-    _streamController.add(project);
+    if (!isStreamInitialized) {
+      _initController();
+      _streamController.add(project);
+    }
 
-    return _streamController.stream.where((p) => p.id == project.id);
+    return _streamController.stream;
   }
 
   @override
@@ -132,6 +146,38 @@ class ProjectRepository implements IProjectRepository {
   }
 
   void dispose() {
+    if (!isStreamInitialized) {
+      return;
+    }
+
     _streamController.close();
+  }
+
+  @override
+  Future<void> updateDescription({
+    required Project project,
+    required List<dynamic> newDescription,
+  }) async {
+    final api = _config.api;
+
+    final token = await _config.storage.read(key: 'token');
+
+    if (token == null) {
+      throw const ProjectException(message: 'Token not found');
+    }
+
+    api.options.headers['Authorization'] = 'Bearer $token';
+
+    try {
+      await api.post('/project/${project.id}/edit/description', data: {
+        'description': jsonEncode(newDescription),
+      });
+
+      _streamController.add(project.copyWith(description: newDescription));
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    }
   }
 }
