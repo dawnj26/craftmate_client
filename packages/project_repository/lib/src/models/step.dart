@@ -16,8 +16,8 @@ class Step {
       id: json['id'] as int,
       stepNumber: json['step_number'] as int,
       content: json['content'] as List<dynamic>?,
-      substeps: (json['substeps'] as List<dynamic>)
-          .map(
+      substeps: (json['children'] as List<dynamic>?)
+          ?.map(
             (e) => Step(
               id: e['id'] as int,
               stepNumber: e['step_number'] as int,
