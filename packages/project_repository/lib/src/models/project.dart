@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:project_repository/src/models/tag.dart';
 import 'package:user_repository/user_repository.dart';
 
-class Project {
+class Project extends Equatable {
   final User creator;
   final int id;
   final String title;
@@ -12,6 +13,20 @@ class Project {
   final int likeCount;
   final int commentCount;
   final int forkCount;
+
+  @override
+  List<Object?> get props => [
+        creator,
+        id,
+        title,
+        description,
+        tags,
+        isPulic,
+        isLiked,
+        likeCount,
+        commentCount,
+        forkCount,
+      ];
 
   const Project({
     required this.creator,
