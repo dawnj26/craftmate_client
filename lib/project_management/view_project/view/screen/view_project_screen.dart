@@ -1,3 +1,4 @@
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
@@ -74,24 +75,29 @@ class _ProjectBody extends StatelessWidget {
             type: EditProjectType.description,
           ),
           const Divider(),
-          if (project.description == null)
-            Text(
-              'No description',
-              style: textTheme.bodyLarge!.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
-            )
-          else
-            BlocBuilder<ViewProjectBloc, ViewProjectState>(
-              buildWhen: (previous, current) =>
-                  previous.project.description != current.project.description,
-              builder: (context, state) {
-                return ProjectDescription(
-                  key: const Key('viewProject_description'),
-                  descriptionJson: state.project.description,
+          BlocBuilder<ViewProjectBloc, ViewProjectState>(
+            buildWhen: (previous, current) {
+              final res =
+                  previous.project.description != current.project.description;
+              return res;
+            },
+            builder: (context, state) {
+              logger.info('Building project description');
+              if (state.project.description == null) {
+                return Text(
+                  'No description',
+                  style: textTheme.bodyLarge!.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                 );
-              },
-            ),
+              }
+
+              return ProjectDescription(
+                key: const Key('viewProject_description'),
+                descriptionJson: state.project.description,
+              );
+            },
+          ),
         ],
       ),
     );
