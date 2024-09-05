@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:project_repository/src/models/step.dart';
 import 'package:project_repository/src/models/tag.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -13,6 +14,7 @@ class Project extends Equatable {
   final int likeCount;
   final int commentCount;
   final int forkCount;
+  final List<Step>? steps;
 
   @override
   List<Object?> get props => [
@@ -39,6 +41,7 @@ class Project extends Equatable {
     required this.forkCount,
     this.description,
     this.tags,
+    this.steps,
   });
 
   Project copyWith({
@@ -50,6 +53,7 @@ class Project extends Equatable {
     int? likeCount,
     int? commentCount,
     int? forkCount,
+    List<Step>? steps,
   }) {
     return Project(
       creator: this.creator,
@@ -62,6 +66,7 @@ class Project extends Equatable {
       likeCount: likeCount ?? this.likeCount,
       commentCount: commentCount ?? this.commentCount,
       forkCount: forkCount ?? this.forkCount,
+      steps: steps ?? this.steps,
     );
   }
 
@@ -79,6 +84,9 @@ class Project extends Equatable {
       likeCount: json['like_count'] as int,
       commentCount: json['comment_count'] as int,
       forkCount: json['fork_count'] as int,
+      steps: (json['steps'] as List<dynamic>?)
+          ?.map((e) => Step.fromJson(e))
+          .toList(),
     );
   }
 }
