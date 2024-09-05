@@ -16,7 +16,7 @@ class LogCollector {
   }
 
   Future<void> _init() async {
-    if (!kReleaseMode) {
+    if (kReleaseMode) {
       var directory = await getExternalStorageDirectory();
       directory ??= await getApplicationDocumentsDirectory();
       // final currentDate = DateTime.now();
