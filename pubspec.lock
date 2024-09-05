@@ -139,10 +139,10 @@ packages:
     dependency: transitive
     description:
       name: dart_quill_delta
-      sha256: "06f69b160456b8cce3c7dfc1120299f502751734ce19b5303514089d4776629c"
+      sha256: "488ec418695aec5b0e124d77a47648415e289e5f19f8f5360f19a0772b13c2b2"
       url: "https://pub.dev"
     source: hosted
-    version: "10.1.10"
+    version: "10.5.5"
   device_info_plus:
     dependency: transitive
     description:
@@ -421,26 +421,26 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_quill
-      sha256: "848a554c10e084de303037781b3670d2a145c2017b2d52ff198389d6d9cd5576"
+      sha256: "949e6956d70b1deafb47e9a63212698e1743c64be2cfcc1ccd48a25d067c96a4"
       url: "https://pub.dev"
     source: hosted
-    version: "10.1.10"
+    version: "10.5.5"
   flutter_quill_delta_from_html:
     dependency: transitive
     description:
       name: flutter_quill_delta_from_html
-      sha256: "36ff8bb045e280f59a2e7feb6f4dca62e80a14c8377dfe8260d8fe69dcda9a33"
+      sha256: "5461df689818d34237f7a5109763e1e4663b973c2a44a46c398bbd46381d297a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.13"
+    version: "1.4.0"
   flutter_quill_extensions:
     dependency: "direct main"
     description:
       name: flutter_quill_extensions
-      sha256: "65ccbe73c4cfc5885ca4fc01661723d6c33aaf582fe3615efdd8f24628c1145c"
+      sha256: f57ccab21cc69e8aa9f994e85ffab448fecc4a3cc3ddf8026dd0f7d8516e17ef
       url: "https://pub.dev"
     source: hosted
-    version: "10.1.10"
+    version: "10.5.5"
   flutter_secure_storage:
     dependency: transitive
     description:

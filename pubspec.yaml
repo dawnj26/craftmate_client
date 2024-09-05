@@ -41,8 +41,8 @@ dependencies:
   flutter_bloc: ^8.1.6
   flutter_dotenv: ^5.1.0
   flutter_keyboard_visibility: ^6.0.0
-  flutter_quill: ^10.1.10
-  flutter_quill_extensions: ^10.1.10
+  flutter_quill: ^10.5.5
+  flutter_quill_extensions: ^10.5.5
   font_awesome_flutter: ^10.7.0
   formz: ^0.7.0
   gap: ^3.0.1
