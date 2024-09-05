@@ -1,9 +1,9 @@
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
+import 'package:craftmate_client/project_management/view_project/view/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:gap/gap.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -27,12 +27,6 @@ class ViewProjectScreen extends StatelessWidget {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.of(context).push(EditProjectPage.route());
-            },
-            icon: const Icon(Icons.mode_edit_rounded),
-          ),
-          IconButton(
             onPressed: () {},
             icon: const Icon(Icons.more_vert),
           ),
@@ -40,21 +34,27 @@ class ViewProjectScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          Image.asset('assets/images/placeholder.png'),
+          AspectRatio(
+            aspectRatio: 3 / 2,
+            child: Image.asset(
+              'assets/images/placeholder_1.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
           _ProjectCardHeader(
             creator: project.creator,
             projectTitle: project.title,
             project: project,
           ),
-          ProjectBody(project: project),
+          _ProjectBody(project: project),
         ],
       ),
     );
   }
 }
 
-class ProjectBody extends StatelessWidget {
-  const ProjectBody({super.key, required this.project});
+class _ProjectBody extends StatelessWidget {
+  const _ProjectBody({required this.project});
 
   final Project project;
 
@@ -69,11 +69,10 @@ class ProjectBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Description',
-            style: textTheme.titleLarge,
+          const ProjectBodySection(
+            sectionName: 'Description',
+            type: EditProjectType.description,
           ),
-          const Gap(2.0),
           const Divider(),
           if (project.description == null)
             Text(
@@ -83,9 +82,58 @@ class ProjectBody extends StatelessWidget {
               ),
             )
           else
-            Description(descriptionJson: project.description),
+            BlocBuilder<ViewProjectBloc, ViewProjectState>(
+              buildWhen: (previous, current) =>
+                  previous.project.description != current.project.description,
+              builder: (context, state) {
+                return ProjectDescription(
+                  key: const Key('viewProject_description'),
+                  descriptionJson: state.project.description,
+                );
+              },
+            ),
         ],
       ),
+    );
+  }
+}
+
+class ProjectBodySection extends StatelessWidget {
+  const ProjectBodySection({
+    super.key,
+    required this.sectionName,
+    required this.type,
+  });
+
+  final String sectionName;
+  final EditProjectType type;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
+    return Row(
+      children: [
+        Text(
+          sectionName,
+          style: textTheme.titleLarge,
+        ),
+        const Spacer(),
+        IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              EditProjectPage.route(
+                RepositoryProvider.of<ProjectRepository>(context),
+                BlocProvider.of<ViewProjectBloc>(context).state.project,
+                type,
+              ),
+            );
+          },
+          icon: const Icon(Icons.edit),
+        ),
+      ],
     );
   }
 }
@@ -112,7 +160,7 @@ class _ProjectCardHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _Creator(
+          CreatorAvatar(
             initialName: creator.name[0].toUpperCase(),
             fullName: creator.name,
           ),
@@ -121,65 +169,10 @@ class _ProjectCardHeader extends StatelessWidget {
             projectTitle: projectTitle,
           ),
           Tags(tags: project.tags),
-          const _SocialCounters(),
+          const SocialCounters(),
           const _ActionButtons(),
         ],
       ),
-    );
-  }
-}
-
-class Description extends StatelessWidget {
-  const Description({
-    super.key,
-    required this.descriptionJson,
-  });
-
-  final List<dynamic>? descriptionJson;
-
-  @override
-  Widget build(BuildContext context) {
-    final document = Document.fromJson(descriptionJson!);
-    final controller = QuillController(
-      document: document,
-      selection: const TextSelection.collapsed(offset: 0),
-      readOnly: true,
-    );
-
-    return QuillEditor.basic(
-      controller: controller,
-      configurations: const QuillEditorConfigurations(
-        showCursor: false,
-        enableInteractiveSelection: false,
-      ),
-    );
-  }
-}
-
-class _Creator extends StatelessWidget {
-  const _Creator({
-    required this.initialName,
-    required this.fullName,
-  });
-
-  final String initialName;
-  final String fullName;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Row(
-      children: [
-        CircleAvatar(
-          radius: 16.0,
-          child: Text(initialName),
-        ),
-        const Gap(12.0),
-        Text(
-          fullName,
-          style: theme.textTheme.bodyMedium,
-        ),
-      ],
     );
   }
 }
@@ -198,41 +191,14 @@ class Tags extends StatelessWidget {
       child: Wrap(
         spacing: 8.0,
         runSpacing: 8.0,
-        children: tags!.map((e) => _Tag(tagText: e.name)).toList(),
+        children: tags!.map((e) => CategoryTag(tagText: e.name)).toList(),
       ),
     );
   }
 }
 
-class _Tag extends StatelessWidget {
-  const _Tag({
-    required this.tagText,
-  });
-
-  final String tagText;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
-      decoration: BoxDecoration(
-        color: colorScheme.tertiaryContainer,
-        borderRadius: BorderRadius.circular(50.0),
-      ),
-      child: Text(
-        tagText,
-        style: TextStyle(
-          color: colorScheme.onTertiaryContainer,
-        ),
-      ),
-    );
-  }
-}
-
-class _SocialCounters extends StatelessWidget {
-  const _SocialCounters();
+class SocialCounters extends StatelessWidget {
+  const SocialCounters({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -246,7 +212,7 @@ class _SocialCounters extends StatelessWidget {
             buildWhen: (previous, current) =>
                 previous.project.likeCount != current.project.likeCount,
             builder: (context, state) {
-              return _Counter(
+              return Counter(
                 countText: '${state.project.likeCount}',
                 icon: const Icon(Icons.favorite_outline),
               );
@@ -257,7 +223,7 @@ class _SocialCounters extends StatelessWidget {
             buildWhen: (previous, current) =>
                 previous.project.forkCount != current.project.forkCount,
             builder: (context, state) {
-              return _Counter(
+              return Counter(
                 countText: '${state.project.forkCount}',
                 icon: const Icon(Icons.transform),
               );
@@ -268,7 +234,7 @@ class _SocialCounters extends StatelessWidget {
             buildWhen: (previous, current) =>
                 previous.project.commentCount != current.project.commentCount,
             builder: (context, state) {
-              return _Counter(
+              return Counter(
                 countText: '${state.project.commentCount}',
                 icon: const Icon(Icons.mode_comment_outlined),
               );
@@ -314,35 +280,6 @@ class _ActionButtons extends StatelessWidget {
         IconButton(
           onPressed: () {},
           icon: const Icon(Icons.transform),
-        ),
-      ],
-    );
-  }
-}
-
-class _Counter extends StatelessWidget {
-  const _Counter({
-    required this.countText,
-    required this.icon,
-  });
-
-  final String countText;
-  final Icon icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: [
-        icon,
-        const SizedBox(
-          width: 4.0,
-        ),
-        Text(
-          countText,
-          style: textTheme.labelLarge,
         ),
       ],
     );
