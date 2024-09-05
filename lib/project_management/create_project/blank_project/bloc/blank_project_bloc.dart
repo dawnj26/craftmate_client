@@ -62,14 +62,14 @@ class BlankProjectBloc extends Bloc<BlankProjectEvent, BlankProjectState> {
       );
 
       try {
+        logger.info('Creating project...');
         final project = await _projectRepo.tryCreateProject(
           state.projectTitle.value,
           state.isPulic,
           event.tags,
         );
-        // final project = await _projectRepo.tryGetProjectById(31);
+        // final project = await _projectRepo.tryGetProjectById(32);
 
-        logger.debug(project);
         emit(
           BlankProjectSuccess(
             isPulic: state.isPulic,
@@ -79,6 +79,7 @@ class BlankProjectBloc extends Bloc<BlankProjectEvent, BlankProjectState> {
           ),
         );
       } on ProjectException catch (e) {
+        logger.error('Create project failed');
         emit(
           BlankProjectFailed(
             errorMsg: e.message,
