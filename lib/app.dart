@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     // initialize repositories
-    config = ConfigRepository(apiUrl: dotenv.get('API_URL'));
+    config = ConfigRepository(apiUrl: dotenv.get('API_URL'), logger: logger);
     _authenticationRepository = AuthenticationRepository(config: config);
     _userRepository = UserRepository(config: config);
   }
