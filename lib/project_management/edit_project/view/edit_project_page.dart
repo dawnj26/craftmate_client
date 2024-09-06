@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_repository/project_repository.dart';
 
-enum EditProjectType { description }
+enum EditProjectType { description, steps }
 
 class EditProjectPage extends StatelessWidget {
   const EditProjectPage({
