@@ -59,25 +59,7 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
   Widget build(BuildContext context) {
     return BlocListener<EditProjectBloc, EditProjectState>(
       listenWhen: (previous, current) => current is! EditProjectDirty,
-      listener: (context, state) {
-        final nav = Navigator.of(context);
-
-        if (state is EditProjectLoading) {
-          Modal.instance.showLoadingDialog(context);
-        } else if (state is EditProjectFailed) {
-          nav.pop();
-          Alert.instance.showSnackbar(context, state.errMessage);
-        } else if (state is EditProjectSuccess) {
-          // !Pop loading dialog
-          nav.pop();
-          // !Pop Edit Screen
-          nav.pop();
-        } else if (state is EditProjectClean) {
-          // !Pop loading dialog
-          nav.pop();
-          Alert.instance.showSnackbar(context, 'Saved successfully');
-        }
-      },
+      listener: _editDescriptionListener,
       child: PopScope(
         canPop: false,
         onPopInvokedWithResult: _handlePop,
@@ -92,18 +74,7 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
                   final isProjectChanged = state is EditProjectDirty;
 
                   return IconButton(
-                    onPressed: isProjectChanged
-                        ? () {
-                            final newDescription =
-                                _editorController.document.toDelta().toJson();
-                            BlocProvider.of<EditProjectBloc>(context).add(
-                              EditProjectDescriptionSaved(
-                                newDescription: newDescription,
-                                currentProject: widget.project,
-                              ),
-                            );
-                          }
-                        : null,
+                    onPressed: isProjectChanged ? _handleSave : null,
                     icon: const Icon(Icons.save),
                   );
                 },
@@ -114,6 +85,36 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
             controller: _editorController,
           ),
         ),
+      ),
+    );
+  }
+
+  void _editDescriptionListener(BuildContext context, EditProjectState state) {
+    final nav = Navigator.of(context);
+
+    if (state is EditProjectLoading) {
+      Modal.instance.showLoadingDialog(context);
+    } else if (state is EditProjectFailed) {
+      nav.pop();
+      Alert.instance.showSnackbar(context, state.errMessage);
+    } else if (state is EditProjectSuccess) {
+      // !Pop loading dialog
+      nav.pop();
+      // !Pop Edit Screen
+      nav.pop();
+    } else if (state is EditProjectClean) {
+      // !Pop loading dialog
+      nav.pop();
+      Alert.instance.showSnackbar(context, 'Saved successfully');
+    }
+  }
+
+  void _handleSave() {
+    final newDescription = _editorController.document.toDelta().toJson();
+    BlocProvider.of<EditProjectBloc>(context).add(
+      EditProjectDescriptionSaved(
+        newDescription: newDescription,
+        currentProject: widget.project,
       ),
     );
   }
