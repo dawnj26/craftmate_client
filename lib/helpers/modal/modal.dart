@@ -28,12 +28,10 @@ class Modal {
     return await showDialog<bool>(
           context: context,
           builder: (_) {
-            return _NonDismissibleDialog(
-              child: AlertDialog(
-                title: Text(title),
-                content: Text(message),
-                actions: actions,
-              ),
+            return AlertDialog(
+              title: Text(title),
+              content: Text(message),
+              actions: actions,
             );
           },
         ) ??
