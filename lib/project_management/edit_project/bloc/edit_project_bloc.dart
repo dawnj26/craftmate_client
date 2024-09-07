@@ -11,7 +11,6 @@ class EditProjectBloc extends Bloc<EditProjectEvent, EditProjectState> {
       : _projectRepository = projectRepo,
         super(const EditProjectInitial()) {
     on<EditProjectChanged>(_onProjectChanged);
-    on<EditProjectDescriptionSavedOnExit>(_onDescriptionSavedOnExit);
     on<EditProjectDescriptionSaved>(_onDescriptionSaved);
   }
 
