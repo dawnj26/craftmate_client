@@ -68,7 +68,7 @@ class _EditStepsScreenState extends State<EditStepsScreen> {
         onPopInvokedWithResult: _handlePop,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Edit description'),
+            title: const Text('Edit steps'),
             actions: [
               BlocBuilder<EditProjectBloc, EditProjectState>(
                 buildWhen: (previous, current) =>
