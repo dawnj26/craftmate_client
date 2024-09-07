@@ -12,6 +12,7 @@ class EditProjectBloc extends Bloc<EditProjectEvent, EditProjectState> {
         super(const EditProjectInitial()) {
     on<EditProjectChanged>(_onProjectChanged);
     on<EditProjectDescriptionSaved>(_onDescriptionSaved);
+    on<EditProjectStepsSaved>(_onStepsSaved);
   }
 
   final ProjectRepository _projectRepository;
@@ -43,20 +44,20 @@ class EditProjectBloc extends Bloc<EditProjectEvent, EditProjectState> {
     }
   }
 
-  Future<void> _onDescriptionSaved(
-    EditProjectDescriptionSaved event,
+  Future<void> _onStepsSaved(
+    EditProjectStepsSaved event,
     Emitter<EditProjectState> emit,
   ) async {
     emit(const EditProjectLoading());
 
     try {
-      logger.info('Updating description');
-      await _projectRepository.updateDescription(
+      logger.info('Updating Steps');
+      await _projectRepository.updateSteps(
         project: event.currentProject,
-        newDescription: event.newDescription,
+        newSteps: event.newSteps,
       );
 
-      emit(const EditProjectClean());
+      emit(EditProjectClean(shouldExit: event.shouldExit));
     } on ProjectException catch (e) {
       logger.warning('Update failed');
       emit(EditProjectFailed(errMessage: e.message));
