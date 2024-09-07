@@ -14,10 +14,12 @@ final class EditProjectChanged extends EditProjectEvent {
 final class EditProjectDescriptionSaved extends EditProjectEvent {
   final List<dynamic> newDescription;
   final Project currentProject;
+  final bool shouldExit;
 
   const EditProjectDescriptionSaved({
     required this.newDescription,
     required this.currentProject,
+    required this.shouldExit,
   });
 
   @override
