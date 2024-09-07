@@ -23,8 +23,8 @@ class EditProjectBloc extends Bloc<EditProjectEvent, EditProjectState> {
     emit(const EditProjectDirty());
   }
 
-  Future<void> _onDescriptionSavedOnExit(
-    EditProjectDescriptionSavedOnExit event,
+  Future<void> _onDescriptionSaved(
+    EditProjectDescriptionSaved event,
     Emitter<EditProjectState> emit,
   ) async {
     emit(const EditProjectLoading());
@@ -36,7 +36,7 @@ class EditProjectBloc extends Bloc<EditProjectEvent, EditProjectState> {
         newDescription: event.newDescription,
       );
 
-      emit(const EditProjectSuccess());
+      emit(EditProjectClean(shouldExit: event.shouldExit));
     } on ProjectException catch (e) {
       logger.warning('Update failed');
       emit(EditProjectFailed(errMessage: e.message));
