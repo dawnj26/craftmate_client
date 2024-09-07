@@ -27,16 +27,18 @@ final class EditProjectDescriptionSaved extends EditProjectEvent {
   List<Object> get props => [currentProject, newDescription, ...super.props];
 }
 
-final class EditProjectDescriptionSavedOnExit extends EditProjectEvent {
-  final List<dynamic> newDescription;
+final class EditProjectStepsSaved extends EditProjectEvent {
+  final List<dynamic> newSteps;
   final Project currentProject;
+  final bool shouldExit;
 
-  const EditProjectDescriptionSavedOnExit({
-    required this.newDescription,
+  const EditProjectStepsSaved({
+    required this.newSteps,
     required this.currentProject,
+    required this.shouldExit,
   });
 
   @override
   // TODO: implement props
-  List<Object> get props => [currentProject, newDescription, ...super.props];
+  List<Object> get props => [currentProject, newSteps, ...super.props];
 }
