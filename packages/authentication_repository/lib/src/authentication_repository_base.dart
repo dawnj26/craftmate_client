@@ -82,16 +82,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
   @override
   Future<void> logOut() async {
     // TODO: implement logOut
-    final token = await _config.storage.read(key: 'token');
-
-    final dio = _config.api;
-    dio.options = BaseOptions(
-      baseUrl: dio.options.baseUrl,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
+    final dio = await _config.apiWithAuthorization;
 
     try {
       await dio.post(

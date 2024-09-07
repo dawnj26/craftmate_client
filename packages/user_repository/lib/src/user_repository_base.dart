@@ -19,14 +19,7 @@ class UserRepository implements IUserRepository {
 
   @override
   Future<User> getUserByToken() async {
-    final token = await _config.storage.read(key: 'token');
-
-    if (token == null) {
-      throw const UserException('Token not found');
-    }
-
-    final dio = _config.api;
-    dio.options.headers['Authorization'] = 'Bearer $token';
+    final dio = await _config.apiWithAuthorization;
 
     try {
       final response = await dio.get('/auth/user');
