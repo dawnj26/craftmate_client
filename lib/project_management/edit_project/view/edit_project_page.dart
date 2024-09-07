@@ -2,6 +2,7 @@ import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/edit_project/bloc/edit_project_bloc.dart';
 import 'package:craftmate_client/project_management/edit_project/view/screens/edit_description_screen.dart';
 import 'package:craftmate_client/project_management/edit_project/view/screens/edit_project_screen.dart';
+import 'package:craftmate_client/project_management/edit_project/view/screens/edit_steps_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_repository/project_repository.dart';
@@ -66,6 +67,10 @@ class EditScreen extends StatelessWidget {
     switch (type) {
       case EditProjectType.description:
         return EditDescriptionScreen(
+          project: project,
+        );
+      case EditProjectType.steps:
+        return EditStepsScreen(
           project: project,
         );
       default:
