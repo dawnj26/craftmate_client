@@ -1,15 +1,17 @@
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/edit_project/bloc/edit_project_bloc.dart';
-import 'package:craftmate_client/project_management/edit_project/view/editor/content_editor.dart';
+import 'package:craftmate_client/project_management/editor/view/content_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:project_repository/project_repository.dart';
 
 class EditDescriptionScreen extends StatefulWidget {
-  const EditDescriptionScreen({super.key, required this.project});
+  const EditDescriptionScreen({
+    super.key,
+    required this.project,
+  });
 
   final Project project;
 
@@ -83,6 +85,7 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
           ),
           body: ContentEditor(
             controller: _editorController,
+            canAddStep: false,
           ),
         ),
       ),
@@ -97,24 +100,28 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
     } else if (state is EditProjectFailed) {
       nav.pop();
       Alert.instance.showSnackbar(context, state.errMessage);
-    } else if (state is EditProjectSuccess) {
-      // !Pop loading dialog
-      nav.pop();
-      // !Pop Edit Screen
-      nav.pop();
     } else if (state is EditProjectClean) {
       // !Pop loading dialog
       nav.pop();
+
+      if (state.shouldExit) {
+        nav.pop();
+        return;
+      }
+
       Alert.instance.showSnackbar(context, 'Saved successfully');
     }
   }
 
   void _handleSave() {
+    _editorController.editorFocusNode?.unfocus();
+
     final newDescription = _editorController.document.toDelta().toJson();
     BlocProvider.of<EditProjectBloc>(context).add(
       EditProjectDescriptionSaved(
         newDescription: newDescription,
         currentProject: widget.project,
+        shouldExit: false,
       ),
     );
   }
@@ -126,6 +133,9 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
     final bloc = BlocProvider.of<EditProjectBloc>(context);
     final currentState = bloc.state;
     final isProjectChanged = currentState is EditProjectDirty;
+
+    // unfocus any focused node
+    _editorController.editorFocusNode?.unfocus();
 
     if (isProjectChanged) {
       final shouldSave = await Modal.instance.showConfirmationModal(
@@ -148,13 +158,17 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
         ],
       );
 
+      if (shouldSave == null) {
+        return;
+      }
+
       if (mounted && shouldSave) {
         final newDescription = _editorController.document.toDelta().toJson();
-        logger.info(newDescription);
         bloc.add(
-          EditProjectDescriptionSavedOnExit(
+          EditProjectDescriptionSaved(
             newDescription: newDescription,
             currentProject: widget.project,
+            shouldExit: true,
           ),
         );
       } else if (mounted) {
