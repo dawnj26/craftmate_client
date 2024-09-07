@@ -3,6 +3,7 @@ import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/view/components/components.dart';
+import 'package:craftmate_client/project_management/view_project/view/components/project_steps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -91,13 +92,14 @@ class _ProjectBody extends StatelessWidget {
                   ),
                 );
               }
-
               return ProjectDescription(
                 key: const Key('viewProject_description'),
                 descriptionJson: state.project.description,
               );
             },
           ),
+          const Gap(12.0),
+          const ProjectSteps(),
         ],
       ),
     );
