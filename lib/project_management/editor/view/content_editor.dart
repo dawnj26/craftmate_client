@@ -1,4 +1,5 @@
 import 'package:craftmate_client/project_management/editor/view/description_toolbar.dart';
+import 'package:craftmate_client/project_management/editor/view/step_toolbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
@@ -17,7 +18,7 @@ class ContentEditor extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextEditor(
       controller: controller,
-      useDescriptionToolbar: canAddStep,
+      useStepToolbar: canAddStep,
     );
   }
 }
@@ -26,17 +27,20 @@ class TextEditor extends StatelessWidget {
   const TextEditor({
     super.key,
     required this.controller,
-    required this.useDescriptionToolbar,
+    required this.useStepToolbar,
   });
 
   final QuillController controller;
-  final bool useDescriptionToolbar;
+  final bool useStepToolbar;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        DescriptionToolBar(editorController: controller),
+        if (useStepToolbar)
+          StepToolBar(editorController: controller)
+        else
+          DescriptionToolBar(editorController: controller),
         Expanded(
           key: const Key('editProject_textEditor'),
           child: QuillEditor.basic(
