@@ -8,7 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   logger = await LogCollector.getInstance();
 
-  logger.info('Loading enviroment variables.');
+  logger.info('Loading environment variables.');
   await dotenv.load();
 
   logger.info('Starting the app');

@@ -1,3 +1,4 @@
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/edit_project/bloc/edit_project_bloc.dart';
@@ -7,8 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:project_repository/project_repository.dart';
 
-class EditDescriptionScreen extends StatefulWidget {
-  const EditDescriptionScreen({
+class EditStepsScreen extends StatefulWidget {
+  const EditStepsScreen({
     super.key,
     required this.project,
   });
@@ -16,10 +17,10 @@ class EditDescriptionScreen extends StatefulWidget {
   final Project project;
 
   @override
-  State<EditDescriptionScreen> createState() => _EditDescriptionScreenState();
+  State<EditStepsScreen> createState() => _EditStepsScreenState();
 }
 
-class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
+class _EditStepsScreenState extends State<EditStepsScreen> {
   final _editorFocusNode = FocusNode();
   late final QuillController _editorController;
 
@@ -29,11 +30,11 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
     super.initState();
 
     // Load project document
-    if (widget.project.description == null) {
+    if (widget.project.steps == null) {
       _editorController =
           QuillController.basic(editorFocusNode: _editorFocusNode);
     } else {
-      final document = Document.fromJson(widget.project.description!);
+      final document = Document.fromJson(widget.project.steps!);
       _editorController = QuillController(
         document: document,
         selection: const TextSelection.collapsed(offset: 0),
@@ -61,13 +62,13 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
   Widget build(BuildContext context) {
     return BlocListener<EditProjectBloc, EditProjectState>(
       listenWhen: (previous, current) => current is! EditProjectDirty,
-      listener: _editDescriptionListener,
+      listener: _editStepsListener,
       child: PopScope(
         canPop: false,
         onPopInvokedWithResult: _handlePop,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Edit description'),
+            title: const Text('Edit steps'),
             actions: [
               BlocBuilder<EditProjectBloc, EditProjectState>(
                 buildWhen: (previous, current) =>
@@ -85,14 +86,14 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
           ),
           body: ContentEditor(
             controller: _editorController,
-            canAddStep: false,
+            canAddStep: true,
           ),
         ),
       ),
     );
   }
 
-  void _editDescriptionListener(BuildContext context, EditProjectState state) {
+  void _editStepsListener(BuildContext context, EditProjectState state) {
     final nav = Navigator.of(context);
 
     if (state is EditProjectLoading) {
@@ -116,10 +117,10 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
   void _handleSave() {
     _editorController.editorFocusNode?.unfocus();
 
-    final newDescription = _editorController.document.toDelta().toJson();
+    final newSteps = _editorController.document.toDelta().toJson();
     BlocProvider.of<EditProjectBloc>(context).add(
-      EditProjectDescriptionSaved(
-        newDescription: newDescription,
+      EditProjectStepsSaved(
+        newSteps: newSteps,
         currentProject: widget.project,
         shouldExit: false,
       ),
@@ -163,10 +164,11 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
       }
 
       if (mounted && shouldSave) {
-        final newDescription = _editorController.document.toDelta().toJson();
+        final newSteps = _editorController.document.toDelta().toJson();
+        logger.info(newSteps);
         bloc.add(
-          EditProjectDescriptionSaved(
-            newDescription: newDescription,
+          EditProjectStepsSaved(
+            newSteps: newSteps,
             currentProject: widget.project,
             shouldExit: true,
           ),

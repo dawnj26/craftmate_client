@@ -17,5 +17,5 @@ final class ViewProjectChanged extends ViewProjectEvent {
 
   @override
   // TODO: implement props
-  List<Object> get props => [project, ...super.props];
+  List<Object> get props => [project];
 }

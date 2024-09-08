@@ -16,7 +16,13 @@ final class EditProjectDirty extends EditProjectState {
 }
 
 final class EditProjectClean extends EditProjectState {
-  const EditProjectClean();
+  final bool shouldExit;
+
+  const EditProjectClean({required this.shouldExit});
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [shouldExit];
 }
 
 final class EditProjectLoading extends EditProjectState {
@@ -31,9 +37,5 @@ final class EditProjectFailed extends EditProjectState {
 
   @override
   // TODO: implement props
-  List<Object> get props => [errMessage, ...super.props];
-}
-
-final class EditProjectSuccess extends EditProjectState {
-  const EditProjectSuccess();
+  List<Object> get props => [errMessage];
 }

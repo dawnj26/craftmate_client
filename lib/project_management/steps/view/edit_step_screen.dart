@@ -1,9 +1,6 @@
 import 'package:craftmate_client/project_management/cubits/step_title/cubit/step_title_cubit.dart';
-import 'package:craftmate_client/project_management/edit_project/view/editor/content_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
 class EditStepScreen extends StatelessWidget {
   const EditStepScreen({

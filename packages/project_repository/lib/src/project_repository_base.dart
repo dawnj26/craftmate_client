@@ -14,6 +14,10 @@ abstract class IProjectRepository {
     required Project project,
     required List<dynamic> newDescription,
   });
+  Future<void> updateSteps({
+    required Project project,
+    required List<dynamic> newSteps,
+  });
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -28,14 +32,7 @@ class ProjectRepository implements IProjectRepository {
   @override
   Future<Project> tryCreateProject(String title, bool isPulic,
       [String? tags]) async {
-    final api = _config.api;
-    final token = await _config.storage.read(key: 'token');
-
-    if (token == null) {
-      throw const ProjectException(message: 'Token not found');
-    }
-
-    api.options.headers['Authorization'] = 'Bearer $token';
+    final api = await _config.apiWithAuthorization;
 
     var data = <String, dynamic>{
       'title': title,
@@ -117,15 +114,7 @@ class ProjectRepository implements IProjectRepository {
 
   @override
   Future<void> tryToggleLikeById(Project project) async {
-    final api = _config.api;
-
-    final token = await _config.storage.read(key: 'token');
-
-    if (token == null) {
-      throw const ProjectException(message: 'Token not found');
-    }
-
-    api.options.headers['Authorization'] = 'Bearer $token';
+    final api = await _config.apiWithAuthorization;
 
     try {
       if (!project.isLiked) {
@@ -158,15 +147,7 @@ class ProjectRepository implements IProjectRepository {
     required Project project,
     required List<dynamic> newDescription,
   }) async {
-    final api = _config.api;
-
-    final token = await _config.storage.read(key: 'token');
-
-    if (token == null) {
-      throw const ProjectException(message: 'Token not found');
-    }
-
-    api.options.headers['Authorization'] = 'Bearer $token';
+    final api = await _config.apiWithAuthorization;
 
     try {
       await api.post('/project/${project.id}/edit/description', data: {
@@ -174,6 +155,26 @@ class ProjectRepository implements IProjectRepository {
       });
 
       _streamController.add(project.copyWith(description: newDescription));
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    }
+  }
+
+  @override
+  Future<void> updateSteps({
+    required Project project,
+    required List<dynamic> newSteps,
+  }) async {
+    final api = await _config.apiWithAuthorization;
+
+    try {
+      await api.post('/project/${project.id}/edit/steps', data: {
+        'steps': jsonEncode(newSteps),
+      });
+
+      _streamController.add(project.copyWith(steps: newSteps));
     } on DioException catch (e) {
       final message = getErrorMsg(e.type);
 

@@ -11,8 +11,8 @@ class EditProjectBloc extends Bloc<EditProjectEvent, EditProjectState> {
       : _projectRepository = projectRepo,
         super(const EditProjectInitial()) {
     on<EditProjectChanged>(_onProjectChanged);
-    on<EditProjectDescriptionSavedOnExit>(_onDescriptionSavedOnExit);
     on<EditProjectDescriptionSaved>(_onDescriptionSaved);
+    on<EditProjectStepsSaved>(_onStepsSaved);
   }
 
   final ProjectRepository _projectRepository;
@@ -22,26 +22,6 @@ class EditProjectBloc extends Bloc<EditProjectEvent, EditProjectState> {
     Emitter<EditProjectState> emit,
   ) {
     emit(const EditProjectDirty());
-  }
-
-  Future<void> _onDescriptionSavedOnExit(
-    EditProjectDescriptionSavedOnExit event,
-    Emitter<EditProjectState> emit,
-  ) async {
-    emit(const EditProjectLoading());
-
-    try {
-      logger.info('Updating description');
-      await _projectRepository.updateDescription(
-        project: event.currentProject,
-        newDescription: event.newDescription,
-      );
-
-      emit(const EditProjectSuccess());
-    } on ProjectException catch (e) {
-      logger.warning('Update failed');
-      emit(EditProjectFailed(errMessage: e.message));
-    }
   }
 
   Future<void> _onDescriptionSaved(
@@ -57,7 +37,27 @@ class EditProjectBloc extends Bloc<EditProjectEvent, EditProjectState> {
         newDescription: event.newDescription,
       );
 
-      emit(const EditProjectClean());
+      emit(EditProjectClean(shouldExit: event.shouldExit));
+    } on ProjectException catch (e) {
+      logger.warning('Update failed');
+      emit(EditProjectFailed(errMessage: e.message));
+    }
+  }
+
+  Future<void> _onStepsSaved(
+    EditProjectStepsSaved event,
+    Emitter<EditProjectState> emit,
+  ) async {
+    emit(const EditProjectLoading());
+
+    try {
+      logger.info('Updating Steps');
+      await _projectRepository.updateSteps(
+        project: event.currentProject,
+        newSteps: event.newSteps,
+      );
+
+      emit(EditProjectClean(shouldExit: event.shouldExit));
     } on ProjectException catch (e) {
       logger.warning('Update failed');
       emit(EditProjectFailed(errMessage: e.message));

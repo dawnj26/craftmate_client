@@ -2,6 +2,7 @@ import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/view/components/components.dart';
+import 'package:craftmate_client/project_management/view_project/view/components/project_steps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -74,24 +75,54 @@ class _ProjectBody extends StatelessWidget {
             type: EditProjectType.description,
           ),
           const Divider(),
-          if (project.description == null)
-            Text(
-              'No description',
-              style: textTheme.bodyLarge!.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
-            )
-          else
-            BlocBuilder<ViewProjectBloc, ViewProjectState>(
-              buildWhen: (previous, current) =>
-                  previous.project.description != current.project.description,
-              builder: (context, state) {
-                return ProjectDescription(
-                  key: const Key('viewProject_description'),
-                  descriptionJson: state.project.description,
+          BlocBuilder<ViewProjectBloc, ViewProjectState>(
+            buildWhen: (previous, current) {
+              final res =
+                  previous.project.description != current.project.description;
+              return res;
+            },
+            builder: (context, state) {
+              if (state.project.description == null ||
+                  state.project.description!.length == 1) {
+                return Text(
+                  'No description',
+                  style: textTheme.bodyLarge!.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                 );
-              },
-            ),
+              }
+              return ProjectDescription(
+                key: const Key('viewProject_description'),
+                descriptionJson: state.project.description,
+              );
+            },
+          ),
+          const Gap(12.0),
+          const ProjectBodySection(
+            sectionName: 'Steps',
+            type: EditProjectType.steps,
+          ),
+          const Divider(),
+          BlocBuilder<ViewProjectBloc, ViewProjectState>(
+            buildWhen: (previous, current) =>
+                previous.project.steps != current.project.steps,
+            builder: (context, state) {
+              if (state.project.steps == null ||
+                  state.project.steps!.length == 1) {
+                return Text(
+                  'No Steps',
+                  style: textTheme.bodyLarge!.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                );
+              }
+
+              return ProjectSteps(
+                key: const Key('viewProject_steps'),
+                stepJson: state.project.steps,
+              );
+            },
+          ),
         ],
       ),
     );

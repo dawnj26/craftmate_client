@@ -21,16 +21,18 @@ class AuthenticationRepository implements IAuthenticationRepository {
         _controller = StreamController<AuthenticationStatus>();
 
   Stream<AuthenticationStatus> get status async* {
-    // final userRepo = UserRepository(config: _config);
+    final userRepo = UserRepository(config: _config);
 
     try {
       // Validate token
-      // await userRepo.getUserByToken();
+      await userRepo.getUserByToken();
 
       yield AuthenticationStatus.authenticated;
       yield* _controller.stream;
     } on UserException catch (e) {
       // Throw error
+      _config.storage.delete(key: 'token');
+
       yield AuthenticationStatus.unauthenticated;
       yield* _controller.stream;
       throw AuthException(e.message);
@@ -82,16 +84,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
   @override
   Future<void> logOut() async {
     // TODO: implement logOut
-    final token = await _config.storage.read(key: 'token');
-
-    final dio = _config.api;
-    dio.options = BaseOptions(
-      baseUrl: dio.options.baseUrl,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
+    final dio = await _config.apiWithAuthorization;
 
     try {
       await dio.post(

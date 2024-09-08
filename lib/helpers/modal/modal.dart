@@ -19,25 +19,22 @@ class Modal {
     );
   }
 
-  Future<bool> showConfirmationModal({
+  Future<bool?> showConfirmationModal({
     required BuildContext context,
     required String message,
     required String title,
     List<Widget>? actions,
   }) async {
     return await showDialog<bool>(
-          context: context,
-          builder: (_) {
-            return _NonDismissibleDialog(
-              child: AlertDialog(
-                title: Text(title),
-                content: Text(message),
-                actions: actions,
-              ),
-            );
-          },
-        ) ??
-        false;
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: actions,
+        );
+      },
+    );
   }
 }
 
