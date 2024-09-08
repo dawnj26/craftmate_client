@@ -16,7 +16,7 @@ class ConfigRepository {
       BaseOptions(
         baseUrl: '$apiUrl/api',
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
       ),
     );
