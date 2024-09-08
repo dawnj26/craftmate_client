@@ -32,18 +32,17 @@ class ProjectRepository implements IProjectRepository {
   @override
   Future<Project> tryCreateProject(String title, bool isPulic,
       [String? tags]) async {
-    final api = await _config.apiWithAuthorization;
-
-    var data = <String, dynamic>{
-      'title': title,
-      'is_public': isPulic,
-    };
-
-    if (tags != null) {
-      data['tags'] = tags;
-    }
-
     try {
+      final api = await _config.apiWithAuthorization;
+
+      var data = <String, dynamic>{
+        'title': title,
+        'is_public': isPulic,
+      };
+
+      if (tags != null) {
+        data['tags'] = tags;
+      }
       final response = await api.post<Map<String, dynamic>>(
         '/project/create',
         data: data,
@@ -54,6 +53,8 @@ class ProjectRepository implements IProjectRepository {
       final message = getErrorMsg(e.type);
 
       throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
     }
   }
 
@@ -114,9 +115,8 @@ class ProjectRepository implements IProjectRepository {
 
   @override
   Future<void> tryToggleLikeById(Project project) async {
-    final api = await _config.apiWithAuthorization;
-
     try {
+      final api = await _config.apiWithAuthorization;
       if (!project.isLiked) {
         _streamController.add(project.copyWith(
             isLiked: !project.isLiked, likeCount: project.likeCount + 1));
@@ -131,6 +131,8 @@ class ProjectRepository implements IProjectRepository {
       _streamController.add(project);
 
       throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
     }
   }
 
@@ -147,9 +149,8 @@ class ProjectRepository implements IProjectRepository {
     required Project project,
     required List<dynamic> newDescription,
   }) async {
-    final api = await _config.apiWithAuthorization;
-
     try {
+      final api = await _config.apiWithAuthorization;
       await api.post('/project/${project.id}/edit/description', data: {
         'description': jsonEncode(newDescription),
       });
@@ -159,6 +160,8 @@ class ProjectRepository implements IProjectRepository {
       final message = getErrorMsg(e.type);
 
       throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
     }
   }
 
@@ -167,9 +170,8 @@ class ProjectRepository implements IProjectRepository {
     required Project project,
     required List<dynamic> newSteps,
   }) async {
-    final api = await _config.apiWithAuthorization;
-
     try {
+      final api = await _config.apiWithAuthorization;
       await api.post('/project/${project.id}/edit/steps', data: {
         'steps': jsonEncode(newSteps),
       });
@@ -179,6 +181,8 @@ class ProjectRepository implements IProjectRepository {
       final message = getErrorMsg(e.type);
 
       throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
     }
   }
 }

@@ -19,9 +19,8 @@ class UserRepository implements IUserRepository {
 
   @override
   Future<User> getUserByToken() async {
-    final dio = await _config.apiWithAuthorization;
-
     try {
+      final dio = await _config.apiWithAuthorization;
       final response = await dio.get('/auth/user');
       final user =
           User.fromJson(response.data!['data'] as Map<String, dynamic>);
@@ -39,6 +38,8 @@ class UserRepository implements IUserRepository {
       }
 
       throw UserException(message);
+    } on TokenException catch (e) {
+      throw UserException(e.message);
     }
   }
 

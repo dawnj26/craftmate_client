@@ -83,10 +83,8 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
   @override
   Future<void> logOut() async {
-    // TODO: implement logOut
-    final dio = await _config.apiWithAuthorization;
-
     try {
+      final dio = await _config.apiWithAuthorization;
       await dio.post(
         '/auth/logout',
       );
@@ -104,6 +102,8 @@ class AuthenticationRepository implements IAuthenticationRepository {
       }
 
       throw AuthException(message);
+    } on TokenException catch (e) {
+      throw AuthException(e.message);
     }
   }
 
