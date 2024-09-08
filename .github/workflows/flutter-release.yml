@@ -5,9 +5,9 @@ on:
     tags:
       - 'v*.*.*-alpha*'  # Match alpha version tags, e.g., v1.0.0-alpha, v1.0.0-alpha.1
       - 'v*.*.*'         # Match major version tags, e.g., v1.0.0
-  pull_request:
-    branches:
-      - main             # Trigger on PRs merged into the main branch
+  # pull_request:
+  #   branches:
+  #     - main             # Trigger on PRs merged into the main branch
 
 jobs:
   build-and-release:
