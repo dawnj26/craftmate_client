@@ -1,3 +1,4 @@
+import 'package:craftmate_client/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
@@ -91,19 +92,29 @@ class ToolbarStepButton extends StatelessWidget {
   void _handleAfterButtonPressed(BuildContext context) {
     final cursorIndex = controller.index;
 
-    const stepText = 'Step N: <Title>\n';
+    final currentLine =
+        controller.document.queryChild(controller.selection.baseOffset).node;
+    final hasText = currentLine != null && currentLine.length > 1;
+    final stepText = hasText ? '\nStep No: Title' : 'Step No: Title';
 
-    controller.document.insert(cursorIndex, stepText);
+    var insertIndex = cursorIndex;
+    if (hasText) {
+      insertIndex = currentLine.offset + currentLine.length;
+    }
+
+    controller.document.insert(insertIndex - 1, stepText);
     controller.formatText(
-      cursorIndex,
+      insertIndex,
       stepText.length - 1,
       Attribute.h1,
     );
 
+    final baseOffset = hasText ? 6 : 5;
+
     controller.updateSelection(
       TextSelection(
-        baseOffset: cursorIndex + 5,
-        extentOffset: cursorIndex + 6,
+        baseOffset: insertIndex - 1 + baseOffset,
+        extentOffset: insertIndex - 1 + baseOffset + 2,
       ),
       ChangeSource.local,
     );
