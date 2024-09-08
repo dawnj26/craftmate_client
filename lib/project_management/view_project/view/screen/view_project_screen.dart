@@ -84,7 +84,8 @@ class _ProjectBody extends StatelessWidget {
             },
             builder: (context, state) {
               logger.info('Building project description');
-              if (state.project.description == null) {
+              if (state.project.description == null ||
+                  state.project.description!.length == 1) {
                 return Text(
                   'No description',
                   style: textTheme.bodyLarge!.copyWith(
@@ -99,7 +100,33 @@ class _ProjectBody extends StatelessWidget {
             },
           ),
           const Gap(12.0),
-          const ProjectSteps(),
+          const ProjectBodySection(
+            sectionName: 'Steps',
+            type: EditProjectType.steps,
+          ),
+          const Divider(),
+          BlocBuilder<ViewProjectBloc, ViewProjectState>(
+            buildWhen: (previous, current) =>
+                previous.project.steps != current.project.steps,
+            builder: (context, state) {
+              logger.info('Building Project Steps');
+
+              if (state.project.steps == null ||
+                  state.project.steps!.length == 1) {
+                return Text(
+                  'No Steps',
+                  style: textTheme.bodyLarge!.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                );
+              }
+
+              return ProjectSteps(
+                key: const Key('viewProject_steps'),
+                stepJson: state.project.steps,
+              );
+            },
+          ),
         ],
       ),
     );
