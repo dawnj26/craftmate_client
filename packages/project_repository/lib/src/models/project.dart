@@ -27,6 +27,7 @@ class Project extends Equatable {
         likeCount,
         commentCount,
         forkCount,
+        steps,
       ];
 
   const Project({
@@ -83,7 +84,7 @@ class Project extends Equatable {
       likeCount: json['like_count'] as int,
       commentCount: json['comment_count'] as int,
       forkCount: json['fork_count'] as int,
-      steps: json['steps'] as List<dynamic>?,
+      steps: json['steps']['content'] as List<dynamic>?,
     );
   }
 }
