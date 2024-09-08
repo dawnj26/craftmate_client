@@ -136,7 +136,7 @@ class _EditStepsScreenState extends State<EditStepsScreen> {
     final isProjectChanged = currentState is EditProjectDirty;
 
     // unfocus any focused node
-    _editorController.editorFocusNode?.unfocus();
+    WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
 
     if (isProjectChanged) {
       final shouldSave = await Modal.instance.showConfirmationModal(
