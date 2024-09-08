@@ -1,4 +1,3 @@
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
@@ -83,7 +82,6 @@ class _ProjectBody extends StatelessWidget {
               return res;
             },
             builder: (context, state) {
-              logger.info('Building project description');
               if (state.project.description == null ||
                   state.project.description!.length == 1) {
                 return Text(
@@ -109,8 +107,6 @@ class _ProjectBody extends StatelessWidget {
             buildWhen: (previous, current) =>
                 previous.project.steps != current.project.steps,
             builder: (context, state) {
-              logger.info('Building Project Steps');
-
               if (state.project.steps == null ||
                   state.project.steps!.length == 1) {
                 return Text(
