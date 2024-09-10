@@ -1,4 +1,7 @@
+import 'package:craftmate_client/globals.dart';
+import 'package:craftmate_client/project_management/text_editor/bloc/text_editor_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
@@ -59,11 +62,31 @@ class StepToolBar extends StatelessWidget {
               controller: _editorController,
               isIncrease: false,
             ),
-            QuillToolbarImageButton(controller: _editorController),
+            QuillToolbarImageButton(
+              controller: _editorController,
+              options: QuillToolbarImageButtonOptions(
+                imageButtonConfigurations: QuillToolbarImageConfigurations(
+                  onImageInsertCallback: (image, controller) =>
+                      _handleImageInsert(image, controller, context),
+                ),
+              ),
+            ),
             QuillToolbarVideoButton(controller: _editorController),
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _handleImageInsert(
+    String imagePath,
+    QuillController controller,
+    BuildContext context,
+  ) async {
+    final bloc = BlocProvider.of<TextEditorBloc>(context);
+
+    bloc.add(
+      TextEditorImageInserted(imagePath: imagePath, controller: controller),
     );
   }
 }
@@ -94,22 +117,33 @@ class ToolbarStepButton extends StatelessWidget {
     final currentLine =
         controller.document.queryChild(controller.selection.baseOffset).node;
     final hasText = currentLine != null && currentLine.length > 1;
-    final stepText = hasText ? '\nStep No: Title' : 'Step No: Title';
+    const stepText = 'Step No: Title';
 
-    var insertIndex = cursorIndex;
+    var insertIndex = cursorIndex + 1;
     if (hasText) {
+      // calculate the index of end of the line
       insertIndex = currentLine.offset + currentLine.length;
+
+      /*
+        insert new line first to prevent applying
+        style on the current text on cursor position
+      */
+      controller.document.insert(insertIndex - 1, '\n');
+      insertIndex++;
     }
 
+    // insert the text and apply h1 style
     controller.document.insert(insertIndex - 1, stepText);
     controller.formatText(
-      insertIndex,
-      stepText.length - 1,
+      insertIndex - 1,
+      stepText.length,
       Attribute.h1,
     );
 
-    final baseOffset = hasText ? 6 : 5;
+    // position before N in No in stepText
+    const baseOffset = 5;
 
+    // select the 'No' for easy replacement
     controller.updateSelection(
       TextSelection(
         baseOffset: insertIndex - 1 + baseOffset,
@@ -118,6 +152,7 @@ class ToolbarStepButton extends StatelessWidget {
       ChangeSource.local,
     );
 
+    // focus again on the editor and to refresh the document
     controller.editorFocusNode?.requestFocus();
   }
 }

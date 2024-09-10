@@ -82,15 +82,6 @@ class _ProjectBody extends StatelessWidget {
               return res;
             },
             builder: (context, state) {
-              if (state.project.description == null ||
-                  state.project.description!.length == 1) {
-                return Text(
-                  'No description',
-                  style: textTheme.bodyLarge!.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                );
-              }
               return ProjectDescription(
                 key: const Key('viewProject_description'),
                 descriptionJson: state.project.description,
@@ -107,16 +98,6 @@ class _ProjectBody extends StatelessWidget {
             buildWhen: (previous, current) =>
                 previous.project.steps != current.project.steps,
             builder: (context, state) {
-              if (state.project.steps == null ||
-                  state.project.steps!.length == 1) {
-                return Text(
-                  'No Steps',
-                  style: textTheme.bodyLarge!.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                );
-              }
-
               return ProjectSteps(
                 key: const Key('viewProject_steps'),
                 stepJson: state.project.steps,
@@ -126,6 +107,13 @@ class _ProjectBody extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  bool hasContent(List<dynamic> json) {
+    final content = (json[0] as Map<String, dynamic>)['insert'] as String;
+    final noContent = json.length == 1 && content.length == 1;
+
+    return noContent;
   }
 }
 

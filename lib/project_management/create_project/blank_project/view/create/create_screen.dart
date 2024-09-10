@@ -1,3 +1,4 @@
+import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/create_project/blank_project/bloc/blank_project_bloc.dart';
 import 'package:craftmate_client/project_management/create_project/blank_project/models/title.dart';
 import 'package:craftmate_client/project_management/view_project/view/view_project_page.dart';
@@ -36,15 +37,7 @@ class BlankProjectCreateScreen extends StatelessWidget {
 
   void _handleState(BuildContext context, BlankProjectState state) {
     if (state is BlankProjectInProgress) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      );
+      Modal.instance.showLoadingDialog(context);
     } else if (state is BlankProjectFailed) {
       Navigator.of(context).pop();
 

@@ -18,6 +18,7 @@ abstract class IProjectRepository {
     required Project project,
     required List<dynamic> newSteps,
   });
+  Future<String> uploadDocumentImage(String imagePath);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -183,6 +184,35 @@ class ProjectRepository implements IProjectRepository {
       throw ProjectException(message: message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
+    }
+  }
+
+  @override
+  Future<String> uploadDocumentImage(String imagePath) async {
+    final filename = imagePath.split('/').last;
+
+    try {
+      final api = await _config.apiWithAuthorization;
+      final formData = FormData.fromMap({
+        'image': await MultipartFile.fromFile(imagePath, filename: filename),
+      });
+
+      final response = await api
+          .post<Map<String, dynamic>>('/project/image/upload', data: formData);
+
+      if (response.data == null) {
+        throw ProjectException(message: 'No response');
+      }
+
+      return response.data!['data']['image_url'];
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    } on UnsupportedError catch (_) {
+      throw ProjectException(message: 'Unsupported file');
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
     }
   }
 }

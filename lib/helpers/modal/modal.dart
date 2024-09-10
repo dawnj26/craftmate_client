@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Modal {
   static const instance = Modal();
@@ -9,9 +10,12 @@ class Modal {
     showDialog(
       context: context,
       builder: (_) {
-        return const _NonDismissibleDialog(
+        return _NonDismissibleDialog(
           child: Center(
-            child: CircularProgressIndicator(),
+            child: LoadingAnimationWidget.stretchedDots(
+              color: Colors.white,
+              size: 48,
+            ),
           ),
         );
       },
