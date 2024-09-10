@@ -82,16 +82,6 @@ class _ProjectBody extends StatelessWidget {
               return res;
             },
             builder: (context, state) {
-              if (state.project.description == null ||
-                  hasContent(state.project.description!)) {
-                return Text(
-                  'No description',
-                  style: textTheme.bodyLarge!.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                );
-              }
-
               return ProjectDescription(
                 key: const Key('viewProject_description'),
                 descriptionJson: state.project.description,
@@ -108,16 +98,6 @@ class _ProjectBody extends StatelessWidget {
             buildWhen: (previous, current) =>
                 previous.project.steps != current.project.steps,
             builder: (context, state) {
-              if (state.project.steps == null ||
-                  hasContent(state.project.steps!)) {
-                return Text(
-                  'No Steps',
-                  style: textTheme.bodyLarge!.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                );
-              }
-
               return ProjectSteps(
                 key: const Key('viewProject_steps'),
                 stepJson: state.project.steps,
