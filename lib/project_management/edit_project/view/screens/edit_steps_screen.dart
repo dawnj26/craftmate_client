@@ -2,7 +2,7 @@ import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/edit_project/bloc/edit_project_bloc.dart';
-import 'package:craftmate_client/project_management/editor/view/content_editor.dart';
+import 'package:craftmate_client/project_management/text_editor/view/content_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -84,9 +84,12 @@ class _EditStepsScreenState extends State<EditStepsScreen> {
               ),
             ],
           ),
-          body: ContentEditor(
-            controller: _editorController,
-            canAddStep: true,
+          body: RepositoryProvider.value(
+            value: RepositoryProvider.of<ProjectRepository>(context),
+            child: ContentEditor(
+              controller: _editorController,
+              canAddStep: true,
+            ),
           ),
         ),
       ),
