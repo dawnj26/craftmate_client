@@ -1,4 +1,5 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
+import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/view/create_project_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -107,15 +108,7 @@ class _HomeScreenState extends State<HomeScreen>
       listener: (context, state) {
         // TODO: implement listener
         if (state is AuthInProgress) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-          );
+          Modal.instance.showLoadingDialog(context);
         }
       },
       child: DefaultTabController(
