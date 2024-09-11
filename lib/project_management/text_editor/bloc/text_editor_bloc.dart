@@ -13,6 +13,7 @@ class TextEditorBloc extends Bloc<TextEditorEvent, TextEditorState> {
       : _projectRepository = projectRepo,
         super(const TextEditorInitial()) {
     on<TextEditorImageInserted>(_onImageInserted);
+    on<TextEditorVideoInserted>(_onVideoInserted);
   }
 
   final ProjectRepository _projectRepository;
@@ -29,6 +30,24 @@ class TextEditorBloc extends Bloc<TextEditorEvent, TextEditorState> {
 
       logger.info('Uploaded image url: $imageUrl');
       event.controller.insertImageBlock(imageSource: imageUrl);
+
+      emit(const TextEditorNormal());
+    } on ProjectException catch (e) {
+      emit(TextEditorFailed(errMessage: e.message));
+    }
+  }
+
+  Future<void> _onVideoInserted(
+    TextEditorVideoInserted event,
+    Emitter<TextEditorState> emit,
+  ) async {
+    emit(const TextEditorLoading());
+
+    try {
+      final videoUrl = await _projectRepository.uploadVideo(event.videoPath);
+
+      logger.info('Uploaded image url: $videoUrl');
+      event.controller.insertVideoBlock(videoUrl: videoUrl);
 
       emit(const TextEditorNormal());
     } on ProjectException catch (e) {

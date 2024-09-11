@@ -61,10 +61,6 @@ class _ProjectBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
-    final colorScheme = theme.colorScheme;
-
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(

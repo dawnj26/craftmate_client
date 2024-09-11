@@ -69,7 +69,15 @@ class DescriptionToolBar extends StatelessWidget {
                 ),
               ),
             ),
-            QuillToolbarVideoButton(controller: _editorController),
+            QuillToolbarVideoButton(
+              controller: _editorController,
+              options: QuillToolbarVideoButtonOptions(
+                videoConfigurations: QuillToolbarVideoConfigurations(
+                  onVideoInsertCallback: (videoPath, controller) =>
+                      _handleVideoInsert(videoPath, controller, context),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -85,6 +93,17 @@ class DescriptionToolBar extends StatelessWidget {
 
     bloc.add(
       TextEditorImageInserted(imagePath: imagePath, controller: controller),
+    );
+  }
+
+  Future<void> _handleVideoInsert(
+    String videoPath,
+    QuillController controller,
+    BuildContext context,
+  ) async {
+    final bloc = BlocProvider.of<TextEditorBloc>(context);
+    bloc.add(
+      TextEditorVideoInserted(videoPath: videoPath, controller: controller),
     );
   }
 }

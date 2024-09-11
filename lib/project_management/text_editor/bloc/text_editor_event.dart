@@ -20,3 +20,17 @@ final class TextEditorImageInserted extends TextEditorEvent {
   // TODO: implement props
   List<Object> get props => [imagePath, controller];
 }
+
+final class TextEditorVideoInserted extends TextEditorEvent {
+  final String videoPath;
+  final QuillController controller;
+
+  const TextEditorVideoInserted({
+    required this.videoPath,
+    required this.controller,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [videoPath, controller];
+}

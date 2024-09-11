@@ -1,4 +1,3 @@
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/project_management/text_editor/bloc/text_editor_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,7 +70,15 @@ class StepToolBar extends StatelessWidget {
                 ),
               ),
             ),
-            QuillToolbarVideoButton(controller: _editorController),
+            QuillToolbarVideoButton(
+              controller: _editorController,
+              options: QuillToolbarVideoButtonOptions(
+                videoConfigurations: QuillToolbarVideoConfigurations(
+                  onVideoInsertCallback: (videoPath, controller) =>
+                      _handleVideoInsert(videoPath, controller, context),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -87,6 +94,17 @@ class StepToolBar extends StatelessWidget {
 
     bloc.add(
       TextEditorImageInserted(imagePath: imagePath, controller: controller),
+    );
+  }
+
+  Future<void> _handleVideoInsert(
+    String videoPath,
+    QuillController controller,
+    BuildContext context,
+  ) async {
+    final bloc = BlocProvider.of<TextEditorBloc>(context);
+    bloc.add(
+      TextEditorVideoInserted(videoPath: videoPath, controller: controller),
     );
   }
 }
