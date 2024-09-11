@@ -19,6 +19,7 @@ abstract class IProjectRepository {
     required List<dynamic> newSteps,
   });
   Future<String> uploadDocumentImage(String imagePath);
+  Future<String> uploadVideo(String videoPath);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -189,22 +190,28 @@ class ProjectRepository implements IProjectRepository {
 
   @override
   Future<String> uploadDocumentImage(String imagePath) async {
-    final filename = imagePath.split('/').last;
+    return upload(imagePath, 'image');
+  }
+
+  Future<String> upload(String filePath, String uploadType) async {
+    final filename = filePath.split('/').last;
 
     try {
       final api = await _config.apiWithAuthorization;
       final formData = FormData.fromMap({
-        'image': await MultipartFile.fromFile(imagePath, filename: filename),
+        '$uploadType':
+            await MultipartFile.fromFile(filePath, filename: filename),
       });
 
-      final response = await api
-          .post<Map<String, dynamic>>('/project/image/upload', data: formData);
+      final response = await api.post<Map<String, dynamic>>(
+          '/project/$uploadType/upload',
+          data: formData);
 
       if (response.data == null) {
         throw ProjectException(message: 'No response');
       }
 
-      return response.data!['data']['image_url'];
+      return response.data!['data']['${uploadType}_url'];
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     } on UnsupportedError catch (_) {
@@ -214,5 +221,10 @@ class ProjectRepository implements IProjectRepository {
 
       throw ProjectException(message: message);
     }
+  }
+
+  @override
+  Future<String> uploadVideo(String videoPath) async {
+    return upload(videoPath, 'video');
   }
 }
