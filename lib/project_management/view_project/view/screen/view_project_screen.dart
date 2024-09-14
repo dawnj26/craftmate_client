@@ -1,11 +1,14 @@
+import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
-import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
+import 'package:craftmate_client/project_management/view_project/bloc/comment/comment_bloc.dart';
+import 'package:craftmate_client/project_management/view_project/bloc/view_project/view_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/view/components/components.dart';
 import 'package:craftmate_client/project_management/view_project/view/components/project_steps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -289,7 +292,11 @@ class _ActionButtons extends StatelessWidget {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () => _handleComment(
+            context,
+            project: context.read<ViewProjectBloc>().state.project,
+            projectRepo: RepositoryProvider.of<ProjectRepository>(context),
+          ),
           icon: const Icon(Icons.mode_comment_outlined),
         ),
         IconButton(
@@ -297,6 +304,175 @@ class _ActionButtons extends StatelessWidget {
           icon: const Icon(Icons.transform),
         ),
       ],
+    );
+  }
+
+  void _handleComment(
+    BuildContext context, {
+    required Project project,
+    required ProjectRepository projectRepo,
+  }) {
+    showMaterialModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16.0),
+        ),
+      ),
+      builder: (context) {
+        final screenSize = MediaQuery.of(context).size;
+        final theme = Theme.of(context);
+        final textTheme = theme.textTheme;
+        final scrollController = ModalScrollController.of(context);
+
+        return BlocProvider(
+          create: (context) => CommentBloc(
+            projectRepo: projectRepo,
+          ),
+          child: Container(
+            padding: const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
+            height: screenSize.height * 0.5,
+            child: Column(
+              children: [
+                Text(
+                  'Comments',
+                  style: textTheme.titleMedium,
+                ),
+                Expanded(
+                  child: Comments(
+                    scrollController: scrollController,
+                    project: project,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class Comments extends StatelessWidget {
+  const Comments({
+    super.key,
+    required this.scrollController,
+    required this.project,
+  });
+
+  final ScrollController? scrollController;
+  final Project project;
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<CommentBloc>(context);
+    bloc.add(CommentLoaded(project));
+
+    return BlocBuilder<CommentBloc, CommentState>(
+      builder: (context, state) {
+        final color = Theme.of(context).colorScheme.primary;
+
+        if (state is CommentLoading || state is CommentInitial) {
+          return Center(
+            child: LoadingAnimation(color: color),
+          );
+        } else if (state is CommentError) {
+          return Center(
+            child: Text(state.message),
+          );
+        }
+
+        final comments = (state as CommentSuccess).comments;
+
+        if (comments.isEmpty) {
+          return const Center(
+            child: Text('No comments'),
+          );
+        }
+
+        return ListView.builder(
+          controller: scrollController,
+          itemCount: comments.length,
+          itemBuilder: (context, index) {
+            final comment = comments[index];
+            return CommentBlock(
+              userName: comment.user.name,
+              comment: comment.content,
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class CommentBlock extends StatelessWidget {
+  const CommentBlock({
+    super.key,
+    required this.userName,
+    required this.comment,
+  });
+
+  final String userName;
+  final String comment;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    const middleGap = 8.0;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            backgroundColor: theme.colorScheme.primaryContainer,
+            child: Text(userName[0].toUpperCase()),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: middleGap + 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userName,
+                        style: textTheme.titleSmall,
+                      ),
+                      Text(
+                        comment,
+                        style: textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: middleGap),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.thumb_up_alt_outlined),
+                      ),
+                      const Text('123'),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text('Reply'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
