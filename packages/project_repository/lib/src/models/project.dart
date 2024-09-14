@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:project_repository/src/models/tag.dart';
 import 'package:user_repository/user_repository.dart';
@@ -77,14 +79,14 @@ class Project extends Equatable {
       title: json['title'] as String,
       isPulic: json['is_public'] == "1",
       isLiked: json['is_liked'] as bool,
-      description: json['description'] as List<dynamic>?,
+      description: jsonDecode(json['description']) as List<dynamic>?,
       tags: (json['tags'] as List<dynamic>?)
           ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
       likeCount: json['like_count'] as int,
       commentCount: json['comment_count'] as int,
       forkCount: json['fork_count'] as int,
-      steps: json['steps']['content'] as List<dynamic>?,
+      steps: jsonDecode(json['steps']['content']) as List<dynamic>?,
     );
   }
 }
