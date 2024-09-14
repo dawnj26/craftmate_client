@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:project_repository/src/exceptions/project_exception.dart';
+import 'package:project_repository/src/models/comment.dart';
 import 'package:project_repository/src/models/project.dart';
 
 abstract class IProjectRepository {
@@ -20,6 +21,7 @@ abstract class IProjectRepository {
   });
   Future<String> uploadDocumentImage(String imagePath);
   Future<String> uploadVideo(String videoPath);
+  Future<List<Comment>> getComments(int projectId);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -30,6 +32,31 @@ class ProjectRepository implements IProjectRepository {
   ProjectRepository({
     required ConfigRepository config,
   }) : _config = config;
+
+  @override
+  Future<List<Comment>> getComments(int projectId) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+
+      final response = await api.get<Map<String, dynamic>>(
+        '/project/$projectId/comments',
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+      final comments = response.data!['data']['comments'] as List<dynamic>;
+      final commentsList = comments.map((e) => Comment.fromJson(e)).toList();
+
+      return commentsList;
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
 
   @override
   Future<Project> tryCreateProject(String title, bool isPulic,
