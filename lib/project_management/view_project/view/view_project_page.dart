@@ -1,6 +1,6 @@
 import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
-import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
+import 'package:craftmate_client/project_management/view_project/bloc/view_project/view_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/view/screen/view_project_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

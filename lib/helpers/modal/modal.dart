@@ -10,12 +10,9 @@ class Modal {
     showDialog(
       context: context,
       builder: (_) {
-        return _NonDismissibleDialog(
+        return const _NonDismissibleDialog(
           child: Center(
-            child: LoadingAnimationWidget.stretchedDots(
-              color: Colors.white,
-              size: 48,
-            ),
+            child: LoadingAnimation(color: Colors.white),
           ),
         );
       },
@@ -54,6 +51,20 @@ class _NonDismissibleDialog extends StatelessWidget {
     return PopScope(
       canPop: false,
       child: child,
+    );
+  }
+}
+
+class LoadingAnimation extends StatelessWidget {
+  const LoadingAnimation({super.key, required this.color});
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return LoadingAnimationWidget.stretchedDots(
+      color: color,
+      size: 48,
     );
   }
 }
