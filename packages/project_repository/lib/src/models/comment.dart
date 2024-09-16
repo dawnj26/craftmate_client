@@ -6,6 +6,7 @@ class Comment {
   final String content;
   final List<Comment> children;
   final bool isLiked;
+  final int likeCount;
 
   const Comment({
     required this.id,
@@ -13,6 +14,7 @@ class Comment {
     required this.content,
     required this.children,
     required this.isLiked,
+    required this.likeCount,
   });
 
   factory Comment.fromJson(Map<String, dynamic> json) {
@@ -30,6 +32,7 @@ class Comment {
       content: json['content'] as String,
       children: children,
       isLiked: json['is_liked'] as bool,
+      likeCount: json['like_count'] as int,
     );
   }
 
@@ -39,6 +42,7 @@ class Comment {
     String? content,
     List<Comment>? children,
     bool? isLiked,
+    int? likeCount,
   }) {
     return Comment(
       user: user ?? this.user,
@@ -46,6 +50,7 @@ class Comment {
       content: content ?? this.content,
       children: children ?? this.children,
       isLiked: isLiked ?? this.isLiked,
+      likeCount: likeCount ?? this.likeCount,
     );
   }
 }
