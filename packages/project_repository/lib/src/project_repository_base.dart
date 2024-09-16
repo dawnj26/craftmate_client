@@ -265,11 +265,14 @@ class ProjectRepository implements IProjectRepository {
 
       return response.data!['data']['${uploadType}_url'];
     } on TokenException catch (e) {
+      _config.logger.error(e.message);
       throw ProjectException(message: e.message);
     } on UnsupportedError catch (_) {
+      _config.logger.error('Unsupported file');
       throw ProjectException(message: 'Unsupported file');
     } on DioException catch (e) {
       final message = getErrorMsg(e.type);
+      _config.logger.error(e.response?.data);
 
       throw ProjectException(message: message);
     }
