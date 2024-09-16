@@ -10,6 +10,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       : _projectRepo = projectRepo,
         super(const CommentInitial()) {
     on<CommentLoaded>(_onCommentLoaded);
+    on<CommentAdded>(_onCommentAdded);
   }
 
   final ProjectRepository _projectRepo;
@@ -23,6 +24,21 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       final comments = await _projectRepo.getComments(event.project.id);
 
       emit(CommentsLoadSuccess(comments: comments));
+    } on ProjectException catch (e) {
+      emit(CommentError(e.message, comments: state.comments));
+    }
+  }
+  Future<void> _onCommentAdded(
+    CommentAdded event,
+    Emitter<CommentState> emit,
+  ) async {
+    emit(CommentLoading(comments: state.comments));
+    try {
+      final comment =
+          await _projectRepo.addComment(event.project.id, event.comment);
+      final comments = [comment, ...state.comments];
+
+      emit(CommentAddedSuccess(comments: comments));
     } on ProjectException catch (e) {
       emit(CommentError(e.message, comments: state.comments));
     }
