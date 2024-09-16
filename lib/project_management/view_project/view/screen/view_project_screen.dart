@@ -1,3 +1,4 @@
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
@@ -332,22 +333,133 @@ class _ActionButtons extends StatelessWidget {
     );
   }
 }
+
+class CommentModal extends StatefulWidget {
+  const CommentModal({
+    super.key,
+    required this.project,
+  });
+
+  final Project project;
+
+  @override
+  State<CommentModal> createState() => _CommentModalState();
+}
+
+class _CommentModalState extends State<CommentModal> {
+  final commentFocusNode = FocusNode();
+  final commentController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    commentController.dispose();
+    commentFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final scrollController = ModalScrollController.of(context);
+    final bottomInsets = MediaQuery.of(context).viewInsets.bottom;
+
+    return Container(
+      padding: const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
+      height: screenSize.height * 0.6,
+      child: Column(
+        children: [
+          Text(
+            'Comments',
+            style: textTheme.titleMedium,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Comments(
+                scrollController: scrollController,
+                project: widget.project,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              bottom: commentFocusNode.hasFocus && bottomInsets != 0
+                  ? bottomInsets
+                  : 0,
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
               children: [
-                Text(
-                  'Comments',
-                  style: textTheme.titleMedium,
+                CircleAvatar(
+                  backgroundColor: theme.colorScheme.primaryContainer,
+                  child: const Text(
+                    'A',
+                  ),
                 ),
+                const Gap(8.0),
                 Expanded(
-                  child: Comments(
-                    scrollController: scrollController,
-                    project: project,
+                  child: TextField(
+                    controller: commentController,
+                    focusNode: commentFocusNode,
+                    onSubmitted: (value) {
+                      if (value.isEmpty) {
+                        return;
+                      }
+
+                      BlocProvider.of<CommentBloc>(context).add(
+                        CommentAdded(
+                          widget.project,
+                          value,
+                        ),
+                      );
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      label: const Text('Add a comment'),
+                      suffixIcon: BlocBuilder<CommentBloc, CommentState>(
+                        builder: (context, state) {
+                          if (state is CommentLoading) {
+                            return const Padding(
+                              padding: EdgeInsets.all(12.0),
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (state is CommentAddedSuccess) {
+                            commentController.clear();
+                          }
+
+                          final bloc = BlocProvider.of<CommentBloc>(context);
+
+                          return IconButton(
+                            onPressed: () {
+                              if (commentController.text.isEmpty) {
+                                return;
+                              }
+
+                              bloc.add(
+                                CommentAdded(
+                                  widget.project,
+                                  commentController.text,
+                                ),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.send,
+                              color: theme.colorScheme.primary,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 }
@@ -364,14 +476,17 @@ class Comments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<CommentBloc>(context);
-    bloc.add(CommentLoaded(project));
-
     return BlocBuilder<CommentBloc, CommentState>(
+      buildWhen: (previous, current) => previous.comments != current.comments,
       builder: (context, state) {
+        if (state is CommentInitial) {
+          final bloc = BlocProvider.of<CommentBloc>(context);
+          bloc.add(CommentLoaded(project));
+        }
+
         final color = Theme.of(context).colorScheme.primary;
 
-        if (state is CommentLoading || state is CommentInitial) {
+        if (state is CommentsLoading || state is CommentInitial) {
           return Center(
             child: LoadingAnimation(color: color),
           );
@@ -381,7 +496,7 @@ class Comments extends StatelessWidget {
           );
         }
 
-        final comments = (state as CommentSuccess).comments;
+        final comments = state.comments;
 
         if (comments.isEmpty) {
           return const Center(
