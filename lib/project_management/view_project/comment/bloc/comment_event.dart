@@ -26,9 +26,10 @@ final class CommentAdded extends CommentEvent {
 }
 
 final class CommentLiked extends CommentEvent {
-  const CommentLiked(this.comment);
+  const CommentLiked(this.comment, this.projectId);
 
   final Comment comment;
+  final int projectId;
 
   @override
   List<Object> get props => [comment];

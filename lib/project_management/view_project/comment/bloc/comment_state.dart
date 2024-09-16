@@ -19,16 +19,20 @@ final class CommentsLoading extends CommentState {
   const CommentsLoading({super.comments});
 }
 
+final class CommentSending extends CommentState {
+  const CommentSending({super.comments});
+}
+
 final class CommentLoading extends CommentState {
   const CommentLoading({super.comments});
 }
 
-final class CommentsLoadSuccess extends CommentState {
-  const CommentsLoadSuccess({super.comments});
+final class CommentSuccess extends CommentState {
+  const CommentSuccess({super.comments});
 }
 
-final class CommentAddedSuccess extends CommentState {
-  const CommentAddedSuccess({super.comments});
+final class CommentLikeSuccess extends CommentState {
+  const CommentLikeSuccess({super.comments});
 }
 
 final class CommentError extends CommentState {

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:equatable/equatable.dart';
 import 'package:project_repository/project_repository.dart';
 
@@ -24,7 +25,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     try {
       final comments = await _projectRepo.getComments(event.project.id);
 
-      emit(CommentsLoadSuccess(comments: comments));
+      emit(CommentSuccess(comments: comments));
     } on ProjectException catch (e) {
       emit(CommentError(e.message, comments: state.comments));
     }
@@ -34,13 +35,13 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     CommentAdded event,
     Emitter<CommentState> emit,
   ) async {
-    emit(CommentLoading(comments: state.comments));
+    emit(CommentSending(comments: state.comments));
     try {
       final comment =
           await _projectRepo.addComment(event.project.id, event.comment);
       final comments = [comment, ...state.comments];
 
-      emit(CommentAddedSuccess(comments: comments));
+      emit(CommentSuccess(comments: comments));
     } on ProjectException catch (e) {
       emit(CommentError(e.message, comments: state.comments));
     }
@@ -54,13 +55,23 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     final commentIndex =
         state.comments.indexWhere((c) => c.id == event.comment.id);
     try {
-      state.comments[commentIndex] =
-          event.comment.copyWith(isLiked: !event.comment.isLiked);
+      final likeCount = event.comment.isLiked
+          ? event.comment.likeCount - 1
+          : event.comment.likeCount + 1;
 
-      emit(CommentAddedSuccess(comments: state.comments));
+      state.comments[commentIndex] = event.comment.copyWith(
+        isLiked: !event.comment.isLiked,
+        likeCount: likeCount,
+      );
+
+      await _projectRepo.likeComment(event.comment, event.projectId);
+
+      emit(CommentLikeSuccess(comments: state.comments));
     } on ProjectException catch (e) {
-      state.comments[commentIndex] =
-          event.comment.copyWith(isLiked: event.comment.isLiked);
+      state.comments[commentIndex] = event.comment.copyWith(
+        isLiked: !event.comment.isLiked,
+        likeCount: event.comment.likeCount - 1,
+      );
 
       emit(CommentError(e.message, comments: state.comments));
     }
