@@ -23,6 +23,7 @@ abstract class IProjectRepository {
   Future<String> uploadVideo(String videoPath);
   Future<List<Comment>> getComments(int projectId);
   Future<Comment> addComment(int projectId, String comment);
+  Future<void> likeComment(Comment comment);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -34,6 +35,10 @@ class ProjectRepository implements IProjectRepository {
     required ConfigRepository config,
   }) : _config = config;
 
+  @override
+  Future<void> likeComment(Comment comment) async {}
+
+  @override
   Future<Comment> addComment(int projectId, String comment) async {
     try {
       final api = await _config.apiWithAuthorization;
@@ -58,6 +63,7 @@ class ProjectRepository implements IProjectRepository {
       throw ProjectException(message: e.message);
     }
   }
+
   @override
   Future<List<Comment>> getComments(int projectId) async {
     try {
