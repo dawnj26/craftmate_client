@@ -23,7 +23,7 @@ abstract class IProjectRepository {
   Future<String> uploadVideo(String videoPath);
   Future<List<Comment>> getComments(int projectId);
   Future<Comment> addComment(int projectId, String comment);
-  Future<void> likeComment(Comment comment);
+  Future<void> likeComment(Comment comment, int projectId);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -36,7 +36,18 @@ class ProjectRepository implements IProjectRepository {
   }) : _config = config;
 
   @override
-  Future<void> likeComment(Comment comment) async {}
+  Future<void> likeComment(Comment comment, int projectId) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+      await api.post('/project/$projectId/comment/${comment.id}/like');
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
 
   @override
   Future<Comment> addComment(int projectId, String comment) async {
