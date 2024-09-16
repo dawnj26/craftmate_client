@@ -22,6 +22,8 @@ abstract class IProjectRepository {
   Future<String> uploadDocumentImage(String imagePath);
   Future<String> uploadVideo(String videoPath);
   Future<List<Comment>> getComments(int projectId);
+  Future<Comment> addComment(int projectId, String comment);
+  Future<void> likeComment(Comment comment);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -32,6 +34,35 @@ class ProjectRepository implements IProjectRepository {
   ProjectRepository({
     required ConfigRepository config,
   }) : _config = config;
+
+  @override
+  Future<void> likeComment(Comment comment) async {}
+
+  @override
+  Future<Comment> addComment(int projectId, String comment) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+
+      final response = await api.post<Map<String, dynamic>>(
+        '/project/$projectId/comment/create',
+        data: {
+          'comment': comment,
+        },
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      return Comment.fromJson(response.data!['data']);
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
 
   @override
   Future<List<Comment>> getComments(int projectId) async {
@@ -240,11 +271,14 @@ class ProjectRepository implements IProjectRepository {
 
       return response.data!['data']['${uploadType}_url'];
     } on TokenException catch (e) {
+      _config.logger.error(e.message);
       throw ProjectException(message: e.message);
     } on UnsupportedError catch (_) {
+      _config.logger.error('Unsupported file');
       throw ProjectException(message: 'Unsupported file');
     } on DioException catch (e) {
       final message = getErrorMsg(e.type);
+      _config.logger.error(e.response?.data);
 
       throw ProjectException(message: message);
     }

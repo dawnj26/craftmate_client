@@ -10,6 +10,8 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       : _projectRepo = projectRepo,
         super(const CommentInitial()) {
     on<CommentLoaded>(_onCommentLoaded);
+    on<CommentAdded>(_onCommentAdded);
+    on<CommentLiked>(_onCommentLiked);
   }
 
   final ProjectRepository _projectRepo;
@@ -18,13 +20,49 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     CommentLoaded event,
     Emitter<CommentState> emit,
   ) async {
-    emit(const CommentLoading());
+    emit(CommentsLoading(comments: state.comments));
     try {
       final comments = await _projectRepo.getComments(event.project.id);
 
-      emit(CommentSuccess(comments));
+      emit(CommentsLoadSuccess(comments: comments));
     } on ProjectException catch (e) {
-      emit(CommentError(e.message));
+      emit(CommentError(e.message, comments: state.comments));
+    }
+  }
+
+  Future<void> _onCommentAdded(
+    CommentAdded event,
+    Emitter<CommentState> emit,
+  ) async {
+    emit(CommentLoading(comments: state.comments));
+    try {
+      final comment =
+          await _projectRepo.addComment(event.project.id, event.comment);
+      final comments = [comment, ...state.comments];
+
+      emit(CommentAddedSuccess(comments: comments));
+    } on ProjectException catch (e) {
+      emit(CommentError(e.message, comments: state.comments));
+    }
+  }
+
+  Future<void> _onCommentLiked(
+    CommentLiked event,
+    Emitter<CommentState> emit,
+  ) async {
+    emit(CommentLoading(comments: state.comments));
+    final commentIndex =
+        state.comments.indexWhere((c) => c.id == event.comment.id);
+    try {
+      state.comments[commentIndex] =
+          event.comment.copyWith(isLiked: !event.comment.isLiked);
+
+      emit(CommentAddedSuccess(comments: state.comments));
+    } on ProjectException catch (e) {
+      state.comments[commentIndex] =
+          event.comment.copyWith(isLiked: event.comment.isLiked);
+
+      emit(CommentError(e.message, comments: state.comments));
     }
   }
 }
