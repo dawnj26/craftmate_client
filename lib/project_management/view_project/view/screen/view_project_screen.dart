@@ -320,19 +320,18 @@ class _ActionButtons extends StatelessWidget {
         ),
       ),
       builder: (context) {
-        final screenSize = MediaQuery.of(context).size;
-        final theme = Theme.of(context);
-        final textTheme = theme.textTheme;
-        final scrollController = ModalScrollController.of(context);
-
         return BlocProvider(
           create: (context) => CommentBloc(
             projectRepo: projectRepo,
           ),
-          child: Container(
-            padding: const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
-            height: screenSize.height * 0.5,
-            child: Column(
+          child: CommentModal(
+            project: project,
+          ),
+        );
+      },
+    );
+  }
+}
               children: [
                 Text(
                   'Comments',
