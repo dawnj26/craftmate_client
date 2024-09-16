@@ -18,13 +18,13 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     CommentLoaded event,
     Emitter<CommentState> emit,
   ) async {
-    emit(const CommentLoading());
+    emit(CommentsLoading(comments: state.comments));
     try {
       final comments = await _projectRepo.getComments(event.project.id);
 
-      emit(CommentSuccess(comments));
+      emit(CommentsLoadSuccess(comments: comments));
     } on ProjectException catch (e) {
-      emit(CommentError(e.message));
+      emit(CommentError(e.message, comments: state.comments));
     }
   }
 }
