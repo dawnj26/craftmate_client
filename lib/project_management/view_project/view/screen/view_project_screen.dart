@@ -1,3 +1,5 @@
+import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
+import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
@@ -27,33 +29,46 @@ class ViewProjectScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final project = BlocProvider.of<ViewProjectBloc>(context).state.project;
 
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.more_vert),
-          ),
-        ],
-      ),
-      body: ListView(
-        children: [
-          AspectRatio(
-            aspectRatio: 3 / 2,
-            child: Image.asset(
-              'assets/images/placeholder_1.jpg',
-              fit: BoxFit.cover,
+    return BlocListener<ViewProjectBloc, ViewProjectState>(
+      listener: _handleState,
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.more_vert),
             ),
-          ),
-          _ProjectCardHeader(
-            creator: project.creator,
-            projectTitle: project.title,
-            project: project,
-          ),
-          _ProjectBody(project: project),
-        ],
+          ],
+        ),
+        body: ListView(
+          children: [
+            AspectRatio(
+              aspectRatio: 3 / 2,
+              child: Image.asset(
+                'assets/images/placeholder_1.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
+            _ProjectCardHeader(
+              creator: project.creator,
+              projectTitle: project.title,
+              project: project,
+            ),
+            _ProjectBody(project: project),
+          ],
+        ),
       ),
     );
+  }
+
+  void _handleState(BuildContext context, ViewProjectState state) {
+    if (state is ViewProjectFailed) {
+      Modal.instance.showConfirmationModal(
+        context: context,
+        message: state.errMessage,
+        title: 'Oops!',
+      );
+    }
   }
 }
 
@@ -64,14 +79,18 @@ class _ProjectBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = BlocProvider.of<AuthBloc>(context).state.user;
+    final canEdit = currentUser.id == project.creator.id;
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const ProjectBodySection(
+          ProjectBodySection(
             sectionName: 'Description',
             type: EditProjectType.description,
+            canEdit: canEdit,
           ),
           const Divider(),
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
@@ -88,9 +107,10 @@ class _ProjectBody extends StatelessWidget {
             },
           ),
           const Gap(12.0),
-          const ProjectBodySection(
+          ProjectBodySection(
             sectionName: 'Steps',
             type: EditProjectType.steps,
+            canEdit: canEdit,
           ),
           const Divider(),
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
@@ -121,38 +141,54 @@ class ProjectBodySection extends StatelessWidget {
     super.key,
     required this.sectionName,
     required this.type,
+    required this.canEdit,
   });
 
   final String sectionName;
   final EditProjectType type;
+  final bool canEdit;
 
   @override
   Widget build(BuildContext context) {
+    final children = _buildContent(context);
+    return Row(
+      children: children,
+    );
+  }
+
+  List<Widget> _buildContent(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
-    return Row(
-      children: [
-        Text(
-          sectionName,
-          style: textTheme.titleLarge,
-        ),
-        const Spacer(),
-        IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              EditProjectPage.route(
-                RepositoryProvider.of<ProjectRepository>(context),
-                BlocProvider.of<ViewProjectBloc>(context).state.project,
-                type,
-              ),
-            );
-          },
-          icon: const Icon(Icons.edit),
-        ),
-      ],
-    );
+    final widgets = canEdit
+        ? [
+            Text(
+              sectionName,
+              style: textTheme.titleLarge,
+            ),
+            const Spacer(),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  EditProjectPage.route(
+                    RepositoryProvider.of<ProjectRepository>(context),
+                    BlocProvider.of<ViewProjectBloc>(context).state.project,
+                    type,
+                  ),
+                );
+              },
+              icon: const Icon(Icons.edit),
+            ),
+          ]
+        : [
+            Text(
+              sectionName,
+              style: textTheme.titleLarge,
+            ),
+          ];
+
+    return widgets;
   }
 }
 
