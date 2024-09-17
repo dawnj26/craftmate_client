@@ -1,5 +1,4 @@
 import 'package:craftmate_client/auth/auth.dart';
-import 'package:craftmate_client/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_repository/project_repository.dart';
