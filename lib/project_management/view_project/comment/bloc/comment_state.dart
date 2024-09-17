@@ -27,12 +27,8 @@ final class CommentLoading extends CommentState {
   const CommentLoading({super.comments});
 }
 
-final class CommentSuccess extends CommentState {
-  const CommentSuccess({super.comments});
-}
-
-final class CommentLikeSuccess extends CommentState {
-  const CommentLikeSuccess({super.comments});
+final class CommentLoaded extends CommentState {
+  const CommentLoaded({super.comments});
 }
 
 final class CommentError extends CommentState {
