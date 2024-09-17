@@ -22,7 +22,7 @@ class Comments extends StatelessWidget {
       builder: (context, state) {
         final bloc = BlocProvider.of<CommentBloc>(context);
         if (state is CommentInitial) {
-          bloc.add(CommentLoaded(project));
+          bloc.add(CommentLoad(project));
         }
 
         final color = Theme.of(context).colorScheme.primary;

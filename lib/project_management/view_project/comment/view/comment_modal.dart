@@ -112,7 +112,7 @@ class _CommentField extends StatelessWidget {
               final suffixIcon =
                   _buildSuffixIcon(state is CommentSending, context);
 
-              if (state is CommentSuccess) {
+              if (state is CommentLoaded) {
                 commentController.text = '';
               }
 
