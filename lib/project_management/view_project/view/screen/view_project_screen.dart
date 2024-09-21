@@ -5,11 +5,12 @@ import 'package:craftmate_client/project_management/edit_project/view/edit_proje
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/bloc/comment_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/view/comment_modal.dart';
+import 'package:craftmate_client/project_management/view_project/settings/view/settings_page.dart';
 import 'package:craftmate_client/project_management/view_project/view/components/components.dart';
-import 'package:craftmate_client/project_management/view_project/view/components/project_steps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -34,9 +35,27 @@ class ViewProjectScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.more_vert),
+            PopupMenuButton(
+              itemBuilder: (_) => [
+                PopupMenuItem(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      SettingsPage.route(
+                        BlocProvider.of<ViewProjectBloc>(context).state.project,
+                        RepositoryProvider.of(context),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Settings',
+                  ),
+                ),
+                const PopupMenuItem(
+                  child: Text(
+                    'Share',
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -44,9 +63,9 @@ class ViewProjectScreen extends StatelessWidget {
           children: [
             AspectRatio(
               aspectRatio: 3 / 2,
-              child: Image.asset(
-                'assets/images/placeholder_1.jpg',
-                fit: BoxFit.cover,
+              child: InkWell(
+                onTap: () => _showImageOptions(context),
+                child: const HeroImage(),
               ),
             ),
             _ProjectCardHeader(
@@ -61,6 +80,68 @@ class ViewProjectScreen extends StatelessWidget {
     );
   }
 
+  void _showImage(BuildContext context) {
+    final project = BlocProvider.of<ViewProjectBloc>(context).state.project;
+
+    if (project.imageUrl == null) {
+      return;
+    }
+
+    showDialog(
+      context: context,
+      builder: (_) {
+        return Image.network(project.imageUrl!);
+      },
+    );
+  }
+
+  void _showImageOptions(BuildContext context) {
+    final currentUser = BlocProvider.of<AuthBloc>(context).state.user;
+    final project = BlocProvider.of<ViewProjectBloc>(context).state.project;
+
+    if (project.creator.id != currentUser.id) {
+      _showImage(context);
+      return;
+    }
+
+    showMaterialModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.upload),
+              title: const Text('Upload image'),
+              onTap: () => _handleUploadImage(ImageSource.gallery, context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Take a photo'),
+              onTap: () => _handleUploadImage(ImageSource.camera, context),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _handleUploadImage(
+    ImageSource source,
+    BuildContext context,
+  ) async {
+    final bloc = BlocProvider.of<ViewProjectBloc>(context);
+
+    final picker = ImagePicker();
+    final media = await picker.pickImage(source: source);
+
+    if (media == null) {
+      return;
+    }
+
+    bloc.add(ViewProjectImageUploaded(media.path));
+  }
+
   void _handleState(BuildContext context, ViewProjectState state) {
     if (state is ViewProjectFailed) {
       Modal.instance.showConfirmationModal(
@@ -68,7 +149,52 @@ class ViewProjectScreen extends StatelessWidget {
         message: state.errMessage,
         title: 'Oops!',
       );
+    } else if (state is ViewProjectLoading) {
+      Modal.instance.showLoadingDialog(context);
+    } else if (state is ViewProjectUploadSuccess) {
+      if (state.isModalOpen) {
+        Navigator.of(context).pop();
+      }
+      Navigator.of(context).pop();
     }
+  }
+}
+
+class HeroImage extends StatelessWidget {
+  const HeroImage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ViewProjectBloc, ViewProjectState>(
+      buildWhen: (previous, current) =>
+          previous.project.imageUrl != current.project.imageUrl,
+      builder: (context, state) {
+        final theme = Theme.of(context);
+        final textTheme = theme.textTheme;
+        final project = state.project;
+
+        final currentUser = BlocProvider.of<AuthBloc>(context).state.user;
+        var imageText = 'Add image +';
+
+        if (project.creator.id != currentUser.id) {
+          imageText = 'No photo';
+        }
+
+        return project.imageUrl == null
+            ? Center(
+                child: Text(
+                  imageText,
+                  style: textTheme.headlineSmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              )
+            : Image.network(
+                project.imageUrl!,
+                fit: BoxFit.cover,
+              );
+      },
+    );
   }
 }
 
@@ -219,10 +345,23 @@ class _ProjectCardHeader extends StatelessWidget {
             fullName: creator.name,
           ),
           const Gap(16.0),
-          _ProjectInfo(
-            projectTitle: projectTitle,
+          BlocBuilder<ViewProjectBloc, ViewProjectState>(
+            buildWhen: (previous, current) =>
+                previous.project != current.project,
+            builder: (context, state) {
+              final project = state.project;
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _ProjectInfo(
+                    projectTitle: project.title,
+                  ),
+                  Tags(tags: project.tags),
+                ],
+              );
+            },
           ),
-          Tags(tags: project.tags),
           const SocialCounters(),
           const _ActionButtons(),
         ],

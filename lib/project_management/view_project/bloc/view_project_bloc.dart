@@ -18,6 +18,7 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
         super(ViewProjectInitial(project: project)) {
     on<ViewProjectLiked>(_onProjectLiked);
     on<ViewProjectChanged>(_onProjectChanged);
+    on<ViewProjectImageUploaded>(_onProjectImageUploaded);
 
     // Listen to project changes
     _projectSubscription =
@@ -27,6 +28,35 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
   }
 
   final ProjectRepository _projectRepository;
+
+  Future<void> _onProjectImageUploaded(
+    ViewProjectImageUploaded event,
+    Emitter<ViewProjectState> emit,
+  ) async {
+    emit(ViewProjectLoading(project: state.project.copyWith()));
+
+    try {
+      logger.info('Uploading image');
+      final uploadedImageUrl = await _projectRepository.uploadProjectImage(
+        state.project,
+        event.imageUrl,
+      );
+      emit(
+        ViewProjectUploadSuccess(
+          project: state.project.copyWith(imageUrl: uploadedImageUrl),
+          isModalOpen: true,
+        ),
+      );
+    } on ProjectException catch (e) {
+      logger.warning('Uploading image failed');
+      emit(
+        ViewProjectFailed(
+          errMessage: e.message,
+          project: state.project,
+        ),
+      );
+    }
+  }
 
   Future<void> _onProjectLiked(
     ViewProjectLiked event,
