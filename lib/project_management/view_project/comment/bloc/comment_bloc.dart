@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:craftmate_client/globals.dart';
 import 'package:equatable/equatable.dart';
 import 'package:project_repository/project_repository.dart';
 
@@ -10,7 +9,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
   CommentBloc({required ProjectRepository projectRepo})
       : _projectRepo = projectRepo,
         super(const CommentInitial()) {
-    on<CommentLoaded>(_onCommentLoaded);
+    on<CommentLoad>(_onCommentLoaded);
     on<CommentAdded>(_onCommentAdded);
     on<CommentLiked>(_onCommentLiked);
   }
@@ -18,16 +17,16 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
   final ProjectRepository _projectRepo;
 
   Future<void> _onCommentLoaded(
-    CommentLoaded event,
+    CommentLoad event,
     Emitter<CommentState> emit,
   ) async {
-    emit(CommentsLoading(comments: state.comments));
+    emit(CommentsLoading(comments: List.from(state.comments)));
     try {
       final comments = await _projectRepo.getComments(event.project.id);
 
-      emit(CommentSuccess(comments: comments));
+      emit(CommentLoaded(comments: comments));
     } on ProjectException catch (e) {
-      emit(CommentError(e.message, comments: state.comments));
+      emit(CommentError(e.message, comments: List.from(state.comments)));
     }
   }
 
@@ -35,15 +34,15 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     CommentAdded event,
     Emitter<CommentState> emit,
   ) async {
-    emit(CommentSending(comments: state.comments));
+    emit(CommentSending(comments: List.from(state.comments)));
     try {
       final comment =
-          await _projectRepo.addComment(event.project.id, event.comment);
+          await _projectRepo.addComment(event.project, event.comment);
       final comments = [comment, ...state.comments];
 
-      emit(CommentSuccess(comments: comments));
+      emit(CommentLoaded(comments: comments));
     } on ProjectException catch (e) {
-      emit(CommentError(e.message, comments: state.comments));
+      emit(CommentError(e.message, comments: List.from(state.comments)));
     }
   }
 
@@ -51,29 +50,32 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     CommentLiked event,
     Emitter<CommentState> emit,
   ) async {
-    emit(CommentLoading(comments: state.comments));
+    emit(CommentLoading(comments: List.from(state.comments)));
+
+    final List<Comment> updatedComments = List.from(state.comments);
     final commentIndex =
-        state.comments.indexWhere((c) => c.id == event.comment.id);
+        updatedComments.indexWhere((c) => c.id == event.comment.id);
+
     try {
       final likeCount = event.comment.isLiked
           ? event.comment.likeCount - 1
           : event.comment.likeCount + 1;
 
-      state.comments[commentIndex] = event.comment.copyWith(
+      updatedComments[commentIndex] = event.comment.copyWith(
         isLiked: !event.comment.isLiked,
         likeCount: likeCount,
       );
 
       await _projectRepo.likeComment(event.comment, event.projectId);
 
-      emit(CommentLikeSuccess(comments: state.comments));
+      emit(CommentLoaded(comments: updatedComments));
     } on ProjectException catch (e) {
       state.comments[commentIndex] = event.comment.copyWith(
         isLiked: !event.comment.isLiked,
         likeCount: event.comment.likeCount - 1,
       );
 
-      emit(CommentError(e.message, comments: state.comments));
+      emit(CommentError(e.message, comments: List.from(state.comments)));
     }
   }
 }

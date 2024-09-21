@@ -7,8 +7,8 @@ sealed class CommentEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class CommentLoaded extends CommentEvent {
-  const CommentLoaded(this.project);
+final class CommentLoad extends CommentEvent {
+  const CommentLoad(this.project);
 
   final Project project;
 

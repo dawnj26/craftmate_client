@@ -19,3 +19,12 @@ final class ViewProjectChanged extends ViewProjectEvent {
   // TODO: implement props
   List<Object> get props => [project];
 }
+
+final class ViewProjectImageUploaded extends ViewProjectEvent {
+  final String imageUrl;
+  const ViewProjectImageUploaded(this.imageUrl);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [imageUrl];
+}
