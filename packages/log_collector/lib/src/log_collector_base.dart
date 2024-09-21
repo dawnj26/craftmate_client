@@ -19,8 +19,6 @@ class LogCollector {
     if (kReleaseMode) {
       var directory = await getExternalStorageDirectory();
       directory ??= await getApplicationDocumentsDirectory();
-      // final currentDate = DateTime.now();
-      // final formatter = DateFormat('yyyy-MM-dd_HH-mm-ss');
       final fileName = 'craftmate_log.txt';
 
       final logFile = File('${directory.path}/$fileName');
