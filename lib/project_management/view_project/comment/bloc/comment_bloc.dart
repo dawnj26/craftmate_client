@@ -37,7 +37,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     emit(CommentSending(comments: List.from(state.comments)));
     try {
       final comment =
-          await _projectRepo.addComment(event.project.id, event.comment);
+          await _projectRepo.addComment(event.project, event.comment);
       final comments = [comment, ...state.comments];
 
       emit(CommentLoaded(comments: comments));
