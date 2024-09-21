@@ -16,6 +16,7 @@ class Project extends Equatable {
   final int commentCount;
   final int forkCount;
   final List<dynamic>? steps;
+  final String? imageUrl;
 
   @override
   List<Object?> get props => [
@@ -30,6 +31,7 @@ class Project extends Equatable {
         commentCount,
         forkCount,
         steps,
+        imageUrl,
       ];
 
   const Project({
@@ -44,6 +46,7 @@ class Project extends Equatable {
     this.description,
     this.tags,
     this.steps,
+    this.imageUrl,
   });
 
   Project copyWith({
@@ -56,6 +59,7 @@ class Project extends Equatable {
     int? commentCount,
     int? forkCount,
     List<dynamic>? steps,
+    String? imageUrl,
   }) {
     return Project(
       creator: this.creator,
@@ -69,6 +73,7 @@ class Project extends Equatable {
       commentCount: commentCount ?? this.commentCount,
       forkCount: forkCount ?? this.forkCount,
       steps: steps ?? this.steps,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 
@@ -87,6 +92,7 @@ class Project extends Equatable {
       commentCount: json['comment_count'] as int,
       forkCount: json['fork_count'] as int,
       steps: jsonDecode(json['steps']['content'] ?? 'null') as List<dynamic>?,
+      imageUrl: json['image_url'] as String?,
     );
   }
 }
