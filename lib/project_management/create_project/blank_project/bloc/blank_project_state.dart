@@ -52,6 +52,10 @@ final class BlankProjectFailed extends BlankProjectState {
     required super.isPulic,
     required this.errorMsg,
   });
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [errorMsg];
 }
 
 final class BlankProjectSuccess extends BlankProjectState {
@@ -63,4 +67,8 @@ final class BlankProjectSuccess extends BlankProjectState {
     required super.isPulic,
     required this.project,
   });
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [project];
 }
