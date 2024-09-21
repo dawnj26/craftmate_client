@@ -5,12 +5,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:log_collector/log_collector.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   logger = await LogCollector.getInstance();
 
   logger.info('Loading environment variables.');
   await dotenv.load();
 
   logger.info('Starting the app');
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
