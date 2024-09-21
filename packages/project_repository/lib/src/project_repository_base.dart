@@ -20,10 +20,14 @@ abstract class IProjectRepository {
     required List<dynamic> newSteps,
   });
   Future<String> uploadDocumentImage(String imagePath);
+  Future<String> uploadProjectImage(Project project, String imagePath);
   Future<String> uploadVideo(String videoPath);
   Future<List<Comment>> getComments(int projectId);
-  Future<Comment> addComment(int projectId, String comment);
+  Future<Comment> addComment(Project project, String comment);
   Future<void> likeComment(Comment comment, int projectId);
+  Future<Project> updateProject(String title, Project project, [String? tags]);
+  Future<Project> changeVisibilty(Project project);
+  Future<void> deleteProject(Project project);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -34,6 +38,106 @@ class ProjectRepository implements IProjectRepository {
   ProjectRepository({
     required ConfigRepository config,
   }) : _config = config;
+
+  @override
+  Future<void> deleteProject(Project project) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+      await api.delete('/project/${project.id}/delete');
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+      _config.logger.info(e.response?.statusCode);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  @override
+  Future<Project> changeVisibilty(Project project) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+      final response = await api.post<Map<String, dynamic>>(
+        '/project/${project.id}/edit/visibility',
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final updatedProject = project.copyWith(isPulic: !project.isPulic);
+
+      _streamController.add(updatedProject);
+      return updatedProject;
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+      _config.logger.info(e.response?.statusCode);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  @override
+  Future<Project> updateProject(String title, Project project,
+      [String? tags]) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+
+      var data = <String, dynamic>{
+        'title': title,
+      };
+
+      if (tags != null) {
+        data['tags'] = tags;
+      }
+      final response = await api.post<Map<String, dynamic>>(
+        '/project/${project.id}/edit',
+        data: data,
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final updatedProject = Project.fromJson(response.data!['data']);
+      _streamController.add(updatedProject);
+
+      return updatedProject;
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+      _config.logger.info(e.response?.statusCode);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  @override
+  Future<String> uploadProjectImage(Project project, String imagePath) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+      final response = await api.post('/project/${project.id}/image/upload',
+          data: FormData.fromMap({
+            'image': await MultipartFile.fromFile(imagePath),
+          }));
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      return response.data!['data']['image_url'];
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
 
   @override
   Future<void> likeComment(Comment comment, int projectId) async {
@@ -50,12 +154,12 @@ class ProjectRepository implements IProjectRepository {
   }
 
   @override
-  Future<Comment> addComment(int projectId, String comment) async {
+  Future<Comment> addComment(Project project, String comment) async {
     try {
       final api = await _config.apiWithAuthorization;
 
       final response = await api.post<Map<String, dynamic>>(
-        '/project/$projectId/comment/create',
+        '/project/${project.id}/comment/create',
         data: {
           'comment': comment,
         },
@@ -64,6 +168,10 @@ class ProjectRepository implements IProjectRepository {
       if (response.data == null) {
         throw ProjectException(message: 'Response is null');
       }
+
+      _streamController.add(project.copyWith(
+        commentCount: project.commentCount + 1,
+      ));
 
       return Comment.fromJson(response.data!['data']);
     } on DioException catch (e) {
