@@ -25,11 +25,13 @@ class Modal {
     required String message,
     required String title,
     List<Widget>? actions,
+    Widget? icon,
   }) async {
     return await showDialog<bool>(
       context: context,
       builder: (_) {
         return AlertDialog(
+          icon: icon,
           title: Text(title),
           content: Text(message),
           actions: actions,
