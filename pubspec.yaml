@@ -46,6 +46,7 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   formz: ^0.7.0
   gap: ^3.0.1
+  image_picker: ^1.1.2
   loading_animation_widget: ^1.2.1
   log_collector:
     path: packages/log_collector
