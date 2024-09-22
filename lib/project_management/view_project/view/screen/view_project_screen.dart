@@ -61,12 +61,17 @@ class ViewProjectScreen extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            AspectRatio(
-              aspectRatio: 3 / 2,
-              child: InkWell(
-                onTap: () => _showImageOptions(context),
-                child: const HeroImage(),
-              ),
+            BlocBuilder<ViewProjectBloc, ViewProjectState>(
+              buildWhen: (previous, current) => previous.project.imageUrl != current.project.imageUrl,
+              builder: (context, state) {
+                return AspectRatio(
+                  aspectRatio: 3 / 2,
+                  child: InkWell(
+                    onTap: () => _showImageOptions(context),
+                    child: const HeroImage(),
+                  ),
+                );
+              },
             ),
             _ProjectCardHeader(
               creator: project.creator,
@@ -119,6 +124,11 @@ class ViewProjectScreen extends StatelessWidget {
               leading: const Icon(Icons.camera_alt),
               title: const Text('Take a photo'),
               onTap: () => _handleUploadImage(ImageSource.camera, context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.remove_red_eye_outlined),
+              title: const Text('View photo'),
+              onTap: () => _showImage(context),
             ),
           ],
         );
