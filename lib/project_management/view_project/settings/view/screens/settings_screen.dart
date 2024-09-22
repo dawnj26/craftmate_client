@@ -5,6 +5,7 @@ import 'package:craftmate_client/project_management/view_project/settings/bloc/s
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:project_repository/project_repository.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -90,7 +91,7 @@ class GeneralSettings extends StatelessWidget {
     final tagsController = TextEditingController();
 
     titleController.text = initState.projectTitle.value;
-    tagsController.text = initState.project.tags?.join(' ') ?? '';
+    tagsController.text = combineTags(initState.project.tags) ?? '';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -147,6 +148,20 @@ class GeneralSettings extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String? combineTags(List<Tag>? tags) {
+    if (tags == null) {
+      return null;
+    }
+
+    final tagsText = StringBuffer();
+
+    for (final tag in tags) {
+      tagsText.write('${tag.name} ');
+    }
+
+    return tagsText.toString().trimRight();
   }
 }
 
