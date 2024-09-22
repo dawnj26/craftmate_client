@@ -90,6 +90,7 @@ class GeneralSettings extends StatelessWidget {
     final tagsController = TextEditingController();
 
     titleController.text = initState.projectTitle.value;
+    tagsController.text = initState.project.tags?.join(' ') ?? '';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
