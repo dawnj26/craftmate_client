@@ -124,7 +124,7 @@ class _CreateProjectForm extends StatelessWidget {
               labelText: 'Project title',
               errorText: errorText,
               onChanged: (value) {
-                bloc.add(BlankProjectTitleChange(title: value));
+                bloc.add(BlankProjectTitleChange(title: value.trim()));
               },
               multiline: false,
             );
@@ -157,7 +157,7 @@ class _CreateProjectForm extends StatelessWidget {
       tags = tagController.text;
     }
 
-    context.read<BlankProjectBloc>().add(BlankProjectCreate(tags: tags));
+    context.read<BlankProjectBloc>().add(BlankProjectCreate(tags: tags?.trim()));
   }
 }
 
