@@ -50,8 +50,6 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     CommentLiked event,
     Emitter<CommentState> emit,
   ) async {
-    emit(CommentLoading(comments: List.from(state.comments)));
-
     final List<Comment> updatedComments = List.from(state.comments);
     final commentIndex =
         updatedComments.indexWhere((c) => c.id == event.comment.id);
@@ -66,9 +64,8 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
         likeCount: likeCount,
       );
 
-      await _projectRepo.likeComment(event.comment, event.projectId);
-
       emit(CommentLoaded(comments: updatedComments));
+      await _projectRepo.likeComment(event.comment, event.projectId);
     } on ProjectException catch (e) {
       state.comments[commentIndex] = event.comment.copyWith(
         isLiked: !event.comment.isLiked,
