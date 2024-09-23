@@ -41,3 +41,12 @@ final class CommentError extends CommentState {
   @override
   List<Object> get props => [message, super.comments];
 }
+
+final class CommentReplying extends CommentState {
+  final String userName;
+  const CommentReplying({super.comments, required this.userName});
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [userName, super.comments];
+}
