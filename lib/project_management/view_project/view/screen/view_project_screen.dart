@@ -1,4 +1,5 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
@@ -61,17 +62,12 @@ class ViewProjectScreen extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            BlocBuilder<ViewProjectBloc, ViewProjectState>(
-              buildWhen: (previous, current) => previous.project.imageUrl != current.project.imageUrl,
-              builder: (context, state) {
-                return AspectRatio(
-                  aspectRatio: 3 / 2,
-                  child: InkWell(
-                    onTap: () => _showImageOptions(context),
-                    child: const HeroImage(),
-                  ),
-                );
-              },
+            AspectRatio(
+              aspectRatio: 3 / 2,
+              child: InkWell(
+                onTap: () => _showImageOptions(context),
+                child: const HeroImage(),
+              ),
             ),
             _ProjectCardHeader(
               creator: project.creator,
