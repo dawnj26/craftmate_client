@@ -56,6 +56,9 @@ class Comments extends StatelessWidget {
               onLikeCallback: () {
                 bloc.add(CommentLiked(comment, project.id));
               },
+              onReplyCallback: () {
+                bloc.add(CommentClickedReply(comment, project));
+              },
             );
           },
         );
