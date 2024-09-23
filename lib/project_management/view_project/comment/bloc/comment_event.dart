@@ -34,3 +34,21 @@ final class CommentLiked extends CommentEvent {
   @override
   List<Object> get props => [comment];
 }
+
+final class CommentClickedReply extends CommentEvent {
+  const CommentClickedReply(this.comment, this.project);
+  final Comment comment;
+  final Project project;
+
+  @override
+  List<Object> get props => [comment, project];
+}
+
+final class CommentReplyCanceled extends CommentEvent {
+  final String inputText;
+  const CommentReplyCanceled(this.inputText);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [inputText];
+}

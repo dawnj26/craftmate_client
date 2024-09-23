@@ -12,9 +12,30 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     on<CommentLoad>(_onCommentLoaded);
     on<CommentAdded>(_onCommentAdded);
     on<CommentLiked>(_onCommentLiked);
+    on<CommentClickedReply>(_onCommentClickedReply);
+    on<CommentReplyCanceled>(_onCommentReplyCanceled);
   }
 
   final ProjectRepository _projectRepo;
+
+  void _onCommentReplyCanceled(
+    CommentReplyCanceled event,
+    Emitter<CommentState> emit,
+  ) {
+    emit(CommentLoaded(comments: state.comments, inputText: event.inputText));
+  }
+
+  void _onCommentClickedReply(
+    CommentClickedReply event,
+    Emitter<CommentState> emit,
+  ) {
+    emit(
+      CommentReplying(
+        comments: state.comments,
+        userName: event.project.creator.name,
+      ),
+    );
+  }
 
   Future<void> _onCommentLoaded(
     CommentLoad event,
