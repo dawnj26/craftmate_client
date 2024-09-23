@@ -29,6 +29,8 @@ final class CommentLoading extends CommentState {
 
 final class CommentLoaded extends CommentState {
   const CommentLoaded({super.comments});
+  final String? inputText;
+  const CommentLoaded({super.comments, this.inputText});
 }
 
 final class CommentError extends CommentState {
