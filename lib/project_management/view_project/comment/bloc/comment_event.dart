@@ -53,3 +53,14 @@ final class CommentReplyCanceled extends CommentEvent {
   // TODO: implement props
   List<Object> get props => [inputText];
 }
+
+final class CommentReplySubmitted extends CommentEvent {
+  const CommentReplySubmitted(this.comment, this.project, this.commentText);
+
+  final Comment comment;
+  final Project project;
+  final String commentText;
+
+  @override
+  List<Object> get props => [comment, project, commentText];
+}
