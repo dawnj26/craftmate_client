@@ -14,9 +14,41 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     on<CommentLiked>(_onCommentLiked);
     on<CommentClickedReply>(_onCommentClickedReply);
     on<CommentReplyCanceled>(_onCommentReplyCanceled);
+    on<CommentReplySubmitted>(_onCommentReplySubmitted);
   }
 
   final ProjectRepository _projectRepo;
+
+  Future<void> _onCommentReplySubmitted(
+    CommentReplySubmitted event,
+    Emitter<CommentState> emit,
+  ) async {
+    emit(CommentSending(comments: List.from(state.comments)));
+    try {
+      final comment = await _projectRepo.replyComment(
+        event.comment,
+        event.project,
+        event.commentText,
+      );
+
+      final updatesComments = _replyComment(state.comments, comment);
+
+      emit(CommentLoaded(comments: updatesComments));
+    } on ProjectException catch (e) {
+      emit(CommentError(e.message, comments: List.from(state.comments)));
+    }
+  }
+
+  List<Comment> _replyComment(List<Comment> comments, Comment comment) {
+    return comments.map((c) {
+      if (c.id == comment.parentId) {
+        return c.copyWith(children: [comment, ...c.children]);
+      } else if (c.children.isNotEmpty) {
+        return c.copyWith(children: _replyComment(c.children, comment));
+      }
+      return c;
+    }).toList();
+  }
 
   void _onCommentReplyCanceled(
     CommentReplyCanceled event,
