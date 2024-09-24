@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:craftmate_client/auth/auth.dart';
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/project_management/view_project/comment/bloc/comment_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/view/components/comments.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +40,6 @@ class _CommentModalState extends State<CommentModal> {
     final bloc = BlocProvider.of<CommentBloc>(context);
 
     keyboardSubscription = keyboardController.onChange.listen((isVisible) {
-      logger.info('Keyboard visible: $isVisible');
       if (!isVisible) {
         commentFocusNode.unfocus();
         bloc.add(CommentReplyCanceled(commentController.text));
