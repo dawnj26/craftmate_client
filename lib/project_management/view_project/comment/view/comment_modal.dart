@@ -136,7 +136,7 @@ class _CommentField extends StatelessWidget {
               if (state is CommentLoaded) {
                 commentController.text = state.inputText ?? '';
               } else if (state is CommentReplying) {
-                labelText = 'Reply to ${state.userName}';
+                labelText = 'Reply to ${state.project.creator.name}';
                 commentFocusNode.requestFocus();
               }
 
@@ -160,16 +160,28 @@ class _CommentField extends StatelessWidget {
 
   void _handleSubmit(String value, BuildContext context) {
     final bloc = BlocProvider.of<CommentBloc>(context);
+    final currentState = bloc.state;
     if (value.isEmpty) {
       return;
     }
 
-    bloc.add(
-      CommentAdded(
-        project,
-        value,
-      ),
-    );
+    if (currentState is CommentReplying) {
+      bloc.add(
+        CommentReplySubmitted(
+          currentState.comment,
+          currentState.project,
+          value,
+        ),
+      );
+    } else {
+      bloc.add(
+        CommentAdded(
+          project,
+          value,
+        ),
+      );
+    }
+
     _resetCommentField();
   }
 
