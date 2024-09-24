@@ -77,12 +77,8 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       emit(CommentLoaded(comments: updatedComments));
       await _projectRepo.likeComment(event.comment, event.projectId);
     } on ProjectException catch (e) {
-      state.comments[commentIndex] = event.comment.copyWith(
-        isLiked: !event.comment.isLiked,
-        likeCount: event.comment.likeCount - 1,
-      );
-
-      emit(CommentError(e.message, comments: List.from(state.comments)));
+      final resetComments = _likeComment(state.comments, event.comment);
+      emit(CommentError(e.message, comments: resetComments));
     }
   }
 
