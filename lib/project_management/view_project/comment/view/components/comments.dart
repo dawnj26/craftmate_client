@@ -51,13 +51,14 @@ class Comments extends StatelessWidget {
           itemBuilder: (context, index) {
             final comment = comments[index];
             return CommentBlock(
+              project: project,
               comment: comment,
               commentIndex: index,
               onLikeCallback: () {
                 bloc.add(CommentLiked(comment, project.id));
               },
               onReplyCallback: () {
-                bloc.add(CommentClickedReply(comment, project));
+                bloc.add(CommentClickedReply(project, comment));
               },
             );
           },

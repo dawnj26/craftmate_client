@@ -1,4 +1,5 @@
 import 'package:craftmate_client/auth/auth.dart';
+import 'package:craftmate_client/project_management/view_project/comment/view/components/comment_replies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_repository/project_repository.dart';
@@ -8,11 +9,13 @@ class CommentBlock extends StatelessWidget {
   const CommentBlock({
     super.key,
     required this.comment,
+    required this.project,
     this.onLikeCallback,
     required this.commentIndex,
     required this.onReplyCallback,
   });
 
+  final Project project;
   final Comment comment;
   final void Function()? onLikeCallback;
   final void Function()? onReplyCallback;
@@ -61,6 +64,10 @@ class CommentBlock extends StatelessWidget {
                       ),
                     ],
                   ),
+                ),
+                CommentReplies(
+                  project: project,
+                  replies: comment.children,
                 ),
               ],
             ),
