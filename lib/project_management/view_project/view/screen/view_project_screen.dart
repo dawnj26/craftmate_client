@@ -1,5 +1,4 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
