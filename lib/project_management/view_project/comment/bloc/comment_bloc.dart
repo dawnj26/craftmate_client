@@ -32,7 +32,8 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     emit(
       CommentReplying(
         comments: state.comments,
-        userName: event.project.creator.name,
+        project: event.project,
+        comment: event.comment,
       ),
     );
   }
