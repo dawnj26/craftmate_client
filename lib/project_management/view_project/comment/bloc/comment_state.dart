@@ -28,7 +28,8 @@ final class CommentLoading extends CommentState {
 }
 
 final class CommentLoaded extends CommentState {
-  const CommentLoaded({super.comments});
+  final String? inputText;
+  const CommentLoaded({super.comments, this.inputText});
 }
 
 final class CommentError extends CommentState {
@@ -38,4 +39,18 @@ final class CommentError extends CommentState {
 
   @override
   List<Object> get props => [message, super.comments];
+}
+
+final class CommentReplying extends CommentState {
+  final Project project;
+  final Comment comment;
+  const CommentReplying({
+    super.comments,
+    required this.project,
+    required this.comment,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [project, super.comments, comment];
 }

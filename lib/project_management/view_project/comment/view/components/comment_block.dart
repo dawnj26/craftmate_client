@@ -1,24 +1,29 @@
 import 'package:craftmate_client/auth/auth.dart';
+import 'package:craftmate_client/project_management/view_project/comment/view/components/comment_replies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_repository/project_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 class CommentBlock extends StatelessWidget {
   const CommentBlock({
     super.key,
     required this.comment,
+    required this.project,
     this.onLikeCallback,
     required this.commentIndex,
+    required this.onReplyCallback,
   });
 
+  final Project project;
   final Comment comment;
   final void Function()? onLikeCallback;
+  final void Function()? onReplyCallback;
   final int commentIndex;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
     const middleGap = 8.0;
     final currentUser = BlocProvider.of<AuthBloc>(context).state.user;
 
@@ -35,24 +40,10 @@ class CommentBlock extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: middleGap + 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        comment.user.id == currentUser.id
-                            ? 'You'
-                            : comment.user.name,
-                        style: textTheme.titleSmall,
-                      ),
-                      Text(
-                        comment.content,
-                        style: textTheme.bodyLarge,
-                      ),
-                    ],
-                  ),
+                UserAndComment(
+                  middleGap: middleGap,
+                  comment: comment,
+                  currentUser: currentUser,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: middleGap),
@@ -68,14 +59,53 @@ class CommentBlock extends StatelessWidget {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: onReplyCallback,
                         child: const Text('Reply'),
                       ),
                     ],
                   ),
                 ),
+                CommentReplies(
+                  project: project,
+                  replies: comment.children,
+                ),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class UserAndComment extends StatelessWidget {
+  const UserAndComment({
+    super.key,
+    required this.middleGap,
+    required this.comment,
+    required this.currentUser,
+  });
+
+  final double middleGap;
+  final Comment comment;
+  final User currentUser;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: middleGap + 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            comment.user.id == currentUser.id ? 'You' : comment.user.name,
+            style: textTheme.titleSmall,
+          ),
+          Text(
+            comment.content,
+            style: textTheme.bodyLarge,
           ),
         ],
       ),

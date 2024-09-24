@@ -12,9 +12,63 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     on<CommentLoad>(_onCommentLoaded);
     on<CommentAdded>(_onCommentAdded);
     on<CommentLiked>(_onCommentLiked);
+    on<CommentClickedReply>(_onCommentClickedReply);
+    on<CommentReplyCanceled>(_onCommentReplyCanceled);
+    on<CommentReplySubmitted>(_onCommentReplySubmitted);
   }
 
   final ProjectRepository _projectRepo;
+
+  Future<void> _onCommentReplySubmitted(
+    CommentReplySubmitted event,
+    Emitter<CommentState> emit,
+  ) async {
+    emit(CommentSending(comments: List.from(state.comments)));
+    try {
+      final comment = await _projectRepo.replyComment(
+        event.comment,
+        event.project,
+        event.commentText,
+      );
+
+      final updatesComments = _replyComment(state.comments, comment);
+
+      emit(CommentLoaded(comments: updatesComments));
+    } on ProjectException catch (e) {
+      emit(CommentError(e.message, comments: List.from(state.comments)));
+    }
+  }
+
+  List<Comment> _replyComment(List<Comment> comments, Comment comment) {
+    return comments.map((c) {
+      if (c.id == comment.parentId) {
+        return c.copyWith(children: [comment, ...c.children]);
+      } else if (c.children.isNotEmpty) {
+        return c.copyWith(children: _replyComment(c.children, comment));
+      }
+      return c;
+    }).toList();
+  }
+
+  void _onCommentReplyCanceled(
+    CommentReplyCanceled event,
+    Emitter<CommentState> emit,
+  ) {
+    emit(CommentLoaded(comments: state.comments, inputText: event.inputText));
+  }
+
+  void _onCommentClickedReply(
+    CommentClickedReply event,
+    Emitter<CommentState> emit,
+  ) {
+    emit(
+      CommentReplying(
+        comments: state.comments,
+        project: event.project,
+        comment: event.comment,
+      ),
+    );
+  }
 
   Future<void> _onCommentLoaded(
     CommentLoad event,
@@ -50,32 +104,28 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     CommentLiked event,
     Emitter<CommentState> emit,
   ) async {
-    emit(CommentLoading(comments: List.from(state.comments)));
-
-    final List<Comment> updatedComments = List.from(state.comments);
-    final commentIndex =
-        updatedComments.indexWhere((c) => c.id == event.comment.id);
-
     try {
-      final likeCount = event.comment.isLiked
-          ? event.comment.likeCount - 1
-          : event.comment.likeCount + 1;
-
-      updatedComments[commentIndex] = event.comment.copyWith(
-        isLiked: !event.comment.isLiked,
-        likeCount: likeCount,
-      );
-
-      await _projectRepo.likeComment(event.comment, event.projectId);
+      final updatedComments = _likeComment(state.comments, event.comment);
 
       emit(CommentLoaded(comments: updatedComments));
+      await _projectRepo.likeComment(event.comment, event.projectId);
     } on ProjectException catch (e) {
-      state.comments[commentIndex] = event.comment.copyWith(
-        isLiked: !event.comment.isLiked,
-        likeCount: event.comment.likeCount - 1,
-      );
-
-      emit(CommentError(e.message, comments: List.from(state.comments)));
+      final resetComments = _likeComment(state.comments, event.comment);
+      emit(CommentError(e.message, comments: resetComments));
     }
+  }
+
+  List<Comment> _likeComment(List<Comment> comments, Comment comment) {
+    return comments.map((c) {
+      if (c.id == comment.id) {
+        return c.copyWith(
+          isLiked: !c.isLiked,
+          likeCount: c.isLiked ? c.likeCount - 1 : c.likeCount + 1,
+        );
+      } else if (c.children.isNotEmpty) {
+        return c.copyWith(children: _likeComment(c.children, comment));
+      }
+      return c;
+    }).toList();
   }
 }

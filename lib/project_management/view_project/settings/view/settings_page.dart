@@ -30,7 +30,7 @@ class SettingsPage extends StatelessWidget {
       value: projectRepository,
       child: BlocProvider(
         create: (context) => SettingsBloc(
-          projectRepo: RepositoryProvider.of(context),
+          projectRepo: RepositoryProvider.of<ProjectRepository>(context),
           project: project,
         ),
         child: const SettingsScreen(),

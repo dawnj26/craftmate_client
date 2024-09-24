@@ -92,7 +92,7 @@ class Project extends Equatable {
       commentCount: json['comment_count'] as int,
       forkCount: json['fork_count'] as int,
       steps: jsonDecode(json['steps']['content'] ?? 'null') as List<dynamic>?,
-      imageUrl: json['image_url'] as String?,
+      imageUrl: json['image_path'] as String?,
     );
   }
 }

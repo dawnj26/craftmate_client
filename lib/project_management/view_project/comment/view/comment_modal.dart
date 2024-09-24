@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:craftmate_client/auth/auth.dart';
 import 'package:craftmate_client/project_management/view_project/comment/bloc/comment_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/view/components/comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:gap/gap.dart';
 import 'package:project_repository/project_repository.dart';
 
@@ -27,10 +30,27 @@ class CommentModal extends StatefulWidget {
 class _CommentModalState extends State<CommentModal> {
   final commentFocusNode = FocusNode();
   final commentController = TextEditingController();
+  late final StreamSubscription<bool> keyboardSubscription;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final keyboardController = KeyboardVisibilityController();
+    final bloc = BlocProvider.of<CommentBloc>(context);
+
+    keyboardSubscription = keyboardController.onChange.listen((isVisible) {
+      if (!isVisible) {
+        commentFocusNode.unfocus();
+        bloc.add(CommentReplyCanceled(commentController.text));
+      }
+    });
+  }
 
   @override
   void dispose() {
     // TODO: implement dispose
+    keyboardSubscription.cancel();
     commentController.dispose();
     commentFocusNode.dispose();
     super.dispose();
@@ -111,9 +131,13 @@ class _CommentField extends StatelessWidget {
             builder: (context, state) {
               final suffixIcon =
                   _buildSuffixIcon(state is CommentSending, context);
+              var labelText = 'Add a comment';
 
               if (state is CommentLoaded) {
-                commentController.text = '';
+                commentController.text = state.inputText ?? '';
+              } else if (state is CommentReplying) {
+                labelText = 'Reply to ${state.project.creator.name}';
+                commentFocusNode.requestFocus();
               }
 
               return TextField(
@@ -121,12 +145,9 @@ class _CommentField extends StatelessWidget {
                 controller: commentController,
                 focusNode: commentFocusNode,
                 onSubmitted: (value) => _handleSubmit(value, context),
-                onTapOutside: (_) {
-                  commentFocusNode.unfocus();
-                },
                 decoration: InputDecoration(
                   filled: true,
-                  label: const Text('Add a comment'),
+                  label: Text(labelText),
                   suffixIcon: suffixIcon,
                 ),
               );
@@ -139,16 +160,28 @@ class _CommentField extends StatelessWidget {
 
   void _handleSubmit(String value, BuildContext context) {
     final bloc = BlocProvider.of<CommentBloc>(context);
+    final currentState = bloc.state;
     if (value.isEmpty) {
       return;
     }
 
-    bloc.add(
-      CommentAdded(
-        project,
-        value,
-      ),
-    );
+    if (currentState is CommentReplying) {
+      bloc.add(
+        CommentReplySubmitted(
+          currentState.comment,
+          currentState.project,
+          value,
+        ),
+      );
+    } else {
+      bloc.add(
+        CommentAdded(
+          project,
+          value,
+        ),
+      );
+    }
+
     _resetCommentField();
   }
 

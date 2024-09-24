@@ -120,6 +120,11 @@ class ViewProjectScreen extends StatelessWidget {
               title: const Text('Take a photo'),
               onTap: () => _handleUploadImage(ImageSource.camera, context),
             ),
+            ListTile(
+              leading: const Icon(Icons.remove_red_eye_outlined),
+              title: const Text('View photo'),
+              onTap: () => _showImage(context),
+            ),
           ],
         );
       },
