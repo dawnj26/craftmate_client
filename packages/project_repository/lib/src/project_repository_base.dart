@@ -28,6 +28,11 @@ abstract class IProjectRepository {
   Future<Project> updateProject(String title, Project project, [String? tags]);
   Future<Project> changeVisibilty(Project project);
   Future<void> deleteProject(Project project);
+  Future<Comment> replyComment(
+    Comment comment,
+    Project project,
+    String commentText,
+  );
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -38,6 +43,36 @@ class ProjectRepository implements IProjectRepository {
   ProjectRepository({
     required ConfigRepository config,
   }) : _config = config;
+
+  @override
+  Future<Comment> replyComment(
+    Comment comment,
+    Project project,
+    String commentText,
+  ) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+
+      final response = await api.post<Map<String, dynamic>>(
+        '/project/${project.id}/comment/${comment.id}/reply',
+        data: {
+          'comment': commentText,
+        },
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      return Comment.fromJson(response.data!['data']);
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
 
   @override
   Future<void> deleteProject(Project project) async {
