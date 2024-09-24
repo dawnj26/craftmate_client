@@ -3,6 +3,7 @@ import 'package:user_repository/user_repository.dart';
 class Comment {
   final User user;
   final int id;
+  final int? parentId;
   final String content;
   final List<Comment> children;
   final bool isLiked;
@@ -10,6 +11,7 @@ class Comment {
 
   const Comment({
     required this.id,
+    this.parentId,
     required this.user,
     required this.content,
     required this.children,
@@ -28,6 +30,7 @@ class Comment {
 
     return Comment(
       id: json['id'] as int,
+      parentId: json['parent_id'] as int?,
       user: User.fromJson(json['user'] as Map<String, dynamic>),
       content: json['content'] as String,
       children: children,
