@@ -1,3 +1,4 @@
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/view_project/comment/bloc/comment_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/view/components/comment_block.dart';
@@ -59,6 +60,9 @@ class Comments extends StatelessWidget {
               },
               onReplyCallback: () {
                 bloc.add(CommentClickedReply(project, comment));
+              },
+              onDeleteCallback: () {
+                bloc.add(CommentDeleted(comment, project));
               },
             );
           },
