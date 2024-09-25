@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:craftmate_client/auth/auth.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/project_management/view_project/comment/bloc/comment_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/view/components/comments.dart';
 import 'package:flutter/material.dart';
@@ -144,6 +145,9 @@ class _CommentField extends StatelessWidget {
                 key: const Key('comment_text_field'),
                 controller: commentController,
                 focusNode: commentFocusNode,
+                minLines: 1,
+                maxLines: 5,
+                keyboardType: TextInputType.multiline,
                 onSubmitted: (value) => _handleSubmit(value, context),
                 decoration: InputDecoration(
                   filled: true,
@@ -158,12 +162,12 @@ class _CommentField extends StatelessWidget {
     );
   }
 
-  void _handleSubmit(String value, BuildContext context) {
+  void _handleSubmit(
+    String value,
+    BuildContext context,
+  ) {
     final bloc = BlocProvider.of<CommentBloc>(context);
     final currentState = bloc.state;
-    if (value.isEmpty) {
-      return;
-    }
 
     if (currentState is CommentReplying) {
       bloc.add(
@@ -192,7 +196,6 @@ class _CommentField extends StatelessWidget {
 
   Widget _buildSuffixIcon(bool isLoading, BuildContext context) {
     final theme = Theme.of(context);
-    final bloc = BlocProvider.of<CommentBloc>(context);
 
     if (isLoading) {
       return const Padding(
@@ -207,13 +210,7 @@ class _CommentField extends StatelessWidget {
           return;
         }
 
-        bloc.add(
-          CommentAdded(
-            project,
-            commentController.text,
-          ),
-        );
-        _resetCommentField();
+        _handleSubmit(commentController.text, context);
       },
       icon: Icon(
         Icons.send_rounded,

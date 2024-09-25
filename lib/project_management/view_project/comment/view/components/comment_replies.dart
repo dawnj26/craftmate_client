@@ -1,3 +1,4 @@
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/project_management/view_project/comment/bloc/comment_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/view/components/comment_block.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,9 @@ class CommentReplies extends StatelessWidget {
           },
           onLikeCallback: () {
             bloc.add(CommentLiked(reply, project.id));
+          },
+          onDeleteCallback: () {
+            bloc.add(CommentDeleted(reply, project));
           },
         );
       }),

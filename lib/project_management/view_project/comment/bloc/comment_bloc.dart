@@ -15,9 +15,37 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     on<CommentClickedReply>(_onCommentClickedReply);
     on<CommentReplyCanceled>(_onCommentReplyCanceled);
     on<CommentReplySubmitted>(_onCommentReplySubmitted);
+    on<CommentDeleted>(_onCommentDeleted);
   }
 
   final ProjectRepository _projectRepo;
+
+  Future<void> _onCommentDeleted(
+    CommentDeleted event,
+    Emitter<CommentState> emit,
+  ) async {
+    emit(CommentSending(comments: List.from(state.comments)));
+    try {
+      final updatedComments = _deleteComment(state.comments, event.comment);
+      await _projectRepo.deleteComment(
+          event.comment, event.project, updatedComments.length);
+
+      emit(CommentLoaded(comments: updatedComments));
+    } on ProjectException catch (e) {
+      emit(CommentError(e.message, comments: List.from(state.comments)));
+    }
+  }
+
+  List<Comment> _deleteComment(List<Comment> comments, Comment comment) {
+    return comments
+        .where((c) => c.id != comment.id)
+        .map(
+          (c) => c.copyWith(
+            children: _deleteComment(c.children, comment),
+          ),
+        )
+        .toList();
+  }
 
   Future<void> _onCommentReplySubmitted(
     CommentReplySubmitted event,
@@ -54,7 +82,12 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     CommentReplyCanceled event,
     Emitter<CommentState> emit,
   ) {
-    emit(CommentLoaded(comments: state.comments, inputText: event.inputText));
+    emit(
+      CommentLoaded(
+        comments: List.from(state.comments),
+        inputText: event.inputText,
+      ),
+    );
   }
 
   void _onCommentClickedReply(

@@ -64,3 +64,13 @@ final class CommentReplySubmitted extends CommentEvent {
   @override
   List<Object> get props => [comment, project, commentText];
 }
+
+final class CommentDeleted extends CommentEvent {
+  final Comment comment;
+  final Project project;
+  const CommentDeleted(this.comment, this.project);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [comment, project];
+}

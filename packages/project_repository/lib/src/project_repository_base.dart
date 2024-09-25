@@ -33,6 +33,8 @@ abstract class IProjectRepository {
     Project project,
     String commentText,
   );
+  Future<void> deleteComment(
+      Comment comment, Project project, int commentCount);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -43,6 +45,23 @@ class ProjectRepository implements IProjectRepository {
   ProjectRepository({
     required ConfigRepository config,
   }) : _config = config;
+
+  @override
+  Future<void> deleteComment(
+      Comment comment, Project project, int commentCount) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+      await api.delete('/project/comment/${comment.id}/delete');
+
+      _streamController.add(project.copyWith(commentCount: commentCount));
+    } on DioException catch (e) {
+      final message = getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
 
   @override
   Future<Comment> replyComment(

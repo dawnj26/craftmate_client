@@ -49,3 +49,9 @@ final class ViewProjectFailed extends ViewProjectState {
     required this.errMessage,
   });
 }
+
+final class ViewProjectRefreshSuccess extends ViewProjectState {
+  const ViewProjectRefreshSuccess({
+    required super.project,
+  });
+}

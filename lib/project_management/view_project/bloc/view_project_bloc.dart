@@ -19,6 +19,7 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     on<ViewProjectLiked>(_onProjectLiked);
     on<ViewProjectChanged>(_onProjectChanged);
     on<ViewProjectImageUploaded>(_onProjectImageUploaded);
+    on<ViewProjectRefreshed>(_onProjectRefreshed);
 
     // Listen to project changes
     _projectSubscription =
@@ -28,6 +29,25 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
   }
 
   final ProjectRepository _projectRepository;
+
+  Future<void> _onProjectRefreshed(
+    ViewProjectRefreshed event,
+    Emitter<ViewProjectState> emit,
+  ) async {
+    try {
+      final project =
+          await _projectRepository.tryGetProjectById(state.project.id);
+      emit(ViewProjectRefreshSuccess(project: project));
+    } on ProjectException catch (e) {
+      logger.warning('Refreshing project failed');
+      emit(
+        ViewProjectFailed(
+          errMessage: e.message,
+          project: state.project,
+        ),
+      );
+    }
+  }
 
   Future<void> _onProjectImageUploaded(
     ViewProjectImageUploaded event,
