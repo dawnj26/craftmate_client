@@ -1,4 +1,5 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
@@ -30,53 +31,67 @@ class ViewProjectScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final project = BlocProvider.of<ViewProjectBloc>(context).state.project;
 
-    return BlocListener<ViewProjectBloc, ViewProjectState>(
+    return BlocConsumer<ViewProjectBloc, ViewProjectState>(
       listener: _handleState,
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            PopupMenuButton(
-              itemBuilder: (_) => [
-                PopupMenuItem(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      SettingsPage.route(
-                        BlocProvider.of<ViewProjectBloc>(context).state.project,
-                        RepositoryProvider.of(context),
+      buildWhen: (previous, current) => current is ViewProjectRefreshSuccess,
+      builder: (context, state) {
+        logger.info('Building view project screen');
+        return RefreshIndicator(
+          displacement: 100.0,
+          onRefresh: () async {
+            final newState = context.read<ViewProjectBloc>().stream.first;
+            context.read<ViewProjectBloc>().add(const ViewProjectRefreshed());
+            await newState;
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              actions: [
+                PopupMenuButton(
+                  itemBuilder: (_) => [
+                    PopupMenuItem(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          SettingsPage.route(
+                            BlocProvider.of<ViewProjectBloc>(context)
+                                .state
+                                .project,
+                            RepositoryProvider.of(context),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Settings',
                       ),
-                    );
-                  },
-                  child: const Text(
-                    'Settings',
-                  ),
-                ),
-                const PopupMenuItem(
-                  child: Text(
-                    'Share',
-                  ),
+                    ),
+                    const PopupMenuItem(
+                      child: Text(
+                        'Share',
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-        body: ListView(
-          children: [
-            AspectRatio(
-              aspectRatio: 3 / 2,
-              child: InkWell(
-                onTap: () => _showImageOptions(context),
-                child: const HeroImage(),
-              ),
+            body: ListView(
+              children: [
+                AspectRatio(
+                  aspectRatio: 3 / 2,
+                  child: InkWell(
+                    onTap: () => _showImageOptions(context),
+                    child: const HeroImage(),
+                  ),
+                ),
+                _ProjectCardHeader(
+                  creator: project.creator,
+                  projectTitle: project.title,
+                  project: project,
+                ),
+                _ProjectBody(project: project),
+              ],
             ),
-            _ProjectCardHeader(
-              creator: project.creator,
-              projectTitle: project.title,
-              project: project,
-            ),
-            _ProjectBody(project: project),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -172,11 +187,13 @@ class HeroImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ViewProjectBloc, ViewProjectState>(
       buildWhen: (previous, current) =>
-          previous.project.imageUrl != current.project.imageUrl,
+          previous.project.imageUrl != current.project.imageUrl ||
+          current is ViewProjectRefreshSuccess,
       builder: (context, state) {
         final theme = Theme.of(context);
         final textTheme = theme.textTheme;
         final project = state.project;
+        logger.info('Building hero image');
 
         final currentUser = BlocProvider.of<AuthBloc>(context).state.user;
         var imageText = 'Add image +';
@@ -227,7 +244,8 @@ class _ProjectBody extends StatelessWidget {
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
             buildWhen: (previous, current) {
               final res =
-                  previous.project.description != current.project.description;
+                  previous.project.description != current.project.description ||
+                      current is ViewProjectRefreshSuccess;
               return res;
             },
             builder: (context, state) {
@@ -246,7 +264,8 @@ class _ProjectBody extends StatelessWidget {
           const Divider(),
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
             buildWhen: (previous, current) =>
-                previous.project.steps != current.project.steps,
+                previous.project.steps != current.project.steps ||
+                current is ViewProjectRefreshSuccess,
             builder: (context, state) {
               return ProjectSteps(
                 key: const Key('viewProject_steps'),
@@ -352,7 +371,8 @@ class _ProjectCardHeader extends StatelessWidget {
           const Gap(16.0),
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
             buildWhen: (previous, current) =>
-                previous.project != current.project,
+                previous.project != current.project ||
+                current is ViewProjectRefreshSuccess,
             builder: (context, state) {
               final project = state.project;
 
@@ -408,7 +428,8 @@ class SocialCounters extends StatelessWidget {
         children: [
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
             buildWhen: (previous, current) =>
-                previous.project.likeCount != current.project.likeCount,
+                previous.project.likeCount != current.project.likeCount ||
+                current is ViewProjectRefreshSuccess,
             builder: (context, state) {
               return Counter(
                 countText: '${state.project.likeCount}',
@@ -419,7 +440,8 @@ class SocialCounters extends StatelessWidget {
           const Gap(gap),
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
             buildWhen: (previous, current) =>
-                previous.project.forkCount != current.project.forkCount,
+                previous.project.forkCount != current.project.forkCount ||
+                current is ViewProjectRefreshSuccess,
             builder: (context, state) {
               return Counter(
                 countText: '${state.project.forkCount}',
@@ -430,7 +452,8 @@ class SocialCounters extends StatelessWidget {
           const Gap(gap),
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
             buildWhen: (previous, current) =>
-                previous.project.commentCount != current.project.commentCount,
+                previous.project.commentCount != current.project.commentCount ||
+                current is ViewProjectRefreshSuccess,
             builder: (context, state) {
               return Counter(
                 countText: '${state.project.commentCount}',
@@ -454,7 +477,8 @@ class _ActionButtons extends StatelessWidget {
         Expanded(
           child: BlocBuilder<ViewProjectBloc, ViewProjectState>(
             buildWhen: (previous, current) =>
-                previous.project.isLiked != current.project.isLiked,
+                previous.project.isLiked != current.project.isLiked ||
+                current is ViewProjectRefreshSuccess,
             builder: (context, state) {
               final project = state.project;
               final bloc = context.read<ViewProjectBloc>();
