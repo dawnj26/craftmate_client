@@ -28,3 +28,7 @@ final class ViewProjectImageUploaded extends ViewProjectEvent {
   // TODO: implement props
   List<Object> get props => [imageUrl];
 }
+
+final class ViewProjectRefreshed extends ViewProjectEvent {
+  const ViewProjectRefreshed();
+}
