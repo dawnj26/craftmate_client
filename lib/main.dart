@@ -1,4 +1,5 @@
 import 'package:craftmate_client/app.dart';
+import 'package:craftmate_client/bootstrap.dart';
 import 'package:craftmate_client/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -12,5 +13,5 @@ void main() async {
   await dotenv.load();
 
   logger.info('Starting the app');
-  runApp(const MyApp());
+  bootstrap(() => const MyApp());
 }
