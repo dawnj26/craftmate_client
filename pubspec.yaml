@@ -31,6 +31,7 @@ dependencies:
   authentication_repository:
     path: packages/authentication_repository
   bloc: ^8.1.4
+  bloc_concurrency: ^0.2.5
   config_repository:
     path: packages/config_repository
   cupertino_icons: ^1.0.6
@@ -56,6 +57,7 @@ dependencies:
   modal_bottom_sheet: ^3.0.0
   project_repository:
     path: packages/project_repository
+  stream_transform: ^2.1.0
   user_repository:
     path: packages/user_repository
 
