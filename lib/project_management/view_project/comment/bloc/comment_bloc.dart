@@ -28,7 +28,10 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
     try {
       final updatedComments = _deleteComment(state.comments, event.comment);
       await _projectRepo.deleteComment(
-          event.comment, event.project, updatedComments.length);
+        event.comment,
+        event.project,
+        updatedComments.length,
+      );
 
       emit(CommentLoaded(comments: updatedComments));
     } on ProjectException catch (e) {

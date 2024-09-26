@@ -30,12 +30,12 @@ class ViewProjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final project = BlocProvider.of<ViewProjectBloc>(context).state.project;
+    final currentUser = BlocProvider.of<AuthBloc>(context).state.user;
 
     return BlocConsumer<ViewProjectBloc, ViewProjectState>(
       listener: _handleState,
       buildWhen: (previous, current) => current is ViewProjectRefreshSuccess,
       builder: (context, state) {
-        logger.info('Building view project screen');
         return RefreshIndicator(
           displacement: 100.0,
           onRefresh: () async {
@@ -45,30 +45,51 @@ class ViewProjectScreen extends StatelessWidget {
           },
           child: Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
+              leading: IconButton(
+                onPressed: () {
+                  final curProj =
+                      BlocProvider.of<ViewProjectBloc>(context).state.project;
+                  Navigator.of(context).pop(curProj);
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
               actions: [
                 PopupMenuButton(
-                  itemBuilder: (_) => [
-                    PopupMenuItem(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          SettingsPage.route(
-                            BlocProvider.of<ViewProjectBloc>(context)
-                                .state
-                                .project,
-                            RepositoryProvider.of(context),
+                  itemBuilder: (_) {
+                    if (currentUser.id != project.creator.id) {
+                      return [
+                        const PopupMenuItem(
+                          child: Text(
+                            'Share',
                           ),
-                        );
-                      },
-                      child: const Text(
-                        'Settings',
+                        ),
+                      ];
+                    }
+
+                    return [
+                      PopupMenuItem(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            SettingsPage.route(
+                              BlocProvider.of<ViewProjectBloc>(context)
+                                  .state
+                                  .project,
+                              RepositoryProvider.of(context),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Settings',
+                        ),
                       ),
-                    ),
-                    const PopupMenuItem(
-                      child: Text(
-                        'Share',
+                      const PopupMenuItem(
+                        child: Text(
+                          'Share',
+                        ),
                       ),
-                    ),
-                  ],
+                    ];
+                  },
                 ),
               ],
             ),
@@ -193,7 +214,6 @@ class HeroImage extends StatelessWidget {
         final theme = Theme.of(context);
         final textTheme = theme.textTheme;
         final project = state.project;
-        logger.info('Building hero image');
 
         final currentUser = BlocProvider.of<AuthBloc>(context).state.user;
         var imageText = 'Add image +';

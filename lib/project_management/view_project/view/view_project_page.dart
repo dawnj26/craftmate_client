@@ -14,8 +14,8 @@ class ViewProjectPage extends StatelessWidget {
 
   final Project project;
 
-  static Route<void> route(Project project) {
-    return PageTransition.effect.slideFromRightToLeft(
+  static Route<Project> route(Project project) {
+    return PageTransition.effect.slideFromRightToLeft<Project>(
       ViewProjectPage(
         project: project,
       ),
