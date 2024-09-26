@@ -63,6 +63,87 @@ class _ForYouTabState extends State<ForYouTab> {
       },
     );
   }
+
+  void _onScroll() {
+    if (_isBottom) {
+      context.read<HomeBloc>().add(const HomeLoadMoreProjects());
+      logger.info('Reached bottom');
+    }
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
+  }
+}
+
+class ProjectGrid extends StatelessWidget {
+  const ProjectGrid({
+    super.key,
+    required this.scrollController,
+    required this.projects,
+    required this.paginatedProjects,
+  });
+
+  final ScrollController scrollController;
+  final List<Project> projects;
+  final Pagination<Project> paginatedProjects;
+
+  @override
+  Widget build(BuildContext context) {
+    const gap = 8.0;
+    logger.info('Has next page ${paginatedProjects.nextPageUrl}');
+    return Scaffold(
+      body: CustomScrollView(
+        controller: scrollController,
+        slivers: _buildSlivers(gap),
+      ),
+    );
+  }
+
+  List<Widget> _buildSlivers(double gap) {
+    final slivers = <Widget>[
+      SliverPadding(
+        padding: EdgeInsets.all(gap),
+        sliver: SliverGrid(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              final project = projects[index];
+              return ProjectCard(project: project);
+            },
+            childCount:
+                projects.length, // Adjust this number to add more grid items
+          ),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.7,
+            mainAxisSpacing: gap,
+            crossAxisSpacing: gap,
+          ),
+        ),
+      ),
+    ];
+
+    if (paginatedProjects.hasNextPage) {
+      slivers.add(
+        const SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.all(12.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BottomLoader(),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    return slivers;
+  }
 }
 
 class ProjectCard extends StatelessWidget {
