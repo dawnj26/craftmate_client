@@ -5,6 +5,7 @@ import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:project_repository/src/exceptions/project_exception.dart';
 import 'package:project_repository/src/models/models.dart';
+import 'package:project_repository/src/models/pagination.dart';
 
 final class ProjectApi {
   final ConfigRepository _config;
@@ -15,7 +16,32 @@ final class ProjectApi {
 
   StreamController<Project> get streamController => _streamController;
 
-  Future<List<Project>> getLatestProjects() async {
+  Future<Pagination<Project>> getNextPage(String nextUrl) async {
+    try {
+      final api = await _config.api;
+      api.options.baseUrl = nextUrl;
+      final response = await api.get<Map<String, dynamic>>('');
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final paginatedProjects = Pagination.fromJson(
+        response.data!['data'],
+        (dynamic item) => Project.fromJson(item),
+      );
+
+      return paginatedProjects;
+    } on DioException catch (e) {
+      final message = _config.getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<Pagination<Project>> getLatestProjects() async {
     try {
       final api = await _config.apiWithAuthorization;
       final response = await api.get<Map<String, dynamic>>('/projects');
@@ -24,10 +50,12 @@ final class ProjectApi {
         throw ProjectException(message: 'Response is null');
       }
 
-      final projects = response.data!['data']['projects'] as List<dynamic>;
-      final projectsList = projects.map((e) => Project.fromJson(e)).toList();
+      final paginatedProjects = Pagination.fromJson(
+        response.data!['data'],
+        (dynamic item) => Project.fromJson(item),
+      );
 
-      return projectsList;
+      return paginatedProjects;
     } on DioException catch (e) {
       final message = _config.getErrorMsg(e.type);
 
