@@ -5,6 +5,7 @@ import 'package:project_repository/src/api/comment_api.dart';
 import 'package:project_repository/src/api/project_api.dart';
 import 'package:project_repository/src/api/upload_api.dart';
 import 'package:project_repository/src/models/comment.dart';
+import 'package:project_repository/src/models/pagination.dart';
 import 'package:project_repository/src/models/project.dart';
 
 abstract class IProjectRepository {
@@ -35,7 +36,8 @@ abstract class IProjectRepository {
   );
   Future<void> deleteComment(
       Comment comment, Project project, int commentCount);
-  Future<List<Project>> getLatestProjects();
+  Future<Pagination<Project>> getLatestProjects();
+  Future<Pagination<Project>> getNextPage(String nextUrl);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -50,7 +52,12 @@ class ProjectRepository implements IProjectRepository {
         _commentApi = CommentApi(config: config);
 
   @override
-  Future<List<Project>> getLatestProjects() {
+  Future<Pagination<Project>> getNextPage(String nextUrl) async {
+    return _projectApi.getNextPage(nextUrl);
+  }
+
+  @override
+  Future<Pagination<Project>> getLatestProjects() {
     return _projectApi.getLatestProjects();
   }
 
