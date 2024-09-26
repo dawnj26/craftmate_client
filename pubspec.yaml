@@ -47,6 +47,7 @@ dependencies:
   formz: ^0.7.0
   gap: ^3.0.1
   image_picker: ^1.1.2
+  intl: ^0.19.0
   loading_animation_widget: ^1.2.1
   log_collector:
     path: packages/log_collector
