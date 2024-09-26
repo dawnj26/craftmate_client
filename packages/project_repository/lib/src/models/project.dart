@@ -82,7 +82,7 @@ class Project extends Equatable {
       creator: User.fromJson(json['user'] as Map<String, dynamic>),
       id: json['id'] as int,
       title: json['title'] as String,
-      isPulic: json['is_public'] == "1",
+      isPulic: json['is_public'] == 1,
       isLiked: json['is_liked'] as bool,
       description: jsonDecode(json['description'] ?? 'null') as List<dynamic>?,
       tags: (json['tags'] as List<dynamic>?)
