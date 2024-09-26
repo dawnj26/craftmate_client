@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:craftmate_client/auth/auth.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/project_management/view_project/comment/bloc/comment_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/view/components/comments.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +61,7 @@ class _CommentModalState extends State<CommentModal> {
   Widget build(BuildContext context) {
     final textTheme = widget.theme.textTheme;
     final bottomInsets = MediaQuery.of(context).viewInsets.bottom;
+    logger.info('Building comment modal');
 
     return Container(
       padding: const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
@@ -134,9 +136,10 @@ class _CommentField extends StatelessWidget {
               var labelText = 'Add a comment';
 
               if (state is CommentLoaded) {
-                commentController.text = state.inputText ?? '';
+                commentController.text =
+                    state.inputText ?? commentController.text;
               } else if (state is CommentReplying) {
-                labelText = 'Reply to ${state.project.creator.name}';
+                labelText = 'Reply to ${state.comment.user.name}';
                 commentFocusNode.requestFocus();
               }
 
