@@ -56,28 +56,40 @@ class ViewProjectScreen extends StatelessWidget {
               ),
               actions: [
                 PopupMenuButton(
-                  itemBuilder: (_) => [
-                    PopupMenuItem(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          SettingsPage.route(
-                            BlocProvider.of<ViewProjectBloc>(context)
-                                .state
-                                .project,
-                            RepositoryProvider.of(context),
+                  itemBuilder: (_) {
+                    if (currentUser.id != project.creator.id) {
+                      return [
+                        const PopupMenuItem(
+                          child: Text(
+                            'Share',
                           ),
-                        );
-                      },
-                      child: const Text(
-                        'Settings',
+                        ),
+                      ];
+                    }
+
+                    return [
+                      PopupMenuItem(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            SettingsPage.route(
+                              BlocProvider.of<ViewProjectBloc>(context)
+                                  .state
+                                  .project,
+                              RepositoryProvider.of(context),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Settings',
+                        ),
                       ),
-                    ),
-                    const PopupMenuItem(
-                      child: Text(
-                        'Share',
+                      const PopupMenuItem(
+                        child: Text(
+                          'Share',
+                        ),
                       ),
-                    ),
-                  ],
+                    ];
+                  },
                 ),
               ],
             ),
