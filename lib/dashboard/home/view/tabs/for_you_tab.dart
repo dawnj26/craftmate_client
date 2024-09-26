@@ -16,6 +16,8 @@ class ForYouTab extends StatefulWidget {
 class _ForYouTabState extends State<ForYouTab> {
   final _scrollController = ScrollController();
 
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -176,10 +178,7 @@ class ProjectCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: Image.asset(
-                _getImageUrl(),
-                fit: BoxFit.cover,
-              ),
+              child: _getImageUrl(),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -237,12 +236,18 @@ class ProjectCard extends StatelessWidget {
     );
   }
 
-  String _getImageUrl() {
+  Widget _getImageUrl() {
     if (project.imageUrl == null) {
-      return 'assets/images/placeholder.png';
+      return Image.asset(
+        'assets/images/placeholder_with_logo.png',
+        fit: BoxFit.cover,
+      );
     }
 
-    return project.imageUrl!;
+    return Image.network(
+      project.imageUrl!,
+      fit: BoxFit.cover,
+    );
   }
 
   String _formatNumber(int number) {
