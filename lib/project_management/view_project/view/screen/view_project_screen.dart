@@ -45,6 +45,15 @@ class ViewProjectScreen extends StatelessWidget {
           },
           child: Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
+              leading: IconButton(
+                onPressed: () {
+                  final curProj =
+                      BlocProvider.of<ViewProjectBloc>(context).state.project;
+                  Navigator.of(context).pop(curProj);
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
               actions: [
                 PopupMenuButton(
                   itemBuilder: (_) => [
