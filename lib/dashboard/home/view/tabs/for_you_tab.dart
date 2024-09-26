@@ -84,13 +84,22 @@ class ProjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    return Card(
-      clipBehavior: Clip.hardEdge,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(ViewProjectPage.route(project));
-        },
+    return GestureDetector(
+      onTap: () async {
+        final p =
+            await Navigator.of(context).push(ViewProjectPage.route(project));
+
+        if (p == null) {
+          return;
+        }
+        if (context.mounted) {
+          context.read<HomeBloc>().add(HomeProjectUpdated(p));
+        }
+      },
+      child: Card(
+        clipBehavior: Clip.hardEdge,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: Image.asset(
