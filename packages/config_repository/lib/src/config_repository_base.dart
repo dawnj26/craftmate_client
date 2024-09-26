@@ -38,4 +38,17 @@ class ConfigRepository {
   }
 
   FlutterSecureStorage get storage => _storage;
+
+  String getErrorMsg(DioExceptionType type) {
+    switch (type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.receiveTimeout:
+      case DioExceptionType.sendTimeout:
+        return 'Request timeout. Check internet connection';
+      case DioExceptionType.badCertificate:
+        return 'Bad certificate';
+      default:
+        return 'Something went wrong.';
+    }
+  }
 }
