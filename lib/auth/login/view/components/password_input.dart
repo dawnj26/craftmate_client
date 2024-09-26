@@ -20,25 +20,63 @@ class PasswordInput extends StatelessWidget {
           errorText = 'Password is empty';
         }
 
-        final theme = Theme.of(context);
-        return TextField(
-          focusNode: focusNode,
-          onTapOutside: (_) => focusNode.unfocus(),
+        return _Field(
           key: const Key('loginForm_passwordInput_textField'),
-          onChanged: (password) =>
-              context.read<LoginBloc>().add(LoginPasswordChanged(password)),
-          decoration: InputDecoration(
-            labelText: 'Password',
-            border: const OutlineInputBorder(),
-            prefixIcon: Icon(
-              Icons.lock_outline,
-              color: errorText == null ? null : theme.colorScheme.error,
-            ),
-            errorText: errorText,
-          ),
-          obscureText: true,
+          focusNode: focusNode,
+          errorText: errorText,
         );
       },
+    );
+  }
+}
+
+class _Field extends StatefulWidget {
+  const _Field({
+    super.key,
+    required this.focusNode,
+    required this.errorText,
+  });
+
+  final FocusNode focusNode;
+  final String? errorText;
+
+  @override
+  State<_Field> createState() => _FieldState();
+}
+
+class _FieldState extends State<_Field> {
+  bool _obscureText = true;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return TextField(
+      focusNode: widget.focusNode,
+      onTapOutside: (_) => widget.focusNode.unfocus(),
+      onChanged: (password) =>
+          context.read<LoginBloc>().add(LoginPasswordChanged(password)),
+      decoration: InputDecoration(
+        labelText: 'Password',
+        border: const OutlineInputBorder(),
+        prefixIcon: Icon(
+          Icons.lock_outline,
+          color: widget.errorText == null ? null : theme.colorScheme.error,
+        ),
+        suffixIcon: IconButton(
+          onPressed: () {
+            setState(() {
+              _obscureText = !_obscureText;
+            });
+          },
+          icon: Icon(
+            _obscureText
+                ? Icons.visibility_off_outlined
+                : Icons.visibility_outlined,
+          ),
+        ),
+        errorText: widget.errorText,
+      ),
+      obscureText: _obscureText,
     );
   }
 }
