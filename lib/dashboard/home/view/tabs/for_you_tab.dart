@@ -48,22 +48,15 @@ class _ForYouTabState extends State<ForYouTab> {
           case HomeStatus.loaded:
             return RefreshIndicator(
               onRefresh: () async {
-                await Future.delayed(const Duration(seconds: 1));
+                final bloc = BlocProvider.of<HomeBloc>(context);
+                final newState = bloc.stream.first;
+                bloc.add(const HomeRefreshProjects());
+                await newState;
               },
-              child: GridView.builder(
-                padding: const EdgeInsets.all(gap),
-                controller: _scrollController,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.7,
-                  mainAxisSpacing: gap,
-                  crossAxisSpacing: gap,
-                ),
-                itemCount: state.projects.length,
-                itemBuilder: (context, index) {
-                  final project = state.projects[index];
-                  return ProjectCard(project: project);
-                },
+              child: ProjectGrid(
+                scrollController: _scrollController,
+                projects: state.projects,
+                paginatedProjects: state.paginatedProjects,
               ),
             );
         }
