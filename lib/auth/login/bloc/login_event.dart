@@ -25,12 +25,12 @@ final class LoginPasswordChanged extends LoginEvent {
 }
 
 final class LoginSubmitted extends LoginEvent {
+  const LoginSubmitted({required this.email, required this.password});
   final String email;
   final String password;
-  const LoginSubmitted({required this.email, required this.password});
 }
 
 final class LoginSocialClick extends LoginEvent {
-  final AuthenticationType type;
   const LoginSocialClick({required this.type});
+  final AuthenticationType type;
 }

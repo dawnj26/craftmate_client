@@ -8,21 +8,20 @@ sealed class BlankProjectEvent extends Equatable {
 }
 
 final class BlankProjectCreate extends BlankProjectEvent {
-  final String? tags;
   const BlankProjectCreate({this.tags});
+  final String? tags;
 }
 
 final class BlankProjectTitleChange extends BlankProjectEvent {
-  final String title;
-
   const BlankProjectTitleChange({
     required this.title,
   });
+  final String title;
 }
 
 final class BlankProjectToggleVisibility extends BlankProjectEvent {
-  final bool isPulic;
   const BlankProjectToggleVisibility({
     required this.isPulic,
   });
+  final bool isPulic;
 }

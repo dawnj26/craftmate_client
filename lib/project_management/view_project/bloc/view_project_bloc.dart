@@ -9,7 +9,6 @@ part 'view_project_event.dart';
 part 'view_project_state.dart';
 
 class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
-  late final StreamSubscription<Project> _projectSubscription;
 
   ViewProjectBloc({
     required ProjectRepository projectRepository,
@@ -27,6 +26,7 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
       add(ViewProjectChanged(p));
     });
   }
+  late final StreamSubscription<Project> _projectSubscription;
 
   final ProjectRepository _projectRepository;
 

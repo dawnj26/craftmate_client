@@ -8,12 +8,12 @@ sealed class TimerEvent extends Equatable {
 }
 
 final class TimerStarted extends TimerEvent {
-  final int duration;
   const TimerStarted({required this.duration});
+  final int duration;
 }
 
 final class _TimerTicked extends TimerEvent {
-  final int duration;
 
   const _TimerTicked({required this.duration});
+  final int duration;
 }

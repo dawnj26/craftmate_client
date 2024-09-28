@@ -8,9 +8,8 @@ sealed class OtpEvent extends Equatable {
 }
 
 final class OtpSubmit extends OtpEvent {
-  final String otp;
-
   const OtpSubmit({required this.otp});
+  final String otp;
 }
 
 final class OtpSend extends OtpEvent {

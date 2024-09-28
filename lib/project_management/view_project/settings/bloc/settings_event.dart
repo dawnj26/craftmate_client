@@ -8,8 +8,8 @@ sealed class SettingsEvent extends Equatable {
 }
 
 final class SettingsTitleChanged extends SettingsEvent {
-  final String title;
   const SettingsTitleChanged(this.title);
+  final String title;
 
   @override
   // TODO: implement props
@@ -17,8 +17,8 @@ final class SettingsTitleChanged extends SettingsEvent {
 }
 
 final class SettingsSaved extends SettingsEvent {
-  final String? tags;
   const SettingsSaved([this.tags]);
+  final String? tags;
 }
 
 final class SettingsVisibilityChanged extends SettingsEvent {

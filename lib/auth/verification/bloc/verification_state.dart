@@ -37,10 +37,10 @@ final class VerificationSuccess extends VerificationState {
 }
 
 final class VerificationFailed extends VerificationState {
-  final String message;
   const VerificationFailed({
     super.email,
     super.isValid,
     required this.message,
   }) : super(status: FormzSubmissionStatus.failure);
+  final String message;
 }

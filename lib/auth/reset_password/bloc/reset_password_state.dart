@@ -42,11 +42,11 @@ final class ResetPasswordSuccess extends ResetPasswordState {
 }
 
 final class ResetPasswordFailed extends ResetPasswordState {
-  final String message;
   const ResetPasswordFailed({
     required this.message,
     super.password,
     super.confirmPassword,
     super.isValid,
   }) : super(status: FormzSubmissionStatus.failure);
+  final String message;
 }

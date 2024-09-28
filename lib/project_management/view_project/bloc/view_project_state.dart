@@ -30,12 +30,12 @@ final class ViewProjectDirty extends ViewProjectState {
 }
 
 final class ViewProjectUploadSuccess extends ViewProjectState {
-  final bool isModalOpen;
 
   const ViewProjectUploadSuccess({
     required super.project,
     this.isModalOpen = false,
   });
+  final bool isModalOpen;
 
   @override
   // TODO: implement props
@@ -43,11 +43,11 @@ final class ViewProjectUploadSuccess extends ViewProjectState {
 }
 
 final class ViewProjectFailed extends ViewProjectState {
-  final String errMessage;
   const ViewProjectFailed({
     required super.project,
     required this.errMessage,
   });
+  final String errMessage;
 }
 
 final class ViewProjectRefreshSuccess extends ViewProjectState {

@@ -56,14 +56,13 @@ final class SettingsDeleteSuccess extends SettingsState {
 }
 
 final class SettingsFailed extends SettingsState {
-  final String errMessage;
-
   const SettingsFailed({
     required super.project,
     required this.errMessage,
     super.projectTitle,
     super.isValid,
   });
+  final String errMessage;
 
   @override
   // TODO: implement props

@@ -20,18 +20,18 @@ final class OtpInitial extends OtpState {
 }
 
 final class OtpFailed extends OtpState {
-  final String message;
   const OtpFailed({
     required this.message,
     super.otp,
     super.isValid,
   }) : super(status: FormzSubmissionStatus.failure);
+  final String message;
 }
 
 final class OtpSuccess extends OtpState {
-  final String token;
   const OtpSuccess({required this.token, super.otp, super.isValid})
       : super(status: FormzSubmissionStatus.success);
+  final String token;
 }
 
 final class OtpInProgress extends OtpState {

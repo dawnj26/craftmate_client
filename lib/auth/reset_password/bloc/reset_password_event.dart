@@ -8,19 +8,17 @@ sealed class ResetPasswordEvent extends Equatable {
 }
 
 final class ResetPasswordPasswordChanged extends ResetPasswordEvent {
-  final String password;
-
   const ResetPasswordPasswordChanged({
     required this.password,
   });
+  final String password;
 }
 
 final class ResetPasswordConfirmPasswordChanged extends ResetPasswordEvent {
-  final String confirmPassword;
-
   const ResetPasswordConfirmPasswordChanged({
     required this.confirmPassword,
   });
+  final String confirmPassword;
 }
 
 final class ResetPasswordSubmitted extends ResetPasswordEvent {

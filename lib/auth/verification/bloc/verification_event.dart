@@ -8,8 +8,8 @@ sealed class VerificationEvent extends Equatable {
 }
 
 final class EmailInputChange extends VerificationEvent {
-  final String email;
   const EmailInputChange({required this.email});
+  final String email;
 }
 
 final class FormSubmitted extends VerificationEvent {

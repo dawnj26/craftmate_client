@@ -12,15 +12,14 @@ final class EditProjectChanged extends EditProjectEvent {
 }
 
 final class EditProjectDescriptionSaved extends EditProjectEvent {
-  final List<dynamic> newDescription;
-  final Project currentProject;
-  final bool shouldExit;
-
   const EditProjectDescriptionSaved({
     required this.newDescription,
     required this.currentProject,
     required this.shouldExit,
   });
+  final List<dynamic> newDescription;
+  final Project currentProject;
+  final bool shouldExit;
 
   @override
   // TODO: implement props
@@ -28,15 +27,14 @@ final class EditProjectDescriptionSaved extends EditProjectEvent {
 }
 
 final class EditProjectStepsSaved extends EditProjectEvent {
-  final List<dynamic> newSteps;
-  final Project currentProject;
-  final bool shouldExit;
-
   const EditProjectStepsSaved({
     required this.newSteps,
     required this.currentProject,
     required this.shouldExit,
   });
+  final List<dynamic> newSteps;
+  final Project currentProject;
+  final bool shouldExit;
 
   @override
   // TODO: implement props

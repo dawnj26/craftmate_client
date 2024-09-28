@@ -26,13 +26,13 @@ final class LoginInitial extends LoginState {
 }
 
 final class LoginFailed extends LoginState {
-  final String message;
   const LoginFailed({
     required this.message,
     required super.email,
     required super.password,
     required super.isValid,
   }) : super(status: FormzSubmissionStatus.failure);
+  final String message;
 }
 
 final class LoginSuccess extends LoginState {

@@ -44,14 +44,13 @@ final class BlankProjectInvalid extends BlankProjectState {
 }
 
 final class BlankProjectFailed extends BlankProjectState {
-  final String errorMsg;
-
   const BlankProjectFailed({
     required super.projectTitle,
     required super.valid,
     required super.isPulic,
     required this.errorMsg,
   });
+  final String errorMsg;
 
   @override
   // TODO: implement props
@@ -59,14 +58,13 @@ final class BlankProjectFailed extends BlankProjectState {
 }
 
 final class BlankProjectSuccess extends BlankProjectState {
-  final Project project;
-
   const BlankProjectSuccess({
     required super.projectTitle,
     required super.valid,
     required super.isPulic,
     required this.project,
   });
+  final Project project;
 
   @override
   // TODO: implement props

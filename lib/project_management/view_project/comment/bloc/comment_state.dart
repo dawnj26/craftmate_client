@@ -28,8 +28,8 @@ final class CommentLoading extends CommentState {
 }
 
 final class CommentLoaded extends CommentState {
-  final String? inputText;
   const CommentLoaded({super.comments, this.inputText});
+  final String? inputText;
 }
 
 final class CommentError extends CommentState {
@@ -42,13 +42,13 @@ final class CommentError extends CommentState {
 }
 
 final class CommentReplying extends CommentState {
-  final Project project;
-  final Comment comment;
   const CommentReplying({
     super.comments,
     required this.project,
     required this.comment,
   });
+  final Project project;
+  final Comment comment;
 
   @override
   // TODO: implement props

@@ -12,8 +12,8 @@ final class ViewProjectLiked extends ViewProjectEvent {
 }
 
 final class ViewProjectChanged extends ViewProjectEvent {
-  final Project project;
   const ViewProjectChanged(this.project);
+  final Project project;
 
   @override
   // TODO: implement props
@@ -21,8 +21,8 @@ final class ViewProjectChanged extends ViewProjectEvent {
 }
 
 final class ViewProjectImageUploaded extends ViewProjectEvent {
-  final String imageUrl;
   const ViewProjectImageUploaded(this.imageUrl);
+  final String imageUrl;
 
   @override
   // TODO: implement props

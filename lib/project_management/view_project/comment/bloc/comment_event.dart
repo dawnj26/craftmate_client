@@ -36,9 +36,9 @@ final class CommentLiked extends CommentEvent {
 }
 
 final class CommentClickedReply extends CommentEvent {
+  const CommentClickedReply(this.project, this.comment);
   final Project project;
   final Comment comment;
-  const CommentClickedReply(this.project, this.comment);
 
   @override
   // TODO: implement props
@@ -46,8 +46,8 @@ final class CommentClickedReply extends CommentEvent {
 }
 
 final class CommentReplyCanceled extends CommentEvent {
-  final String inputText;
   const CommentReplyCanceled(this.inputText);
+  final String inputText;
 
   @override
   // TODO: implement props
@@ -66,9 +66,9 @@ final class CommentReplySubmitted extends CommentEvent {
 }
 
 final class CommentDeleted extends CommentEvent {
+  const CommentDeleted(this.comment, this.project);
   final Comment comment;
   final Project project;
-  const CommentDeleted(this.comment, this.project);
 
   @override
   // TODO: implement props

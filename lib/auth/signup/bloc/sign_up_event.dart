@@ -10,8 +10,8 @@ sealed class SignUpEvent extends Equatable {
 }
 
 final class SignUpNameChanged extends SignUpEvent {
-  final String name;
   const SignUpNameChanged({required this.name});
+  final String name;
 
   @override
   // TODO: implement props
@@ -19,8 +19,8 @@ final class SignUpNameChanged extends SignUpEvent {
 }
 
 final class SignUpEmailChanged extends SignUpEvent {
-  final String email;
   const SignUpEmailChanged({required this.email});
+  final String email;
 
   @override
   // TODO: implement props
@@ -28,8 +28,8 @@ final class SignUpEmailChanged extends SignUpEvent {
 }
 
 final class SignUpPasswordChanged extends SignUpEvent {
-  final String password;
   const SignUpPasswordChanged({required this.password});
+  final String password;
 
   @override
   // TODO: implement props
@@ -37,8 +37,8 @@ final class SignUpPasswordChanged extends SignUpEvent {
 }
 
 final class SignUpConfirmPasswordChanged extends SignUpEvent {
-  final String confirmPassword;
   const SignUpConfirmPasswordChanged({required this.confirmPassword});
+  final String confirmPassword;
 
   @override
   // TODO: implement props
@@ -46,19 +46,19 @@ final class SignUpConfirmPasswordChanged extends SignUpEvent {
 }
 
 final class SignUpSubmitted extends SignUpEvent {
-  final String name;
-  final String email;
-  final String password;
-  final String confirmPassword;
   const SignUpSubmitted({
     required this.name,
     required this.email,
     required this.password,
     required this.confirmPassword,
   });
+  final String name;
+  final String email;
+  final String password;
+  final String confirmPassword;
 }
 
 final class SignUpSocialClick extends SignUpEvent {
-  final AuthenticationType type;
   const SignUpSocialClick({required this.type});
+  final AuthenticationType type;
 }

@@ -20,8 +20,8 @@ final class TextEditorNormal extends TextEditorState {
 }
 
 final class TextEditorFailed extends TextEditorState {
-  final String errMessage;
   const TextEditorFailed({required this.errMessage});
+  final String errMessage;
 
   @override
   // TODO: implement props

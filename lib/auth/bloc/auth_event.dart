@@ -8,8 +8,8 @@ sealed class AuthEvent extends Equatable {
 }
 
 final class AuthStatusChanged extends AuthEvent {
-  final AuthenticationStatus status;
   AuthStatusChanged(this.status);
+  final AuthenticationStatus status;
 }
 
 final class AuthLogoutRequest extends AuthEvent {}

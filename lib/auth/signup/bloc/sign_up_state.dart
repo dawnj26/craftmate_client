@@ -43,7 +43,6 @@ final class SignUpSuccess extends SignUpState {
 }
 
 final class SignUpFailed extends SignUpState {
-  final String message;
   const SignUpFailed({
     required this.message,
     super.name,
@@ -52,6 +51,7 @@ final class SignUpFailed extends SignUpState {
     super.isValid,
     super.confirmPassword,
   }) : super(status: FormzSubmissionStatus.failure);
+  final String message;
 }
 
 final class SignUpInProgress extends SignUpState {

@@ -8,13 +8,12 @@ sealed class TextEditorEvent extends Equatable {
 }
 
 final class TextEditorImageInserted extends TextEditorEvent {
-  final String imagePath;
-  final QuillController controller;
-
   const TextEditorImageInserted({
     required this.imagePath,
     required this.controller,
   });
+  final String imagePath;
+  final QuillController controller;
 
   @override
   // TODO: implement props
@@ -22,13 +21,12 @@ final class TextEditorImageInserted extends TextEditorEvent {
 }
 
 final class TextEditorVideoInserted extends TextEditorEvent {
-  final String videoPath;
-  final QuillController controller;
-
   const TextEditorVideoInserted({
     required this.videoPath,
     required this.controller,
   });
+  final String videoPath;
+  final QuillController controller;
 
   @override
   // TODO: implement props
