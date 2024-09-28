@@ -14,7 +14,7 @@ final class UploadApi {
     try {
       final api = await _config.apiWithAuthorization;
       final formData = FormData.fromMap({
-        '$uploadType':
+        uploadType:
             await MultipartFile.fromFile(filePath, filename: filename),
       });
 

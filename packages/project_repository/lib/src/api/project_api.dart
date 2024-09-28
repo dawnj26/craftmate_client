@@ -5,7 +5,6 @@ import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:project_repository/src/exceptions/project_exception.dart';
 import 'package:project_repository/src/models/models.dart';
-import 'package:project_repository/src/models/pagination.dart';
 
 final class ProjectApi {
   final ConfigRepository _config;
@@ -18,7 +17,7 @@ final class ProjectApi {
 
   Future<Pagination<Project>> getNextPage(String nextUrl) async {
     try {
-      final api = await _config.api;
+      final api = _config.api;
       api.options.baseUrl = nextUrl;
       final response = await api.get<Map<String, dynamic>>('');
 

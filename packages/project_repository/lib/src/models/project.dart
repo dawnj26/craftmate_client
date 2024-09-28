@@ -62,8 +62,8 @@ class Project extends Equatable {
     String? imageUrl,
   }) {
     return Project(
-      creator: this.creator,
-      id: this.id,
+      creator: creator,
+      id: id,
       title: title ?? this.title,
       isPulic: isPulic ?? this.isPulic,
       isLiked: isLiked ?? this.isLiked,

@@ -5,6 +5,6 @@ class TokenException implements Exception {
 
   @override
   String toString() {
-    return this.message;
+    return message;
   }
 }
