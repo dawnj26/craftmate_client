@@ -34,8 +34,6 @@ class _ForYouTabState extends State<ForYouTab> {
 
   @override
   Widget build(BuildContext context) {
-    const gap = 8.0;
-
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         final bloc = BlocProvider.of<HomeBloc>(context);
