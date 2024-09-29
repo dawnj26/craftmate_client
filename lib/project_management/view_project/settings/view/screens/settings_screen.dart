@@ -1,6 +1,8 @@
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/create_project/blank_project/models/title.dart';
+import 'package:craftmate_client/project_management/create_project/blank_project/view/components/visibility_dropdown.dart';
 import 'package:craftmate_client/project_management/view_project/settings/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,7 +63,7 @@ class SettingsScreen extends StatelessWidget {
       Navigator.of(context).pop();
       Modal.instance.showConfirmationModal(
         context: context,
-        message: state.errMessage,
+        content: Text(state.errMessage),
         title: 'Oops!',
       );
     } else if (state is SettingsSavedSuccess) {
@@ -252,7 +254,8 @@ class DangerSettings extends StatelessWidget {
     Modal.instance.showConfirmationModal(
       context: context,
       icon: const Icon(Icons.delete_forever),
-      message: 'This project will be deleted forever. Are you sure?',
+      content:
+          const Text('This project will be deleted forever. Are you sure?'),
       title: 'Delete project',
       actions: [
         TextButton(
