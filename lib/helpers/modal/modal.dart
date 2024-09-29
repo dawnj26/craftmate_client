@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Modal {
-
   const Modal();
   static const instance = Modal();
 
@@ -22,7 +21,7 @@ class Modal {
 
   Future<bool?> showConfirmationModal({
     required BuildContext context,
-    required String message,
+    required Widget content,
     required String title,
     List<Widget>? actions,
     Widget? icon,
@@ -33,7 +32,7 @@ class Modal {
         return AlertDialog(
           icon: icon,
           title: Text(title),
-          content: Text(message),
+          content: content,
           actions: actions,
         );
       },
