@@ -1,10 +1,12 @@
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/create_project/blank_project/bloc/blank_project_bloc.dart';
 import 'package:craftmate_client/project_management/create_project/blank_project/models/title.dart';
+import 'package:craftmate_client/project_management/create_project/blank_project/view/components/visibility_dropdown.dart';
 import 'package:craftmate_client/project_management/view_project/view/view_project_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:project_repository/project_repository.dart';
 
 class BlankProjectCreateScreen extends StatelessWidget {
   const BlankProjectCreateScreen({super.key});
@@ -18,15 +20,11 @@ class BlankProjectCreateScreen extends StatelessWidget {
           title: const Text('Blank project'),
         ),
         body: const Padding(
-          padding: EdgeInsets.only(
-            left: 12.0,
-            right: 12.0,
-            bottom: 12.0,
-          ),
+          padding: EdgeInsets.all(12.0),
           child: Column(
             children: [
               _VisibilitySwitch(),
-              Gap(4.0),
+              Gap(12.0),
               _CreateProjectForm(),
             ],
           ),
@@ -68,27 +66,52 @@ class _VisibilitySwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BlankProjectBloc, BlankProjectState>(
-      buildWhen: (previous, current) => previous.isPulic != current.isPulic,
+      buildWhen: (previous, current) =>
+          previous.visibility != current.visibility,
       builder: (context, state) {
         final bloc = context.read<BlankProjectBloc>();
+        final visibilityIcon = _buildVisibilityIcon(state.visibility);
+        final screenWidth = MediaQuery.of(context).size.width;
 
         return Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            const Text('Public'),
-            const Gap(8.0),
-            Switch(
-              value: state.isPulic,
-              onChanged: (value) {
-                bloc.add(
-                  BlankProjectToggleVisibility(isPulic: value),
-                );
-              },
+            const Spacer(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Visibility'),
+                const Gap(4.0),
+                VisibilityDropdown(
+                  width: screenWidth * 0.43,
+                  visibility: state.visibility,
+                  onSelected: (visibility) {
+                    if (visibility == null) {
+                      return;
+                    }
+
+                    bloc.add(
+                      BlankProjectToggleVisibility(visibility: visibility),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         );
       },
     );
+  }
+
+  Icon _buildVisibilityIcon(ProjectVisibility visibility) {
+    switch (visibility) {
+      case ProjectVisibility.public:
+        return const Icon(Icons.public);
+      case ProjectVisibility.private:
+        return const Icon(Icons.private_connectivity);
+      case ProjectVisibility.followers:
+        return const Icon(Icons.people_alt_outlined);
+    }
   }
 }
 
@@ -133,7 +156,7 @@ class _CreateProjectForm extends StatelessWidget {
         const Gap(12.0),
         _CustomTextField(
           controller: tagController,
-          labelText: 'Categories/Tags (optional)',
+          labelText: 'Tags (optional)',
           multiline: false,
           icon: const Icon(Icons.category),
           helperText: 'Separated by whitespaces',
@@ -157,7 +180,9 @@ class _CreateProjectForm extends StatelessWidget {
       tags = tagController.text;
     }
 
-    context.read<BlankProjectBloc>().add(BlankProjectCreate(tags: tags?.trim()));
+    context
+        .read<BlankProjectBloc>()
+        .add(BlankProjectCreate(tags: tags?.trim()));
   }
 }
 
