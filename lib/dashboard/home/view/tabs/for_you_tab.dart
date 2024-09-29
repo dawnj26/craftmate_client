@@ -104,6 +104,7 @@ class ProjectGrid extends StatelessWidget {
     logger.info('Has next page ${paginatedProjects.nextPageUrl}');
     return Scaffold(
       body: CustomScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
         controller: scrollController,
         slivers: _buildSlivers(gap),
       ),
