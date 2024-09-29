@@ -21,7 +21,7 @@ final class BlankProjectTitleChange extends BlankProjectEvent {
 
 final class BlankProjectToggleVisibility extends BlankProjectEvent {
   const BlankProjectToggleVisibility({
-    required this.isPulic,
+    required this.visibility,
   });
-  final bool isPulic;
+  final ProjectVisibility visibility;
 }

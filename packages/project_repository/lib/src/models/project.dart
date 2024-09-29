@@ -4,13 +4,22 @@ import 'package:equatable/equatable.dart';
 import 'package:project_repository/src/models/tag.dart';
 import 'package:user_repository/user_repository.dart';
 
+enum ProjectVisibility {
+  public('Public'),
+  private('Private'),
+  followers('Followers');
+
+  const ProjectVisibility(this.label);
+  final String label;
+}
+
 class Project extends Equatable {
   final User creator;
   final int id;
   final String title;
   final List<dynamic>? description;
   final List<Tag>? tags;
-  final bool isPulic;
+  final ProjectVisibility visibility;
   final bool isLiked;
   final int likeCount;
   final int commentCount;
@@ -25,7 +34,7 @@ class Project extends Equatable {
         title,
         description,
         tags,
-        isPulic,
+        visibility,
         isLiked,
         likeCount,
         commentCount,
@@ -38,7 +47,7 @@ class Project extends Equatable {
     required this.creator,
     required this.id,
     required this.title,
-    required this.isPulic,
+    required this.visibility,
     required this.isLiked,
     required this.likeCount,
     required this.commentCount,
@@ -53,7 +62,7 @@ class Project extends Equatable {
     String? title,
     List<dynamic>? description,
     List<Tag>? tags,
-    bool? isPulic,
+    ProjectVisibility? visibility,
     bool? isLiked,
     int? likeCount,
     int? commentCount,
@@ -65,7 +74,7 @@ class Project extends Equatable {
       creator: creator,
       id: id,
       title: title ?? this.title,
-      isPulic: isPulic ?? this.isPulic,
+      visibility: visibility ?? this.visibility,
       isLiked: isLiked ?? this.isLiked,
       description: description ?? this.description,
       tags: tags ?? this.tags,
@@ -82,7 +91,7 @@ class Project extends Equatable {
       creator: User.fromJson(json['user'] as Map<String, dynamic>),
       id: json['id'] as int,
       title: json['title'] as String,
-      isPulic: json['is_public'] == 1,
+      visibility: ProjectVisibility.values[json['visibility'] as int],
       isLiked: json['is_liked'] as bool,
       description: jsonDecode(json['description'] ?? 'null') as List<dynamic>?,
       tags: (json['tags'] as List<dynamic>?)

@@ -78,14 +78,14 @@ final class ProjectApi {
     return _streamController.stream;
   }
 
-  Future<Project> tryCreateProject(String title, bool isPulic,
+  Future<Project> tryCreateProject(String title, ProjectVisibility visibility,
       [String? tags]) async {
     try {
       final api = await _config.apiWithAuthorization;
 
       var data = <String, dynamic>{
         'title': title,
-        'is_public': isPulic,
+        'visibility': visibility.index + 1,
       };
 
       if (tags != null) {
@@ -225,18 +225,24 @@ final class ProjectApi {
     }
   }
 
-  Future<Project> changeVisibilty(Project project) async {
+  Future<Project> changeVisibilty(
+    Project project,
+    ProjectVisibility visibility,
+  ) async {
     try {
       final api = await _config.apiWithAuthorization;
       final response = await api.post<Map<String, dynamic>>(
         '/project/${project.id}/edit/visibility',
+        data: {
+          'visibility': visibility.index + 1,
+        },
       );
 
       if (response.data == null) {
         throw ProjectException(message: 'Response is null');
       }
 
-      final updatedProject = project.copyWith(isPulic: !project.isPulic);
+      final updatedProject = project.copyWith(visibility: visibility);
 
       _streamController.add(updatedProject);
       return updatedProject;

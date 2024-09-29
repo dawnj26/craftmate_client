@@ -9,7 +9,8 @@ import 'package:project_repository/src/models/pagination.dart';
 import 'package:project_repository/src/models/project.dart';
 
 abstract class IProjectRepository {
-  Future<Project> tryCreateProject(String title, bool isPulic, [String? tags]);
+  Future<Project> tryCreateProject(String title, ProjectVisibility visibility,
+      [String? tags]);
   Future<Project> tryGetProjectById(int id);
   Future<void> tryToggleLikeById(Project project);
   Future<void> updateDescription({
@@ -27,7 +28,8 @@ abstract class IProjectRepository {
   Future<Comment> addComment(Project project, String comment);
   Future<void> likeComment(Comment comment, int projectId);
   Future<Project> updateProject(String title, Project project, [String? tags]);
-  Future<Project> changeVisibilty(Project project);
+  Future<Project> changeVisibilty(
+      Project project, ProjectVisibility visibility);
   Future<void> deleteProject(Project project);
   Future<Comment> replyComment(
     Comment comment,
@@ -85,8 +87,9 @@ class ProjectRepository implements IProjectRepository {
   }
 
   @override
-  Future<Project> changeVisibilty(Project project) async {
-    return _projectApi.changeVisibilty(project);
+  Future<Project> changeVisibilty(
+      Project project, ProjectVisibility visibility) async {
+    return _projectApi.changeVisibilty(project, visibility);
   }
 
   @override
@@ -120,9 +123,9 @@ class ProjectRepository implements IProjectRepository {
   }
 
   @override
-  Future<Project> tryCreateProject(String title, bool isPulic,
+  Future<Project> tryCreateProject(String title, ProjectVisibility visibility,
       [String? tags]) async {
-    return _projectApi.tryCreateProject(title, isPulic, tags);
+    return _projectApi.tryCreateProject(title, visibility, tags);
   }
 
   @override
