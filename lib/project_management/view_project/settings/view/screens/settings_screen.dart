@@ -172,17 +172,17 @@ class DangerSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsBloc, SettingsState>(
       buildWhen: (previous, current) =>
-          previous.project.isPulic != current.project.isPulic,
+          previous.project.visibility != current.project.visibility,
       builder: (context, state) {
         final project = state.project;
-        final visibility = project.isPulic ? 'public' : 'private';
+        final visibility = project.visibility;
 
         return Column(
           children: [
             _DangerOption(
               titleText: 'Change project visibility',
-              subtitleText: 'This project is currently $visibility',
-              onTap: () => _handleVisibility(context, project.isPulic),
+              subtitleText: 'This project is currently on ${visibility.label}',
+              onTap: () => _handleVisibility(context, visibility),
             ),
             const Gap(4.0),
             _DangerOption(
@@ -197,14 +197,35 @@ class DangerSettings extends StatelessWidget {
     );
   }
 
-  void _handleVisibility(BuildContext context, bool isPublic) {
+  Future<void> _handleVisibility(
+      BuildContext context, ProjectVisibility visibility) async {
     final bloc = BlocProvider.of<SettingsBloc>(context);
-    final visibilityText = !isPublic ? 'public' : 'private';
+    bloc.add(SettingsVisibilitySelectionChanged(visibility));
 
-    Modal.instance.showConfirmationModal(
+    await Modal.instance.showConfirmationModal(
       context: context,
       icon: const Icon(Icons.visibility),
-      message: 'This project visibility will be $visibilityText. Are you sure?',
+      content: BlocProvider.value(
+        value: bloc,
+        child: BlocBuilder<SettingsBloc, SettingsState>(
+          buildWhen: (previous, current) =>
+              previous.visibility != current.visibility,
+          builder: (context, state) {
+            return VisibilityDropdown(
+              visibility: state.visibility,
+              onSelected: (value) {
+                if (value == null) {
+                  return;
+                }
+                logger.info('Selection changed ${value.label}');
+                context
+                    .read<SettingsBloc>()
+                    .add(SettingsVisibilitySelectionChanged(value));
+              },
+            );
+          },
+        ),
+      ),
       title: 'Change visibility',
       actions: [
         TextButton(
@@ -215,8 +236,9 @@ class DangerSettings extends StatelessWidget {
         ),
         FilledButton(
           onPressed: () {
+            final curVisibility = bloc.state.visibility;
             Navigator.of(context).pop();
-            bloc.add(const SettingsVisibilityChanged());
+            bloc.add(SettingsVisibilityChanged(curVisibility));
           },
           child: const Text('Change'),
         ),

@@ -22,9 +22,25 @@ final class SettingsSaved extends SettingsEvent {
 }
 
 final class SettingsVisibilityChanged extends SettingsEvent {
-  const SettingsVisibilityChanged();
+  const SettingsVisibilityChanged(this.visibility);
+
+  final ProjectVisibility visibility;
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [visibility];
 }
 
 final class SettingsProjectDeleted extends SettingsEvent {
   const SettingsProjectDeleted();
+}
+
+final class SettingsVisibilitySelectionChanged extends SettingsEvent {
+  const SettingsVisibilitySelectionChanged(this.visibility);
+
+  final ProjectVisibility visibility;
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [visibility];
 }
