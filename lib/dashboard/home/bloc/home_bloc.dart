@@ -24,9 +24,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       _onLoadMoreProjects,
       transformer: throttleDroppable(const Duration(milliseconds: 100)),
     );
+    on<HomeProjectDeleted>(_onProjectDeleted);
   }
 
   final ProjectRepository _projectRepo;
+
+  void _onProjectDeleted(HomeProjectDeleted event, Emitter<HomeState> emit) {
+    final updatedProjects =
+        state.projects.where((p) => p.id != event.project.id).toList();
+    emit(
+      state.copyWith(
+        projects: updatedProjects,
+      ),
+    );
+  }
 
   Future<void> _onLoadMoreProjects(
     HomeLoadMoreProjects event,

@@ -27,3 +27,12 @@ final class HomeProjectUpdated extends HomeEvent {
   @override
   List<Object> get props => [project];
 }
+
+final class HomeProjectDeleted extends HomeEvent {
+  const HomeProjectDeleted(this.project);
+
+  final Project project;
+
+  @override
+  List<Object> get props => [project];
+}

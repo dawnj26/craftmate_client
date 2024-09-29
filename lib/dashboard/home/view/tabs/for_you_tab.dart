@@ -171,6 +171,9 @@ class ProjectCard extends StatelessWidget {
             await Navigator.of(context).push(ViewProjectPage.route(project));
 
         if (p == null) {
+          if (context.mounted) {
+            context.read<HomeBloc>().add(HomeProjectDeleted(project));
+          }
           return;
         }
         if (context.mounted) {
