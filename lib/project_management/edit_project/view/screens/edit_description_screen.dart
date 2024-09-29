@@ -143,7 +143,7 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
     if (isProjectChanged) {
       final shouldSave = await Modal.instance.showConfirmationModal(
         context: context,
-        message: 'Do you want to save your changes?',
+        content: const Text('Do you want to save your changes?'),
         title: 'Save changes',
         actions: [
           TextButton(

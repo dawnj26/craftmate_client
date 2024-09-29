@@ -186,7 +186,7 @@ class ViewProjectScreen extends StatelessWidget {
     if (state is ViewProjectFailed) {
       Modal.instance.showConfirmationModal(
         context: context,
-        message: state.errMessage,
+        content: Text(state.errMessage),
         title: 'Oops!',
       );
     } else if (state is ViewProjectLoading) {
