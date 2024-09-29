@@ -43,7 +43,7 @@ final class ProjectApi {
   Future<Pagination<Project>> getLatestProjects() async {
     try {
       final api = await _config.apiWithAuthorization;
-      final response = await api.get<Map<String, dynamic>>('/projects');
+      final response = await api.get<Map<String, dynamic>>('/projects/latest');
 
       if (response.data == null) {
         throw ProjectException(message: 'Response is null');
