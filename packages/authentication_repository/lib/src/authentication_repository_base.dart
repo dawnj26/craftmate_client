@@ -139,18 +139,10 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
       _controller.add(AuthenticationStatus.authenticated);
     } on DioException catch (e) {
-      var message = 'Signup failed';
-
-      if (e.response != null) {
-        final metadata = e.response!.data['metadata'] ?? {};
-        message = metadata['message'] != null
-            ? metadata['message'].toString()
-            : message;
-      }
-
+      final message = _config.getErrorMsg(e.type);
       _controller.add(AuthenticationStatus.unauthenticated);
 
-      throw AuthException(message);
+      throw AuthException('message code ${e.response?.statusCode}');
     }
   }
 
