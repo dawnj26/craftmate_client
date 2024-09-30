@@ -70,7 +70,6 @@ class _VisibilitySwitch extends StatelessWidget {
           previous.visibility != current.visibility,
       builder: (context, state) {
         final bloc = context.read<BlankProjectBloc>();
-        final visibilityIcon = _buildVisibilityIcon(state.visibility);
         final screenWidth = MediaQuery.of(context).size.width;
 
         return Row(
