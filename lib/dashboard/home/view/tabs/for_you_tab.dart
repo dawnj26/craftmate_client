@@ -74,7 +74,6 @@ class _ForYouTabState extends State<ForYouTab> {
   void _onScroll() {
     if (_isBottom) {
       context.read<HomeBloc>().add(const HomeLoadMoreProjects());
-      logger.info('Reached bottom');
     }
   }
 
