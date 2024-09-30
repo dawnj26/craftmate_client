@@ -142,7 +142,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
       final message = _config.getErrorMsg(e.type);
       _controller.add(AuthenticationStatus.unauthenticated);
 
-      throw AuthException('message code ${e.response?.statusCode}');
+      throw AuthException(message);
     }
   }
 
