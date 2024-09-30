@@ -9,7 +9,6 @@ part 'view_project_event.dart';
 part 'view_project_state.dart';
 
 class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
-
   ViewProjectBloc({
     required ProjectRepository projectRepository,
     required Project project,

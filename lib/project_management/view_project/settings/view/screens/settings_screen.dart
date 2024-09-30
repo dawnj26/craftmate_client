@@ -200,7 +200,9 @@ class DangerSettings extends StatelessWidget {
   }
 
   Future<void> _handleVisibility(
-      BuildContext context, ProjectVisibility visibility) async {
+    BuildContext context,
+    ProjectVisibility visibility,
+  ) async {
     final bloc = BlocProvider.of<SettingsBloc>(context);
     bloc.add(SettingsVisibilitySelectionChanged(visibility));
 
