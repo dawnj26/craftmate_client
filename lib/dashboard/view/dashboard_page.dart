@@ -1,5 +1,6 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/home/view/home_page.dart';
+import 'package:craftmate_client/project_management/user_projects/view/user_projects_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -68,16 +69,16 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             ),
             ListTile(
-              title: const Text('Item 1'),
+              title: const Text('Projects'),
+              leading: const Icon(Icons.folder_outlined),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
                 Navigator.pop(context);
+                Navigator.push(context, UserProjectsPage.route());
               },
             ),
             ListTile(
-              title: const Text('Item 2'),
+              title: const Text('Materials'),
+              leading: const Icon(Icons.inventory_2_outlined),
               onTap: () {
                 // Update the state of the app
                 // ...
