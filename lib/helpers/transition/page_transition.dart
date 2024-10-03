@@ -24,4 +24,26 @@ class PageTransition {
       },
     );
   }
+
+  Route<T> slideFromBottomToTop<T>(Widget child) {
+    return PageRouteBuilder<T>(
+      pageBuilder: (context, animation, secondaryAnimation) => child,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.easeInOutQuart;
+
+        final tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        final offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(
+          position: offsetAnimation,
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 75),
+      reverseTransitionDuration: const Duration(milliseconds: 75),
+    );
+  }
 }
