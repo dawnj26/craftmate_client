@@ -16,6 +16,9 @@ _$ProjectImpl _$$ProjectImplFromJson(Map<String, dynamic> json) =>
       likeCount: (json['likeCount'] as num).toInt(),
       commentCount: (json['commentCount'] as num).toInt(),
       forkCount: (json['forkCount'] as num).toInt(),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      deletedAt: _parseDateTime(json['deletedAt'] as String?),
       description: json['description'] as List<dynamic>?,
       tags: (json['tags'] as List<dynamic>?)
           ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -34,6 +37,9 @@ Map<String, dynamic> _$$ProjectImplToJson(_$ProjectImpl instance) =>
       'likeCount': instance.likeCount,
       'commentCount': instance.commentCount,
       'forkCount': instance.forkCount,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'deletedAt': instance.deletedAt?.toIso8601String(),
       'description': instance.description,
       'tags': instance.tags,
       'steps': instance.steps,

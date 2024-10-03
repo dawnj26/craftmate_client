@@ -28,6 +28,12 @@ mixin _$Project {
   int get likeCount => throw _privateConstructorUsedError;
   int get commentCount => throw _privateConstructorUsedError;
   int get forkCount => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: DateTime.parse)
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: DateTime.parse)
+  DateTime get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: _parseDateTime)
+  DateTime? get deletedAt => throw _privateConstructorUsedError;
   List<dynamic>? get description => throw _privateConstructorUsedError;
   List<Tag>? get tags => throw _privateConstructorUsedError;
   List<dynamic>? get steps => throw _privateConstructorUsedError;
@@ -56,6 +62,9 @@ abstract class $ProjectCopyWith<$Res> {
       int likeCount,
       int commentCount,
       int forkCount,
+      @JsonKey(fromJson: DateTime.parse) DateTime createdAt,
+      @JsonKey(fromJson: DateTime.parse) DateTime updatedAt,
+      @JsonKey(fromJson: _parseDateTime) DateTime? deletedAt,
       List<dynamic>? description,
       List<Tag>? tags,
       List<dynamic>? steps,
@@ -87,6 +96,9 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
     Object? likeCount = null,
     Object? commentCount = null,
     Object? forkCount = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+    Object? deletedAt = freezed,
     Object? description = freezed,
     Object? tags = freezed,
     Object? steps = freezed,
@@ -125,6 +137,18 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
           ? _value.forkCount
           : forkCount // ignore: cast_nullable_to_non_nullable
               as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -171,6 +195,9 @@ abstract class _$$ProjectImplCopyWith<$Res> implements $ProjectCopyWith<$Res> {
       int likeCount,
       int commentCount,
       int forkCount,
+      @JsonKey(fromJson: DateTime.parse) DateTime createdAt,
+      @JsonKey(fromJson: DateTime.parse) DateTime updatedAt,
+      @JsonKey(fromJson: _parseDateTime) DateTime? deletedAt,
       List<dynamic>? description,
       List<Tag>? tags,
       List<dynamic>? steps,
@@ -201,6 +228,9 @@ class __$$ProjectImplCopyWithImpl<$Res>
     Object? likeCount = null,
     Object? commentCount = null,
     Object? forkCount = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+    Object? deletedAt = freezed,
     Object? description = freezed,
     Object? tags = freezed,
     Object? steps = freezed,
@@ -239,6 +269,18 @@ class __$$ProjectImplCopyWithImpl<$Res>
           ? _value.forkCount
           : forkCount // ignore: cast_nullable_to_non_nullable
               as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       description: freezed == description
           ? _value._description
           : description // ignore: cast_nullable_to_non_nullable
@@ -262,7 +304,7 @@ class __$$ProjectImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ProjectImpl implements _Project {
-  const _$ProjectImpl(
+  _$ProjectImpl(
       {required this.creator,
       required this.id,
       required this.title,
@@ -271,6 +313,9 @@ class _$ProjectImpl implements _Project {
       required this.likeCount,
       required this.commentCount,
       required this.forkCount,
+      @JsonKey(fromJson: DateTime.parse) required this.createdAt,
+      @JsonKey(fromJson: DateTime.parse) required this.updatedAt,
+      @JsonKey(fromJson: _parseDateTime) this.deletedAt,
       final List<dynamic>? description,
       final List<Tag>? tags,
       final List<dynamic>? steps,
@@ -298,6 +343,15 @@ class _$ProjectImpl implements _Project {
   final int commentCount;
   @override
   final int forkCount;
+  @override
+  @JsonKey(fromJson: DateTime.parse)
+  final DateTime createdAt;
+  @override
+  @JsonKey(fromJson: DateTime.parse)
+  final DateTime updatedAt;
+  @override
+  @JsonKey(fromJson: _parseDateTime)
+  final DateTime? deletedAt;
   final List<dynamic>? _description;
   @override
   List<dynamic>? get description {
@@ -333,7 +387,7 @@ class _$ProjectImpl implements _Project {
 
   @override
   String toString() {
-    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl)';
+    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl)';
   }
 
   @override
@@ -353,6 +407,12 @@ class _$ProjectImpl implements _Project {
                 other.commentCount == commentCount) &&
             (identical(other.forkCount, forkCount) ||
                 other.forkCount == forkCount) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
             const DeepCollectionEquality()
                 .equals(other._description, _description) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
@@ -373,6 +433,9 @@ class _$ProjectImpl implements _Project {
       likeCount,
       commentCount,
       forkCount,
+      createdAt,
+      updatedAt,
+      deletedAt,
       const DeepCollectionEquality().hash(_description),
       const DeepCollectionEquality().hash(_tags),
       const DeepCollectionEquality().hash(_steps),
@@ -395,7 +458,7 @@ class _$ProjectImpl implements _Project {
 }
 
 abstract class _Project implements Project {
-  const factory _Project(
+  factory _Project(
       {required final User creator,
       required final int id,
       required final String title,
@@ -404,6 +467,9 @@ abstract class _Project implements Project {
       required final int likeCount,
       required final int commentCount,
       required final int forkCount,
+      @JsonKey(fromJson: DateTime.parse) required final DateTime createdAt,
+      @JsonKey(fromJson: DateTime.parse) required final DateTime updatedAt,
+      @JsonKey(fromJson: _parseDateTime) final DateTime? deletedAt,
       final List<dynamic>? description,
       final List<Tag>? tags,
       final List<dynamic>? steps,
@@ -427,6 +493,15 @@ abstract class _Project implements Project {
   int get commentCount;
   @override
   int get forkCount;
+  @override
+  @JsonKey(fromJson: DateTime.parse)
+  DateTime get createdAt;
+  @override
+  @JsonKey(fromJson: DateTime.parse)
+  DateTime get updatedAt;
+  @override
+  @JsonKey(fromJson: _parseDateTime)
+  DateTime? get deletedAt;
   @override
   List<dynamic>? get description;
   @override
