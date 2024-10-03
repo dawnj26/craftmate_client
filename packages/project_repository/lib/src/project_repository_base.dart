@@ -5,6 +5,7 @@ import 'package:project_repository/src/api/comment_api.dart';
 import 'package:project_repository/src/api/project_api.dart';
 import 'package:project_repository/src/api/upload_api.dart';
 import 'package:project_repository/src/models/comment/comment.dart';
+import 'package:project_repository/src/models/models.dart';
 import 'package:project_repository/src/models/pagination/pagination.dart';
 import 'package:project_repository/src/models/project/project.dart';
 
@@ -39,7 +40,10 @@ abstract class IProjectRepository {
   Future<void> deleteComment(
       Comment comment, Project project, int commentCount);
   Future<Pagination<Project>> getLatestProjects();
+  Future<Pagination<Project>> searchProjects(String query);
   Future<Pagination<Project>> getNextPage(String nextUrl);
+  Future<Pagination<Project>> getCurrentUserProjects(ProjectFilter filter);
+  Future<void> deleteProjects(List<int> projectIds);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -52,6 +56,25 @@ class ProjectRepository implements IProjectRepository {
   })  : _projectApi = ProjectApi(config: config),
         _uploadApi = UploadApi(config: config),
         _commentApi = CommentApi(config: config);
+
+  @override
+  Future<Pagination<Project>> searchProjects(String query) {
+    return _projectApi.searchProjects(query);
+  }
+
+  @override
+  Future<void> deleteProjects(List<int> projectIds) {
+    return _projectApi.deleteProjects(projectIds);
+  }
+
+  @override
+  Future<Pagination<Project>> getCurrentUserProjects(
+    ProjectFilter filter, [
+    ProjectSort sort = ProjectSort.lastModified,
+    SortOrder order = SortOrder.desc,
+  ]) {
+    return _projectApi.getCurrentUserProjects(filter, sort, order);
+  }
 
   @override
   Future<Pagination<Project>> getNextPage(String nextUrl) async {
