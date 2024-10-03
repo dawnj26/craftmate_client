@@ -401,7 +401,10 @@ class _ProjectCardHeader extends StatelessWidget {
                   _ProjectInfo(
                     projectTitle: project.title,
                   ),
-                  Tags(tags: project.tags),
+                  Tags(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    tags: project.tags,
+                  ),
                 ],
               );
             },
@@ -415,16 +418,15 @@ class _ProjectCardHeader extends StatelessWidget {
 }
 
 class Tags extends StatelessWidget {
-  const Tags({super.key, required this.tags});
+  const Tags({super.key, required this.tags, required this.padding});
 
   final List<Tag>? tags;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: tags == null || tags!.isEmpty
-          ? EdgeInsets.zero
-          : const EdgeInsets.symmetric(vertical: 16.0),
+      padding: tags == null || tags!.isEmpty ? EdgeInsets.zero : padding,
       child: Wrap(
         spacing: 8.0,
         runSpacing: 8.0,
