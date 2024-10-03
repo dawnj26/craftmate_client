@@ -101,7 +101,7 @@ final class ProjectApi {
 
   Future<Pagination<Project>> getNextPage(String nextUrl) async {
     try {
-      final api = _config.api;
+      final api = await _config.apiWithAuthorization;
       api.options.baseUrl = nextUrl;
       final response = await api.get<Map<String, dynamic>>('');
 
