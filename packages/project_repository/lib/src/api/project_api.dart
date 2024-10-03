@@ -15,9 +15,93 @@ final class ProjectApi {
 
   StreamController<Project> get streamController => _streamController;
 
+  Future<Pagination<Project>> searchProjects(String query) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+      final response = await api.get<Map<String, dynamic>>(
+        '/user/projects/',
+        queryParameters: {
+          'q': query,
+        },
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final paginatedProjects = Pagination.fromJson(
+        response.data!['data'],
+        (dynamic item) => Project.fromJson(item),
+      );
+
+      return paginatedProjects;
+    } on DioException catch (e) {
+      final message = _config.getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<void> deleteProjects(List<int> projectIds) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+      api.options.headers['Content-Type'] = 'application/json';
+      await api.delete('/user/projects/delete',
+          data: jsonEncode({
+            'project_ids': projectIds,
+          }));
+    } on DioException catch (e) {
+      final message = _config.getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<Pagination<Project>> getCurrentUserProjects(
+    ProjectFilter filter,
+    ProjectSort sort,
+    SortOrder order,
+  ) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+      final path = filter.index != 0
+          ? '/user/projects/${filter.index}'
+          : '/user/projects';
+
+      final response = await api.get<Map<String, dynamic>>(
+        path,
+        queryParameters: {
+          'sort_by': sort.value,
+          'order': order.value,
+        },
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final paginatedProjects = Pagination.fromJson(
+        response.data!['data'],
+        (dynamic item) => Project.fromJson(item),
+      );
+
+      return paginatedProjects;
+    } on DioException catch (e) {
+      final message = _config.getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
   Future<Pagination<Project>> getNextPage(String nextUrl) async {
     try {
-      final api = _config.api;
+      final api = await _config.apiWithAuthorization;
       api.options.baseUrl = nextUrl;
       final response = await api.get<Map<String, dynamic>>('');
 
@@ -43,7 +127,7 @@ final class ProjectApi {
   Future<Pagination<Project>> getLatestProjects() async {
     try {
       final api = await _config.apiWithAuthorization;
-      final response = await api.get<Map<String, dynamic>>('/projects');
+      final response = await api.get<Map<String, dynamic>>('/projects/latest');
 
       if (response.data == null) {
         throw ProjectException(message: 'Response is null');
@@ -78,14 +162,14 @@ final class ProjectApi {
     return _streamController.stream;
   }
 
-  Future<Project> tryCreateProject(String title, bool isPulic,
+  Future<Project> tryCreateProject(String title, ProjectVisibility visibility,
       [String? tags]) async {
     try {
       final api = await _config.apiWithAuthorization;
 
       var data = <String, dynamic>{
         'title': title,
-        'is_public': isPulic,
+        'visibility': visibility.index + 1,
       };
 
       if (tags != null) {
@@ -225,18 +309,24 @@ final class ProjectApi {
     }
   }
 
-  Future<Project> changeVisibilty(Project project) async {
+  Future<Project> changeVisibilty(
+    Project project,
+    ProjectVisibility visibility,
+  ) async {
     try {
       final api = await _config.apiWithAuthorization;
       final response = await api.post<Map<String, dynamic>>(
         '/project/${project.id}/edit/visibility',
+        data: {
+          'visibility': visibility.index + 1,
+        },
       );
 
       if (response.data == null) {
         throw ProjectException(message: 'Response is null');
       }
 
-      final updatedProject = project.copyWith(isPulic: !project.isPulic);
+      final updatedProject = project.copyWith(visibility: visibility);
 
       _streamController.add(updatedProject);
       return updatedProject;

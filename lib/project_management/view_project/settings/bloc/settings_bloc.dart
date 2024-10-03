@@ -17,15 +17,31 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             project: project,
             projectTitle: ProjectTitle.dirty(project.title),
             isValid: true,
+            visibility: project.visibility,
           ),
         ) {
     on<SettingsSaved>(_onSaved);
     on<SettingsTitleChanged>(_onChanged);
     on<SettingsVisibilityChanged>(_onVisibilityChanged);
+    on<SettingsVisibilitySelectionChanged>(_onVisibilitySelectionChanged);
     on<SettingsProjectDeleted>(_onProjectDeleted);
   }
 
   final ProjectRepository _projectRepo;
+
+  void _onVisibilitySelectionChanged(
+    SettingsVisibilitySelectionChanged event,
+    Emitter<SettingsState> emit,
+  ) {
+    emit(
+      SettingsChanged(
+        project: state.project.copyWith(),
+        projectTitle: ProjectTitle.dirty(state.projectTitle.value),
+        isValid: state.isValid,
+        visibility: event.visibility,
+      ),
+    );
+  }
 
   Future<void> _onProjectDeleted(
     SettingsProjectDeleted event,
@@ -36,6 +52,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         project: state.project.copyWith(),
         projectTitle: ProjectTitle.dirty(state.projectTitle.value),
         isValid: state.isValid,
+        visibility: state.visibility,
       ),
     );
 
@@ -46,6 +63,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           project: state.project.copyWith(),
           projectTitle: ProjectTitle.dirty(state.projectTitle.value),
           isValid: state.isValid,
+          visibility: state.visibility,
         ),
       );
     } on ProjectException catch (e) {
@@ -54,6 +72,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           project: state.project.copyWith(),
           errMessage: e.message,
           projectTitle: state.projectTitle,
+          visibility: state.visibility,
           isValid: state.isValid,
         ),
       );
@@ -69,17 +88,20 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         project: state.project.copyWith(),
         projectTitle: ProjectTitle.dirty(state.projectTitle.value),
         isValid: state.isValid,
+        visibility: state.visibility,
       ),
     );
 
     try {
-      final updateProject = await _projectRepo.changeVisibilty(state.project);
+      final updateProject =
+          await _projectRepo.changeVisibilty(state.project, event.visibility);
 
       emit(
         SettingsSavedSuccess(
           project: updateProject,
           projectTitle: ProjectTitle.dirty(state.projectTitle.value),
           isValid: state.isValid,
+          visibility: state.visibility,
         ),
       );
     } on ProjectException catch (e) {
@@ -89,6 +111,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           errMessage: e.message,
           projectTitle: state.projectTitle,
           isValid: state.isValid,
+          visibility: state.visibility,
         ),
       );
     }
@@ -102,6 +125,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         project: state.project.copyWith(),
         projectTitle: projectTitle,
         isValid: isValid,
+        visibility: state.visibility,
       ),
     );
   }
@@ -117,6 +141,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         project: project.copyWith(),
         projectTitle: projectTitle,
         isValid: Formz.validate([projectTitle]),
+        visibility: state.visibility,
       ),
     );
 
@@ -133,6 +158,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             project: updatedProject,
             projectTitle: state.projectTitle,
             isValid: state.isValid,
+            visibility: state.visibility,
           ),
         );
       } on ProjectException catch (e) {
@@ -142,6 +168,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
             errMessage: e.message,
             projectTitle: state.projectTitle,
             isValid: state.isValid,
+            visibility: state.visibility,
           ),
         );
       }
@@ -151,6 +178,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           project: state.project.copyWith(),
           projectTitle: state.projectTitle,
           isValid: Formz.validate([state.projectTitle]),
+          visibility: state.visibility,
         ),
       );
     }

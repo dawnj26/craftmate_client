@@ -5,14 +5,16 @@ sealed class SettingsState extends Equatable {
     required this.project,
     this.projectTitle = const ProjectTitle.pure(),
     this.isValid = false,
+    this.visibility = ProjectVisibility.public,
   });
 
   final ProjectTitle projectTitle;
   final bool isValid;
   final Project project;
+  final ProjectVisibility visibility;
 
   @override
-  List<Object> get props => [projectTitle, isValid, project];
+  List<Object> get props => [projectTitle, isValid, project, visibility];
 }
 
 final class SettingsInitial extends SettingsState {
@@ -20,6 +22,7 @@ final class SettingsInitial extends SettingsState {
     required super.project,
     super.projectTitle,
     super.isValid,
+    super.visibility,
   });
 }
 
@@ -28,6 +31,7 @@ final class SettingsChanged extends SettingsState {
     required super.project,
     super.projectTitle,
     super.isValid,
+    super.visibility,
   });
 }
 
@@ -36,6 +40,7 @@ final class SettingsLoading extends SettingsState {
     required super.project,
     super.projectTitle,
     super.isValid,
+    super.visibility,
   });
 }
 
@@ -44,6 +49,7 @@ final class SettingsSavedSuccess extends SettingsState {
     required super.project,
     super.projectTitle,
     super.isValid,
+    super.visibility,
   });
 }
 
@@ -52,6 +58,7 @@ final class SettingsDeleteSuccess extends SettingsState {
     required super.project,
     super.projectTitle,
     super.isValid,
+    super.visibility,
   });
 }
 
@@ -61,6 +68,7 @@ final class SettingsFailed extends SettingsState {
     required this.errMessage,
     super.projectTitle,
     super.isValid,
+    super.visibility,
   });
   final String errMessage;
 

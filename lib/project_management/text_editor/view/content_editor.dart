@@ -44,7 +44,7 @@ class ContentEditor extends StatelessWidget {
       nav.pop();
       modalHelper.showConfirmationModal(
         context: context,
-        message: state.errMessage,
+        content: Text(state.errMessage),
         title: 'Oops.',
         actions: [
           FilledButton(onPressed: nav.pop, child: const Text('Ok')),

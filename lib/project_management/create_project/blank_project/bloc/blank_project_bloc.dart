@@ -30,7 +30,7 @@ class BlankProjectBloc extends Bloc<BlankProjectEvent, BlankProjectState> {
       BlankProjectModified(
         projectTitle: projectTitle,
         valid: isValid,
-        isPulic: state.isPulic,
+        visibility: state.visibility,
       ),
     );
   }
@@ -41,7 +41,7 @@ class BlankProjectBloc extends Bloc<BlankProjectEvent, BlankProjectState> {
   ) {
     emit(
       BlankProjectModified(
-        isPulic: event.isPulic,
+        visibility: event.visibility,
         projectTitle: state.projectTitle,
         valid: state.valid,
       ),
@@ -57,7 +57,7 @@ class BlankProjectBloc extends Bloc<BlankProjectEvent, BlankProjectState> {
         BlankProjectInProgress(
           projectTitle: state.projectTitle,
           valid: state.valid,
-          isPulic: state.isPulic,
+          visibility: state.visibility,
         ),
       );
 
@@ -65,14 +65,14 @@ class BlankProjectBloc extends Bloc<BlankProjectEvent, BlankProjectState> {
         logger.info('Creating project...');
         final project = await _projectRepo.tryCreateProject(
           state.projectTitle.value,
-          state.isPulic,
+          state.visibility,
           event.tags,
         );
         // final project = await _projectRepo.tryGetProjectById(32);
 
         emit(
           BlankProjectSuccess(
-            isPulic: state.isPulic,
+            visibility: state.visibility,
             projectTitle: state.projectTitle,
             valid: state.valid,
             project: project,
@@ -85,7 +85,7 @@ class BlankProjectBloc extends Bloc<BlankProjectEvent, BlankProjectState> {
             errorMsg: e.message,
             projectTitle: state.projectTitle,
             valid: state.valid,
-            isPulic: state.isPulic,
+            visibility: state.visibility,
           ),
         );
       }
@@ -97,7 +97,7 @@ class BlankProjectBloc extends Bloc<BlankProjectEvent, BlankProjectState> {
         BlankProjectInvalid(
           projectTitle: projectTitle,
           valid: isValid,
-          isPulic: state.isPulic,
+          visibility: state.visibility,
         ),
       );
     }

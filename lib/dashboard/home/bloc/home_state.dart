@@ -5,7 +5,7 @@ enum HomeStatus { initial, loading, loaded, error }
 final class HomeState extends Equatable {
   const HomeState({
     this.status = HomeStatus.initial,
-    this.paginatedProjects = const Pagination.empty(),
+    this.paginatedProjects = const Pagination(),
     this.projects = const <Project>[],
     this.trendingProjects = const <Project>[],
     this.message = '',
