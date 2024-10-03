@@ -6,7 +6,6 @@ import 'package:craftmate_client/project_management/view_project/view/view_proje
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:project_repository/project_repository.dart';
 
 class BlankProjectCreateScreen extends StatelessWidget {
   const BlankProjectCreateScreen({super.key});
@@ -100,17 +99,6 @@ class _VisibilitySwitch extends StatelessWidget {
         );
       },
     );
-  }
-
-  Icon _buildVisibilityIcon(ProjectVisibility visibility) {
-    switch (visibility) {
-      case ProjectVisibility.public:
-        return const Icon(Icons.public);
-      case ProjectVisibility.private:
-        return const Icon(Icons.private_connectivity);
-      case ProjectVisibility.followers:
-        return const Icon(Icons.people_alt_outlined);
-    }
   }
 }
 
