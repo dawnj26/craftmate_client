@@ -44,6 +44,23 @@ final class ProjectApi {
     }
   }
 
+  Future<void> deleteProjects(List<int> projectIds) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+      api.options.headers['Content-Type'] = 'application/json';
+      await api.delete('/user/projects/delete',
+          data: jsonEncode({
+            'project_ids': projectIds,
+          }));
+    } on DioException catch (e) {
+      final message = _config.getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
   Future<Pagination<Project>> getNextPage(String nextUrl) async {
     try {
       final api = _config.api;
