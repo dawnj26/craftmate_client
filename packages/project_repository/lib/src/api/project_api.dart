@@ -61,6 +61,44 @@ final class ProjectApi {
     }
   }
 
+  Future<Pagination<Project>> getCurrentUserProjects(
+    ProjectFilter filter,
+    ProjectSort sort,
+    SortOrder order,
+  ) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+      final path = filter.index != 0
+          ? '/user/projects/${filter.index}'
+          : '/user/projects';
+
+      final response = await api.get<Map<String, dynamic>>(
+        path,
+        queryParameters: {
+          'sort_by': sort.value,
+          'order': order.value,
+        },
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final paginatedProjects = Pagination.fromJson(
+        response.data!['data'],
+        (dynamic item) => Project.fromJson(item),
+      );
+
+      return paginatedProjects;
+    } on DioException catch (e) {
+      final message = _config.getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
   Future<Pagination<Project>> getNextPage(String nextUrl) async {
     try {
       final api = _config.api;
