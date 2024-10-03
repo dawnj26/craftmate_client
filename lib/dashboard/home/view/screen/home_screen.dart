@@ -46,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen>
             leading: IconButton(
               icon: const Icon(Icons.menu),
               onPressed: () {
-                logger.info('Open drawer');
                 Scaffold.of(context).openDrawer();
               },
             ),

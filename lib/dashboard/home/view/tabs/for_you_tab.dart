@@ -1,6 +1,5 @@
 import 'package:craftmate_client/dashboard/home/bloc/home_bloc.dart';
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/project_management/view_project/view/view_project_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -100,7 +99,6 @@ class ProjectGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const gap = 8.0;
-    logger.info('Has next page ${paginatedProjects.nextPageUrl}');
     return Scaffold(
       body: CustomScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
