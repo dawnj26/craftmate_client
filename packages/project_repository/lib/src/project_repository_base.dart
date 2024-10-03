@@ -4,10 +4,7 @@ import 'package:config_repository/config_repository.dart';
 import 'package:project_repository/src/api/comment_api.dart';
 import 'package:project_repository/src/api/project_api.dart';
 import 'package:project_repository/src/api/upload_api.dart';
-import 'package:project_repository/src/models/comment/comment.dart';
 import 'package:project_repository/src/models/models.dart';
-import 'package:project_repository/src/models/pagination/pagination.dart';
-import 'package:project_repository/src/models/project/project.dart';
 
 abstract class IProjectRepository {
   Future<Project> tryCreateProject(String title, ProjectVisibility visibility,

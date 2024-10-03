@@ -1,6 +1,5 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/home/view/tabs/for_you_tab.dart';
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/view/create_project_page.dart';
 import 'package:flutter/material.dart';

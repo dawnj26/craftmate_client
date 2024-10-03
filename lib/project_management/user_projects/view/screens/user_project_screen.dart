@@ -1,5 +1,4 @@
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
@@ -120,8 +119,14 @@ class UserProjectScreen extends StatelessWidget {
                       loading: (_, __, ___, ____, _____) => const Center(
                         child: CircularProgressIndicator(),
                       ),
-                      loaded: (projects, paginatedProject, ___, ____, _____,
-                          ______) {
+                      loaded: (
+                        projects,
+                        paginatedProject,
+                        ___,
+                        ____,
+                        _____,
+                        ______,
+                      ) {
                         if (projects.isEmpty) {
                           return const EmptyMessage(
                             emptyMessage: 'No projects found',
