@@ -15,6 +15,35 @@ final class ProjectApi {
 
   StreamController<Project> get streamController => _streamController;
 
+  Future<Pagination<Project>> searchProjects(String query) async {
+    try {
+      final api = await _config.apiWithAuthorization;
+      final response = await api.get<Map<String, dynamic>>(
+        '/user/projects/',
+        queryParameters: {
+          'q': query,
+        },
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final paginatedProjects = Pagination.fromJson(
+        response.data!['data'],
+        (dynamic item) => Project.fromJson(item),
+      );
+
+      return paginatedProjects;
+    } on DioException catch (e) {
+      final message = _config.getErrorMsg(e.type);
+
+      throw ProjectException(message: message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
   Future<Pagination<Project>> getNextPage(String nextUrl) async {
     try {
       final api = _config.api;
