@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:authentication_repository/src/exceptions/auth_exception.dart';
 import 'package:authentication_repository/src/interfaces/auth_repository.dart';
 import 'package:config_repository/config_repository.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -44,12 +43,10 @@ class AuthenticationRepository implements IAuthenticationRepository {
     required String email,
     required String password,
   }) async {
-    // TODO: implement logInWithEmailAndPassword
-    final dio = _config.api;
-
     try {
-      final response = await dio.post(
+      final response = await _config.makeRequest(
         '/auth/login',
+        method: 'POST',
         data: {
           'email': email,
           'password': password,
@@ -66,42 +63,25 @@ class AuthenticationRepository implements IAuthenticationRepository {
       await _config.storage.write(key: 'token', value: token.toString());
 
       _controller.add(AuthenticationStatus.authenticated);
-    } on DioException catch (e) {
-      var message = 'Login failed';
-
-      if (e.response != null) {
-        final metadata = e.response!.data['metadata'] ?? {};
-        message = metadata['message'] != null
-            ? 'Status: ${e.response!.statusCode} - ${metadata['message']}'
-            : message;
-      }
-
+    } on RequestException catch (e) {
       _controller.add(AuthenticationStatus.unauthenticated);
-      throw AuthException(message);
+      throw AuthException('Login failed: ${e.message}');
     }
   }
 
   @override
   Future<void> logOut() async {
     try {
-      final dio = await _config.apiWithAuthorization;
-      await dio.post(
+      await _config.makeRequest(
         '/auth/logout',
+        method: 'POST',
+        withAuthorization: true,
       );
       _controller.add(AuthenticationStatus.unauthenticated);
 
       await _config.storage.delete(key: 'token');
-    } on DioException catch (e) {
-      var message = 'Logout failed';
-
-      if (e.response != null) {
-        final metadata = e.response!.data['metadata'] ?? {};
-        message = metadata['message'] != null
-            ? metadata['message'].toString()
-            : message;
-      }
-
-      throw AuthException(message);
+    } on RequestException catch (e) {
+      throw AuthException('Logout failed: ${e.message}');
     } on TokenException catch (e) {
       throw AuthException(e.message);
     }
@@ -113,11 +93,10 @@ class AuthenticationRepository implements IAuthenticationRepository {
     required String email,
     required String password,
   }) async {
-    final dio = _config.api;
-
     try {
-      final response = await dio.post<Map<String, dynamic>>(
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         '/auth/signup',
+        method: 'POST',
         data: {
           'name': name,
           'email': email,
@@ -138,17 +117,15 @@ class AuthenticationRepository implements IAuthenticationRepository {
       await _config.storage.write(key: 'token', value: token.toString());
 
       _controller.add(AuthenticationStatus.authenticated);
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
+    } on RequestException catch (e) {
       _controller.add(AuthenticationStatus.unauthenticated);
 
-      throw AuthException(message);
+      throw AuthException('Signup failed: ${e.message}');
     }
   }
 
   @override
   Future<void> socialAuth(AuthenticationType type) async {
-    // TODO: implement googleAuth
     final social = type == AuthenticationType.google ? 'google' : 'facebook';
     final String url = '${_config.api.options.baseUrl}/auth/$social';
 
@@ -169,7 +146,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
       _config.storage.write(key: 'token', value: token);
       _controller.add(AuthenticationStatus.authenticated);
-    } catch (e) {
+    } on Exception catch (e) {
       _controller.add(AuthenticationStatus.unauthenticated);
 
       throw AuthException(e.toString());
@@ -179,34 +156,24 @@ class AuthenticationRepository implements IAuthenticationRepository {
   @override
   Future<void> sendOTP(String email) async {
     try {
-      final dio = _config.api;
-
-      await dio.post(
+      await _config.makeRequest(
         '/auth/otp/send',
+        method: 'POST',
         data: {
           'email': email,
         },
       );
-    } on DioException catch (e) {
-      var message = 'Verification failed';
-
-      if (e.response != null) {
-        final metadata = e.response!.data['metadata'] ?? {};
-        message = metadata['message'] != null
-            ? metadata['message'].toString()
-            : message;
-      }
-
-      throw AuthException(message);
+    } on RequestException catch (e) {
+      throw AuthException('OTP sending failed: ${e.message}');
     }
   }
 
   @override
   Future<String> verifyOtp(String email, String otp) async {
-    final dio = _config.api;
     try {
-      final response = await dio.post<Map<String, dynamic>>(
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         '/auth/otp/verify',
+        method: 'POST',
         data: {
           'email': email,
           'otp': otp,
@@ -220,48 +187,22 @@ class AuthenticationRepository implements IAuthenticationRepository {
       }
 
       return token.toString();
-    } on DioException catch (e) {
-      var message = 'OTP verification failed';
-
-      if (e.response != null) {
-        final metadata = e.response!.data['metadata'] ?? {};
-        message = metadata['message'] != null
-            ? metadata['message'].toString()
-            : message;
-      }
-
-      throw AuthException(message);
+    } on RequestException catch (e) {
+      throw AuthException('OTP verification failed: ${e.message}');
     }
   }
 
   @override
   Future<void> resetPassword(String token, String password) async {
-    final dio = _config.api;
-
-    dio.options = BaseOptions(
-      baseUrl: dio.options.baseUrl,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
-
     try {
-      await dio.post(
+      await _config.makeRequest(
         '/auth/password/reset',
+        method: 'POST',
         data: {'password': password},
+        token: token,
       );
-    } on DioException catch (e) {
-      var message = 'Something went wrong';
-
-      if (e.response != null) {
-        final metadata = e.response!.data['metadata'] ?? {};
-        message = metadata['message'] != null
-            ? metadata['message'].toString()
-            : message;
-      }
-
-      throw AuthException(message);
+    } on RequestException catch (e) {
+      throw AuthException('Password reset failed: ${e.message}');
     }
   }
 
