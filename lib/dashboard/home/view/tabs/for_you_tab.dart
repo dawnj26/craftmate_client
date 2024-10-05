@@ -165,17 +165,10 @@ class ProjectCard extends StatelessWidget {
     final textTheme = theme.textTheme;
     return GestureDetector(
       onTap: () async {
-        final p =
-            await Navigator.of(context).push(ViewProjectPage.route(project));
+        await Navigator.of(context).push(ViewProjectPage.route(project));
 
-        if (p == null) {
-          if (context.mounted) {
-            context.read<HomeBloc>().add(HomeProjectDeleted(project));
-          }
-          return;
-        }
         if (context.mounted) {
-          context.read<HomeBloc>().add(HomeProjectUpdated(p));
+          context.read<HomeBloc>().add(const HomeLoadProjects());
         }
       },
       child: Card(
