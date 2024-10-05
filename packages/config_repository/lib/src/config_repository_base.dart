@@ -30,6 +30,45 @@ class ConfigRepository {
     return _dio;
   }
 
+  Future<Response<T>> makeRequest<T>(
+    String path, {
+    bool withAuthorization = false,
+    String method = 'GET',
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    String? token,
+  }) async {
+    if (!await connectionStatus.checkConnection()) {
+      throw const InternetException('No internet connection');
+    }
+
+    try {
+      final api = token != null
+          ? apiWithToken(token)
+          : withAuthorization
+              ? await apiWithAuthorization
+              : this.api;
+      final response = await api.request<T>(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: Options(method: method),
+      );
+
+      return response;
+    } on DioException catch (e) {
+      final message = getErrorMsg(e);
+      throw RequestException(message);
+    }
+  }
+
+  Dio apiWithToken(String token) {
+    final api = this.api;
+    api.options.headers['Authorization'] = 'Bearer $token';
+
+    return api;
+  }
+
   Future<Dio> get apiWithAuthorization async {
     final api = this.api;
     final token = await storage.read(key: 'token');
