@@ -228,7 +228,7 @@ class ProjectCard extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        '1.5k views',
+                        '${_formatNumber(project.viewCount)} views',
                         style: textTheme.labelSmall,
                       ),
                     ],
