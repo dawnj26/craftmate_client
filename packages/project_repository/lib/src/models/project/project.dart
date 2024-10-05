@@ -24,6 +24,7 @@ class Project with _$Project {
     required int likeCount,
     required int commentCount,
     required int forkCount,
+    required int viewCount,
     @JsonKey(fromJson: DateTime.parse) required DateTime createdAt,
     @JsonKey(fromJson: DateTime.parse) required DateTime updatedAt,
     @JsonKey(fromJson: _parseDateTime) DateTime? deletedAt,

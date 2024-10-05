@@ -41,6 +41,7 @@ abstract class IProjectRepository {
   Future<Pagination<Project>> getNextPage(String nextUrl);
   Future<Pagination<Project>> getCurrentUserProjects(ProjectFilter filter);
   Future<void> deleteProjects(List<int> projectIds);
+  Future<void> viewProjectById(int id);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -53,6 +54,11 @@ class ProjectRepository implements IProjectRepository {
   })  : _projectApi = ProjectApi(config: config),
         _uploadApi = UploadApi(config: config),
         _commentApi = CommentApi(config: config);
+
+  @override
+  Future<void> viewProjectById(int id) {
+    return _projectApi.viewProjectById(id);
+  }
 
   @override
   Future<Pagination<Project>> searchProjects(String query) {
