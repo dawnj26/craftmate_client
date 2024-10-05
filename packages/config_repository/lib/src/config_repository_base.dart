@@ -45,16 +45,40 @@ class ConfigRepository {
 
   FlutterSecureStorage get storage => _storage;
 
-  String getErrorMsg(DioExceptionType type) {
-    switch (type) {
+  String getErrorMsg(DioException error) {
+    switch (error.type) {
       case DioExceptionType.connectionTimeout:
-      case DioExceptionType.receiveTimeout:
       case DioExceptionType.sendTimeout:
-        return 'Request timeout. Check internet connection';
+      case DioExceptionType.receiveTimeout:
+        return "Timeout occurred while sending or receiving";
+      case DioExceptionType.badResponse:
+        final statusCode = error.response?.statusCode;
+        if (statusCode != null) {
+          switch (statusCode) {
+            case 401:
+              return "Unauthorized";
+            case 403:
+              return "Forbidden";
+            case 404:
+              return "Not Found";
+            case 500:
+              return "Internal Server Error";
+            default:
+              return "Unknown Error";
+          }
+        }
+        return "Bad Response";
+      case DioExceptionType.cancel:
+        break;
+      case DioExceptionType.unknown:
+        return "No Internet Connection";
       case DioExceptionType.badCertificate:
-        return 'Bad certificate';
+        return "Internal Server Error";
+      case DioExceptionType.connectionError:
+        return "Connection Error";
       default:
-        return 'Something went wrong.';
+        return "Unknown Error";
     }
+    return "Unknown Error";
   }
 }
