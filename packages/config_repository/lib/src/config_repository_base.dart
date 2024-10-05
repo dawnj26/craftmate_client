@@ -1,4 +1,7 @@
+import 'package:config_repository/src/exceptions/internet_exception.dart';
+import 'package:config_repository/src/exceptions/request_exception.dart';
 import 'package:config_repository/src/exceptions/token_exception.dart';
+import 'package:config_repository/src/helpers/helpers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:log_collector/log_collector.dart';
@@ -7,9 +10,14 @@ class ConfigRepository {
   final String apiUrl;
   final FlutterSecureStorage _storage;
   final LogCollector logger;
+  final Dio _dio;
+  final ConnectionStatus connectionStatus = ConnectionStatus();
 
-  const ConfigRepository({required this.apiUrl, required this.logger})
-      : _storage = const FlutterSecureStorage();
+  ConfigRepository({required this.apiUrl, required this.logger})
+      : _storage = const FlutterSecureStorage(),
+        _dio = Dio() {
+    connectionStatus.init();
+  }
 
   Dio get api {
     final dio = Dio(
