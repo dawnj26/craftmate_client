@@ -29,6 +29,9 @@ class UserProjectScreen extends StatelessWidget {
             Navigator.of(context).pop();
             Alert.instance.showSnackbar(context, 'Projects deleted');
           },
+          error: (_, __, ___, ____, _____, err) {
+            Alert.instance.showSnackbar(context, err);
+          },
         );
       },
       child: Scaffold(
