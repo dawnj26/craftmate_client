@@ -35,6 +35,10 @@ class ViewProjectScreen extends StatelessWidget {
       listener: _handleState,
       buildWhen: (previous, current) => current is ViewProjectRefreshSuccess,
       builder: (context, state) {
+        if (state is ViewProjectInitial) {
+          context.read<ViewProjectBloc>().add(const ViewProjectViewed());
+        }
+
         return RefreshIndicator(
           displacement: 100.0,
           onRefresh: () async {
