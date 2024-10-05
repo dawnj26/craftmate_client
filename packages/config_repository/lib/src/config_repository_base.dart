@@ -20,16 +20,14 @@ class ConfigRepository {
   }
 
   Dio get api {
-    final dio = Dio(
-      BaseOptions(
-        baseUrl: '$apiUrl/api',
-        headers: {
-          'Accept': 'application/json',
-        },
-      ),
+    _dio.options = BaseOptions(
+      baseUrl: '$apiUrl/api',
+      headers: {
+        'Accept': 'application/json',
+      },
     );
 
-    return dio;
+    return _dio;
   }
 
   Future<Dio> get apiWithAuthorization async {
