@@ -3,6 +3,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:stream_transform/stream_transform.dart';
+import 'package:uuid/uuid.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -100,6 +101,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           paginatedProjects: paginatedProjects,
           projects: paginatedProjects.items,
           trendingProjects: List.from(state.trendingProjects),
+          uuid: const Uuid().v4(),
         ),
       );
     } on ProjectException catch (e) {

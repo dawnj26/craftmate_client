@@ -10,6 +10,7 @@ final class HomeState extends Equatable {
     this.trendingProjects = const <Project>[],
     this.message = '',
     this.projectReachedMax = false,
+    this.uuid = '',
   });
 
   final HomeStatus status;
@@ -18,6 +19,7 @@ final class HomeState extends Equatable {
   final List<Project> trendingProjects;
   final String message;
   final bool projectReachedMax;
+  final String uuid;
 
   HomeState copyWith({
     HomeStatus? status,
@@ -26,6 +28,7 @@ final class HomeState extends Equatable {
     List<Project>? trendingProjects,
     String? message,
     bool? projectReachedMax,
+    String? uuid,
   }) {
     return HomeState(
       status: status ?? this.status,
@@ -34,9 +37,11 @@ final class HomeState extends Equatable {
       trendingProjects: trendingProjects ?? this.trendingProjects,
       message: message ?? this.message,
       projectReachedMax: projectReachedMax ?? this.projectReachedMax,
+      uuid: uuid ?? '',
     );
   }
 
   @override
-  List<Object> get props => [status, projects, trendingProjects];
+  List<Object> get props =>
+      [status, projects, trendingProjects, projectReachedMax, uuid];
 }
