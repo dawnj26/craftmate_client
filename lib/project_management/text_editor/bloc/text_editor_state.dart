@@ -1,29 +1,33 @@
 part of 'text_editor_bloc.dart';
 
-sealed class TextEditorState extends Equatable {
-  const TextEditorState();
+@freezed
+class TextEditorState with _$TextEditorState {
+  const factory TextEditorState.initial({
+    @Default([]) List<TextEditorController> controllers,
+    TextEditorController? descriptionController,
+  }) = _Initial;
 
-  @override
-  List<Object> get props => [];
-}
+  const factory TextEditorState.loaded({
+    @Default([]) List<TextEditorController> controllers,
+    TextEditorController? descriptionController,
+  }) = _Loaded;
 
-final class TextEditorInitial extends TextEditorState {
-  const TextEditorInitial();
-}
+  const factory TextEditorState.deleted({
+    @Default([]) List<TextEditorController> controllers,
+    TextEditorController? descriptionController,
+  }) = _Deleted;
 
-final class TextEditorLoading extends TextEditorState {
-  const TextEditorLoading();
-}
-
-final class TextEditorNormal extends TextEditorState {
-  const TextEditorNormal();
-}
-
-final class TextEditorFailed extends TextEditorState {
-  const TextEditorFailed({required this.errMessage});
-  final String errMessage;
-
-  @override
-  // TODO: implement props
-  List<Object> get props => [errMessage];
+  const factory TextEditorState.loading({
+    @Default([]) List<TextEditorController> controllers,
+    TextEditorController? descriptionController,
+  }) = _Loading;
+  const factory TextEditorState.normal({
+    @Default([]) List<TextEditorController> controllers,
+    TextEditorController? descriptionController,
+  }) = _Normal;
+  const factory TextEditorState.failed({
+    required String errMessage,
+    @Default([]) List<TextEditorController> controllers,
+    TextEditorController? descriptionController,
+  }) = _Failed;
 }
