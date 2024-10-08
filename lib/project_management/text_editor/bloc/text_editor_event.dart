@@ -1,34 +1,26 @@
 part of 'text_editor_bloc.dart';
 
-sealed class TextEditorEvent extends Equatable {
-  const TextEditorEvent();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class TextEditorImageInserted extends TextEditorEvent {
-  const TextEditorImageInserted({
-    required this.imagePath,
-    required this.controller,
-  });
-  final String imagePath;
-  final QuillController controller;
-
-  @override
-  // TODO: implement props
-  List<Object> get props => [imagePath, controller];
-}
-
-final class TextEditorVideoInserted extends TextEditorEvent {
-  const TextEditorVideoInserted({
-    required this.videoPath,
-    required this.controller,
-  });
-  final String videoPath;
-  final QuillController controller;
-
-  @override
-  // TODO: implement props
-  List<Object> get props => [videoPath, controller];
+@freezed
+class TextEditorEvent with _$TextEditorEvent {
+  const factory TextEditorEvent.initialized({
+    required Project project,
+  }) = Initialized;
+  const factory TextEditorEvent.imageInserted({
+    required String imagePath,
+    required QuillController controller,
+  }) = ImageInserted;
+  const factory TextEditorEvent.videoInserted({
+    required String videoPath,
+    required QuillController controller,
+  }) = VideoInserted;
+  const factory TextEditorEvent.editorAdded() = EditorAdded;
+  const factory TextEditorEvent.editorAddedAt({
+    required int index,
+  }) = EditorAddedAt;
+  const factory TextEditorEvent.editorFocused({
+    required TextEditorController controller,
+  }) = EditorFocused;
+  const factory TextEditorEvent.editorRemovedAt({
+    required int index,
+  }) = EditorRemoved;
 }
