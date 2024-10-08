@@ -6,7 +6,7 @@ import 'package:craftmate_client/project_management/view_project/comment/bloc/co
 import 'package:craftmate_client/project_management/view_project/comment/view/components/comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_keyboard_visibility_temp_fork/flutter_keyboard_visibility_temp_fork.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:gap/gap.dart';
 import 'package:project_repository/project_repository.dart';
 
