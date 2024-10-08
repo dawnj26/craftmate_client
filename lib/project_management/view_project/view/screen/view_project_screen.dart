@@ -259,41 +259,21 @@ class _ProjectBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ProjectBodySection(
-            sectionName: 'Description',
+            sectionName: 'Recipe',
             type: EditProjectType.description,
             canEdit: canEdit,
           ),
           const Divider(),
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
-            buildWhen: (previous, current) {
-              final res =
-                  previous.project.description != current.project.description ||
-                      current is ViewProjectRefreshSuccess;
-              return res;
-            },
+            buildWhen: (previous, current) =>
+                previous.project != current.project,
             builder: (context, state) {
               return ProjectDescription(
                 key: const Key('viewProject_description'),
-                descriptionJson: state.project.description,
+                steps: state.project.steps,
+                description: state.project.description,
               );
-            },
-          ),
-          const Gap(12.0),
-          ProjectBodySection(
-            sectionName: 'Steps',
-            type: EditProjectType.steps,
-            canEdit: canEdit,
-          ),
-          const Divider(),
-          BlocBuilder<ViewProjectBloc, ViewProjectState>(
-            buildWhen: (previous, current) =>
-                previous.project.steps != current.project.steps ||
-                current is ViewProjectRefreshSuccess,
-            builder: (context, state) {
-              return ProjectSteps(
-                key: const Key('viewProject_steps'),
-                stepJson: state.project.steps,
-              );
+              // return const Placeholder();
             },
           ),
         ],
@@ -347,7 +327,6 @@ class ProjectBodySection extends StatelessWidget {
                   EditProjectPage.route(
                     RepositoryProvider.of<ProjectRepository>(context),
                     BlocProvider.of<ViewProjectBloc>(context).state.project,
-                    type,
                   ),
                 );
               },
