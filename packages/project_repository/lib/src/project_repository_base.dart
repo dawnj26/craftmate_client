@@ -17,7 +17,7 @@ abstract class IProjectRepository {
   });
   Future<void> updateSteps({
     required Project project,
-    required List<dynamic> newSteps,
+    required List<List<dynamic>> newSteps,
   });
   Future<String> uploadDocumentImage(String imagePath);
   Future<String> uploadProjectImage(Project project, String imagePath);
@@ -187,7 +187,7 @@ class ProjectRepository implements IProjectRepository {
   @override
   Future<void> updateSteps({
     required Project project,
-    required List<dynamic> newSteps,
+    required List<List<dynamic>> newSteps,
   }) async {
     return _projectApi.updateSteps(project, newSteps);
   }
