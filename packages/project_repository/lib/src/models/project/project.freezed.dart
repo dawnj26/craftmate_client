@@ -37,7 +37,7 @@ mixin _$Project {
   DateTime? get deletedAt => throw _privateConstructorUsedError;
   List<dynamic>? get description => throw _privateConstructorUsedError;
   List<Tag>? get tags => throw _privateConstructorUsedError;
-  List<dynamic>? get steps => throw _privateConstructorUsedError;
+  List<Step>? get steps => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
 
   /// Serializes this Project to a JSON map.
@@ -69,7 +69,7 @@ abstract class $ProjectCopyWith<$Res> {
       @JsonKey(fromJson: _parseDateTime) DateTime? deletedAt,
       List<dynamic>? description,
       List<Tag>? tags,
-      List<dynamic>? steps,
+      List<Step>? steps,
       String? imageUrl});
 
   $UserCopyWith<$Res> get creator;
@@ -167,7 +167,7 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
       steps: freezed == steps
           ? _value.steps
           : steps // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<Step>?,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -208,7 +208,7 @@ abstract class _$$ProjectImplCopyWith<$Res> implements $ProjectCopyWith<$Res> {
       @JsonKey(fromJson: _parseDateTime) DateTime? deletedAt,
       List<dynamic>? description,
       List<Tag>? tags,
-      List<dynamic>? steps,
+      List<Step>? steps,
       String? imageUrl});
 
   @override
@@ -305,7 +305,7 @@ class __$$ProjectImplCopyWithImpl<$Res>
       steps: freezed == steps
           ? _value._steps
           : steps // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<Step>?,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -332,7 +332,7 @@ class _$ProjectImpl implements _Project {
       @JsonKey(fromJson: _parseDateTime) this.deletedAt,
       final List<dynamic>? description,
       final List<Tag>? tags,
-      final List<dynamic>? steps,
+      final List<Step>? steps,
       this.imageUrl})
       : _description = description,
         _tags = tags,
@@ -388,9 +388,9 @@ class _$ProjectImpl implements _Project {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<dynamic>? _steps;
+  final List<Step>? _steps;
   @override
-  List<dynamic>? get steps {
+  List<Step>? get steps {
     final value = _steps;
     if (value == null) return null;
     if (_steps is EqualUnmodifiableListView) return _steps;
@@ -492,7 +492,7 @@ abstract class _Project implements Project {
       @JsonKey(fromJson: _parseDateTime) final DateTime? deletedAt,
       final List<dynamic>? description,
       final List<Tag>? tags,
-      final List<dynamic>? steps,
+      final List<Step>? steps,
       final String? imageUrl}) = _$ProjectImpl;
 
   factory _Project.fromJson(Map<String, dynamic> json) = _$ProjectImpl.fromJson;
@@ -529,7 +529,7 @@ abstract class _Project implements Project {
   @override
   List<Tag>? get tags;
   @override
-  List<dynamic>? get steps;
+  List<Step>? get steps;
   @override
   String? get imageUrl;
 

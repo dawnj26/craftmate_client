@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:project_repository/src/models/step/step.dart';
 import 'package:project_repository/src/models/tag/tag.dart';
 import 'package:user_repository/user_repository.dart';
 part 'project.freezed.dart';
@@ -30,7 +31,7 @@ class Project with _$Project {
     @JsonKey(fromJson: _parseDateTime) DateTime? deletedAt,
     List<dynamic>? description,
     List<Tag>? tags,
-    List<dynamic>? steps,
+    List<Step>? steps,
     String? imageUrl,
   }) = _Project;
 

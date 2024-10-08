@@ -24,7 +24,9 @@ _$ProjectImpl _$$ProjectImplFromJson(Map<String, dynamic> json) =>
       tags: (json['tags'] as List<dynamic>?)
           ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
-      steps: json['steps'] as List<dynamic>?,
+      steps: (json['steps'] as List<dynamic>?)
+          ?.map((e) => Step.fromJson(e as Map<String, dynamic>))
+          .toList(),
       imageUrl: json['imageUrl'] as String?,
     );
 
