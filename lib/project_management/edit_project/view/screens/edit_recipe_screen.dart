@@ -44,3 +44,25 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
               );
             },
           ),
+          appBar: AppBar(
+            title: const Text('Edit description'),
+            actions: [
+              TextButton.icon(
+                onPressed: () {
+                  final textEditorBloc =
+                      BlocProvider.of<TextEditorBloc>(context);
+                  textEditorBloc.add(const TextEditorEvent.editorAdded());
+                  context
+                      .read<EditProjectBloc>()
+                      .add(const EditProjectChanged());
+                },
+                label: const Text('Add step'),
+                icon: const Icon(Icons.add),
+              ),
+            ],
+          ),
+          body: const TextEditorPage(),
+        ),
+      ),
+    );
+  }
