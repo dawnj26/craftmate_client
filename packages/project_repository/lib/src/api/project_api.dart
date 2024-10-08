@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:config_repository/config_repository.dart';
-import 'package:dio/dio.dart';
 import 'package:project_repository/src/exceptions/project_exception.dart';
 import 'package:project_repository/src/models/models.dart';
 
@@ -15,14 +14,37 @@ final class ProjectApi {
 
   StreamController<Project> get streamController => _streamController;
 
+  Stream<Project> getProjectStream(Project project) {
+    if (!isStreamInitialized) {
+      _streamController = StreamController<Project>.broadcast();
+      isStreamInitialized = true;
+
+      _streamController.add(project);
+    }
+
+    return _streamController.stream;
+  }
+
+  Future<void> viewProjectById(int id) async {
+    try {
+      await _config.makeRequest<void>(
+        '/project/$id/view',
+        method: 'POST',
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
   Future<Pagination<Project>> searchProjects(String query) async {
     try {
-      final api = await _config.apiWithAuthorization;
-      final response = await api.get<Map<String, dynamic>>(
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         '/user/projects/',
-        queryParameters: {
-          'q': query,
-        },
+        queryParameters: {'q': query},
+        withAuthorization: true,
       );
 
       if (response.data == null) {
@@ -35,10 +57,8 @@ final class ProjectApi {
       );
 
       return paginatedProjects;
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-
-      throw ProjectException(message: message);
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
@@ -46,16 +66,14 @@ final class ProjectApi {
 
   Future<void> deleteProjects(List<int> projectIds) async {
     try {
-      final api = await _config.apiWithAuthorization;
-      api.options.headers['Content-Type'] = 'application/json';
-      await api.delete('/user/projects/delete',
-          data: jsonEncode({
-            'project_ids': projectIds,
-          }));
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-
-      throw ProjectException(message: message);
+      await _config.makeRequest<void>(
+        '/user/projects/delete',
+        method: 'DELETE',
+        data: jsonEncode({'project_ids': projectIds}),
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
@@ -67,17 +85,17 @@ final class ProjectApi {
     SortOrder order,
   ) async {
     try {
-      final api = await _config.apiWithAuthorization;
       final path = filter.index != 0
           ? '/user/projects/${filter.index}'
           : '/user/projects';
 
-      final response = await api.get<Map<String, dynamic>>(
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         path,
         queryParameters: {
           'sort_by': sort.value,
           'order': order.value,
         },
+        withAuthorization: true,
       );
 
       if (response.data == null) {
@@ -90,10 +108,8 @@ final class ProjectApi {
       );
 
       return paginatedProjects;
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-
-      throw ProjectException(message: message);
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
@@ -101,9 +117,11 @@ final class ProjectApi {
 
   Future<Pagination<Project>> getNextPage(String nextUrl) async {
     try {
-      final api = await _config.apiWithAuthorization;
-      api.options.baseUrl = nextUrl;
-      final response = await api.get<Map<String, dynamic>>('');
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        nextUrl,
+        withAuthorization: true,
+        token: await _config.storage.read(key: 'token'),
+      );
 
       if (response.data == null) {
         throw ProjectException(message: 'Response is null');
@@ -115,10 +133,8 @@ final class ProjectApi {
       );
 
       return paginatedProjects;
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-
-      throw ProjectException(message: message);
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
@@ -126,8 +142,10 @@ final class ProjectApi {
 
   Future<Pagination<Project>> getLatestProjects() async {
     try {
-      final api = await _config.apiWithAuthorization;
-      final response = await api.get<Map<String, dynamic>>('/projects/latest');
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/projects/latest',
+        withAuthorization: true,
+      );
 
       if (response.data == null) {
         throw ProjectException(message: 'Response is null');
@@ -139,34 +157,16 @@ final class ProjectApi {
       );
 
       return paginatedProjects;
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-
-      throw ProjectException(message: message);
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
   }
 
-  void _initController() {
-    _streamController = StreamController<Project>.broadcast();
-    isStreamInitialized = true;
-  }
-
-  Stream<Project> getProjectStream(Project project) {
-    if (!isStreamInitialized) {
-      _initController();
-      _streamController.add(project);
-    }
-
-    return _streamController.stream;
-  }
-
   Future<Project> tryCreateProject(String title, ProjectVisibility visibility,
       [String? tags]) async {
     try {
-      final api = await _config.apiWithAuthorization;
-
       var data = <String, dynamic>{
         'title': title,
         'visibility': visibility.index + 1,
@@ -175,32 +175,27 @@ final class ProjectApi {
       if (tags != null) {
         data['tags'] = tags;
       }
-      final response = await api.post<Map<String, dynamic>>(
+
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         '/project/create',
+        method: 'POST',
         data: data,
+        withAuthorization: true,
       );
 
       return Project.fromJson(response.data!['data']);
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-
-      throw ProjectException(message: message);
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
   }
 
   Future<Project> tryGetProjectById(int id) async {
-    final api = _config.api;
-    final token = await _config.storage.read(key: 'token');
-
-    if (token != null) {
-      api.options.headers['Authorization'] = 'Bearer $token';
-    }
-
     try {
-      final response = await api.get<Map<String, dynamic>>(
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         '/project/$id',
+        withAuthorization: true,
       );
 
       if (response.data == null) {
@@ -210,25 +205,32 @@ final class ProjectApi {
       final project = Project.fromJson(response.data!['data']);
 
       return project;
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-
-      throw ProjectException(message: message);
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     }
   }
 
-  Future<void> updateSteps(Project project, List<dynamic> newSteps) async {
+  Future<void> updateSteps(
+      Project project, List<List<dynamic>> newSteps) async {
     try {
-      final api = await _config.apiWithAuthorization;
-      await api.post('/project/${project.id}/edit/steps', data: {
-        'steps': jsonEncode(newSteps),
-      });
+      final json = newSteps.map((e) => jsonEncode(e)).toList();
 
-      _streamController.add(project.copyWith(steps: newSteps));
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/project/${project.id}/edit/steps',
+        method: 'POST',
+        data: {'steps': jsonEncode(json)},
+        withAuthorization: true,
+      );
 
-      throw ProjectException(message: message);
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final newProject = Project.fromJson(response.data!['data']);
+
+      _streamController.add(newProject);
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
@@ -237,16 +239,14 @@ final class ProjectApi {
   Future<void> updateDescription(
       Project project, List<dynamic> newDescription) async {
     try {
-      final api = await _config.apiWithAuthorization;
-      await api.post('/project/${project.id}/edit/description', data: {
-        'description': jsonEncode(newDescription),
-      });
-
-      _streamController.add(project.copyWith(description: newDescription));
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-
-      throw ProjectException(message: message);
+      await _config.makeRequest<void>(
+        '/project/${project.id}/edit/description',
+        method: 'POST',
+        data: {'description': jsonEncode(newDescription)},
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
@@ -254,7 +254,6 @@ final class ProjectApi {
 
   Future<void> tryToggleLikeById(Project project) async {
     try {
-      final api = await _config.apiWithAuthorization;
       if (!project.isLiked) {
         _streamController.add(project.copyWith(
             isLiked: !project.isLiked, likeCount: project.likeCount + 1));
@@ -263,12 +262,14 @@ final class ProjectApi {
             isLiked: !project.isLiked, likeCount: project.likeCount - 1));
       }
 
-      await api.post('/project/${project.id}/like');
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
+      await _config.makeRequest<void>(
+        '/project/${project.id}/like',
+        method: 'POST',
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
       _streamController.add(project);
-
-      throw ProjectException(message: message);
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
@@ -277,8 +278,6 @@ final class ProjectApi {
   Future<Project> updateProject(String title, Project project,
       [String? tags]) async {
     try {
-      final api = await _config.apiWithAuthorization;
-
       var data = <String, dynamic>{
         'title': title,
       };
@@ -286,9 +285,12 @@ final class ProjectApi {
       if (tags != null) {
         data['tags'] = tags;
       }
-      final response = await api.post<Map<String, dynamic>>(
+
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         '/project/${project.id}/edit',
+        method: 'POST',
         data: data,
+        withAuthorization: true,
       );
 
       if (response.data == null) {
@@ -299,11 +301,9 @@ final class ProjectApi {
       _streamController.add(updatedProject);
 
       return updatedProject;
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-      _config.logger.info(e.response?.statusCode);
-
-      throw ProjectException(message: message);
+    } on RequestException catch (e) {
+      _config.logger.info(e.message);
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
@@ -314,12 +314,11 @@ final class ProjectApi {
     ProjectVisibility visibility,
   ) async {
     try {
-      final api = await _config.apiWithAuthorization;
-      final response = await api.post<Map<String, dynamic>>(
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         '/project/${project.id}/edit/visibility',
-        data: {
-          'visibility': visibility.index + 1,
-        },
+        method: 'POST',
+        data: {'visibility': visibility.index + 1},
+        withAuthorization: true,
       );
 
       if (response.data == null) {
@@ -330,11 +329,9 @@ final class ProjectApi {
 
       _streamController.add(updatedProject);
       return updatedProject;
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-      _config.logger.info(e.response?.statusCode);
-
-      throw ProjectException(message: message);
+    } on RequestException catch (e) {
+      _config.logger.info(e.message);
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
@@ -342,13 +339,14 @@ final class ProjectApi {
 
   Future<void> deleteProject(Project project) async {
     try {
-      final api = await _config.apiWithAuthorization;
-      await api.delete('/project/${project.id}/delete');
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-      _config.logger.info(e.response?.statusCode);
-
-      throw ProjectException(message: message);
+      await _config.makeRequest<void>(
+        '/project/${project.id}/delete',
+        method: 'DELETE',
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      _config.logger.info(e.message);
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }

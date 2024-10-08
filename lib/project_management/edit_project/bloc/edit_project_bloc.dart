@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:craftmate_client/globals.dart';
+import 'package:craftmate_client/project_management/text_editor/models/text_editor_controller.dart';
 import 'package:equatable/equatable.dart';
 import 'package:project_repository/project_repository.dart';
 
@@ -12,7 +13,7 @@ class EditProjectBloc extends Bloc<EditProjectEvent, EditProjectState> {
         super(const EditProjectInitial()) {
     on<EditProjectChanged>(_onProjectChanged);
     on<EditProjectDescriptionSaved>(_onDescriptionSaved);
-    on<EditProjectStepsSaved>(_onStepsSaved);
+    on<EditProjectRecipeSaved>(_onStepsSaved);
   }
 
   final ProjectRepository _projectRepository;
@@ -45,16 +46,26 @@ class EditProjectBloc extends Bloc<EditProjectEvent, EditProjectState> {
   }
 
   Future<void> _onStepsSaved(
-    EditProjectStepsSaved event,
+    EditProjectRecipeSaved event,
     Emitter<EditProjectState> emit,
   ) async {
     emit(const EditProjectLoading());
 
     try {
-      logger.info('Updating Steps');
+      logger.info('Updating');
+      final newDescription =
+          event.newDescription.quillController.document.toDelta().toJson();
+      final newSteps = event.newSteps
+          .map((e) => e.quillController.document.toDelta().toJson())
+          .toList();
+
+      await _projectRepository.updateDescription(
+        project: event.currentProject,
+        newDescription: newDescription,
+      );
       await _projectRepository.updateSteps(
         project: event.currentProject,
-        newSteps: event.newSteps,
+        newSteps: newSteps,
       );
 
       emit(EditProjectClean(shouldExit: event.shouldExit));

@@ -1,5 +1,4 @@
 import 'package:config_repository/config_repository.dart';
-import 'package:dio/dio.dart';
 import 'package:project_repository/src/exceptions/project_exception.dart';
 import 'package:project_repository/src/models/models.dart';
 
@@ -10,10 +9,9 @@ final class CommentApi {
 
   Future<List<Comment>> getComments(int projectId) async {
     try {
-      final api = await _config.apiWithAuthorization;
-
-      final response = await api.get<Map<String, dynamic>>(
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         '/project/$projectId/comments',
+        withAuthorization: true,
       );
 
       if (response.data == null) {
@@ -23,10 +21,8 @@ final class CommentApi {
       final commentsList = comments.map((e) => Comment.fromJson(e)).toList();
 
       return commentsList;
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-
-      throw ProjectException(message: message);
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
@@ -34,12 +30,13 @@ final class CommentApi {
 
   Future<void> likeComment(Comment comment, int projectId) async {
     try {
-      final api = await _config.apiWithAuthorization;
-      await api.post('/project/$projectId/comment/${comment.id}/like');
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-
-      throw ProjectException(message: message);
+      await _config.makeRequest(
+        '/project/$projectId/comment/${comment.id}/like',
+        method: 'POST',
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
@@ -51,13 +48,13 @@ final class CommentApi {
     String commentText,
   ) async {
     try {
-      final api = await _config.apiWithAuthorization;
-
-      final response = await api.post<Map<String, dynamic>>(
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         '/project/${project.id}/comment/${comment.id}/reply',
+        method: 'POST',
         data: {
           'comment': commentText,
         },
+        withAuthorization: true,
       );
 
       if (response.data == null) {
@@ -65,10 +62,8 @@ final class CommentApi {
       }
 
       return Comment.fromJson(response.data!['data']);
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-
-      throw ProjectException(message: message);
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
@@ -80,12 +75,13 @@ final class CommentApi {
     int commentCount,
   ) async {
     try {
-      final api = await _config.apiWithAuthorization;
-      await api.delete('/project/comment/${comment.id}/delete');
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-
-      throw ProjectException(message: message);
+      await _config.makeRequest(
+        '/project/comment/${comment.id}/delete',
+        method: 'DELETE',
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }
@@ -93,13 +89,13 @@ final class CommentApi {
 
   Future<Comment> addComment(Project project, String comment) async {
     try {
-      final api = await _config.apiWithAuthorization;
-
-      final response = await api.post<Map<String, dynamic>>(
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         '/project/${project.id}/comment/create',
+        method: 'POST',
         data: {
           'comment': comment,
         },
+        withAuthorization: true,
       );
 
       if (response.data == null) {
@@ -107,10 +103,8 @@ final class CommentApi {
       }
 
       return Comment.fromJson(response.data!['data']);
-    } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
-
-      throw ProjectException(message: message);
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
     }

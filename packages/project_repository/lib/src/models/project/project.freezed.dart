@@ -28,6 +28,7 @@ mixin _$Project {
   int get likeCount => throw _privateConstructorUsedError;
   int get commentCount => throw _privateConstructorUsedError;
   int get forkCount => throw _privateConstructorUsedError;
+  int get viewCount => throw _privateConstructorUsedError;
   @JsonKey(fromJson: DateTime.parse)
   DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(fromJson: DateTime.parse)
@@ -36,7 +37,7 @@ mixin _$Project {
   DateTime? get deletedAt => throw _privateConstructorUsedError;
   List<dynamic>? get description => throw _privateConstructorUsedError;
   List<Tag>? get tags => throw _privateConstructorUsedError;
-  List<dynamic>? get steps => throw _privateConstructorUsedError;
+  List<Step>? get steps => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
 
   /// Serializes this Project to a JSON map.
@@ -62,12 +63,13 @@ abstract class $ProjectCopyWith<$Res> {
       int likeCount,
       int commentCount,
       int forkCount,
+      int viewCount,
       @JsonKey(fromJson: DateTime.parse) DateTime createdAt,
       @JsonKey(fromJson: DateTime.parse) DateTime updatedAt,
       @JsonKey(fromJson: _parseDateTime) DateTime? deletedAt,
       List<dynamic>? description,
       List<Tag>? tags,
-      List<dynamic>? steps,
+      List<Step>? steps,
       String? imageUrl});
 
   $UserCopyWith<$Res> get creator;
@@ -96,6 +98,7 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
     Object? likeCount = null,
     Object? commentCount = null,
     Object? forkCount = null,
+    Object? viewCount = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? deletedAt = freezed,
@@ -137,6 +140,10 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
           ? _value.forkCount
           : forkCount // ignore: cast_nullable_to_non_nullable
               as int,
+      viewCount: null == viewCount
+          ? _value.viewCount
+          : viewCount // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -160,7 +167,7 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
       steps: freezed == steps
           ? _value.steps
           : steps // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<Step>?,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -195,12 +202,13 @@ abstract class _$$ProjectImplCopyWith<$Res> implements $ProjectCopyWith<$Res> {
       int likeCount,
       int commentCount,
       int forkCount,
+      int viewCount,
       @JsonKey(fromJson: DateTime.parse) DateTime createdAt,
       @JsonKey(fromJson: DateTime.parse) DateTime updatedAt,
       @JsonKey(fromJson: _parseDateTime) DateTime? deletedAt,
       List<dynamic>? description,
       List<Tag>? tags,
-      List<dynamic>? steps,
+      List<Step>? steps,
       String? imageUrl});
 
   @override
@@ -228,6 +236,7 @@ class __$$ProjectImplCopyWithImpl<$Res>
     Object? likeCount = null,
     Object? commentCount = null,
     Object? forkCount = null,
+    Object? viewCount = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? deletedAt = freezed,
@@ -269,6 +278,10 @@ class __$$ProjectImplCopyWithImpl<$Res>
           ? _value.forkCount
           : forkCount // ignore: cast_nullable_to_non_nullable
               as int,
+      viewCount: null == viewCount
+          ? _value.viewCount
+          : viewCount // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -292,7 +305,7 @@ class __$$ProjectImplCopyWithImpl<$Res>
       steps: freezed == steps
           ? _value._steps
           : steps // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<Step>?,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -313,12 +326,13 @@ class _$ProjectImpl implements _Project {
       required this.likeCount,
       required this.commentCount,
       required this.forkCount,
+      required this.viewCount,
       @JsonKey(fromJson: DateTime.parse) required this.createdAt,
       @JsonKey(fromJson: DateTime.parse) required this.updatedAt,
       @JsonKey(fromJson: _parseDateTime) this.deletedAt,
       final List<dynamic>? description,
       final List<Tag>? tags,
-      final List<dynamic>? steps,
+      final List<Step>? steps,
       this.imageUrl})
       : _description = description,
         _tags = tags,
@@ -343,6 +357,8 @@ class _$ProjectImpl implements _Project {
   final int commentCount;
   @override
   final int forkCount;
+  @override
+  final int viewCount;
   @override
   @JsonKey(fromJson: DateTime.parse)
   final DateTime createdAt;
@@ -372,9 +388,9 @@ class _$ProjectImpl implements _Project {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<dynamic>? _steps;
+  final List<Step>? _steps;
   @override
-  List<dynamic>? get steps {
+  List<Step>? get steps {
     final value = _steps;
     if (value == null) return null;
     if (_steps is EqualUnmodifiableListView) return _steps;
@@ -387,7 +403,7 @@ class _$ProjectImpl implements _Project {
 
   @override
   String toString() {
-    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl)';
+    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, viewCount: $viewCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl)';
   }
 
   @override
@@ -407,6 +423,8 @@ class _$ProjectImpl implements _Project {
                 other.commentCount == commentCount) &&
             (identical(other.forkCount, forkCount) ||
                 other.forkCount == forkCount) &&
+            (identical(other.viewCount, viewCount) ||
+                other.viewCount == viewCount) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -433,6 +451,7 @@ class _$ProjectImpl implements _Project {
       likeCount,
       commentCount,
       forkCount,
+      viewCount,
       createdAt,
       updatedAt,
       deletedAt,
@@ -467,12 +486,13 @@ abstract class _Project implements Project {
       required final int likeCount,
       required final int commentCount,
       required final int forkCount,
+      required final int viewCount,
       @JsonKey(fromJson: DateTime.parse) required final DateTime createdAt,
       @JsonKey(fromJson: DateTime.parse) required final DateTime updatedAt,
       @JsonKey(fromJson: _parseDateTime) final DateTime? deletedAt,
       final List<dynamic>? description,
       final List<Tag>? tags,
-      final List<dynamic>? steps,
+      final List<Step>? steps,
       final String? imageUrl}) = _$ProjectImpl;
 
   factory _Project.fromJson(Map<String, dynamic> json) = _$ProjectImpl.fromJson;
@@ -494,6 +514,8 @@ abstract class _Project implements Project {
   @override
   int get forkCount;
   @override
+  int get viewCount;
+  @override
   @JsonKey(fromJson: DateTime.parse)
   DateTime get createdAt;
   @override
@@ -507,7 +529,7 @@ abstract class _Project implements Project {
   @override
   List<Tag>? get tags;
   @override
-  List<dynamic>? get steps;
+  List<Step>? get steps;
   @override
   String? get imageUrl;
 

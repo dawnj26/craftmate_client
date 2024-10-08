@@ -32,3 +32,7 @@ final class ViewProjectImageUploaded extends ViewProjectEvent {
 final class ViewProjectRefreshed extends ViewProjectEvent {
   const ViewProjectRefreshed();
 }
+
+final class ViewProjectViewed extends ViewProjectEvent {
+  const ViewProjectViewed();
+}

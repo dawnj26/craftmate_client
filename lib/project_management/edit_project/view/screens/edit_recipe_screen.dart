@@ -1,14 +1,14 @@
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/edit_project/bloc/edit_project_bloc.dart';
-import 'package:craftmate_client/project_management/text_editor/view/content_editor.dart';
+import 'package:craftmate_client/project_management/text_editor/bloc/text_editor_bloc.dart';
+import 'package:craftmate_client/project_management/text_editor/view/text_editor_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:project_repository/project_repository.dart';
 
-class EditDescriptionScreen extends StatefulWidget {
-  const EditDescriptionScreen({
+class EditRecipeScreen extends StatefulWidget {
+  const EditRecipeScreen({
     super.key,
     required this.project,
   });
@@ -16,47 +16,10 @@ class EditDescriptionScreen extends StatefulWidget {
   final Project project;
 
   @override
-  State<EditDescriptionScreen> createState() => _EditDescriptionScreenState();
+  State<EditRecipeScreen> createState() => _EditRecipeScreenState();
 }
 
-class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
-  final _editorFocusNode = FocusNode();
-  late final QuillController _editorController;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    // Load project document
-    if (widget.project.description == null) {
-      _editorController =
-          QuillController.basic(editorFocusNode: _editorFocusNode);
-    } else {
-      final document = Document.fromJson(widget.project.description!);
-      _editorController = QuillController(
-        document: document,
-        selection: const TextSelection.collapsed(offset: 0),
-        editorFocusNode: _editorFocusNode,
-      );
-    }
-
-    final bloc = BlocProvider.of<EditProjectBloc>(context);
-
-    // Listen to document changes
-    _editorController.changes.listen((docChange) {
-      bloc.add(const EditProjectChanged());
-    });
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    _editorFocusNode.dispose();
-    _editorController.dispose();
-    super.dispose();
-  }
-
+class _EditRecipeScreenState extends State<EditRecipeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<EditProjectBloc, EditProjectState>(
@@ -66,30 +29,39 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
         canPop: false,
         onPopInvokedWithResult: _handlePop,
         child: Scaffold(
+          floatingActionButton: BlocBuilder<EditProjectBloc, EditProjectState>(
+            buildWhen: (previous, current) => current is EditProjectDirty,
+            builder: (context, state) {
+              if (state is EditProjectDirty) {
+                return FloatingActionButton(
+                  onPressed: _handleSave,
+                  child: const Icon(Icons.save),
+                );
+              }
+              return const FloatingActionButton(
+                onPressed: null,
+                child: Icon(Icons.save_outlined),
+              );
+            },
+          ),
           appBar: AppBar(
             title: const Text('Edit description'),
             actions: [
-              BlocBuilder<EditProjectBloc, EditProjectState>(
-                buildWhen: (previous, current) =>
-                    previous.runtimeType != current.runtimeType,
-                builder: (context, state) {
-                  final isProjectChanged = state is EditProjectDirty;
-
-                  return IconButton(
-                    onPressed: isProjectChanged ? _handleSave : null,
-                    icon: const Icon(Icons.save),
-                  );
+              TextButton.icon(
+                onPressed: () {
+                  final textEditorBloc =
+                      BlocProvider.of<TextEditorBloc>(context);
+                  textEditorBloc.add(const TextEditorEvent.editorAdded());
+                  context
+                      .read<EditProjectBloc>()
+                      .add(const EditProjectChanged());
                 },
+                label: const Text('Add step'),
+                icon: const Icon(Icons.add),
               ),
             ],
           ),
-          body: RepositoryProvider.value(
-            value: RepositoryProvider.of<ProjectRepository>(context),
-            child: ContentEditor(
-              controller: _editorController,
-              canAddStep: false,
-            ),
-          ),
+          body: const TextEditorPage(),
         ),
       ),
     );
@@ -117,14 +89,15 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
   }
 
   void _handleSave() {
-    _editorController.editorFocusNode?.unfocus();
+    FocusScope.of(context).unfocus();
+    final textEditorBloc = context.read<TextEditorBloc>();
 
-    final newDescription = _editorController.document.toDelta().toJson();
     BlocProvider.of<EditProjectBloc>(context).add(
-      EditProjectDescriptionSaved(
-        newDescription: newDescription,
+      EditProjectRecipeSaved(
+        newDescription: textEditorBloc.state.descriptionController!,
+        newSteps: textEditorBloc.state.controllers,
         currentProject: widget.project,
-        shouldExit: false,
+        shouldExit: true,
       ),
     );
   }
@@ -135,7 +108,8 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
     }
     final bloc = BlocProvider.of<EditProjectBloc>(context);
     final currentState = bloc.state;
-    final isProjectChanged = currentState is EditProjectDirty;
+    final isProjectChanged =
+        currentState is EditProjectDirty || currentState is EditProjectFailed;
 
     // unfocus any focused node
     WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
@@ -166,10 +140,11 @@ class _EditDescriptionScreenState extends State<EditDescriptionScreen> {
       }
 
       if (mounted && shouldSave) {
-        final newDescription = _editorController.document.toDelta().toJson();
+        final editorState = BlocProvider.of<TextEditorBloc>(context).state;
         bloc.add(
-          EditProjectDescriptionSaved(
-            newDescription: newDescription,
+          EditProjectRecipeSaved(
+            newDescription: editorState.descriptionController!,
+            newSteps: editorState.controllers,
             currentProject: widget.project,
             shouldExit: true,
           ),

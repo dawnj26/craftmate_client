@@ -26,17 +26,20 @@ final class EditProjectDescriptionSaved extends EditProjectEvent {
   List<Object> get props => [currentProject, newDescription, ...super.props];
 }
 
-final class EditProjectStepsSaved extends EditProjectEvent {
-  const EditProjectStepsSaved({
+final class EditProjectRecipeSaved extends EditProjectEvent {
+  const EditProjectRecipeSaved({
     required this.newSteps,
+    required this.newDescription,
     required this.currentProject,
     required this.shouldExit,
   });
-  final List<dynamic> newSteps;
+  final TextEditorController newDescription;
+  final List<TextEditorController> newSteps;
   final Project currentProject;
   final bool shouldExit;
 
   @override
   // TODO: implement props
-  List<Object> get props => [currentProject, newSteps, ...super.props];
+  List<Object> get props =>
+      [currentProject, newSteps, newDescription, ...super.props];
 }

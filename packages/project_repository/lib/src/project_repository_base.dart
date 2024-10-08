@@ -17,7 +17,7 @@ abstract class IProjectRepository {
   });
   Future<void> updateSteps({
     required Project project,
-    required List<dynamic> newSteps,
+    required List<List<dynamic>> newSteps,
   });
   Future<String> uploadDocumentImage(String imagePath);
   Future<String> uploadProjectImage(Project project, String imagePath);
@@ -41,6 +41,7 @@ abstract class IProjectRepository {
   Future<Pagination<Project>> getNextPage(String nextUrl);
   Future<Pagination<Project>> getCurrentUserProjects(ProjectFilter filter);
   Future<void> deleteProjects(List<int> projectIds);
+  Future<void> viewProjectById(int id);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -53,6 +54,11 @@ class ProjectRepository implements IProjectRepository {
   })  : _projectApi = ProjectApi(config: config),
         _uploadApi = UploadApi(config: config),
         _commentApi = CommentApi(config: config);
+
+  @override
+  Future<void> viewProjectById(int id) {
+    return _projectApi.viewProjectById(id);
+  }
 
   @override
   Future<Pagination<Project>> searchProjects(String query) {
@@ -181,7 +187,7 @@ class ProjectRepository implements IProjectRepository {
   @override
   Future<void> updateSteps({
     required Project project,
-    required List<dynamic> newSteps,
+    required List<List<dynamic>> newSteps,
   }) async {
     return _projectApi.updateSteps(project, newSteps);
   }

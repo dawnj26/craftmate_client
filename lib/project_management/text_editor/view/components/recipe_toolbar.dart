@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
-class StepToolBar extends StatelessWidget {
-  const StepToolBar({
+class RecipeToolbar extends StatelessWidget {
+  const RecipeToolbar({
     super.key,
     required QuillController editorController,
   }) : _editorController = editorController;
@@ -23,7 +23,6 @@ class StepToolBar extends StatelessWidget {
               controller: _editorController,
               isUndo: true,
             ),
-            ToolbarStepButton(controller: _editorController),
             QuillToolbarToggleStyleButton(
               controller: _editorController,
               attribute: Attribute.bold,
@@ -93,7 +92,10 @@ class StepToolBar extends StatelessWidget {
     final bloc = BlocProvider.of<TextEditorBloc>(context);
 
     bloc.add(
-      TextEditorImageInserted(imagePath: imagePath, controller: controller),
+      TextEditorEvent.imageInserted(
+        imagePath: imagePath,
+        controller: controller,
+      ),
     );
   }
 
@@ -104,73 +106,10 @@ class StepToolBar extends StatelessWidget {
   ) async {
     final bloc = BlocProvider.of<TextEditorBloc>(context);
     bloc.add(
-      TextEditorVideoInserted(videoPath: videoPath, controller: controller),
-    );
-  }
-}
-
-class ToolbarStepButton extends StatelessWidget {
-  const ToolbarStepButton({
-    super.key,
-    required this.controller,
-  });
-
-  final QuillController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return QuillToolbarCustomButton(
-      controller: controller,
-      options: QuillToolbarCustomButtonOptions(
-        icon: const Icon(Icons.checklist),
-        tooltip: 'Add step',
-        onPressed: () => _handleAfterButtonPressed(context),
+      TextEditorEvent.videoInserted(
+        videoPath: videoPath,
+        controller: controller,
       ),
     );
-  }
-
-  void _handleAfterButtonPressed(BuildContext context) {
-    final cursorIndex = controller.index;
-
-    final currentLine =
-        controller.document.queryChild(controller.selection.baseOffset).node;
-    final hasText = currentLine != null && currentLine.length > 1;
-    const stepText = 'Step No: Title';
-
-    var insertIndex = cursorIndex + 1;
-    if (hasText) {
-      // calculate the index of end of the line
-      insertIndex = currentLine.offset + currentLine.length;
-
-      /*
-        insert new line first to prevent applying
-        style on the current text on cursor position
-      */
-      controller.document.insert(insertIndex - 1, '\n');
-      insertIndex++;
-    }
-
-    // insert the text and apply h1 style
-    controller.document.insert(insertIndex - 1, stepText);
-    controller.formatText(
-      insertIndex - 1,
-      stepText.length,
-      Attribute.h1,
-    );
-
-    // position before N in No in stepText
-    const baseOffset = 5;
-
-    // select the 'No' for easy replacement
-    controller.updateSelection(
-      TextSelection(
-        baseOffset: insertIndex - 1 + baseOffset,
-        extentOffset: insertIndex - 1 + baseOffset + 2,
-      ),
-      ChangeSource.local,
-    );
-
-    // focus again on the editor and to refresh the document
-    controller.editorFocusNode?.requestFocus();
   }
 }

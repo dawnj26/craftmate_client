@@ -9,6 +9,7 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  connectivity_plus: ^6.0.5
   dio: ^5.5.0+1
   flutter_secure_storage: ^9.2.2
   log_collector:

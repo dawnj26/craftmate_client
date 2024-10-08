@@ -1,7 +1,4 @@
-// ignore_for_file: avoid_dynamic_calls
-
 import 'package:config_repository/config_repository.dart';
-import 'package:dio/dio.dart';
 import 'package:user_repository/src/exceptions/user_exception.dart';
 import 'package:user_repository/src/models/user.dart';
 
@@ -20,24 +17,16 @@ class UserRepository implements IUserRepository {
   @override
   Future<User> getUserByToken() async {
     try {
-      final dio = await _config.apiWithAuthorization;
-      final response = await dio.get('/auth/user');
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/auth/user',
+        withAuthorization: true,
+      );
       final user =
           User.fromJson(response.data!['data'] as Map<String, dynamic>);
 
       return user;
-    } on DioException catch (e) {
-      var message = 'Login failed';
-
-      if (e.response != null) {
-        // null checks if response provides error
-        final metadata = e.response!.data['metadata'] ?? {};
-        message = metadata['message'] != null
-            ? metadata['message'].toString()
-            : message;
-      }
-
-      throw UserException(message);
+    } on RequestException catch (e) {
+      throw UserException(e.message);
     } on TokenException catch (e) {
       throw UserException(e.message);
     }
@@ -45,27 +34,15 @@ class UserRepository implements IUserRepository {
 
   @override
   Future<void> getUserByEmail(String email) async {
-    final dio = _config.api;
-
     try {
-      await dio.get<Map<String, dynamic>>(
+      await _config.makeRequest<Map<String, dynamic>>(
         '/auth/user/verify',
         queryParameters: {
           'email': email,
         },
       );
-    } on DioException catch (e) {
-      var message = 'Login failed';
-
-      if (e.response != null) {
-        // null checks if response provides error
-        final metadata = e.response!.data['metadata'] ?? {};
-        message = metadata['message'] != null
-            ? metadata['message'].toString()
-            : message;
-      }
-
-      throw UserException(message);
+    } on RequestException catch (e) {
+      throw UserException(e.message);
     }
   }
 }

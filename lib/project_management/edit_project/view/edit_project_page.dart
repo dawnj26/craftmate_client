@@ -1,8 +1,7 @@
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/edit_project/bloc/edit_project_bloc.dart';
-import 'package:craftmate_client/project_management/edit_project/view/screens/edit_description_screen.dart';
-import 'package:craftmate_client/project_management/edit_project/view/screens/edit_project_screen.dart';
-import 'package:craftmate_client/project_management/edit_project/view/screens/edit_steps_screen.dart';
+import 'package:craftmate_client/project_management/edit_project/view/screens/edit_recipe_screen.dart';
+import 'package:craftmate_client/project_management/text_editor/bloc/text_editor_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_repository/project_repository.dart';
@@ -14,23 +13,19 @@ class EditProjectPage extends StatelessWidget {
     super.key,
     required this.projectRepo,
     required this.project,
-    required this.type,
   });
 
   final ProjectRepository projectRepo;
   final Project project;
-  final EditProjectType type;
 
   static Route<void> route(
     ProjectRepository projectRepo,
     Project project,
-    EditProjectType type,
   ) {
     return PageTransition.effect.slideFromRightToLeft(
       EditProjectPage(
         projectRepo: projectRepo,
         project: project,
-        type: type,
       ),
     );
   }
@@ -39,42 +34,26 @@ class EditProjectPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: projectRepo,
-      child: BlocProvider(
-        create: (context) => EditProjectBloc(
-          projectRepo: RepositoryProvider.of<ProjectRepository>(context),
-        ),
-        child: EditScreen(
-          type: type,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => EditProjectBloc(
+              projectRepo: RepositoryProvider.of<ProjectRepository>(context),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => TextEditorBloc(
+              projectRepository:
+                  RepositoryProvider.of<ProjectRepository>(context),
+            )..add(
+                TextEditorEvent.initialized(project: project),
+              ),
+          ),
+        ],
+        child: EditRecipeScreen(
           project: project,
         ),
       ),
     );
-  }
-}
-
-class EditScreen extends StatelessWidget {
-  const EditScreen({
-    super.key,
-    required this.type,
-    required this.project,
-  });
-
-  final EditProjectType type;
-  final Project project;
-
-  @override
-  Widget build(BuildContext context) {
-    switch (type) {
-      case EditProjectType.description:
-        return EditDescriptionScreen(
-          project: project,
-        );
-      case EditProjectType.steps:
-        return EditStepsScreen(
-          project: project,
-        );
-      default:
-        return const EditProjectScreen();
-    }
   }
 }

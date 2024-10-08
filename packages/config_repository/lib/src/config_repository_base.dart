@@ -1,4 +1,7 @@
+import 'package:config_repository/src/exceptions/internet_exception.dart';
+import 'package:config_repository/src/exceptions/request_exception.dart';
 import 'package:config_repository/src/exceptions/token_exception.dart';
+import 'package:config_repository/src/helpers/helpers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:log_collector/log_collector.dart';
@@ -7,21 +10,63 @@ class ConfigRepository {
   final String apiUrl;
   final FlutterSecureStorage _storage;
   final LogCollector logger;
+  final Dio _dio;
+  final ConnectionStatus connectionStatus = ConnectionStatus();
 
-  const ConfigRepository({required this.apiUrl, required this.logger})
-      : _storage = const FlutterSecureStorage();
+  ConfigRepository({required this.apiUrl, required this.logger})
+      : _storage = const FlutterSecureStorage(),
+        _dio = Dio() {
+    connectionStatus.init();
+  }
 
   Dio get api {
-    final dio = Dio(
-      BaseOptions(
-        baseUrl: '$apiUrl/api',
-        headers: {
-          'Accept': 'application/json',
-        },
-      ),
+    _dio.options = BaseOptions(
+      baseUrl: '$apiUrl/api',
+      headers: {
+        'Accept': 'application/json',
+      },
     );
 
-    return dio;
+    return _dio;
+  }
+
+  Future<Response<T>> makeRequest<T>(
+    String path, {
+    bool withAuthorization = false,
+    String method = 'GET',
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    String? token,
+  }) async {
+    if (!await connectionStatus.checkConnection()) {
+      throw const InternetException('No internet connection');
+    }
+
+    try {
+      final api = token != null
+          ? apiWithToken(token)
+          : withAuthorization
+              ? await apiWithAuthorization
+              : this.api;
+      final response = await api.request<T>(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: Options(method: method),
+      );
+
+      return response;
+    } on DioException catch (e) {
+      final message = getErrorMsg(e);
+      throw RequestException(message);
+    }
+  }
+
+  Dio apiWithToken(String token) {
+    final api = this.api;
+    api.options.headers['Authorization'] = 'Bearer $token';
+
+    return api;
   }
 
   Future<Dio> get apiWithAuthorization async {
@@ -39,16 +84,40 @@ class ConfigRepository {
 
   FlutterSecureStorage get storage => _storage;
 
-  String getErrorMsg(DioExceptionType type) {
-    switch (type) {
+  String getErrorMsg(DioException error) {
+    switch (error.type) {
       case DioExceptionType.connectionTimeout:
-      case DioExceptionType.receiveTimeout:
       case DioExceptionType.sendTimeout:
-        return 'Request timeout. Check internet connection';
+      case DioExceptionType.receiveTimeout:
+        return "Timeout occurred while sending or receiving";
+      case DioExceptionType.badResponse:
+        final statusCode = error.response?.statusCode;
+        if (statusCode != null) {
+          switch (statusCode) {
+            case 401:
+              return "Unauthorized";
+            case 403:
+              return "Forbidden";
+            case 404:
+              return "Not Found";
+            case 500:
+              return "Internal Server Error";
+            default:
+              return "Unknown Error";
+          }
+        }
+        return "Bad Response";
+      case DioExceptionType.cancel:
+        break;
+      case DioExceptionType.unknown:
+        return "No Internet Connection";
       case DioExceptionType.badCertificate:
-        return 'Bad certificate';
+        return "Internal Server Error";
+      case DioExceptionType.connectionError:
+        return "Connection Error";
       default:
-        return 'Something went wrong.';
+        return "Unknown Error";
     }
+    return "Unknown Error";
   }
 }

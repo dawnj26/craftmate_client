@@ -14,8 +14,7 @@ final class UploadApi {
     try {
       final api = await _config.apiWithAuthorization;
       final formData = FormData.fromMap({
-        uploadType:
-            await MultipartFile.fromFile(filePath, filename: filename),
+        uploadType: await MultipartFile.fromFile(filePath, filename: filename),
       });
 
       final response = await api.post<Map<String, dynamic>>(
@@ -34,7 +33,7 @@ final class UploadApi {
       _config.logger.error('Unsupported file');
       throw ProjectException(message: 'Unsupported file');
     } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
+      final message = _config.getErrorMsg(e);
       _config.logger.error(e.response?.data);
 
       throw ProjectException(message: message);
@@ -55,7 +54,7 @@ final class UploadApi {
 
       return response.data!['data']['image_url'];
     } on DioException catch (e) {
-      final message = _config.getErrorMsg(e.type);
+      final message = _config.getErrorMsg(e);
 
       throw ProjectException(message: message);
     } on TokenException catch (e) {

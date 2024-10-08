@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:craftmate_client/globals.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:log_collector/log_collector.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -22,13 +24,18 @@ class AppBlocObserver extends BlocObserver {
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   FlutterError.onError = (details) {
-    // log(details.exceptionAsString(), stackTrace: details.stack);
     logger.error(details.exceptionAsString(), details, details.stack);
   };
 
   Bloc.observer = const AppBlocObserver();
 
-  // Add cross-flavor configuration here
+  WidgetsFlutterBinding.ensureInitialized();
+  logger = await LogCollector.getInstance();
+
+  logger.info('Loading environment variables.');
+  await dotenv.load();
+
+  logger.info('Starting the app');
 
   runApp(await builder());
 }
