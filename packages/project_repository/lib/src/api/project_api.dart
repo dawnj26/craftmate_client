@@ -210,16 +210,25 @@ final class ProjectApi {
     }
   }
 
-  Future<void> updateSteps(Project project, List<dynamic> newSteps) async {
+  Future<void> updateSteps(
+      Project project, List<List<dynamic>> newSteps) async {
     try {
-      await _config.makeRequest<void>(
+      final json = newSteps.map((e) => jsonEncode(e)).toList();
+
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         '/project/${project.id}/edit/steps',
         method: 'POST',
-        data: {'steps': jsonEncode(newSteps)},
+        data: {'steps': jsonEncode(json)},
         withAuthorization: true,
       );
 
-      _streamController.add(project.copyWith(steps: newSteps));
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final newProject = Project.fromJson(response.data!['data']);
+
+      _streamController.add(newProject);
     } on RequestException catch (e) {
       throw ProjectException(message: e.message);
     } on TokenException catch (e) {
@@ -236,8 +245,6 @@ final class ProjectApi {
         data: {'description': jsonEncode(newDescription)},
         withAuthorization: true,
       );
-
-      _streamController.add(project.copyWith(description: newDescription));
     } on RequestException catch (e) {
       throw ProjectException(message: e.message);
     } on TokenException catch (e) {
