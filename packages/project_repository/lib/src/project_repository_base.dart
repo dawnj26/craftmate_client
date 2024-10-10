@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:config_repository/config_repository.dart';
+import 'package:project_repository/project_repository.dart';
 import 'package:project_repository/src/api/comment_api.dart';
 import 'package:project_repository/src/api/project_api.dart';
 import 'package:project_repository/src/api/upload_api.dart';
@@ -94,7 +95,11 @@ class ProjectRepository implements IProjectRepository {
       Comment comment, Project project, int commentCount) async {
     await _commentApi.deleteComment(comment, project, commentCount);
 
-    _projectApi.streamController
+    if (!_projectApi.isStreamInitialized) {
+      throw ProjectException(message: 'Stream not initialized');
+    }
+
+    _projectApi.streamController!
         .add(project.copyWith(commentCount: commentCount));
   }
 
@@ -137,7 +142,11 @@ class ProjectRepository implements IProjectRepository {
   @override
   Future<Comment> addComment(Project project, String comment) async {
     final response = await _commentApi.addComment(project, comment);
-    _projectApi.streamController.add(project.copyWith(
+    if (!_projectApi.isStreamInitialized) {
+      throw ProjectException(message: 'Stream not initialized');
+    }
+
+    _projectApi.streamController!.add(project.copyWith(
       commentCount: project.commentCount + 1,
     ));
     return response;
@@ -169,11 +178,7 @@ class ProjectRepository implements IProjectRepository {
   }
 
   void dispose() {
-    if (!_projectApi.isStreamInitialized) {
-      return;
-    }
-
-    _projectApi.streamController.close();
+    _projectApi.dispose();
   }
 
   @override
