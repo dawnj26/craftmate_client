@@ -84,6 +84,11 @@ class _AppViewState extends State<AppView> {
     return MaterialApp(
       navigatorKey: _navigatorKey,
       theme: _theme,
+      darkTheme: _theme.copyWith(
+        colorScheme: _theme.colorScheme.copyWith(
+          brightness: Brightness.dark,
+        ),
+      ),
       title: 'CraftMate',
       builder: (context, child) {
         // Listen to status changes
