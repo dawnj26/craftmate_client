@@ -1,4 +1,3 @@
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/view/screen/view_project_screen.dart';
@@ -24,15 +23,12 @@ class ViewProjectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => ProjectRepository(config: config),
-      child: BlocProvider(
-        create: (context) => ViewProjectBloc(
-          projectRepository: RepositoryProvider.of<ProjectRepository>(context),
-          project: project,
-        ),
-        child: const ViewProjectScreen(),
+    return BlocProvider(
+      create: (context) => ViewProjectBloc(
+        projectRepository: context.read<ProjectRepository>(),
+        project: project,
       ),
+      child: const ViewProjectScreen(),
     );
   }
 }

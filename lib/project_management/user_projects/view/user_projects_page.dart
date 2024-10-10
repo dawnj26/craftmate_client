@@ -1,4 +1,3 @@
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/project_management/user_projects/bloc/selection/selection_bloc.dart';
 import 'package:craftmate_client/project_management/user_projects/bloc/user_project/user_project_bloc.dart';
 import 'package:craftmate_client/project_management/user_projects/view/screens/user_project_screen.dart';
@@ -15,22 +14,18 @@ class UserProjectsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => ProjectRepository(config: config),
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => UserProjectBloc(
-              projectRepository:
-                  RepositoryProvider.of<ProjectRepository>(context),
-            ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => UserProjectBloc(
+            projectRepository: context.read<ProjectRepository>(),
           ),
-          BlocProvider(
-            create: (context) => SelectionBloc(),
-          ),
-        ],
-        child: const UserProjectScreen(),
-      ),
+        ),
+        BlocProvider(
+          create: (context) => SelectionBloc(),
+        ),
+      ],
+      child: const UserProjectScreen(),
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:craftmate_client/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:project_repository/project_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatefulWidget {
@@ -19,6 +20,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final AuthenticationRepository _authenticationRepository;
   late final UserRepository _userRepository;
+  late final ProjectRepository _projectRepository;
 
   @override
   void initState() {
@@ -29,6 +31,7 @@ class _MyAppState extends State<MyApp> {
     config = ConfigRepository(apiUrl: dotenv.get('API_URL'), logger: logger);
     _authenticationRepository = AuthenticationRepository(config: config);
     _userRepository = UserRepository(config: config);
+    _projectRepository = ProjectRepository(config: config);
   }
 
   @override
@@ -46,6 +49,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         RepositoryProvider.value(value: _authenticationRepository),
         RepositoryProvider.value(value: _userRepository),
+        RepositoryProvider.value(value: _projectRepository),
       ],
       child: BlocProvider(
         create: (_) => AuthBloc(

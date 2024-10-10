@@ -78,7 +78,6 @@ class ViewProjectScreen extends StatelessWidget {
                               BlocProvider.of<ViewProjectBloc>(context)
                                   .state
                                   .project,
-                              RepositoryProvider.of(context),
                             ),
                           );
                         },
@@ -325,7 +324,6 @@ class ProjectBodySection extends StatelessWidget {
                 Navigator.push(
                   context,
                   EditProjectPage.route(
-                    RepositoryProvider.of<ProjectRepository>(context),
                     BlocProvider.of<ViewProjectBloc>(context).state.project,
                   ),
                 );
@@ -503,7 +501,6 @@ class _ActionButtons extends StatelessWidget {
           onPressed: () => _handleComment(
             context,
             project: context.read<ViewProjectBloc>().state.project,
-            projectRepo: RepositoryProvider.of<ProjectRepository>(context),
           ),
           icon: const Icon(Icons.mode_comment_outlined),
         ),
@@ -518,7 +515,6 @@ class _ActionButtons extends StatelessWidget {
   void _handleComment(
     BuildContext context, {
     required Project project,
-    required ProjectRepository projectRepo,
   }) {
     showMaterialModalBottomSheet(
       context: context,
@@ -530,7 +526,7 @@ class _ActionButtons extends StatelessWidget {
       builder: (context) {
         return BlocProvider(
           create: (context) => CommentBloc(
-            projectRepo: projectRepo,
+            projectRepo: context.read<ProjectRepository>(),
           ),
           child: CommentModal(
             theme: Theme.of(context),

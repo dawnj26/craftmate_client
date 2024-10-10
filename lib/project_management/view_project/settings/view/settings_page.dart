@@ -9,32 +9,26 @@ class SettingsPage extends StatelessWidget {
   const SettingsPage({
     super.key,
     required this.project,
-    required this.projectRepository,
   });
 
   final Project project;
-  final ProjectRepository projectRepository;
 
-  static Route<void> route(Project project, ProjectRepository projectRepo) {
+  static Route<void> route(Project project) {
     return PageTransition.effect.slideFromRightToLeft(
       SettingsPage(
         project: project,
-        projectRepository: projectRepo,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: projectRepository,
-      child: BlocProvider(
-        create: (context) => SettingsBloc(
-          projectRepo: RepositoryProvider.of<ProjectRepository>(context),
-          project: project,
-        ),
-        child: const SettingsScreen(),
+    return BlocProvider(
+      create: (context) => SettingsBloc(
+        projectRepo: context.read<ProjectRepository>(),
+        project: project,
       ),
+      child: const SettingsScreen(),
     );
   }
 }

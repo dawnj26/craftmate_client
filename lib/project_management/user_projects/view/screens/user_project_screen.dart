@@ -275,10 +275,7 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
                 IconButton(
                   onPressed: () {
                     Navigator.of(context).push(
-                      SearchPage.route(
-                        projectRepo:
-                            RepositoryProvider.of<ProjectRepository>(context),
-                      ),
+                      SearchPage.route(),
                     );
                   },
                   icon: const Icon(Icons.search),
@@ -313,10 +310,7 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
                 IconButton(
                   onPressed: () {
                     Navigator.of(context).push(
-                      SearchPage.route(
-                        projectRepo:
-                            RepositoryProvider.of<ProjectRepository>(context),
-                      ),
+                      SearchPage.route(),
                     );
                   },
                   icon: const Icon(Icons.search),

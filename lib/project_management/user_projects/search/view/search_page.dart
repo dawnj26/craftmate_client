@@ -6,17 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_repository/project_repository.dart';
 
 class SearchPage extends StatelessWidget {
-  const SearchPage({super.key, required this.projectRepository});
+  const SearchPage({super.key});
 
-  final ProjectRepository projectRepository;
-
-  static Route<void> route({
-    required ProjectRepository projectRepo,
-  }) {
+  static Route<void> route() {
     return PageTransition.effect.slideFromBottomToTop(
-      SearchPage(
-        projectRepository: projectRepo,
-      ),
+      const SearchPage(),
     );
   }
 
@@ -24,7 +18,7 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SearchBloc(
-        projectRepository: projectRepository,
+        projectRepository: context.read<ProjectRepository>(),
       ),
       child: const SearchScreen(),
     );

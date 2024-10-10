@@ -11,20 +11,16 @@ enum EditProjectType { description, steps }
 class EditProjectPage extends StatelessWidget {
   const EditProjectPage({
     super.key,
-    required this.projectRepo,
     required this.project,
   });
 
-  final ProjectRepository projectRepo;
   final Project project;
 
   static Route<void> route(
-    ProjectRepository projectRepo,
     Project project,
   ) {
     return PageTransition.effect.slideFromRightToLeft(
       EditProjectPage(
-        projectRepo: projectRepo,
         project: project,
       ),
     );
@@ -32,27 +28,23 @@ class EditProjectPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: projectRepo,
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => EditProjectBloc(
-              projectRepo: RepositoryProvider.of<ProjectRepository>(context),
-            ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => EditProjectBloc(
+            projectRepo: context.read<ProjectRepository>(),
           ),
-          BlocProvider(
-            create: (context) => TextEditorBloc(
-              projectRepository:
-                  RepositoryProvider.of<ProjectRepository>(context),
-            )..add(
-                TextEditorEvent.initialized(project: project),
-              ),
-          ),
-        ],
-        child: EditRecipeScreen(
-          project: project,
         ),
+        BlocProvider(
+          create: (context) => TextEditorBloc(
+            projectRepository: context.read<ProjectRepository>(),
+          )..add(
+              TextEditorEvent.initialized(project: project),
+            ),
+        ),
+      ],
+      child: EditRecipeScreen(
+        project: project,
       ),
     );
   }
