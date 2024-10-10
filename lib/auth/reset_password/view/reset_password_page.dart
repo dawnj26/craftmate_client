@@ -23,7 +23,7 @@ class ResetPasswordPage extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
         create: (_) => ResetPasswordBloc(
-          authRepo: RepositoryProvider.of<AuthenticationRepository>(context),
+          authRepo: context.read<AuthenticationRepository>(),
           token: token,
         ),
         child: const ResetPasswordForm(),

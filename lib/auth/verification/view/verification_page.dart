@@ -17,7 +17,7 @@ class VerificationPage extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
         create: (context) => VerificationBloc(
-          userRepository: RepositoryProvider.of<UserRepository>(context),
+          userRepository: context.read<UserRepository>(),
         ),
         child: const VerificationForm(),
       ),

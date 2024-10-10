@@ -28,8 +28,7 @@ class OtpPage extends StatelessWidget {
           BlocProvider(
             create: (_) => OtpBloc(
               email: email,
-              authRepo:
-                  RepositoryProvider.of<AuthenticationRepository>(context),
+              authRepo: context.read<AuthenticationRepository>(),
             ),
           ),
           BlocProvider(
