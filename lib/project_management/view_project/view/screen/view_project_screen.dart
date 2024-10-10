@@ -398,77 +398,6 @@ class _ProjectCardHeader extends StatelessWidget {
   }
 }
 
-class Tags extends StatelessWidget {
-  const Tags({super.key, required this.tags, required this.padding});
-
-  final List<Tag>? tags;
-  final EdgeInsetsGeometry padding;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: tags == null || tags!.isEmpty ? EdgeInsets.zero : padding,
-      child: Wrap(
-        spacing: 8.0,
-        runSpacing: 8.0,
-        children: tags!.map((e) => CategoryTag(tagText: e.name)).toList(),
-      ),
-    );
-  }
-}
-
-class SocialCounters extends StatelessWidget {
-  const SocialCounters({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    const gap = 20.0;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          BlocBuilder<ViewProjectBloc, ViewProjectState>(
-            buildWhen: (previous, current) =>
-                previous.project.likeCount != current.project.likeCount ||
-                current is ViewProjectRefreshSuccess,
-            builder: (context, state) {
-              return Counter(
-                countText: '${state.project.likeCount}',
-                icon: const Icon(Icons.favorite_outline),
-              );
-            },
-          ),
-          const Gap(gap),
-          BlocBuilder<ViewProjectBloc, ViewProjectState>(
-            buildWhen: (previous, current) =>
-                previous.project.forkCount != current.project.forkCount ||
-                current is ViewProjectRefreshSuccess,
-            builder: (context, state) {
-              return Counter(
-                countText: '${state.project.forkCount}',
-                icon: const Icon(Icons.transform),
-              );
-            },
-          ),
-          const Gap(gap),
-          BlocBuilder<ViewProjectBloc, ViewProjectState>(
-            buildWhen: (previous, current) =>
-                previous.project.commentCount != current.project.commentCount ||
-                current is ViewProjectRefreshSuccess,
-            builder: (context, state) {
-              return Counter(
-                countText: '${state.project.commentCount}',
-                icon: const Icon(Icons.mode_comment_outlined),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _ActionButtons extends StatelessWidget {
   const _ActionButtons();
 
@@ -485,14 +414,11 @@ class _ActionButtons extends StatelessWidget {
               final project = state.project;
               final bloc = context.read<ViewProjectBloc>();
 
-              return OutlinedButton.icon(
+              return ProjectLikeButton(
+                isLiked: project.isLiked,
                 onPressed: () {
                   bloc.add(const ViewProjectLiked());
                 },
-                icon: Icon(
-                  project.isLiked ? Icons.favorite : Icons.favorite_outline,
-                ),
-                label: Text(project.isLiked ? 'Liked' : 'Like'),
               );
             },
           ),
