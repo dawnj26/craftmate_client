@@ -5,7 +5,7 @@ import 'package:craftmate_client/project_management/edit_project/view/edit_proje
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/bloc/comment_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/view/comment_modal.dart';
-import 'package:craftmate_client/project_management/view_project/settings/view/settings_page.dart';
+import 'package:craftmate_client/project_management/view_project/project_settings/view/settings_page.dart';
 import 'package:craftmate_client/project_management/view_project/view/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

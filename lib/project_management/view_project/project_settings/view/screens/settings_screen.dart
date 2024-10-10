@@ -3,7 +3,7 @@ import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/create_project/blank_project/models/title.dart';
 import 'package:craftmate_client/project_management/create_project/blank_project/view/components/visibility_dropdown.dart';
-import 'package:craftmate_client/project_management/view_project/settings/bloc/settings_bloc.dart';
+import 'package:craftmate_client/project_management/view_project/project_settings/bloc/project_settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -17,7 +17,7 @@ class SettingsScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
-    return BlocListener<SettingsBloc, SettingsState>(
+    return BlocListener<ProjectSettingsBloc, ProjectSettingsState>(
       listener: _handleState,
       child: Scaffold(
         appBar: AppBar(
@@ -54,10 +54,10 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  void _handleState(BuildContext context, SettingsState state) {
+  void _handleState(BuildContext context, ProjectSettingsState state) {
     final navigator = Navigator.of(context);
 
-    if (state is SettingsLoading) {
+    if (state is ProjectSettingsLoading) {
       Modal.instance.showLoadingDialog(context);
     } else if (state is SettingsFailed) {
       Navigator.of(context).pop();
@@ -87,7 +87,7 @@ class GeneralSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final initState = BlocProvider.of<SettingsBloc>(context).state;
+    final initState = BlocProvider.of<ProjectSettingsBloc>(context).state;
     final textTheme = theme.textTheme;
     final titleController = TextEditingController();
     final tagsController = TextEditingController();
@@ -103,11 +103,11 @@ class GeneralSettings extends StatelessWidget {
           style: textTheme.labelLarge,
         ),
         const Gap(4.0),
-        BlocBuilder<SettingsBloc, SettingsState>(
+        BlocBuilder<ProjectSettingsBloc, ProjectSettingsState>(
           buildWhen: (previous, current) =>
               previous.projectTitle != current.projectTitle,
           builder: (context, state) {
-            final bloc = BlocProvider.of<SettingsBloc>(context);
+            final bloc = BlocProvider.of<ProjectSettingsBloc>(context);
 
             String? errText;
             if (state.projectTitle.displayError ==
@@ -122,7 +122,8 @@ class GeneralSettings extends StatelessWidget {
                 filled: true,
                 errorText: errText,
               ),
-              onChanged: (value) => bloc.add(SettingsTitleChanged(value)),
+              onChanged: (value) =>
+                  bloc.add(ProjectSettingsTitleChanged(value)),
             );
           },
         ),
@@ -144,7 +145,8 @@ class GeneralSettings extends StatelessWidget {
           onPressed: () {
             final tags =
                 tagsController.text.isEmpty ? null : tagsController.text;
-            BlocProvider.of<SettingsBloc>(context).add(SettingsSaved(tags));
+            BlocProvider.of<ProjectSettingsBloc>(context)
+                .add(ProjectSettingsSaved(tags));
           },
           child: const Text('Save'),
         ),
@@ -172,7 +174,7 @@ class DangerSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SettingsBloc, SettingsState>(
+    return BlocBuilder<ProjectSettingsBloc, ProjectSettingsState>(
       buildWhen: (previous, current) =>
           previous.project.visibility != current.project.visibility,
       builder: (context, state) {
@@ -203,15 +205,15 @@ class DangerSettings extends StatelessWidget {
     BuildContext context,
     ProjectVisibility visibility,
   ) async {
-    final bloc = BlocProvider.of<SettingsBloc>(context);
-    bloc.add(SettingsVisibilitySelectionChanged(visibility));
+    final bloc = BlocProvider.of<ProjectSettingsBloc>(context);
+    bloc.add(ProjectSettingsVisibilitySelectionChanged(visibility));
 
     await Modal.instance.showConfirmationModal(
       context: context,
       icon: const Icon(Icons.visibility),
       content: BlocProvider.value(
         value: bloc,
-        child: BlocBuilder<SettingsBloc, SettingsState>(
+        child: BlocBuilder<ProjectSettingsBloc, ProjectSettingsState>(
           buildWhen: (previous, current) =>
               previous.visibility != current.visibility,
           builder: (context, state) {
@@ -223,8 +225,8 @@ class DangerSettings extends StatelessWidget {
                 }
                 logger.info('Selection changed ${value.label}');
                 context
-                    .read<SettingsBloc>()
-                    .add(SettingsVisibilitySelectionChanged(value));
+                    .read<ProjectSettingsBloc>()
+                    .add(ProjectSettingsVisibilitySelectionChanged(value));
               },
             );
           },
@@ -242,7 +244,7 @@ class DangerSettings extends StatelessWidget {
           onPressed: () {
             final curVisibility = bloc.state.visibility;
             Navigator.of(context).pop();
-            bloc.add(SettingsVisibilityChanged(curVisibility));
+            bloc.add(ProjectSettingsVisibilityChanged(curVisibility));
           },
           child: const Text('Change'),
         ),
@@ -276,8 +278,8 @@ class DangerSettings extends StatelessWidget {
           ),
           onPressed: () {
             Navigator.of(context).pop();
-            BlocProvider.of<SettingsBloc>(context)
-                .add(const SettingsProjectDeleted());
+            BlocProvider.of<ProjectSettingsBloc>(context)
+                .add(const ProjectSettingsProjectDeleted());
           },
           child: const Text('Delete'),
         ),

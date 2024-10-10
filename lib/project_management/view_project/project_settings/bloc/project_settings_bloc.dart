@@ -4,37 +4,39 @@ import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:project_repository/project_repository.dart';
 
-part 'settings_event.dart';
-part 'settings_state.dart';
+part 'project_settings_event.dart';
+part 'project_settings_state.dart';
 
-class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc({
+class ProjectSettingsBloc
+    extends Bloc<ProjectSettingsEvent, ProjectSettingsState> {
+  ProjectSettingsBloc({
     required ProjectRepository projectRepo,
     required Project project,
   })  : _projectRepo = projectRepo,
         super(
-          SettingsInitial(
+          ProjectSettingsInitial(
             project: project,
             projectTitle: ProjectTitle.dirty(project.title),
             isValid: true,
             visibility: project.visibility,
           ),
         ) {
-    on<SettingsSaved>(_onSaved);
-    on<SettingsTitleChanged>(_onChanged);
-    on<SettingsVisibilityChanged>(_onVisibilityChanged);
-    on<SettingsVisibilitySelectionChanged>(_onVisibilitySelectionChanged);
-    on<SettingsProjectDeleted>(_onProjectDeleted);
+    on<ProjectSettingsSaved>(_onSaved);
+    on<ProjectSettingsTitleChanged>(_onChanged);
+    on<ProjectSettingsVisibilityChanged>(_onVisibilityChanged);
+    on<ProjectSettingsVisibilitySelectionChanged>(
+        _onVisibilitySelectionChanged);
+    on<ProjectSettingsProjectDeleted>(_onProjectDeleted);
   }
 
   final ProjectRepository _projectRepo;
 
   void _onVisibilitySelectionChanged(
-    SettingsVisibilitySelectionChanged event,
-    Emitter<SettingsState> emit,
+    ProjectSettingsVisibilitySelectionChanged event,
+    Emitter<ProjectSettingsState> emit,
   ) {
     emit(
-      SettingsChanged(
+      ProjectSettingsChanged(
         project: state.project.copyWith(),
         projectTitle: ProjectTitle.dirty(state.projectTitle.value),
         isValid: state.isValid,
@@ -44,11 +46,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   Future<void> _onProjectDeleted(
-    SettingsProjectDeleted event,
-    Emitter<SettingsState> emit,
+    ProjectSettingsProjectDeleted event,
+    Emitter<ProjectSettingsState> emit,
   ) async {
     emit(
-      SettingsLoading(
+      ProjectSettingsLoading(
         project: state.project.copyWith(),
         projectTitle: ProjectTitle.dirty(state.projectTitle.value),
         isValid: state.isValid,
@@ -80,11 +82,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   Future<void> _onVisibilityChanged(
-    SettingsVisibilityChanged event,
-    Emitter<SettingsState> emit,
+    ProjectSettingsVisibilityChanged event,
+    Emitter<ProjectSettingsState> emit,
   ) async {
     emit(
-      SettingsLoading(
+      ProjectSettingsLoading(
         project: state.project.copyWith(),
         projectTitle: ProjectTitle.dirty(state.projectTitle.value),
         isValid: state.isValid,
@@ -117,11 +119,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
   }
 
-  void _onChanged(SettingsTitleChanged event, Emitter<SettingsState> emit) {
+  void _onChanged(
+      ProjectSettingsTitleChanged event, Emitter<ProjectSettingsState> emit) {
     final projectTitle = ProjectTitle.dirty(event.title);
     final isValid = Formz.validate([projectTitle]);
     emit(
-      SettingsChanged(
+      ProjectSettingsChanged(
         project: state.project.copyWith(),
         projectTitle: projectTitle,
         isValid: isValid,
@@ -131,13 +134,13 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   Future<void> _onSaved(
-    SettingsSaved event,
-    Emitter<SettingsState> emit,
+    ProjectSettingsSaved event,
+    Emitter<ProjectSettingsState> emit,
   ) async {
     final project = state.project;
     final projectTitle = ProjectTitle.dirty(state.projectTitle.value);
     emit(
-      SettingsLoading(
+      ProjectSettingsLoading(
         project: project.copyWith(),
         projectTitle: projectTitle,
         isValid: Formz.validate([projectTitle]),
@@ -174,7 +177,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       }
     } else {
       emit(
-        SettingsChanged(
+        ProjectSettingsChanged(
           project: state.project.copyWith(),
           projectTitle: state.projectTitle,
           isValid: Formz.validate([state.projectTitle]),

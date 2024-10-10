@@ -1,7 +1,7 @@
-part of 'settings_bloc.dart';
+part of 'project_settings_bloc.dart';
 
-sealed class SettingsState extends Equatable {
-  const SettingsState({
+sealed class ProjectSettingsState extends Equatable {
+  const ProjectSettingsState({
     required this.project,
     this.projectTitle = const ProjectTitle.pure(),
     this.isValid = false,
@@ -17,8 +17,8 @@ sealed class SettingsState extends Equatable {
   List<Object> get props => [projectTitle, isValid, project, visibility];
 }
 
-final class SettingsInitial extends SettingsState {
-  const SettingsInitial({
+final class ProjectSettingsInitial extends ProjectSettingsState {
+  const ProjectSettingsInitial({
     required super.project,
     super.projectTitle,
     super.isValid,
@@ -26,8 +26,8 @@ final class SettingsInitial extends SettingsState {
   });
 }
 
-final class SettingsChanged extends SettingsState {
-  const SettingsChanged({
+final class ProjectSettingsChanged extends ProjectSettingsState {
+  const ProjectSettingsChanged({
     required super.project,
     super.projectTitle,
     super.isValid,
@@ -35,8 +35,8 @@ final class SettingsChanged extends SettingsState {
   });
 }
 
-final class SettingsLoading extends SettingsState {
-  const SettingsLoading({
+final class ProjectSettingsLoading extends ProjectSettingsState {
+  const ProjectSettingsLoading({
     required super.project,
     super.projectTitle,
     super.isValid,
@@ -44,7 +44,7 @@ final class SettingsLoading extends SettingsState {
   });
 }
 
-final class SettingsSavedSuccess extends SettingsState {
+final class SettingsSavedSuccess extends ProjectSettingsState {
   const SettingsSavedSuccess({
     required super.project,
     super.projectTitle,
@@ -53,7 +53,7 @@ final class SettingsSavedSuccess extends SettingsState {
   });
 }
 
-final class SettingsDeleteSuccess extends SettingsState {
+final class SettingsDeleteSuccess extends ProjectSettingsState {
   const SettingsDeleteSuccess({
     required super.project,
     super.projectTitle,
@@ -62,7 +62,7 @@ final class SettingsDeleteSuccess extends SettingsState {
   });
 }
 
-final class SettingsFailed extends SettingsState {
+final class SettingsFailed extends ProjectSettingsState {
   const SettingsFailed({
     required super.project,
     required this.errMessage,
