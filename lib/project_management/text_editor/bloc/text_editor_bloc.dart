@@ -59,7 +59,7 @@ class TextEditorBloc extends Bloc<TextEditorEvent, TextEditorState> {
     );
 
     emit(
-      TextEditorState.normal(
+      TextEditorState.deleted(
         controllers: newControllers,
         descriptionController: state.descriptionController,
       ),
