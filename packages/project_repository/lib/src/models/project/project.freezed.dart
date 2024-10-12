@@ -39,6 +39,7 @@ mixin _$Project {
   List<Tag>? get tags => throw _privateConstructorUsedError;
   List<Step>? get steps => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
+  Project? get forkedFrom => throw _privateConstructorUsedError;
 
   /// Serializes this Project to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -70,9 +71,11 @@ abstract class $ProjectCopyWith<$Res> {
       List<dynamic>? description,
       List<Tag>? tags,
       List<Step>? steps,
-      String? imageUrl});
+      String? imageUrl,
+      Project? forkedFrom});
 
   $UserCopyWith<$Res> get creator;
+  $ProjectCopyWith<$Res>? get forkedFrom;
 }
 
 /// @nodoc
@@ -106,6 +109,7 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
     Object? tags = freezed,
     Object? steps = freezed,
     Object? imageUrl = freezed,
+    Object? forkedFrom = freezed,
   }) {
     return _then(_value.copyWith(
       creator: null == creator
@@ -172,6 +176,10 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      forkedFrom: freezed == forkedFrom
+          ? _value.forkedFrom
+          : forkedFrom // ignore: cast_nullable_to_non_nullable
+              as Project?,
     ) as $Val);
   }
 
@@ -182,6 +190,20 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
   $UserCopyWith<$Res> get creator {
     return $UserCopyWith<$Res>(_value.creator, (value) {
       return _then(_value.copyWith(creator: value) as $Val);
+    });
+  }
+
+  /// Create a copy of Project
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ProjectCopyWith<$Res>? get forkedFrom {
+    if (_value.forkedFrom == null) {
+      return null;
+    }
+
+    return $ProjectCopyWith<$Res>(_value.forkedFrom!, (value) {
+      return _then(_value.copyWith(forkedFrom: value) as $Val);
     });
   }
 }
@@ -209,10 +231,13 @@ abstract class _$$ProjectImplCopyWith<$Res> implements $ProjectCopyWith<$Res> {
       List<dynamic>? description,
       List<Tag>? tags,
       List<Step>? steps,
-      String? imageUrl});
+      String? imageUrl,
+      Project? forkedFrom});
 
   @override
   $UserCopyWith<$Res> get creator;
+  @override
+  $ProjectCopyWith<$Res>? get forkedFrom;
 }
 
 /// @nodoc
@@ -244,6 +269,7 @@ class __$$ProjectImplCopyWithImpl<$Res>
     Object? tags = freezed,
     Object? steps = freezed,
     Object? imageUrl = freezed,
+    Object? forkedFrom = freezed,
   }) {
     return _then(_$ProjectImpl(
       creator: null == creator
@@ -310,6 +336,10 @@ class __$$ProjectImplCopyWithImpl<$Res>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      forkedFrom: freezed == forkedFrom
+          ? _value.forkedFrom
+          : forkedFrom // ignore: cast_nullable_to_non_nullable
+              as Project?,
     ));
   }
 }
@@ -333,7 +363,8 @@ class _$ProjectImpl implements _Project {
       final List<dynamic>? description,
       final List<Tag>? tags,
       final List<Step>? steps,
-      this.imageUrl})
+      this.imageUrl,
+      this.forkedFrom})
       : _description = description,
         _tags = tags,
         _steps = steps;
@@ -400,10 +431,12 @@ class _$ProjectImpl implements _Project {
 
   @override
   final String? imageUrl;
+  @override
+  final Project? forkedFrom;
 
   @override
   String toString() {
-    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, viewCount: $viewCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl)';
+    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, viewCount: $viewCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl, forkedFrom: $forkedFrom)';
   }
 
   @override
@@ -436,7 +469,9 @@ class _$ProjectImpl implements _Project {
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             const DeepCollectionEquality().equals(other._steps, _steps) &&
             (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl));
+                other.imageUrl == imageUrl) &&
+            (identical(other.forkedFrom, forkedFrom) ||
+                other.forkedFrom == forkedFrom));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -458,7 +493,8 @@ class _$ProjectImpl implements _Project {
       const DeepCollectionEquality().hash(_description),
       const DeepCollectionEquality().hash(_tags),
       const DeepCollectionEquality().hash(_steps),
-      imageUrl);
+      imageUrl,
+      forkedFrom);
 
   /// Create a copy of Project
   /// with the given fields replaced by the non-null parameter values.
@@ -493,7 +529,8 @@ abstract class _Project implements Project {
       final List<dynamic>? description,
       final List<Tag>? tags,
       final List<Step>? steps,
-      final String? imageUrl}) = _$ProjectImpl;
+      final String? imageUrl,
+      final Project? forkedFrom}) = _$ProjectImpl;
 
   factory _Project.fromJson(Map<String, dynamic> json) = _$ProjectImpl.fromJson;
 
@@ -532,6 +569,8 @@ abstract class _Project implements Project {
   List<Step>? get steps;
   @override
   String? get imageUrl;
+  @override
+  Project? get forkedFrom;
 
   /// Create a copy of Project
   /// with the given fields replaced by the non-null parameter values.
