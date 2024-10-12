@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:project_repository/src/models/project/fork/project_fork.dart';
 import 'package:project_repository/src/models/step/step.dart';
 import 'package:project_repository/src/models/tag/tag.dart';
 import 'package:user_repository/user_repository.dart';
@@ -17,15 +18,15 @@ enum ProjectVisibility {
 @freezed
 class Project with _$Project {
   factory Project({
-    required User creator,
-    required int id,
-    required String title,
-    required ProjectVisibility visibility,
-    required bool isLiked,
-    required int likeCount,
-    required int commentCount,
-    required int forkCount,
-    required int viewCount,
+    @Default(User()) User creator,
+    @Default(0) int id,
+    @Default('') String title,
+    @Default(ProjectVisibility.public) ProjectVisibility visibility,
+    @Default(false) bool isLiked,
+    @Default(0) int likeCount,
+    @Default(0) int commentCount,
+    @Default(0) int forkCount,
+    @Default(0) int viewCount,
     @JsonKey(fromJson: DateTime.parse) required DateTime createdAt,
     @JsonKey(fromJson: DateTime.parse) required DateTime updatedAt,
     @JsonKey(fromJson: _parseDateTime) DateTime? deletedAt,
@@ -33,8 +34,13 @@ class Project with _$Project {
     List<Tag>? tags,
     List<Step>? steps,
     String? imageUrl,
-    Project? forkedFrom,
+    ProjectFork? fork,
   }) = _Project;
+
+  factory Project.empty() => Project(
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
 
   factory Project.fromJson(Map<String, Object?> json) =>
       _$ProjectFromJson(json);

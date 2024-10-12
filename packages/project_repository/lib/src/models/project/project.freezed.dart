@@ -39,7 +39,7 @@ mixin _$Project {
   List<Tag>? get tags => throw _privateConstructorUsedError;
   List<Step>? get steps => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
-  Project? get forkedFrom => throw _privateConstructorUsedError;
+  ProjectFork? get fork => throw _privateConstructorUsedError;
 
   /// Serializes this Project to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -72,10 +72,10 @@ abstract class $ProjectCopyWith<$Res> {
       List<Tag>? tags,
       List<Step>? steps,
       String? imageUrl,
-      Project? forkedFrom});
+      ProjectFork? fork});
 
   $UserCopyWith<$Res> get creator;
-  $ProjectCopyWith<$Res>? get forkedFrom;
+  $ProjectForkCopyWith<$Res>? get fork;
 }
 
 /// @nodoc
@@ -109,7 +109,7 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
     Object? tags = freezed,
     Object? steps = freezed,
     Object? imageUrl = freezed,
-    Object? forkedFrom = freezed,
+    Object? fork = freezed,
   }) {
     return _then(_value.copyWith(
       creator: null == creator
@@ -176,10 +176,10 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      forkedFrom: freezed == forkedFrom
-          ? _value.forkedFrom
-          : forkedFrom // ignore: cast_nullable_to_non_nullable
-              as Project?,
+      fork: freezed == fork
+          ? _value.fork
+          : fork // ignore: cast_nullable_to_non_nullable
+              as ProjectFork?,
     ) as $Val);
   }
 
@@ -197,13 +197,13 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $ProjectCopyWith<$Res>? get forkedFrom {
-    if (_value.forkedFrom == null) {
+  $ProjectForkCopyWith<$Res>? get fork {
+    if (_value.fork == null) {
       return null;
     }
 
-    return $ProjectCopyWith<$Res>(_value.forkedFrom!, (value) {
-      return _then(_value.copyWith(forkedFrom: value) as $Val);
+    return $ProjectForkCopyWith<$Res>(_value.fork!, (value) {
+      return _then(_value.copyWith(fork: value) as $Val);
     });
   }
 }
@@ -232,12 +232,12 @@ abstract class _$$ProjectImplCopyWith<$Res> implements $ProjectCopyWith<$Res> {
       List<Tag>? tags,
       List<Step>? steps,
       String? imageUrl,
-      Project? forkedFrom});
+      ProjectFork? fork});
 
   @override
   $UserCopyWith<$Res> get creator;
   @override
-  $ProjectCopyWith<$Res>? get forkedFrom;
+  $ProjectForkCopyWith<$Res>? get fork;
 }
 
 /// @nodoc
@@ -269,7 +269,7 @@ class __$$ProjectImplCopyWithImpl<$Res>
     Object? tags = freezed,
     Object? steps = freezed,
     Object? imageUrl = freezed,
-    Object? forkedFrom = freezed,
+    Object? fork = freezed,
   }) {
     return _then(_$ProjectImpl(
       creator: null == creator
@@ -336,10 +336,10 @@ class __$$ProjectImplCopyWithImpl<$Res>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
-      forkedFrom: freezed == forkedFrom
-          ? _value.forkedFrom
-          : forkedFrom // ignore: cast_nullable_to_non_nullable
-              as Project?,
+      fork: freezed == fork
+          ? _value.fork
+          : fork // ignore: cast_nullable_to_non_nullable
+              as ProjectFork?,
     ));
   }
 }
@@ -348,15 +348,15 @@ class __$$ProjectImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ProjectImpl implements _Project {
   _$ProjectImpl(
-      {required this.creator,
-      required this.id,
-      required this.title,
-      required this.visibility,
-      required this.isLiked,
-      required this.likeCount,
-      required this.commentCount,
-      required this.forkCount,
-      required this.viewCount,
+      {this.creator = const User(),
+      this.id = 0,
+      this.title = '',
+      this.visibility = ProjectVisibility.public,
+      this.isLiked = false,
+      this.likeCount = 0,
+      this.commentCount = 0,
+      this.forkCount = 0,
+      this.viewCount = 0,
       @JsonKey(fromJson: DateTime.parse) required this.createdAt,
       @JsonKey(fromJson: DateTime.parse) required this.updatedAt,
       @JsonKey(fromJson: _parseDateTime) this.deletedAt,
@@ -364,7 +364,7 @@ class _$ProjectImpl implements _Project {
       final List<Tag>? tags,
       final List<Step>? steps,
       this.imageUrl,
-      this.forkedFrom})
+      this.fork})
       : _description = description,
         _tags = tags,
         _steps = steps;
@@ -373,22 +373,31 @@ class _$ProjectImpl implements _Project {
       _$$ProjectImplFromJson(json);
 
   @override
+  @JsonKey()
   final User creator;
   @override
+  @JsonKey()
   final int id;
   @override
+  @JsonKey()
   final String title;
   @override
+  @JsonKey()
   final ProjectVisibility visibility;
   @override
+  @JsonKey()
   final bool isLiked;
   @override
+  @JsonKey()
   final int likeCount;
   @override
+  @JsonKey()
   final int commentCount;
   @override
+  @JsonKey()
   final int forkCount;
   @override
+  @JsonKey()
   final int viewCount;
   @override
   @JsonKey(fromJson: DateTime.parse)
@@ -432,11 +441,11 @@ class _$ProjectImpl implements _Project {
   @override
   final String? imageUrl;
   @override
-  final Project? forkedFrom;
+  final ProjectFork? fork;
 
   @override
   String toString() {
-    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, viewCount: $viewCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl, forkedFrom: $forkedFrom)';
+    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, viewCount: $viewCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl, fork: $fork)';
   }
 
   @override
@@ -470,8 +479,7 @@ class _$ProjectImpl implements _Project {
             const DeepCollectionEquality().equals(other._steps, _steps) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
-            (identical(other.forkedFrom, forkedFrom) ||
-                other.forkedFrom == forkedFrom));
+            (identical(other.fork, fork) || other.fork == fork));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -494,7 +502,7 @@ class _$ProjectImpl implements _Project {
       const DeepCollectionEquality().hash(_tags),
       const DeepCollectionEquality().hash(_steps),
       imageUrl,
-      forkedFrom);
+      fork);
 
   /// Create a copy of Project
   /// with the given fields replaced by the non-null parameter values.
@@ -514,15 +522,15 @@ class _$ProjectImpl implements _Project {
 
 abstract class _Project implements Project {
   factory _Project(
-      {required final User creator,
-      required final int id,
-      required final String title,
-      required final ProjectVisibility visibility,
-      required final bool isLiked,
-      required final int likeCount,
-      required final int commentCount,
-      required final int forkCount,
-      required final int viewCount,
+      {final User creator,
+      final int id,
+      final String title,
+      final ProjectVisibility visibility,
+      final bool isLiked,
+      final int likeCount,
+      final int commentCount,
+      final int forkCount,
+      final int viewCount,
       @JsonKey(fromJson: DateTime.parse) required final DateTime createdAt,
       @JsonKey(fromJson: DateTime.parse) required final DateTime updatedAt,
       @JsonKey(fromJson: _parseDateTime) final DateTime? deletedAt,
@@ -530,7 +538,7 @@ abstract class _Project implements Project {
       final List<Tag>? tags,
       final List<Step>? steps,
       final String? imageUrl,
-      final Project? forkedFrom}) = _$ProjectImpl;
+      final ProjectFork? fork}) = _$ProjectImpl;
 
   factory _Project.fromJson(Map<String, dynamic> json) = _$ProjectImpl.fromJson;
 
@@ -570,7 +578,7 @@ abstract class _Project implements Project {
   @override
   String? get imageUrl;
   @override
-  Project? get forkedFrom;
+  ProjectFork? get fork;
 
   /// Create a copy of Project
   /// with the given fields replaced by the non-null parameter values.

@@ -8,15 +8,19 @@ part of 'project.dart';
 
 _$ProjectImpl _$$ProjectImplFromJson(Map<String, dynamic> json) =>
     _$ProjectImpl(
-      creator: User.fromJson(json['creator'] as Map<String, dynamic>),
-      id: (json['id'] as num).toInt(),
-      title: json['title'] as String,
-      visibility: $enumDecode(_$ProjectVisibilityEnumMap, json['visibility']),
-      isLiked: json['isLiked'] as bool,
-      likeCount: (json['likeCount'] as num).toInt(),
-      commentCount: (json['commentCount'] as num).toInt(),
-      forkCount: (json['forkCount'] as num).toInt(),
-      viewCount: (json['viewCount'] as num).toInt(),
+      creator: json['creator'] == null
+          ? const User()
+          : User.fromJson(json['creator'] as Map<String, dynamic>),
+      id: (json['id'] as num?)?.toInt() ?? 0,
+      title: json['title'] as String? ?? '',
+      visibility:
+          $enumDecodeNullable(_$ProjectVisibilityEnumMap, json['visibility']) ??
+              ProjectVisibility.public,
+      isLiked: json['isLiked'] as bool? ?? false,
+      likeCount: (json['likeCount'] as num?)?.toInt() ?? 0,
+      commentCount: (json['commentCount'] as num?)?.toInt() ?? 0,
+      forkCount: (json['forkCount'] as num?)?.toInt() ?? 0,
+      viewCount: (json['viewCount'] as num?)?.toInt() ?? 0,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
       deletedAt: _parseDateTime(json['deletedAt'] as String?),
@@ -28,9 +32,9 @@ _$ProjectImpl _$$ProjectImplFromJson(Map<String, dynamic> json) =>
           ?.map((e) => Step.fromJson(e as Map<String, dynamic>))
           .toList(),
       imageUrl: json['imageUrl'] as String?,
-      forkedFrom: json['forkedFrom'] == null
+      fork: json['fork'] == null
           ? null
-          : Project.fromJson(json['forkedFrom'] as Map<String, dynamic>),
+          : ProjectFork.fromJson(json['fork'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ProjectImplToJson(_$ProjectImpl instance) =>
@@ -51,7 +55,7 @@ Map<String, dynamic> _$$ProjectImplToJson(_$ProjectImpl instance) =>
       'tags': instance.tags,
       'steps': instance.steps,
       'imageUrl': instance.imageUrl,
-      'forkedFrom': instance.forkedFrom,
+      'fork': instance.fork,
     };
 
 const _$ProjectVisibilityEnumMap = {
