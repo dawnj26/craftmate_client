@@ -28,10 +28,18 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     on<ViewProjectImageUploaded>(_onProjectImageUploaded);
     on<ViewProjectRefreshed>(_onProjectRefreshed);
     on<ViewProjectViewed>(_onProjectViewed);
+    on<ViewProjectReloaded>(_onProjectReloaded);
   }
 
   final ProjectRepository _projectRepository;
   final int _projectId;
+
+  Future<void> _onProjectReloaded(
+    ViewProjectReloaded event,
+    Emitter<ViewProjectState> emit,
+  ) async {
+    await _loadProject(emit);
+  }
 
   Future<void> _onProjectViewed(
     ViewProjectViewed event,
