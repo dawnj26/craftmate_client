@@ -16,9 +16,10 @@ EventTransformer<T> debounce<T>(Duration duration) {
 class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
   ViewProjectBloc({
     required ProjectRepository projectRepository,
-    required Project project,
+    required int projectId,
   })  : _projectRepository = projectRepository,
-        super(ViewProjectInitial(project: project)) {
+        _projectId = projectId,
+        super(ViewProjectInitial(project: Project.empty())) {
     on<ViewProjectLiked>(
       _onProjectLiked,
       transformer: debounce(const Duration(milliseconds: 180)),
