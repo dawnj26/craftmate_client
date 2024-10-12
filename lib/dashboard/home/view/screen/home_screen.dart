@@ -1,5 +1,6 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/home/view/tabs/for_you_tab.dart';
+import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/view/create_project_page.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,8 @@ class _HomeScreenState extends State<HomeScreen>
             title: Image.asset(
               'assets/images/logo_with_label.png',
               width: 104.0,
+            title: Assets.images.logoWithLabel.image(
+              width: 104,
             ),
             centerTitle: true,
             actions: [

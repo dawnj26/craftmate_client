@@ -1,4 +1,5 @@
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
+import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/project_management/user_projects/search/bloc/search_bloc.dart';
 import 'package:craftmate_client/project_management/user_projects/view/screens/user_project_screen.dart';
@@ -76,10 +77,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          'assets/images/search_flat.png',
-                          height: 200,
-                          width: 200,
+                        Assets.images.searchFlat.image(
+                          height: 120,
+                          width: 120,
                         ),
                         const Gap(20.0),
                         Text(

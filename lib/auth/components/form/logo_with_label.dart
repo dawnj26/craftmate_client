@@ -1,3 +1,4 @@
+import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class LogoWithLabel extends StatelessWidget {
@@ -7,9 +8,6 @@ class LogoWithLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      'assets/images/logo_with_label.png',
-      height: 32.0,
-    );
+    return Assets.images.logoWithLabel.image(height: 32.0);
   }
 }

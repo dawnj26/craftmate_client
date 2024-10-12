@@ -1,3 +1,4 @@
+import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -16,7 +17,7 @@ class EmptyMessage extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset('assets/images/no_data_transparent.png'),
+        Assets.images.noDataTransparent.image(),
         const Gap(12.0),
         Text(
           emptyMessage,
