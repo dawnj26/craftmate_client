@@ -57,6 +57,7 @@ class ConfigRepository {
 
       return response;
     } on DioException catch (e) {
+      logger.error('Error in makeRequest: ${e.response?.data}');
       final message = getErrorMsg(e);
       throw RequestException(message);
     }
