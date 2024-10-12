@@ -72,7 +72,6 @@ final class CommentApi {
   Future<void> deleteComment(
     Comment comment,
     Project project,
-    int commentCount,
   ) async {
     try {
       await _config.makeRequest(

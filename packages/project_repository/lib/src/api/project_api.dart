@@ -7,21 +7,8 @@ import 'package:project_repository/src/models/models.dart';
 
 final class ProjectApi {
   final ConfigRepository _config;
-  StreamController<Project>? _streamController;
 
   ProjectApi({required ConfigRepository config}) : _config = config;
-
-  StreamController<Project>? get streamController => _streamController;
-  bool get isStreamInitialized => _streamController != null;
-
-  Stream<Project> getProjectStream(Project project) {
-    if (!isStreamInitialized) {
-      _streamController = StreamController<Project>.broadcast();
-    }
-    _streamController?.add(project);
-
-    return _streamController!.stream;
-  }
 
   Future<void> viewProjectById(int id) async {
     try {
@@ -223,14 +210,6 @@ final class ProjectApi {
       if (response.data == null) {
         throw ProjectException(message: 'Response is null');
       }
-
-      final newProject = Project.fromJson(response.data!['data']);
-
-      if (!isStreamInitialized) {
-        throw ProjectException(message: 'Stream is not initialized');
-      }
-
-      _streamController!.add(newProject);
     } on RequestException catch (e) {
       throw ProjectException(message: e.message);
     } on TokenException catch (e) {
@@ -256,24 +235,12 @@ final class ProjectApi {
 
   Future<void> tryToggleLikeById(Project project) async {
     try {
-      if (!isStreamInitialized) {
-        throw ProjectException(message: 'Stream is not initialized');
-      }
-      if (!project.isLiked) {
-        _streamController!.add(project.copyWith(
-            isLiked: !project.isLiked, likeCount: project.likeCount + 1));
-      } else {
-        _streamController!.add(project.copyWith(
-            isLiked: !project.isLiked, likeCount: project.likeCount - 1));
-      }
-
       await _config.makeRequest<void>(
         '/project/${project.id}/like',
         method: 'POST',
         withAuthorization: true,
       );
     } on RequestException catch (e) {
-      _streamController!.add(project);
       throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
@@ -304,11 +271,6 @@ final class ProjectApi {
 
       final updatedProject = Project.fromJson(response.data!['data']);
 
-      if (!isStreamInitialized) {
-        throw ProjectException(message: 'Stream is not initialized');
-      }
-      _streamController!.add(updatedProject);
-
       return updatedProject;
     } on RequestException catch (e) {
       _config.logger.info(e.message);
@@ -335,11 +297,7 @@ final class ProjectApi {
       }
 
       final updatedProject = project.copyWith(visibility: visibility);
-      if (!isStreamInitialized) {
-        throw ProjectException(message: 'Stream is not initialized');
-      }
 
-      _streamController!.add(updatedProject);
       return updatedProject;
     } on RequestException catch (e) {
       _config.logger.info(e.message);
@@ -361,13 +319,6 @@ final class ProjectApi {
       throw ProjectException(message: e.message);
     } on TokenException catch (e) {
       throw ProjectException(message: e.message);
-    }
-  }
-
-  void dispose() {
-    if (isStreamInitialized) {
-      _streamController!.close();
-      _streamController = null;
     }
   }
 }

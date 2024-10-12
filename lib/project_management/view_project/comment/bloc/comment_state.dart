@@ -32,6 +32,10 @@ final class CommentLoaded extends CommentState {
   final String? inputText;
 }
 
+final class CommentSuccess extends CommentState {
+  const CommentSuccess({super.comments});
+}
+
 final class CommentError extends CommentState {
   const CommentError(this.message, {super.comments});
 

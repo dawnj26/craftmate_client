@@ -17,6 +17,12 @@ final class ViewProjectInitial extends ViewProjectState {
   });
 }
 
+final class ViewProjectUploading extends ViewProjectState {
+  const ViewProjectUploading({
+    required super.project,
+  });
+}
+
 final class ViewProjectLoading extends ViewProjectState {
   const ViewProjectLoading({
     required super.project,
@@ -30,7 +36,6 @@ final class ViewProjectDirty extends ViewProjectState {
 }
 
 final class ViewProjectUploadSuccess extends ViewProjectState {
-
   const ViewProjectUploadSuccess({
     required super.project,
     this.isModalOpen = false,

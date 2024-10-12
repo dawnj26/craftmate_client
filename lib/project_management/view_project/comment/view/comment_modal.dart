@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:craftmate_client/auth/auth.dart';
 import 'package:craftmate_client/globals.dart';
+import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/bloc/comment_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/view/components/comments.dart';
 import 'package:flutter/material.dart';
@@ -63,40 +64,52 @@ class _CommentModalState extends State<CommentModal> {
     final bottomInsets = MediaQuery.of(context).viewInsets.bottom;
     logger.info('Building comment modal');
 
-    return Container(
-      padding: const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
-      height: widget.screenSize.height * 0.65,
-      child: Column(
-        children: [
-          Text(
-            'Comments',
-            style: textTheme.titleMedium,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Comments(
-                scrollController: widget.scrollController,
-                project: widget.project,
+    return BlocListener<CommentBloc, CommentState>(
+      listener: (_, state) {
+        final viewBloc = context.read<ViewProjectBloc>();
+        if (state is CommentSuccess) {
+          viewBloc.add(
+            ViewProjectChanged(
+              widget.project.copyWith(commentCount: state.comments.length),
+            ),
+          );
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
+        height: widget.screenSize.height * 0.65,
+        child: Column(
+          children: [
+            Text(
+              'Comments',
+              style: textTheme.titleMedium,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Comments(
+                  scrollController: widget.scrollController,
+                  project: widget.project,
+                ),
               ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.only(
-              bottom: commentFocusNode.hasFocus && bottomInsets != 0
-                  ? bottomInsets
-                  : 0,
+            Container(
+              margin: EdgeInsets.only(
+                bottom: commentFocusNode.hasFocus && bottomInsets != 0
+                    ? bottomInsets
+                    : 0,
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: _CommentField(
+                commentController: commentController,
+                commentFocusNode: commentFocusNode,
+                project: widget.project,
+                userInitial:
+                    BlocProvider.of<AuthBloc>(context).state.user.name[0],
+              ),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: _CommentField(
-              commentController: commentController,
-              commentFocusNode: commentFocusNode,
-              project: widget.project,
-              userInitial:
-                  BlocProvider.of<AuthBloc>(context).state.user.name[0],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

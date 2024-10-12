@@ -28,15 +28,18 @@ class ViewProjectScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final project = BlocProvider.of<ViewProjectBloc>(context).state.project;
     final currentUser = BlocProvider.of<AuthBloc>(context).state.user;
+    final theme = Theme.of(context);
 
     return BlocConsumer<ViewProjectBloc, ViewProjectState>(
       listener: _handleState,
-      buildWhen: (previous, current) => current is ViewProjectRefreshSuccess,
       builder: (context, state) {
-        if (state is ViewProjectInitial) {
-          context.read<ViewProjectBloc>().add(const ViewProjectViewed());
+        if (state is ViewProjectInitial || state is ViewProjectLoading) {
+          return Scaffold(
+            body: Center(
+              child: LoadingAnimation(color: theme.colorScheme.primary),
+            ),
+          );
         }
 
         return RefreshIndicator(
@@ -60,7 +63,7 @@ class ViewProjectScreen extends StatelessWidget {
               actions: [
                 PopupMenuButton(
                   itemBuilder: (_) {
-                    if (currentUser.id != project.creator.id) {
+                    if (currentUser.id != state.project.creator.id) {
                       return [
                         const PopupMenuItem(
                           child: Text(
@@ -73,11 +76,11 @@ class ViewProjectScreen extends StatelessWidget {
                     return [
                       PopupMenuItem(
                         onTap: () {
+                          final bloc = context.read<ViewProjectBloc>();
                           Navigator.of(context).push(
                             SettingsPage.route(
-                              BlocProvider.of<ViewProjectBloc>(context)
-                                  .state
-                                  .project,
+                              bloc.state.project,
+                              bloc,
                             ),
                           );
                         },
@@ -105,11 +108,11 @@ class ViewProjectScreen extends StatelessWidget {
                   ),
                 ),
                 _ProjectCardHeader(
-                  creator: project.creator,
-                  projectTitle: project.title,
-                  project: project,
+                  creator: state.project.creator,
+                  projectTitle: state.project.title,
+                  project: state.project,
                 ),
-                _ProjectBody(project: project),
+                _ProjectBody(project: state.project),
               ],
             ),
           ),
@@ -192,7 +195,7 @@ class ViewProjectScreen extends StatelessWidget {
         content: Text(state.errMessage),
         title: 'Oops!',
       );
-    } else if (state is ViewProjectLoading) {
+    } else if (state is ViewProjectUploading) {
       Modal.instance.showLoadingDialog(context);
     } else if (state is ViewProjectUploadSuccess) {
       if (state.isModalOpen) {
@@ -326,6 +329,14 @@ class ProjectBodySection extends StatelessWidget {
                   EditProjectPage.route(
                     BlocProvider.of<ViewProjectBloc>(context).state.project,
                   ),
+                ).then(
+                  (_) {
+                    if (context.mounted) {
+                      context.read<ViewProjectBloc>().add(
+                            const ViewProjectReloaded(),
+                          );
+                    }
+                  },
                 );
               },
               icon: const Icon(Icons.edit),
@@ -370,9 +381,9 @@ class _ProjectCardHeader extends StatelessWidget {
             updatedAt: project.updatedAt,
           ),
           const Gap(16.0),
-          if (project.forkedFrom != null)
+          if (project.fork != null)
             Text(
-              'Forked from ${project.forkedFrom!.title}',
+              'Forked from ${project.fork!.title}',
               style: theme.textTheme.bodySmall?.copyWith(
                 color: colorScheme.onSurfaceVariant,
               ),
@@ -458,11 +469,18 @@ class _ActionButtons extends StatelessWidget {
           top: Radius.circular(16.0),
         ),
       ),
-      builder: (context) {
-        return BlocProvider(
-          create: (context) => CommentBloc(
-            projectRepo: context.read<ProjectRepository>(),
-          ),
+      builder: (_) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => CommentBloc(
+                projectRepo: context.read<ProjectRepository>(),
+              ),
+            ),
+            BlocProvider.value(
+              value: context.read<ViewProjectBloc>(),
+            ),
+          ],
           child: CommentModal(
             theme: Theme.of(context),
             project: project,

@@ -30,10 +30,9 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
       await _projectRepo.deleteComment(
         event.comment,
         event.project,
-        updatedComments.length,
       );
 
-      emit(CommentLoaded(comments: updatedComments));
+      emit(CommentSuccess(comments: updatedComments));
     } on ProjectException catch (e) {
       emit(CommentError(e.message, comments: List.from(state.comments)));
     }
@@ -130,7 +129,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
           await _projectRepo.addComment(event.project, event.comment);
       final comments = [comment, ...state.comments];
 
-      emit(CommentLoaded(comments: comments));
+      emit(CommentSuccess(comments: comments));
     } on ProjectException catch (e) {
       emit(CommentError(e.message, comments: List.from(state.comments)));
     }

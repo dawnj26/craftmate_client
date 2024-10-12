@@ -16,9 +16,10 @@ EventTransformer<T> debounce<T>(Duration duration) {
 class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
   ViewProjectBloc({
     required ProjectRepository projectRepository,
-    required Project project,
+    required int projectId,
   })  : _projectRepository = projectRepository,
-        super(ViewProjectInitial(project: project)) {
+        _projectId = projectId,
+        super(ViewProjectInitial(project: Project.empty())) {
     on<ViewProjectLiked>(
       _onProjectLiked,
       transformer: debounce(const Duration(milliseconds: 180)),
@@ -27,28 +28,36 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     on<ViewProjectImageUploaded>(_onProjectImageUploaded);
     on<ViewProjectRefreshed>(_onProjectRefreshed);
     on<ViewProjectViewed>(_onProjectViewed);
-
-    // Listen to project changes
-    _projectSubscription =
-        _projectRepository.getProjectStream(project).listen((p) {
-      add(ViewProjectChanged(p));
-    });
+    on<ViewProjectReloaded>(_onProjectReloaded);
   }
-  late final StreamSubscription<Project> _projectSubscription;
 
   final ProjectRepository _projectRepository;
+  final int _projectId;
+
+  Future<void> _onProjectReloaded(
+    ViewProjectReloaded event,
+    Emitter<ViewProjectState> emit,
+  ) async {
+    await _loadProject(emit);
+  }
 
   Future<void> _onProjectViewed(
     ViewProjectViewed event,
     Emitter<ViewProjectState> emit,
   ) async {
+    await _loadProject(emit);
+  }
+
+  Future<void> _loadProject(Emitter<ViewProjectState> emit) async {
+    emit(ViewProjectLoading(project: state.project.copyWith()));
     try {
-      await _projectRepository.viewProjectById(state.project.id);
+      final project = await _projectRepository.tryGetProjectById(_projectId);
+      emit(ViewProjectDirty(project: project));
     } on ProjectException catch (e) {
       emit(
         ViewProjectFailed(
           errMessage: e.message,
-          project: state.project,
+          project: state.project.copyWith(),
         ),
       );
     }
@@ -77,7 +86,7 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     ViewProjectImageUploaded event,
     Emitter<ViewProjectState> emit,
   ) async {
-    emit(ViewProjectLoading(project: state.project.copyWith()));
+    emit(ViewProjectUploading(project: state.project.copyWith()));
 
     try {
       logger.info('Uploading image');
@@ -106,15 +115,34 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     ViewProjectLiked event,
     Emitter<ViewProjectState> emit,
   ) async {
+    final prevProject = state.project;
     try {
-      logger.info('Liking project');
+      if (!prevProject.isLiked) {
+        emit(
+          ViewProjectDirty(
+            project: prevProject.copyWith(
+              isLiked: !prevProject.isLiked,
+              likeCount: prevProject.likeCount + 1,
+            ),
+          ),
+        );
+      } else {
+        emit(
+          ViewProjectDirty(
+            project: prevProject.copyWith(
+              isLiked: !prevProject.isLiked,
+              likeCount: prevProject.likeCount - 1,
+            ),
+          ),
+        );
+      }
       await _projectRepository.tryToggleLikeById(state.project);
     } on ProjectException catch (e) {
       logger.warning('Toggling like failed');
       emit(
         ViewProjectFailed(
           errMessage: e.message,
-          project: state.project,
+          project: prevProject,
         ),
       );
     }
@@ -125,14 +153,5 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     Emitter<ViewProjectState> emit,
   ) {
     emit(ViewProjectDirty(project: event.project));
-  }
-
-  @override
-  Future<void> close() {
-    // TODO: implement close
-    _projectSubscription.cancel();
-    _projectRepository.dispose();
-
-    return super.close();
   }
 }

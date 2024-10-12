@@ -25,7 +25,8 @@ class ProjectSettingsBloc
     on<ProjectSettingsTitleChanged>(_onChanged);
     on<ProjectSettingsVisibilityChanged>(_onVisibilityChanged);
     on<ProjectSettingsVisibilitySelectionChanged>(
-        _onVisibilitySelectionChanged);
+      _onVisibilitySelectionChanged,
+    );
     on<ProjectSettingsProjectDeleted>(_onProjectDeleted);
   }
 
@@ -120,7 +121,9 @@ class ProjectSettingsBloc
   }
 
   void _onChanged(
-      ProjectSettingsTitleChanged event, Emitter<ProjectSettingsState> emit) {
+    ProjectSettingsTitleChanged event,
+    Emitter<ProjectSettingsState> emit,
+  ) {
     final projectTitle = ProjectTitle.dirty(event.title);
     final isValid = Formz.validate([projectTitle]);
     emit(
