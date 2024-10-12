@@ -33,6 +33,10 @@ final class ViewProjectRefreshed extends ViewProjectEvent {
   const ViewProjectRefreshed();
 }
 
+final class ViewProjectReloaded extends ViewProjectEvent {
+  const ViewProjectReloaded();
+}
+
 final class ViewProjectViewed extends ViewProjectEvent {
   const ViewProjectViewed();
 }
