@@ -26,8 +26,8 @@ class ViewProjectPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ViewProjectBloc(
         projectRepository: context.read<ProjectRepository>(),
-        project: project,
-      ),
+        projectId: project.id,
+      )..add(const ViewProjectViewed()),
       child: const ViewProjectScreen(),
     );
   }
