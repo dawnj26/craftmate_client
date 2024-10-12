@@ -115,15 +115,34 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     ViewProjectLiked event,
     Emitter<ViewProjectState> emit,
   ) async {
+    final prevProject = state.project;
     try {
-      logger.info('Liking project');
+      if (!prevProject.isLiked) {
+        emit(
+          ViewProjectDirty(
+            project: prevProject.copyWith(
+              isLiked: !prevProject.isLiked,
+              likeCount: prevProject.likeCount + 1,
+            ),
+          ),
+        );
+      } else {
+        emit(
+          ViewProjectDirty(
+            project: prevProject.copyWith(
+              isLiked: !prevProject.isLiked,
+              likeCount: prevProject.likeCount - 1,
+            ),
+          ),
+        );
+      }
       await _projectRepository.tryToggleLikeById(state.project);
     } on ProjectException catch (e) {
       logger.warning('Toggling like failed');
       emit(
         ViewProjectFailed(
           errMessage: e.message,
-          project: state.project,
+          project: prevProject,
         ),
       );
     }
