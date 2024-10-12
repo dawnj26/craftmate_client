@@ -34,7 +34,7 @@ class CommentBlock extends StatelessWidget {
     final theme = Theme.of(context);
     const middleGap = 8.0;
     final currentUser = BlocProvider.of<AuthBloc>(context).state.user;
-    if (project.creator.id != currentUser.id) {
+    if (comment.user.id != currentUser.id) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
@@ -136,7 +136,7 @@ class CommentBlock extends StatelessWidget {
             ],
           ),
         ),
-        if (project.creator.id == currentUser.id)
+        if (comment.user.id == currentUser.id)
           Align(
             alignment: Alignment.topRight,
             child: PopupMenuButton(
