@@ -1,5 +1,6 @@
 import 'package:craftmate_client/dashboard/home/bloc/home_bloc.dart';
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
+import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/project_management/view_project/view/view_project_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -237,8 +238,7 @@ class ProjectCard extends StatelessWidget {
 
   Widget _getImageUrl() {
     if (project.imageUrl == null) {
-      return Image.asset(
-        'assets/images/placeholder_with_logo.png',
+      return Assets.images.placeholderWithLogo.image(
         fit: BoxFit.cover,
       );
     }

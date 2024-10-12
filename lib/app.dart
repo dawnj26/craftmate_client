@@ -2,8 +2,11 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:config_repository/config_repository.dart';
 import 'package:craftmate_client/auth/auth.dart';
 import 'package:craftmate_client/auth/login/login.dart';
+import 'package:craftmate_client/config/app_theme.dart';
 import 'package:craftmate_client/dashboard/view/dashboard_page.dart';
+import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/globals.dart';
+import 'package:craftmate_client/settings/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -51,11 +54,20 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider.value(value: _userRepository),
         RepositoryProvider.value(value: _projectRepository),
       ],
-      child: BlocProvider(
-        create: (_) => AuthBloc(
-          authenticationRepository: _authenticationRepository,
-          userRepository: _userRepository,
-        ),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => AuthBloc(
+              authenticationRepository: _authenticationRepository,
+              userRepository: _userRepository,
+            ),
+          ),
+          BlocProvider(
+            create: (context) => SettingsBloc(
+              appTheme: const AppTheme(),
+            ),
+          ),
+        ],
         child: const AppView(),
       ),
     );
@@ -71,34 +83,29 @@ class AppView extends StatefulWidget {
 
 class _AppViewState extends State<AppView> {
   final _navigatorKey = GlobalKey<NavigatorState>();
-  final _theme = ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: const Color(0xff316A42),
-    ),
-  );
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: _navigatorKey,
-      theme: _theme,
-      darkTheme: _theme.copyWith(
-        colorScheme: _theme.colorScheme.copyWith(
-          brightness: Brightness.dark,
-        ),
-      ),
-      title: 'CraftMate',
-      builder: (context, child) {
-        // Listen to status changes
-        return BlocListener<AuthBloc, AuthState>(
-          listenWhen: (previous, current) => previous.status != current.status,
-          listener: _handleState,
-          child: child,
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (context, state) {
+        return MaterialApp(
+          navigatorKey: _navigatorKey,
+          theme: state.theme,
+          title: 'CraftMate',
+          builder: (context, child) {
+            // Listen to status changes
+            return BlocListener<AuthBloc, AuthState>(
+              listenWhen: (previous, current) =>
+                  previous.status != current.status,
+              listener: _handleState,
+              child: child,
+            );
+          },
+          onGenerateRoute: (_) => SplashScreen.route(),
         );
       },
-      onGenerateRoute: (_) => SplashScreen.route(),
     );
   }
 
@@ -141,9 +148,10 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset(
-          'assets/images/logo_without_label.png',
-          width: 120,
+        child: Center(
+          child: Assets.images.logoWithoutLabel.image(
+            width: 120,
+          ),
         ),
       ),
     );

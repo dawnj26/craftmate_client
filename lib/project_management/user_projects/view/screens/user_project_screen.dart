@@ -1,4 +1,5 @@
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
+import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
@@ -638,8 +639,8 @@ class ProjectCard extends StatelessWidget {
         fit: BoxFit.cover,
       );
     }
-    return Image.asset(
-      'assets/images/placeholder_with_logo.png',
+
+    return Assets.images.placeholderWithLogo.image(
       fit: BoxFit.cover,
     );
   }

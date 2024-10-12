@@ -33,6 +33,7 @@ class Project with _$Project {
     List<Tag>? tags,
     List<Step>? steps,
     String? imageUrl,
+    Project? forkedFrom,
   }) = _Project;
 
   factory Project.fromJson(Map<String, Object?> json) =>

@@ -367,8 +367,17 @@ class _ProjectCardHeader extends StatelessWidget {
           CreatorAvatar(
             initialName: creator.name[0].toUpperCase(),
             fullName: creator.name,
+            updatedAt: project.updatedAt,
           ),
           const Gap(16.0),
+          if (project.forkedFrom != null)
+            Text(
+              'Forked from ${project.forkedFrom!.title}',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
+          const Gap(8.0),
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
             buildWhen: (previous, current) =>
                 previous.project != current.project ||
