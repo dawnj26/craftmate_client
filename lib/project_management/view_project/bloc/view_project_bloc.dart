@@ -28,14 +28,7 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     on<ViewProjectImageUploaded>(_onProjectImageUploaded);
     on<ViewProjectRefreshed>(_onProjectRefreshed);
     on<ViewProjectViewed>(_onProjectViewed);
-
-    // Listen to project changes
-    _projectSubscription =
-        _projectRepository.getProjectStream(project).listen((p) {
-      add(ViewProjectChanged(p));
-    });
   }
-  late final StreamSubscription<Project> _projectSubscription;
 
   final ProjectRepository _projectRepository;
 
@@ -126,14 +119,5 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     Emitter<ViewProjectState> emit,
   ) {
     emit(ViewProjectDirty(project: event.project));
-  }
-
-  @override
-  Future<void> close() {
-    // TODO: implement close
-    _projectSubscription.cancel();
-    _projectRepository.dispose();
-
-    return super.close();
   }
 }
