@@ -86,7 +86,7 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     ViewProjectImageUploaded event,
     Emitter<ViewProjectState> emit,
   ) async {
-    emit(ViewProjectLoading(project: state.project.copyWith()));
+    emit(ViewProjectUploading(project: state.project.copyWith()));
 
     try {
       logger.info('Uploading image');
