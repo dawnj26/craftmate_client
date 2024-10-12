@@ -3,6 +3,7 @@ import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/create_project/blank_project/models/title.dart';
 import 'package:craftmate_client/project_management/create_project/blank_project/view/components/visibility_dropdown.dart';
+import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/project_settings/bloc/project_settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,6 +57,7 @@ class SettingsScreen extends StatelessWidget {
 
   void _handleState(BuildContext context, ProjectSettingsState state) {
     final navigator = Navigator.of(context);
+    final viewProjectBloc = BlocProvider.of<ViewProjectBloc>(context);
 
     if (state is ProjectSettingsLoading) {
       Modal.instance.showLoadingDialog(context);
@@ -68,6 +70,7 @@ class SettingsScreen extends StatelessWidget {
       );
     } else if (state is SettingsSavedSuccess) {
       navigator.pop();
+      viewProjectBloc.add(ViewProjectChanged(state.project));
       Alert.instance.showSnackbar(context, 'Saved successfully');
     } else if (state is SettingsDeleteSuccess) {
       // pop loading dialog
