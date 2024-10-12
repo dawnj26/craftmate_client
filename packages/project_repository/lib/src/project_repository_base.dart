@@ -34,8 +34,7 @@ abstract class IProjectRepository {
     Project project,
     String commentText,
   );
-  Future<void> deleteComment(
-      Comment comment, Project project, int commentCount);
+  Future<void> deleteComment(Comment comment, Project project);
   Future<Pagination<Project>> getLatestProjects();
   Future<Pagination<Project>> searchProjects(String query);
   Future<Pagination<Project>> getNextPage(String nextUrl);
@@ -90,16 +89,8 @@ class ProjectRepository implements IProjectRepository {
   }
 
   @override
-  Future<void> deleteComment(
-      Comment comment, Project project, int commentCount) async {
-    await _commentApi.deleteComment(comment, project, commentCount);
-
-    if (!_projectApi.isStreamInitialized) {
-      throw ProjectException(message: 'Stream not initialized');
-    }
-
-    _projectApi.streamController!
-        .add(project.copyWith(commentCount: commentCount));
+  Future<void> deleteComment(Comment comment, Project project) async {
+    await _commentApi.deleteComment(comment, project);
   }
 
   @override
@@ -141,13 +132,7 @@ class ProjectRepository implements IProjectRepository {
   @override
   Future<Comment> addComment(Project project, String comment) async {
     final response = await _commentApi.addComment(project, comment);
-    if (!_projectApi.isStreamInitialized) {
-      throw ProjectException(message: 'Stream not initialized');
-    }
 
-    _projectApi.streamController!.add(project.copyWith(
-      commentCount: project.commentCount + 1,
-    ));
     return response;
   }
 
@@ -167,17 +152,9 @@ class ProjectRepository implements IProjectRepository {
     return _projectApi.tryGetProjectById(id);
   }
 
-  Stream<Project> getProjectStream(Project project) {
-    return _projectApi.getProjectStream(project);
-  }
-
   @override
   Future<void> tryToggleLikeById(Project project) async {
     return _projectApi.tryToggleLikeById(project);
-  }
-
-  void dispose() {
-    _projectApi.dispose();
   }
 
   @override
