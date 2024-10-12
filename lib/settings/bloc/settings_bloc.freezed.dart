@@ -16,20 +16,19 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SettingsEvent {
-  ThemeMode get themeMode => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ThemeMode themeMode) themeModeChanged,
+    required TResult Function() themeModeChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ThemeMode themeMode)? themeModeChanged,
+    TResult? Function()? themeModeChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ThemeMode themeMode)? themeModeChanged,
+    TResult Function()? themeModeChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -49,12 +48,6 @@ mixin _$SettingsEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
-  /// Create a copy of SettingsEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $SettingsEventCopyWith<SettingsEvent> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -62,8 +55,6 @@ abstract class $SettingsEventCopyWith<$Res> {
   factory $SettingsEventCopyWith(
           SettingsEvent value, $Res Function(SettingsEvent) then) =
       _$SettingsEventCopyWithImpl<$Res, SettingsEvent>;
-  @useResult
-  $Res call({ThemeMode themeMode});
 }
 
 /// @nodoc
@@ -78,29 +69,13 @@ class _$SettingsEventCopyWithImpl<$Res, $Val extends SettingsEvent>
 
   /// Create a copy of SettingsEvent
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? themeMode = null,
-  }) {
-    return _then(_value.copyWith(
-      themeMode: null == themeMode
-          ? _value.themeMode
-          : themeMode // ignore: cast_nullable_to_non_nullable
-              as ThemeMode,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$ThemeModeChangedImplCopyWith<$Res>
-    implements $SettingsEventCopyWith<$Res> {
+abstract class _$$ThemeModeChangedImplCopyWith<$Res> {
   factory _$$ThemeModeChangedImplCopyWith(_$ThemeModeChangedImpl value,
           $Res Function(_$ThemeModeChangedImpl) then) =
       __$$ThemeModeChangedImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({ThemeMode themeMode});
 }
 
 /// @nodoc
@@ -113,78 +88,51 @@ class __$$ThemeModeChangedImplCopyWithImpl<$Res>
 
   /// Create a copy of SettingsEvent
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? themeMode = null,
-  }) {
-    return _then(_$ThemeModeChangedImpl(
-      null == themeMode
-          ? _value.themeMode
-          : themeMode // ignore: cast_nullable_to_non_nullable
-              as ThemeMode,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$ThemeModeChangedImpl implements _ThemeModeChanged {
-  const _$ThemeModeChangedImpl(this.themeMode);
-
-  @override
-  final ThemeMode themeMode;
+  const _$ThemeModeChangedImpl();
 
   @override
   String toString() {
-    return 'SettingsEvent.themeModeChanged(themeMode: $themeMode)';
+    return 'SettingsEvent.themeModeChanged()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ThemeModeChangedImpl &&
-            (identical(other.themeMode, themeMode) ||
-                other.themeMode == themeMode));
+        (other.runtimeType == runtimeType && other is _$ThemeModeChangedImpl);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, themeMode);
-
-  /// Create a copy of SettingsEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ThemeModeChangedImplCopyWith<_$ThemeModeChangedImpl> get copyWith =>
-      __$$ThemeModeChangedImplCopyWithImpl<_$ThemeModeChangedImpl>(
-          this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ThemeMode themeMode) themeModeChanged,
+    required TResult Function() themeModeChanged,
   }) {
-    return themeModeChanged(themeMode);
+    return themeModeChanged();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ThemeMode themeMode)? themeModeChanged,
+    TResult? Function()? themeModeChanged,
   }) {
-    return themeModeChanged?.call(themeMode);
+    return themeModeChanged?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ThemeMode themeMode)? themeModeChanged,
+    TResult Function()? themeModeChanged,
     required TResult orElse(),
   }) {
     if (themeModeChanged != null) {
-      return themeModeChanged(themeMode);
+      return themeModeChanged();
     }
     return orElse();
   }
@@ -219,39 +167,28 @@ class _$ThemeModeChangedImpl implements _ThemeModeChanged {
 }
 
 abstract class _ThemeModeChanged implements SettingsEvent {
-  const factory _ThemeModeChanged(final ThemeMode themeMode) =
-      _$ThemeModeChangedImpl;
-
-  @override
-  ThemeMode get themeMode;
-
-  /// Create a copy of SettingsEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ThemeModeChangedImplCopyWith<_$ThemeModeChangedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory _ThemeModeChanged() = _$ThemeModeChangedImpl;
 }
 
 /// @nodoc
 mixin _$SettingsState {
-  ThemeMode get themeMode => throw _privateConstructorUsedError;
+  ThemeData get theme => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ThemeMode themeMode) initial,
-    required TResult Function(ThemeMode themeMode) changed,
+    required TResult Function(ThemeData theme) initial,
+    required TResult Function(ThemeData theme) changed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ThemeMode themeMode)? initial,
-    TResult? Function(ThemeMode themeMode)? changed,
+    TResult? Function(ThemeData theme)? initial,
+    TResult? Function(ThemeData theme)? changed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ThemeMode themeMode)? initial,
-    TResult Function(ThemeMode themeMode)? changed,
+    TResult Function(ThemeData theme)? initial,
+    TResult Function(ThemeData theme)? changed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -288,7 +225,7 @@ abstract class $SettingsStateCopyWith<$Res> {
           SettingsState value, $Res Function(SettingsState) then) =
       _$SettingsStateCopyWithImpl<$Res, SettingsState>;
   @useResult
-  $Res call({ThemeMode themeMode});
+  $Res call({ThemeData theme});
 }
 
 /// @nodoc
@@ -306,13 +243,13 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? themeMode = null,
+    Object? theme = null,
   }) {
     return _then(_value.copyWith(
-      themeMode: null == themeMode
-          ? _value.themeMode
-          : themeMode // ignore: cast_nullable_to_non_nullable
-              as ThemeMode,
+      theme: null == theme
+          ? _value.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as ThemeData,
     ) as $Val);
   }
 }
@@ -325,7 +262,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       __$$InitialImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ThemeMode themeMode});
+  $Res call({ThemeData theme});
 }
 
 /// @nodoc
@@ -341,13 +278,13 @@ class __$$InitialImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? themeMode = null,
+    Object? theme = null,
   }) {
     return _then(_$InitialImpl(
-      themeMode: null == themeMode
-          ? _value.themeMode
-          : themeMode // ignore: cast_nullable_to_non_nullable
-              as ThemeMode,
+      theme: null == theme
+          ? _value.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as ThemeData,
     ));
   }
 }
@@ -355,15 +292,14 @@ class __$$InitialImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InitialImpl implements _Initial {
-  const _$InitialImpl({this.themeMode = ThemeMode.light});
+  const _$InitialImpl({required this.theme});
 
   @override
-  @JsonKey()
-  final ThemeMode themeMode;
+  final ThemeData theme;
 
   @override
   String toString() {
-    return 'SettingsState.initial(themeMode: $themeMode)';
+    return 'SettingsState.initial(theme: $theme)';
   }
 
   @override
@@ -371,12 +307,11 @@ class _$InitialImpl implements _Initial {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InitialImpl &&
-            (identical(other.themeMode, themeMode) ||
-                other.themeMode == themeMode));
+            (identical(other.theme, theme) || other.theme == theme));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, themeMode);
+  int get hashCode => Object.hash(runtimeType, theme);
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -389,30 +324,30 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ThemeMode themeMode) initial,
-    required TResult Function(ThemeMode themeMode) changed,
+    required TResult Function(ThemeData theme) initial,
+    required TResult Function(ThemeData theme) changed,
   }) {
-    return initial(themeMode);
+    return initial(theme);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ThemeMode themeMode)? initial,
-    TResult? Function(ThemeMode themeMode)? changed,
+    TResult? Function(ThemeData theme)? initial,
+    TResult? Function(ThemeData theme)? changed,
   }) {
-    return initial?.call(themeMode);
+    return initial?.call(theme);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ThemeMode themeMode)? initial,
-    TResult Function(ThemeMode themeMode)? changed,
+    TResult Function(ThemeData theme)? initial,
+    TResult Function(ThemeData theme)? changed,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(themeMode);
+      return initial(theme);
     }
     return orElse();
   }
@@ -450,10 +385,10 @@ class _$InitialImpl implements _Initial {
 }
 
 abstract class _Initial implements SettingsState {
-  const factory _Initial({final ThemeMode themeMode}) = _$InitialImpl;
+  const factory _Initial({required final ThemeData theme}) = _$InitialImpl;
 
   @override
-  ThemeMode get themeMode;
+  ThemeData get theme;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -471,7 +406,7 @@ abstract class _$$ChangedImplCopyWith<$Res>
       __$$ChangedImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ThemeMode themeMode});
+  $Res call({ThemeData theme});
 }
 
 /// @nodoc
@@ -487,13 +422,13 @@ class __$$ChangedImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? themeMode = null,
+    Object? theme = null,
   }) {
     return _then(_$ChangedImpl(
-      themeMode: null == themeMode
-          ? _value.themeMode
-          : themeMode // ignore: cast_nullable_to_non_nullable
-              as ThemeMode,
+      theme: null == theme
+          ? _value.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as ThemeData,
     ));
   }
 }
@@ -501,14 +436,14 @@ class __$$ChangedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ChangedImpl implements _Changed {
-  const _$ChangedImpl({required this.themeMode});
+  const _$ChangedImpl({required this.theme});
 
   @override
-  final ThemeMode themeMode;
+  final ThemeData theme;
 
   @override
   String toString() {
-    return 'SettingsState.changed(themeMode: $themeMode)';
+    return 'SettingsState.changed(theme: $theme)';
   }
 
   @override
@@ -516,12 +451,11 @@ class _$ChangedImpl implements _Changed {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChangedImpl &&
-            (identical(other.themeMode, themeMode) ||
-                other.themeMode == themeMode));
+            (identical(other.theme, theme) || other.theme == theme));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, themeMode);
+  int get hashCode => Object.hash(runtimeType, theme);
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -534,30 +468,30 @@ class _$ChangedImpl implements _Changed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ThemeMode themeMode) initial,
-    required TResult Function(ThemeMode themeMode) changed,
+    required TResult Function(ThemeData theme) initial,
+    required TResult Function(ThemeData theme) changed,
   }) {
-    return changed(themeMode);
+    return changed(theme);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ThemeMode themeMode)? initial,
-    TResult? Function(ThemeMode themeMode)? changed,
+    TResult? Function(ThemeData theme)? initial,
+    TResult? Function(ThemeData theme)? changed,
   }) {
-    return changed?.call(themeMode);
+    return changed?.call(theme);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ThemeMode themeMode)? initial,
-    TResult Function(ThemeMode themeMode)? changed,
+    TResult Function(ThemeData theme)? initial,
+    TResult Function(ThemeData theme)? changed,
     required TResult orElse(),
   }) {
     if (changed != null) {
-      return changed(themeMode);
+      return changed(theme);
     }
     return orElse();
   }
@@ -595,10 +529,10 @@ class _$ChangedImpl implements _Changed {
 }
 
 abstract class _Changed implements SettingsState {
-  const factory _Changed({required final ThemeMode themeMode}) = _$ChangedImpl;
+  const factory _Changed({required final ThemeData theme}) = _$ChangedImpl;
 
   @override
-  ThemeMode get themeMode;
+  ThemeData get theme;
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.

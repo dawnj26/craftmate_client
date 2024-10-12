@@ -3,6 +3,7 @@ import 'package:craftmate_client/dashboard/home/view/tabs/for_you_tab.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/view/create_project_page.dart';
+import 'package:craftmate_client/settings/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,14 +50,19 @@ class _HomeScreenState extends State<HomeScreen>
                 Scaffold.of(context).openDrawer();
               },
             ),
-            title: Image.asset(
-              'assets/images/logo_with_label.png',
-              width: 104.0,
             title: Assets.images.logoWithLabel.image(
               width: 104,
             ),
             centerTitle: true,
             actions: [
+              IconButton(
+                onPressed: () {
+                  context.read<SettingsBloc>().add(
+                        const SettingsEvent.themeModeChanged(),
+                      );
+                },
+                icon: const Icon(Icons.dark_mode_outlined),
+              ),
               IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.notifications_outlined),
