@@ -1,7 +1,5 @@
 library material_repository;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/exceptions/material_exception.dart';
+export 'src/material_repository_base.dart';
+export 'src/models/models.dart';
