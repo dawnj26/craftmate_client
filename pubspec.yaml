@@ -55,6 +55,8 @@ dependencies:
   log_collector:
     path: packages/log_collector
   logger: ^2.4.0
+  material_repository:
+    path: packages/material_repository
   meta: ^1.12.0
   modal_bottom_sheet: ^3.0.0
   project_repository:

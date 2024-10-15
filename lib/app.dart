@@ -10,6 +10,7 @@ import 'package:craftmate_client/settings/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:material_repository/material_repository.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -24,6 +25,7 @@ class _MyAppState extends State<MyApp> {
   late final AuthenticationRepository _authenticationRepository;
   late final UserRepository _userRepository;
   late final ProjectRepository _projectRepository;
+  late final MaterialRepository _materialRepository;
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _MyAppState extends State<MyApp> {
     _authenticationRepository = AuthenticationRepository(config: config);
     _userRepository = UserRepository(config: config);
     _projectRepository = ProjectRepository(config: config);
+    _materialRepository = MaterialRepository(config: config);
   }
 
   @override
@@ -53,6 +56,7 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider.value(value: _authenticationRepository),
         RepositoryProvider.value(value: _userRepository),
         RepositoryProvider.value(value: _projectRepository),
+        RepositoryProvider.value(value: _materialRepository),
       ],
       child: MultiBlocProvider(
         providers: [

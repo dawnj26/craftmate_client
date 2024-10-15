@@ -2,6 +2,7 @@ import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/home/bloc/home_bloc.dart';
 import 'package:craftmate_client/dashboard/home/view/home_page.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
+import 'package:craftmate_client/material_inventory/user_materials/views/user_materials_page.dart';
 import 'package:craftmate_client/project_management/user_projects/view/user_projects_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -98,10 +99,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 title: const Text('Materials'),
                 leading: const Icon(Icons.inventory_2_outlined),
                 onTap: () {
-                  // Update the state of the app
-                  // ...
-                  // Then close the drawer
                   Navigator.pop(context);
+                  Navigator.of(context).push(UserMaterialsPage.route());
                 },
               ),
               const Spacer(),

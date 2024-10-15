@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FixedContainer extends StatelessWidget {
-  const FixedContainer({super.key, required this.child, this.padding = EdgeInsets.zero, this.safePadding = 0.0,});
+  const FixedContainer({
+    super.key,
+    required this.child,
+    this.padding = EdgeInsets.zero,
+    this.safePadding = 0.0,
+  });
 
   final Widget child;
   final EdgeInsetsGeometry padding;
@@ -10,7 +15,7 @@ class FixedContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
+    final screenSize = MediaQuery.sizeOf(context);
 
     return SingleChildScrollView(
       // physics: const NeverScrollableScrollPhysics(),
