@@ -1,6 +1,7 @@
 import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/material_inventory/user_materials/bloc/user_material/user_material_bloc.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/screens/add_material_screen.dart';
+import 'package:craftmate_client/material_inventory/user_materials/views/screens/view_material_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -56,6 +57,12 @@ class UserMaterialsScreen extends StatelessWidget {
                   final material = state.materials[index];
                   return MaterialCard(
                     material: material,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        ViewMaterialScreen.route(material: material),
+                      );
+                    },
                   );
                 },
               );
@@ -71,57 +78,62 @@ class MaterialCard extends StatelessWidget {
   const MaterialCard({
     super.key,
     required this.material,
+    this.onTap,
   });
 
   final m.Material material;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAlias,
-      child: Row(
-        children: [
-          Flexible(
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: material.imageUrl != null
-                  ? Image.network(
-                      material.imageUrl!,
-                      fit: BoxFit.cover,
-                    )
-                  : Assets.images.placeholderWithLogo.image(
-                      fit: BoxFit.cover,
-                    ),
-            ),
-          ),
-          Flexible(
-            flex: 4,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _MaterialInfo(
-                      material: material,
-                    ),
-                  ),
-                  PopupMenuButton(
-                    itemBuilder: (context) {
-                      return [
-                        const PopupMenuItem(
-                          child: Text('Edit'),
-                        ),
-                        const PopupMenuItem(
-                          child: Text('Delete'),
-                        ),
-                      ];
-                    },
-                  ),
-                ],
+      child: InkWell(
+        onTap: onTap,
+        child: Row(
+          children: [
+            Flexible(
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: material.imageUrl != null
+                    ? Image.network(
+                        material.imageUrl!,
+                        fit: BoxFit.cover,
+                      )
+                    : Assets.images.placeholderWithLogo.image(
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
-          ),
-        ],
+            Flexible(
+              flex: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: _MaterialInfo(
+                        material: material,
+                      ),
+                    ),
+                    PopupMenuButton(
+                      itemBuilder: (context) {
+                        return [
+                          const PopupMenuItem(
+                            child: Text('Edit'),
+                          ),
+                          const PopupMenuItem(
+                            child: Text('Delete'),
+                          ),
+                        ];
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
