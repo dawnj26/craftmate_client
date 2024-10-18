@@ -15,6 +15,8 @@ class Material with _$Material {
     String? imageUrl,
     @Default(0) int quantity,
     @Default(MaterialCategory()) MaterialCategory materialCategory,
+    required DateTime createdAt,
+    required DateTime updatedAt,
   }) = _Material;
 
   factory Material.fromJson(Map<String, dynamic> json) =>
