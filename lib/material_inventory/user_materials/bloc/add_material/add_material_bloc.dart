@@ -73,6 +73,8 @@ class AddMaterialBloc extends Bloc<AddMaterialEvent, AddMaterialState> {
           quantity: state.quantity,
           materialCategory: selectedCategory,
           imageUrl: state.imagePath,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
         ),
       );
       emit(
