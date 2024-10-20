@@ -235,7 +235,7 @@ class AddForm extends StatelessWidget {
               const Gap(24),
               FilledButton(
                 onPressed: () {
-                  FocusScope.of(context).unfocus();
+                  FocusManager.instance.primaryFocus?.unfocus();
                   context.read<AddMaterialBloc>().add(
                         const AddMaterialEvent.submit(),
                       );

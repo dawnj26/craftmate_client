@@ -6,10 +6,10 @@ abstract class IMaterialRepository {
   Future<List<Material>> getMaterials();
   Future<String> uploadMaterialImage(String path);
   Future<List<MaterialCategory>> getMaterialCategories();
-  Future<Material> getMaterial(String id);
+  Future<Material> getMaterial(int id);
   Future<void> addMaterial(Material material);
-  Future<Material> updateMaterial(Material material);
-  Future<void> deleteMaterial(String id);
+  Future<void> updateMaterial(Material material);
+  Future<void> deleteMaterial(int id);
 }
 
 class MaterialRepository implements IMaterialRepository {
@@ -39,15 +39,38 @@ class MaterialRepository implements IMaterialRepository {
   }
 
   @override
-  Future<void> deleteMaterial(String id) {
-    // TODO: implement deleteMaterial
-    throw UnimplementedError();
+  Future<void> deleteMaterial(int id) async {
+    try {
+      await _config.makeRequest<void>(
+        '/material/$id/delete',
+        method: 'DELETE',
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      throw MaterialException(message: e.message);
+    }
   }
 
   @override
-  Future<Material> getMaterial(String id) {
-    // TODO: implement getMaterial
-    throw UnimplementedError();
+  Future<Material> getMaterial(int id) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/material/$id',
+        method: 'GET',
+      );
+
+      if (response.data == null) {
+        throw MaterialException(message: 'No data found');
+      }
+
+      final materialJson = response.data!['data'] as Map<String, dynamic>;
+
+      final Material material = Material.fromJson(materialJson);
+
+      return material;
+    } on RequestException catch (e) {
+      throw MaterialException(message: e.message);
+    }
   }
 
   @override
@@ -75,9 +98,27 @@ class MaterialRepository implements IMaterialRepository {
   }
 
   @override
-  Future<Material> updateMaterial(Material material) {
-    // TODO: implement updateMaterial
-    throw UnimplementedError();
+  Future<void> updateMaterial(Material material) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/material/${material.id}/edit',
+        method: 'PUT',
+        data: {
+          'name': material.name,
+          'description': material.description,
+          'quantity': material.quantity,
+          'category_id': material.materialCategory.id,
+          'image_url': material.imageUrl,
+        },
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw MaterialException(message: 'No data found');
+      }
+    } on RequestException catch (e) {
+      throw MaterialException(message: e.message);
+    }
   }
 
   @override
