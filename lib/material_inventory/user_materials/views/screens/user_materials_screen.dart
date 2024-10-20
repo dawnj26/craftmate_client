@@ -33,23 +33,21 @@ class UserMaterialsScreen extends StatelessWidget {
       ),
       body: BlocBuilder<UserMaterialBloc, UserMaterialState>(
         builder: (context, state) {
-          return state.maybeWhen<Widget>(
-            initial: (_) {
+          switch (state) {
+            case Initial():
+            case Loading():
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            },
-            loading: (_) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-            error: (materials, message) {
+            case Error(message: final message):
               return Center(
                 child: Text(message),
               );
-            },
-            orElse: () {
+            case Loaded(materials: final materials) when materials.isEmpty:
+              return const Center(
+                child: Text('No materials found'),
+              );
+            default:
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
                 itemCount: state.materials.length,
@@ -60,14 +58,21 @@ class UserMaterialsScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        ViewMaterialScreen.route(material: material),
+                        ViewMaterialScreen.route(materialId: material.id),
+                      ).then(
+                        (value) {
+                          if (context.mounted) {
+                            context.read<UserMaterialBloc>().add(
+                                  const UserMaterialEvent.reload(),
+                                );
+                          }
+                        },
                       );
                     },
                   );
                 },
               );
-            },
-          );
+          }
         },
       ),
     );
@@ -151,19 +156,21 @@ class _MaterialInfo extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              material.name,
-              style: theme.textTheme.titleMedium,
-              overflow: TextOverflow.ellipsis,
-            ),
-            _Category(
-              color: Color(material.materialCategory.hexColor),
-              labelText: material.materialCategory.name,
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                material.name,
+                style: theme.textTheme.titleMedium,
+                overflow: TextOverflow.ellipsis,
+              ),
+              _Category(
+                color: Color(material.materialCategory.hexColor),
+                labelText: material.materialCategory.name,
+              ),
+            ],
+          ),
         ),
         Text(
           '${material.quantity}',
