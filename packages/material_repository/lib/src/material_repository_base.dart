@@ -3,13 +3,15 @@ import 'package:dio/dio.dart';
 import 'package:material_repository/material_repository.dart';
 
 abstract class IMaterialRepository {
-  Future<List<Material>> getMaterials();
+  Future<List<Material>> getMaterials([int? categoryId]);
   Future<String> uploadMaterialImage(String path);
   Future<List<MaterialCategory>> getMaterialCategories();
   Future<Material> getMaterial(int id);
   Future<void> addMaterial(Material material);
   Future<void> updateMaterial(Material material);
   Future<void> deleteMaterial(int id);
+  Future<List<Material>> deleteMaterials(List<int> ids);
+  Future<List<Material>> searchMaterials(String query);
 }
 
 class MaterialRepository implements IMaterialRepository {
@@ -17,6 +19,54 @@ class MaterialRepository implements IMaterialRepository {
       : _config = config;
 
   final ConfigRepository _config;
+
+  @override
+  Future<List<Material>> searchMaterials(String query) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/materials/search',
+        method: 'GET',
+        queryParameters: {
+          'q': query,
+        },
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw MaterialException(message: 'Response is null');
+      }
+      final materialsJson = response.data!['data'] as List<dynamic>;
+
+      return materialsJson.map((e) => Material.fromJson(e)).toList();
+    } on RequestException catch (e) {
+      throw MaterialException(message: e.message);
+    }
+  }
+
+  @override
+  Future<List<Material>> deleteMaterials(List<int> ids) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/materials/delete',
+        method: 'DELETE',
+        data: {'materials': ids},
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw MaterialException(message: 'No data found');
+      }
+
+      final materialsJson = response.data!['data'] as List<dynamic>;
+
+      final List<Material> materials =
+          materialsJson.map((material) => Material.fromJson(material)).toList();
+
+      return materials;
+    } on RequestException catch (e) {
+      throw MaterialException(message: e.message);
+    }
+  }
 
   @override
   Future<void> addMaterial(Material material) async {
@@ -74,11 +124,24 @@ class MaterialRepository implements IMaterialRepository {
   }
 
   @override
-  Future<List<Material>> getMaterials() async {
+  Future<List<Material>> getMaterials([
+    int? categoryId,
+    MaterialSort sort = MaterialSort.lastModified,
+    SortOrder order = SortOrder.desc,
+  ]) async {
     try {
+      final queryParams = categoryId != null
+          ? {
+              'category_id': categoryId,
+              'sort_by': sort.value,
+              'order_by': order.value
+            }
+          : {'sort_by': sort.value, 'order_by': order.value};
+
       final response = await _config.makeRequest<Map<String, dynamic>>(
         '/materials/user',
         method: 'GET',
+        queryParameters: queryParams,
         withAuthorization: true,
       );
 
@@ -106,8 +169,8 @@ class MaterialRepository implements IMaterialRepository {
         data: {
           'name': material.name,
           'description': material.description,
-          'quantity': material.quantity,
           'category_id': material.materialCategory.id,
+          'quantity': material.quantity,
           'image_url': material.imageUrl,
         },
         withAuthorization: true,
