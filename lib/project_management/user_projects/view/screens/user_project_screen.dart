@@ -1,8 +1,12 @@
+import 'package:config_repository/config_repository.dart';
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
+import 'package:craftmate_client/project_management/components/asc_desc_button.dart';
+import 'package:craftmate_client/project_management/components/filter_dropdown.dart';
+import 'package:craftmate_client/project_management/components/sort_button.dart';
 import 'package:craftmate_client/project_management/user_projects/bloc/selection/selection_bloc.dart';
 import 'package:craftmate_client/project_management/user_projects/bloc/user_project/user_project_bloc.dart';
 import 'package:craftmate_client/project_management/user_projects/search/view/search_page.dart';
@@ -64,12 +68,12 @@ class UserProjectScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const FilterDropdown(),
+                  const _FilterDropdown(),
                   Row(
                     children: [
                       BlocBuilder<UserProjectBloc, UserProjectState>(
                         builder: (context, state) {
-                          return SortButton(
+                          return _SortButton(
                             label: state.sort.label,
                             onSortChanged: (sort) {
                               context.read<UserProjectBloc>().add(
@@ -184,9 +188,8 @@ class UserProjectScreen extends StatelessWidget {
   }
 }
 
-class SortButton extends StatelessWidget {
-  const SortButton({
-    super.key,
+class _SortButton extends StatelessWidget {
+  const _SortButton({
     required this.label,
     required this.onSortChanged,
     required this.selectedSort,
@@ -198,65 +201,22 @@ class SortButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton.icon(
-      iconAlignment: IconAlignment.end,
-      onPressed: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            final theme = Theme.of(context);
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Sort by',
-                    style: theme.textTheme.titleMedium,
-                  ),
-                ),
-                ...ProjectSort.values.map((sort) {
-                  final isSelected = sort == selectedSort;
-
-                  return ListTile(
-                    selectedTileColor:
-                        theme.colorScheme.surfaceContainerHighest,
-                    selectedColor: theme.colorScheme.onSurface,
-                    selected: isSelected,
-                    title: Text(sort.label),
-                    leading: Icon(sort.icon),
-                    onTap: () {
-                      onSortChanged(sort);
-                      Navigator.of(context).pop();
-                    },
-                  );
-                }),
-              ],
-            );
-          },
-        );
-      },
-      label: Text(label),
-      icon: const Icon(Icons.arrow_drop_down),
-    );
-  }
-}
-
-class AscDescButton extends StatelessWidget {
-  const AscDescButton({
-    super.key,
-    this.isAsc = false,
-    required this.onOrderChanged,
-  });
-
-  final bool isAsc;
-  final void Function() onOrderChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: onOrderChanged,
-      icon: Icon(isAsc ? Icons.arrow_upward : Icons.arrow_downward),
+    return SortButton(
+      label: label,
+      selectedSort: selectedSort,
+      items: ProjectSort.values
+          .map(
+            (sort) => SortOption(
+              title: Text(sort.label),
+              leading: Icon(sort.icon),
+              onTap: () {
+                onSortChanged(sort);
+                Navigator.of(context).pop();
+              },
+              selected: sort == selectedSort,
+            ),
+          )
+          .toList(),
     );
   }
 }
@@ -514,35 +474,14 @@ class _UserProjectListState extends State<UserProjectList> {
   }
 }
 
-class FilterDropdown extends StatelessWidget {
-  const FilterDropdown({
-    super.key,
-  });
+class _FilterDropdown extends StatelessWidget {
+  const _FilterDropdown();
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return DropdownMenu<ProjectFilter>(
-      onSelected: (filter) {
-        if (filter == null) {
-          return;
-        }
-        _onSelected(context, filter);
-      },
-      leadingIcon: const Icon(Icons.filter_list),
-      textStyle: theme.textTheme.titleSmall,
+    return FilterDropdown<ProjectFilter>(
       initialSelection: ProjectFilter.all,
-      inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14.0),
-        ),
-        isDense: true,
-        constraints: BoxConstraints.tight(
-          const Size.fromHeight(40.0),
-        ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-      ),
-      dropdownMenuEntries: ProjectFilter.values
+      items: ProjectFilter.values
           .map(
             (visibility) => DropdownMenuEntry(
               value: visibility,
@@ -550,6 +489,12 @@ class FilterDropdown extends StatelessWidget {
             ),
           )
           .toList(),
+      onSelected: (value) {
+        if (value == null) {
+          return;
+        }
+        _onSelected(context, value);
+      },
     );
   }
 

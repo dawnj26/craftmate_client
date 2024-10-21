@@ -167,6 +167,21 @@ class EditMaterialScreen extends StatelessWidget {
             ),
           ],
         );
+      case Error(message: final msg):
+        Navigator.pop(context);
+        Modal.instance.showConfirmationModal(
+          context: context,
+          title: 'Error',
+          content: Text(msg),
+          actions: [
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
       default:
         break;
     }
@@ -184,10 +199,6 @@ class _EditMaterialBody extends StatelessWidget {
           case Loading():
             return const Center(
               child: CircularProgressIndicator(),
-            );
-          case Error(message: final msg):
-            return Center(
-              child: Text(msg),
             );
           default:
             return EditForm(materialCategories: state.categories);

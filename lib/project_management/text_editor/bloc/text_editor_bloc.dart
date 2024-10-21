@@ -108,7 +108,7 @@ class TextEditorBloc extends Bloc<TextEditorEvent, TextEditorState> {
       );
 
       emit(
-        TextEditorState.loaded(
+        TextEditorState.normal(
           controllers: newControllers,
           descriptionController: description,
         ),
@@ -117,7 +117,7 @@ class TextEditorBloc extends Bloc<TextEditorEvent, TextEditorState> {
     }
 
     emit(
-      TextEditorState.loaded(
+      TextEditorState.normal(
         controllers: newControllers,
         descriptionController: TextEditorController(
           quillController: QuillController.basic(),
@@ -173,7 +173,7 @@ class TextEditorBloc extends Bloc<TextEditorEvent, TextEditorState> {
       event.controller.insertImageBlock(imageSource: imageUrl);
 
       emit(
-        TextEditorState.normal(
+        TextEditorState.loaded(
           controllers: List.of(state.controllers),
           descriptionController: state.descriptionController,
         ),
@@ -207,7 +207,7 @@ class TextEditorBloc extends Bloc<TextEditorEvent, TextEditorState> {
       event.controller.insertVideoBlock(videoUrl: videoUrl);
 
       emit(
-        TextEditorState.normal(
+        TextEditorState.loaded(
           controllers: List.of(state.controllers),
           descriptionController: state.descriptionController,
         ),

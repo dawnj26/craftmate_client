@@ -55,7 +55,7 @@ class ContentEditor extends StatelessWidget {
           ],
         );
       },
-      normal: (_, __) => nav.pop(),
+      loaded: (_, __) => nav.pop(),
     );
   }
 }

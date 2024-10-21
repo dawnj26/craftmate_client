@@ -312,6 +312,7 @@ class _MaterialInfo extends StatelessWidget {
                 ],
               ),
             ),
+            const Gap(12.0),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

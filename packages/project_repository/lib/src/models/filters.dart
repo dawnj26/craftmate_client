@@ -23,8 +23,6 @@ enum ProjectSort {
   final IconData icon;
 }
 
-enum SortOrder { asc, desc }
-
 extension ProjectSortExtension on ProjectSort {
   String get value {
     switch (this) {
@@ -40,8 +38,4 @@ extension ProjectSortExtension on ProjectSort {
         return 'comment_count';
     }
   }
-}
-
-extension SortOrderExtension on SortOrder {
-  String get value => this == SortOrder.asc ? 'asc' : 'desc';
 }

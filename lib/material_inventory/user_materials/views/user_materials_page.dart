@@ -1,3 +1,4 @@
+import 'package:craftmate_client/material_inventory/user_materials/bloc/selection/material_selection_bloc.dart';
 import 'package:craftmate_client/material_inventory/user_materials/bloc/user_material/user_material_bloc.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/screens/user_materials_screen.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,17 @@ class UserMaterialsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => UserMaterialBloc(
-        materialRepository: context.read<MaterialRepository>(),
-      )..add(const UserMaterialEvent.started()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => UserMaterialBloc(
+            materialRepository: context.read<MaterialRepository>(),
+          )..add(const UserMaterialEvent.started()),
+        ),
+        BlocProvider(
+          create: (context) => MaterialSelectionBloc(),
+        ),
+      ],
       child: const UserMaterialsScreen(),
     );
   }

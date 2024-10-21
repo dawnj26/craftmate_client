@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:config_repository/config_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:stream_transform/stream_transform.dart';
