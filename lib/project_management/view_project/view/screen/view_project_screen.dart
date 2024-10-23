@@ -1,16 +1,21 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
+import 'package:craftmate_client/material_inventory/user_materials/views/screens/screens.dart';
+import 'package:craftmate_client/material_inventory/user_materials/views/screens/user_materials_screen.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/bloc/comment_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/view/comment_modal.dart';
 import 'package:craftmate_client/project_management/view_project/project_settings/view/settings_page.dart';
 import 'package:craftmate_client/project_management/view_project/view/components/components.dart';
+import 'package:craftmate_client/project_management/view_project/view/components/fork_link.dart';
+import 'package:craftmate_client/project_management/view_project/view/view_project_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:material_repository/material_repository.dart' as m;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -261,6 +266,18 @@ class _ProjectBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ProjectBodySection(
+            sectionName: 'Materials',
+            canEdit: canEdit,
+            onPressed: () {},
+          ),
+          const Divider(),
+          BlocBuilder<ViewProjectBloc, ViewProjectState>(
+            builder: (context, state) {
+              final materials = state.project.materials ?? [];
+              return ProjectMaterials(materials: materials);
+            },
+          ),
+          ProjectBodySection(
             sectionName: 'Recipe',
             type: EditProjectType.description,
             canEdit: canEdit,
@@ -288,6 +305,47 @@ class _ProjectBody extends StatelessWidget {
     final noContent = json.length == 1 && content.length == 1;
 
     return noContent;
+  }
+}
+
+class ProjectMaterials extends StatelessWidget {
+  const ProjectMaterials({super.key, required this.materials});
+
+  final List<m.Material> materials;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    if (materials.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Text(
+          'No materials',
+          style: theme.textTheme.titleMedium?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: List.generate(
+        materials.length,
+        (index) {
+          final material = materials[index];
+          return MaterialCard(
+            material: material,
+            trailing: const SizedBox.shrink(),
+            onTap: () {
+              Navigator.push(
+                context,
+                ViewMaterialScreen.route(materialId: material.id),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }
 
