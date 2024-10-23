@@ -10,6 +10,26 @@ final class ProjectApi {
 
   ProjectApi({required ConfigRepository config}) : _config = config;
 
+  Future<int> forkProject(int materialId) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/project/$materialId/fork',
+        method: 'POST',
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      return response.data!['data']['projectId'];
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
   Future<void> viewProjectById(int id) async {
     try {
       await _config.makeRequest<void>(
