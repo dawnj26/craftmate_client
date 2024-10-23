@@ -279,8 +279,23 @@ class _ProjectBody extends StatelessWidget {
           ),
           ProjectBodySection(
             sectionName: 'Recipe',
-            type: EditProjectType.description,
             canEdit: canEdit,
+            onPressed: () {
+              Navigator.push(
+                context,
+                EditProjectPage.route(
+                  BlocProvider.of<ViewProjectBloc>(context).state.project,
+                ),
+              ).then(
+                (_) {
+                  if (context.mounted) {
+                    context.read<ViewProjectBloc>().add(
+                          const ViewProjectReloaded(),
+                        );
+                  }
+                },
+              );
+            },
           ),
           const Divider(),
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
@@ -353,13 +368,13 @@ class ProjectBodySection extends StatelessWidget {
   const ProjectBodySection({
     super.key,
     required this.sectionName,
-    required this.type,
     required this.canEdit,
+    this.onPressed,
   });
 
   final String sectionName;
-  final EditProjectType type;
   final bool canEdit;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -381,22 +396,7 @@ class ProjectBodySection extends StatelessWidget {
             ),
             const Spacer(),
             IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  EditProjectPage.route(
-                    BlocProvider.of<ViewProjectBloc>(context).state.project,
-                  ),
-                ).then(
-                  (_) {
-                    if (context.mounted) {
-                      context.read<ViewProjectBloc>().add(
-                            const ViewProjectReloaded(),
-                          );
-                    }
-                  },
-                );
-              },
+              onPressed: onPressed,
               icon: const Icon(Icons.edit),
             ),
           ]
