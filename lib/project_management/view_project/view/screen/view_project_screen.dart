@@ -207,6 +207,9 @@ class ViewProjectScreen extends StatelessWidget {
         Navigator.of(context).pop();
       }
       Navigator.of(context).pop();
+    } else if (state is ViewProjectForkSuccess) {
+      Navigator.of(context).pop();
+      Navigator.push(context, ViewProjectPage.route(state.projectId));
     }
   }
 }
@@ -437,15 +440,9 @@ class _ProjectCardHeader extends StatelessWidget {
             initialName: creator.name[0].toUpperCase(),
             fullName: creator.name,
             updatedAt: project.updatedAt,
+            visibility: project.visibility,
           ),
-          const Gap(16.0),
-          if (project.fork != null)
-            Text(
-              'Forked from ${project.fork!.title}',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ),
+          if (project.fork != null) ForkLink(fork: project.fork!),
           const Gap(8.0),
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
             buildWhen: (previous, current) =>
@@ -507,10 +504,6 @@ class _ActionButtons extends StatelessWidget {
             project: context.read<ViewProjectBloc>().state.project,
           ),
           icon: const Icon(Icons.mode_comment_outlined),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.transform),
         ),
       ],
     );
