@@ -60,3 +60,16 @@ final class ViewProjectRefreshSuccess extends ViewProjectState {
     required super.project,
   });
 }
+
+final class ViewProjectForkSuccess extends ViewProjectState {
+  const ViewProjectForkSuccess({
+    required super.project,
+    required this.projectId,
+  });
+
+  final int projectId;
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [projectId];
+}
