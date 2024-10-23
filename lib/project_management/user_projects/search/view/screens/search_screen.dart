@@ -176,7 +176,8 @@ class SearchList extends StatelessWidget {
                   project: project,
                   onLongPress: () {},
                   onTap: () {
-                    Navigator.of(context).push(ViewProjectPage.route(project));
+                    Navigator.of(context)
+                        .push(ViewProjectPage.route(project.id));
                   },
                   showTrailing: false,
                 );

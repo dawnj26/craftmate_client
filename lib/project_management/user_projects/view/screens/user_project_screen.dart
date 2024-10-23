@@ -391,7 +391,7 @@ class _UserProjectListState extends State<UserProjectList> {
                     },
                     onTap: () {
                       Navigator.of(context).push(
-                        ViewProjectPage.route(project),
+                        ViewProjectPage.route(project.id),
                       );
                     },
                   );
@@ -445,7 +445,7 @@ class _UserProjectListState extends State<UserProjectList> {
                     },
                     onTap: () {
                       Navigator.of(context).push(
-                        ViewProjectPage.route(project),
+                        ViewProjectPage.route(project.id),
                       );
                     },
                   );
