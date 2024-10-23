@@ -40,6 +40,7 @@ mixin _$Project {
   List<Step>? get steps => throw _privateConstructorUsedError;
   String? get imageUrl => throw _privateConstructorUsedError;
   ProjectFork? get fork => throw _privateConstructorUsedError;
+  List<Material>? get materials => throw _privateConstructorUsedError;
 
   /// Serializes this Project to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -72,7 +73,8 @@ abstract class $ProjectCopyWith<$Res> {
       List<Tag>? tags,
       List<Step>? steps,
       String? imageUrl,
-      ProjectFork? fork});
+      ProjectFork? fork,
+      List<Material>? materials});
 
   $UserCopyWith<$Res> get creator;
   $ProjectForkCopyWith<$Res>? get fork;
@@ -110,6 +112,7 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
     Object? steps = freezed,
     Object? imageUrl = freezed,
     Object? fork = freezed,
+    Object? materials = freezed,
   }) {
     return _then(_value.copyWith(
       creator: null == creator
@@ -180,6 +183,10 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
           ? _value.fork
           : fork // ignore: cast_nullable_to_non_nullable
               as ProjectFork?,
+      materials: freezed == materials
+          ? _value.materials
+          : materials // ignore: cast_nullable_to_non_nullable
+              as List<Material>?,
     ) as $Val);
   }
 
@@ -232,7 +239,8 @@ abstract class _$$ProjectImplCopyWith<$Res> implements $ProjectCopyWith<$Res> {
       List<Tag>? tags,
       List<Step>? steps,
       String? imageUrl,
-      ProjectFork? fork});
+      ProjectFork? fork,
+      List<Material>? materials});
 
   @override
   $UserCopyWith<$Res> get creator;
@@ -270,6 +278,7 @@ class __$$ProjectImplCopyWithImpl<$Res>
     Object? steps = freezed,
     Object? imageUrl = freezed,
     Object? fork = freezed,
+    Object? materials = freezed,
   }) {
     return _then(_$ProjectImpl(
       creator: null == creator
@@ -340,6 +349,10 @@ class __$$ProjectImplCopyWithImpl<$Res>
           ? _value.fork
           : fork // ignore: cast_nullable_to_non_nullable
               as ProjectFork?,
+      materials: freezed == materials
+          ? _value._materials
+          : materials // ignore: cast_nullable_to_non_nullable
+              as List<Material>?,
     ));
   }
 }
@@ -364,10 +377,12 @@ class _$ProjectImpl implements _Project {
       final List<Tag>? tags,
       final List<Step>? steps,
       this.imageUrl,
-      this.fork})
+      this.fork,
+      final List<Material>? materials})
       : _description = description,
         _tags = tags,
-        _steps = steps;
+        _steps = steps,
+        _materials = materials;
 
   factory _$ProjectImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProjectImplFromJson(json);
@@ -442,10 +457,19 @@ class _$ProjectImpl implements _Project {
   final String? imageUrl;
   @override
   final ProjectFork? fork;
+  final List<Material>? _materials;
+  @override
+  List<Material>? get materials {
+    final value = _materials;
+    if (value == null) return null;
+    if (_materials is EqualUnmodifiableListView) return _materials;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, viewCount: $viewCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl, fork: $fork)';
+    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, viewCount: $viewCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl, fork: $fork, materials: $materials)';
   }
 
   @override
@@ -479,7 +503,9 @@ class _$ProjectImpl implements _Project {
             const DeepCollectionEquality().equals(other._steps, _steps) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
-            (identical(other.fork, fork) || other.fork == fork));
+            (identical(other.fork, fork) || other.fork == fork) &&
+            const DeepCollectionEquality()
+                .equals(other._materials, _materials));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -502,7 +528,8 @@ class _$ProjectImpl implements _Project {
       const DeepCollectionEquality().hash(_tags),
       const DeepCollectionEquality().hash(_steps),
       imageUrl,
-      fork);
+      fork,
+      const DeepCollectionEquality().hash(_materials));
 
   /// Create a copy of Project
   /// with the given fields replaced by the non-null parameter values.
@@ -538,7 +565,8 @@ abstract class _Project implements Project {
       final List<Tag>? tags,
       final List<Step>? steps,
       final String? imageUrl,
-      final ProjectFork? fork}) = _$ProjectImpl;
+      final ProjectFork? fork,
+      final List<Material>? materials}) = _$ProjectImpl;
 
   factory _Project.fromJson(Map<String, dynamic> json) = _$ProjectImpl.fromJson;
 
@@ -579,6 +607,8 @@ abstract class _Project implements Project {
   String? get imageUrl;
   @override
   ProjectFork? get fork;
+  @override
+  List<Material>? get materials;
 
   /// Create a copy of Project
   /// with the given fields replaced by the non-null parameter values.

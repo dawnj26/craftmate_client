@@ -42,7 +42,7 @@ class BlankProjectCreateScreen extends StatelessWidget {
     } else if (state is BlankProjectSuccess) {
       Navigator.of(context).pop();
       Navigator.of(context)
-          .pushReplacement(ViewProjectPage.route(state.project));
+          .pushReplacement(ViewProjectPage.route(state.project.id));
     }
   }
 

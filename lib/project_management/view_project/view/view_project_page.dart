@@ -8,15 +8,15 @@ import 'package:project_repository/project_repository.dart';
 class ViewProjectPage extends StatelessWidget {
   const ViewProjectPage({
     super.key,
-    required this.project,
+    required this.projectId,
   });
 
-  final Project project;
+  final int projectId;
 
-  static Route<Project> route(Project project) {
+  static Route<Project> route(int projectId) {
     return PageTransition.effect.slideFromRightToLeft<Project>(
       ViewProjectPage(
-        project: project,
+        projectId: projectId,
       ),
     );
   }
@@ -26,7 +26,7 @@ class ViewProjectPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ViewProjectBloc(
         projectRepository: context.read<ProjectRepository>(),
-        projectId: project.id,
+        projectId: projectId,
       )..add(const ViewProjectViewed()),
       child: const ViewProjectScreen(),
     );

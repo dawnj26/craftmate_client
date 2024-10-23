@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:material_repository/material_repository.dart';
 import 'package:project_repository/src/models/project/fork/project_fork.dart';
 import 'package:project_repository/src/models/step/step.dart';
 import 'package:project_repository/src/models/tag/tag.dart';
@@ -35,6 +36,7 @@ class Project with _$Project {
     List<Step>? steps,
     String? imageUrl,
     ProjectFork? fork,
+    List<Material>? materials,
   }) = _Project;
 
   factory Project.empty() => Project(

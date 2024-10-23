@@ -1,16 +1,21 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
+import 'package:craftmate_client/material_inventory/user_materials/views/screens/screens.dart';
+import 'package:craftmate_client/material_inventory/user_materials/views/screens/user_materials_screen.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/bloc/comment_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/view/comment_modal.dart';
 import 'package:craftmate_client/project_management/view_project/project_settings/view/settings_page.dart';
 import 'package:craftmate_client/project_management/view_project/view/components/components.dart';
+import 'package:craftmate_client/project_management/view_project/view/components/fork_link.dart';
+import 'package:craftmate_client/project_management/view_project/view/view_project_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:material_repository/material_repository.dart' as m;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -202,6 +207,9 @@ class ViewProjectScreen extends StatelessWidget {
         Navigator.of(context).pop();
       }
       Navigator.of(context).pop();
+    } else if (state is ViewProjectForkSuccess) {
+      Navigator.of(context).pop();
+      Navigator.push(context, ViewProjectPage.route(state.projectId));
     }
   }
 }
@@ -261,9 +269,36 @@ class _ProjectBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ProjectBodySection(
-            sectionName: 'Recipe',
-            type: EditProjectType.description,
+            sectionName: 'Materials',
             canEdit: canEdit,
+            onPressed: () {},
+          ),
+          const Divider(),
+          BlocBuilder<ViewProjectBloc, ViewProjectState>(
+            builder: (context, state) {
+              final materials = state.project.materials ?? [];
+              return ProjectMaterials(materials: materials);
+            },
+          ),
+          ProjectBodySection(
+            sectionName: 'Recipe',
+            canEdit: canEdit,
+            onPressed: () {
+              Navigator.push(
+                context,
+                EditProjectPage.route(
+                  BlocProvider.of<ViewProjectBloc>(context).state.project,
+                ),
+              ).then(
+                (_) {
+                  if (context.mounted) {
+                    context.read<ViewProjectBloc>().add(
+                          const ViewProjectReloaded(),
+                        );
+                  }
+                },
+              );
+            },
           ),
           const Divider(),
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
@@ -291,17 +326,58 @@ class _ProjectBody extends StatelessWidget {
   }
 }
 
+class ProjectMaterials extends StatelessWidget {
+  const ProjectMaterials({super.key, required this.materials});
+
+  final List<m.Material> materials;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    if (materials.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Text(
+          'No materials',
+          style: theme.textTheme.titleMedium?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: List.generate(
+        materials.length,
+        (index) {
+          final material = materials[index];
+          return MaterialCard(
+            material: material,
+            trailing: const SizedBox.shrink(),
+            onTap: () {
+              Navigator.push(
+                context,
+                ViewMaterialScreen.route(materialId: material.id),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
 class ProjectBodySection extends StatelessWidget {
   const ProjectBodySection({
     super.key,
     required this.sectionName,
-    required this.type,
     required this.canEdit,
+    this.onPressed,
   });
 
   final String sectionName;
-  final EditProjectType type;
   final bool canEdit;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -323,22 +399,7 @@ class ProjectBodySection extends StatelessWidget {
             ),
             const Spacer(),
             IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  EditProjectPage.route(
-                    BlocProvider.of<ViewProjectBloc>(context).state.project,
-                  ),
-                ).then(
-                  (_) {
-                    if (context.mounted) {
-                      context.read<ViewProjectBloc>().add(
-                            const ViewProjectReloaded(),
-                          );
-                    }
-                  },
-                );
-              },
+              onPressed: onPressed,
               icon: const Icon(Icons.edit),
             ),
           ]
@@ -379,15 +440,9 @@ class _ProjectCardHeader extends StatelessWidget {
             initialName: creator.name[0].toUpperCase(),
             fullName: creator.name,
             updatedAt: project.updatedAt,
+            visibility: project.visibility,
           ),
-          const Gap(16.0),
-          if (project.fork != null)
-            Text(
-              'Forked from ${project.fork!.title}',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ),
+          if (project.fork != null) ForkLink(fork: project.fork!),
           const Gap(8.0),
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
             buildWhen: (previous, current) =>
@@ -449,10 +504,6 @@ class _ActionButtons extends StatelessWidget {
             project: context.read<ViewProjectBloc>().state.project,
           ),
           icon: const Icon(Icons.mode_comment_outlined),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.transform),
         ),
       ],
     );

@@ -40,3 +40,7 @@ final class ViewProjectReloaded extends ViewProjectEvent {
 final class ViewProjectViewed extends ViewProjectEvent {
   const ViewProjectViewed();
 }
+
+final class ViewProjectForked extends ViewProjectEvent {
+  const ViewProjectForked();
+}
