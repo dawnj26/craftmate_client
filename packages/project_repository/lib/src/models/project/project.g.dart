@@ -35,6 +35,9 @@ _$ProjectImpl _$$ProjectImplFromJson(Map<String, dynamic> json) =>
       fork: json['fork'] == null
           ? null
           : ProjectFork.fromJson(json['fork'] as Map<String, dynamic>),
+      materials: (json['materials'] as List<dynamic>?)
+          ?.map((e) => Material.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$ProjectImplToJson(_$ProjectImpl instance) =>
@@ -56,6 +59,7 @@ Map<String, dynamic> _$$ProjectImplToJson(_$ProjectImpl instance) =>
       'steps': instance.steps,
       'imageUrl': instance.imageUrl,
       'fork': instance.fork,
+      'materials': instance.materials,
     };
 
 const _$ProjectVisibilityEnumMap = {
