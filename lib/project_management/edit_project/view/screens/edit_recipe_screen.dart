@@ -1,6 +1,6 @@
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
-import 'package:craftmate_client/project_management/edit_project/bloc/edit_project_bloc.dart';
+import 'package:craftmate_client/project_management/edit_project/bloc/recipe/edit_project_bloc.dart';
 import 'package:craftmate_client/project_management/text_editor/bloc/text_editor_bloc.dart';
 import 'package:craftmate_client/project_management/text_editor/view/text_editor_page.dart';
 import 'package:flutter/material.dart';
