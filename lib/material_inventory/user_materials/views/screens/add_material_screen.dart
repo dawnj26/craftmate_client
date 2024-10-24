@@ -10,11 +10,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:material_repository/material_repository.dart' as m;
 
 class AddMaterialScreen extends StatelessWidget {
-  const AddMaterialScreen({super.key});
+  const AddMaterialScreen({super.key, this.onMaterialAdded});
 
-  static Route<void> route() {
+  final void Function(int materialId)? onMaterialAdded;
+
+  static Route<void> route([void Function(int materialId)? onMaterialAdded]) {
     return PageTransition.effect.slideFromRightToLeft(
-      const AddMaterialScreen(),
+      AddMaterialScreen(
+        onMaterialAdded: onMaterialAdded,
+      ),
     );
   }
 
@@ -24,13 +28,17 @@ class AddMaterialScreen extends StatelessWidget {
       create: (context) => AddMaterialBloc(
         materialRepo: RepositoryProvider.of<m.MaterialRepository>(context),
       )..add(const AddMaterialEvent.started()),
-      child: const AddMaterialForm(),
+      child: AddMaterialForm(
+        onMaterialAdded: onMaterialAdded,
+      ),
     );
   }
 }
 
 class AddMaterialForm extends StatelessWidget {
-  const AddMaterialForm({super.key});
+  const AddMaterialForm({super.key, this.onMaterialAdded});
+
+  final void Function(int materialId)? onMaterialAdded;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +52,7 @@ class AddMaterialForm extends StatelessWidget {
           uploaded: (_, __, ___, ____, _____, ______) {
             Navigator.pop(context);
           },
-          success: (_, __, ___, ____, _____, ______) {
+          success: (_, __, ___, ____, _____, ______, materialId) {
             Navigator.pop(context);
             Modal.instance.showConfirmationModal(
               context: context,
@@ -55,6 +63,7 @@ class AddMaterialForm extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                     Navigator.pop(context);
+                    onMaterialAdded?.call(materialId);
                   },
                   child: const Text('Close'),
                 ),
