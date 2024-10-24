@@ -271,7 +271,23 @@ class _ProjectBody extends StatelessWidget {
           ProjectBodySection(
             sectionName: 'Materials',
             canEdit: canEdit,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                EditProjectMaterialsPage.route(
+                  project.materials ?? [],
+                  project.id,
+                ),
+              ).then(
+                (_) {
+                  if (context.mounted) {
+                    context.read<ViewProjectBloc>().add(
+                          const ViewProjectReloaded(),
+                        );
+                  }
+                },
+              );
+            },
           ),
           const Divider(),
           BlocBuilder<ViewProjectBloc, ViewProjectState>(
@@ -280,6 +296,7 @@ class _ProjectBody extends StatelessWidget {
               return ProjectMaterials(materials: materials);
             },
           ),
+          const Gap(8.0),
           ProjectBodySection(
             sectionName: 'Recipe',
             canEdit: canEdit,
@@ -358,6 +375,14 @@ class ProjectMaterials extends StatelessWidget {
               Navigator.push(
                 context,
                 ViewMaterialScreen.route(materialId: material.id),
+              ).then(
+                (_) {
+                  if (context.mounted) {
+                    context.read<ViewProjectBloc>().add(
+                          const ViewProjectReloaded(),
+                        );
+                  }
+                },
               );
             },
           );
