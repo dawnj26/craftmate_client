@@ -7,7 +7,7 @@ class AddMaterialState with _$AddMaterialState {
     @Default(MaterialDescription.pure()) MaterialDescription description,
     @Default(MaterialCategoryDropdown.pure()) MaterialCategoryDropdown category,
     @Default(1) int quantity,
-    @Default([]) List<MaterialCategory> categories,
+    @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
   }) = _Initial;
   const factory AddMaterialState.loading({
@@ -15,7 +15,7 @@ class AddMaterialState with _$AddMaterialState {
     @Default(MaterialDescription.pure()) MaterialDescription description,
     @Default(MaterialCategoryDropdown.pure()) MaterialCategoryDropdown category,
     @Default(1) int quantity,
-    @Default([]) List<MaterialCategory> categories,
+    @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
   }) = _Loading;
   const factory AddMaterialState.normal({
@@ -23,7 +23,7 @@ class AddMaterialState with _$AddMaterialState {
     @Default(MaterialDescription.pure()) MaterialDescription description,
     @Default(MaterialCategoryDropdown.pure()) MaterialCategoryDropdown category,
     @Default(1) int quantity,
-    @Default([]) List<MaterialCategory> categories,
+    @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
   }) = _Normal;
   const factory AddMaterialState.uploading({
@@ -31,7 +31,7 @@ class AddMaterialState with _$AddMaterialState {
     @Default(MaterialDescription.pure()) MaterialDescription description,
     @Default(MaterialCategoryDropdown.pure()) MaterialCategoryDropdown category,
     @Default(1) int quantity,
-    @Default([]) List<MaterialCategory> categories,
+    @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
   }) = _Uploading;
   const factory AddMaterialState.uploaded({
@@ -39,7 +39,7 @@ class AddMaterialState with _$AddMaterialState {
     @Default(MaterialDescription.pure()) MaterialDescription description,
     @Default(MaterialCategoryDropdown.pure()) MaterialCategoryDropdown category,
     @Default(1) int quantity,
-    @Default([]) List<MaterialCategory> categories,
+    @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
   }) = _Uploaded;
   const factory AddMaterialState.success({
@@ -47,8 +47,9 @@ class AddMaterialState with _$AddMaterialState {
     @Default(MaterialDescription.pure()) MaterialDescription description,
     @Default(MaterialCategoryDropdown.pure()) MaterialCategoryDropdown category,
     @Default(1) int quantity,
-    @Default([]) List<MaterialCategory> categories,
+    @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
+    @Default(0) int materialId,
   }) = _Success;
   const factory AddMaterialState.error(
     String message, {
@@ -56,7 +57,7 @@ class AddMaterialState with _$AddMaterialState {
     @Default(MaterialDescription.pure()) MaterialDescription description,
     @Default(MaterialCategoryDropdown.pure()) MaterialCategoryDropdown category,
     @Default(1) int quantity,
+    @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
-    @Default([]) List<MaterialCategory> categories,
   }) = _Error;
 }

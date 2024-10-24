@@ -1295,7 +1295,8 @@ mixin _$AddMaterialState {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)
+            String? imagePath,
+            int materialId)
         success,
     required TResult Function(
             String message,
@@ -1303,8 +1304,8 @@ mixin _$AddMaterialState {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)
+            List<MaterialCategory> categories,
+            String? imagePath)
         error,
   }) =>
       throw _privateConstructorUsedError;
@@ -1356,7 +1357,8 @@ mixin _$AddMaterialState {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult? Function(
             String message,
@@ -1364,8 +1366,8 @@ mixin _$AddMaterialState {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
   }) =>
       throw _privateConstructorUsedError;
@@ -1417,7 +1419,8 @@ mixin _$AddMaterialState {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult Function(
             String message,
@@ -1425,8 +1428,8 @@ mixin _$AddMaterialState {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
     required TResult orElse(),
   }) =>
@@ -1613,7 +1616,7 @@ class _$InitialImpl implements _Initial {
       this.description = const MaterialDescription.pure(),
       this.category = const MaterialCategoryDropdown.pure(),
       this.quantity = 1,
-      final List<MaterialCategory> categories = const [],
+      final List<MaterialCategory> categories = const <MaterialCategory>[],
       this.imagePath})
       : _categories = categories;
 
@@ -1725,7 +1728,8 @@ class _$InitialImpl implements _Initial {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)
+            String? imagePath,
+            int materialId)
         success,
     required TResult Function(
             String message,
@@ -1733,8 +1737,8 @@ class _$InitialImpl implements _Initial {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)
+            List<MaterialCategory> categories,
+            String? imagePath)
         error,
   }) {
     return initial(
@@ -1790,7 +1794,8 @@ class _$InitialImpl implements _Initial {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult? Function(
             String message,
@@ -1798,8 +1803,8 @@ class _$InitialImpl implements _Initial {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
   }) {
     return initial?.call(
@@ -1855,7 +1860,8 @@ class _$InitialImpl implements _Initial {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult Function(
             String message,
@@ -1863,8 +1869,8 @@ class _$InitialImpl implements _Initial {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
     required TResult orElse(),
   }) {
@@ -2026,7 +2032,7 @@ class _$LoadingImpl implements _Loading {
       this.description = const MaterialDescription.pure(),
       this.category = const MaterialCategoryDropdown.pure(),
       this.quantity = 1,
-      final List<MaterialCategory> categories = const [],
+      final List<MaterialCategory> categories = const <MaterialCategory>[],
       this.imagePath})
       : _categories = categories;
 
@@ -2138,7 +2144,8 @@ class _$LoadingImpl implements _Loading {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)
+            String? imagePath,
+            int materialId)
         success,
     required TResult Function(
             String message,
@@ -2146,8 +2153,8 @@ class _$LoadingImpl implements _Loading {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)
+            List<MaterialCategory> categories,
+            String? imagePath)
         error,
   }) {
     return loading(
@@ -2203,7 +2210,8 @@ class _$LoadingImpl implements _Loading {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult? Function(
             String message,
@@ -2211,8 +2219,8 @@ class _$LoadingImpl implements _Loading {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
   }) {
     return loading?.call(
@@ -2268,7 +2276,8 @@ class _$LoadingImpl implements _Loading {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult Function(
             String message,
@@ -2276,8 +2285,8 @@ class _$LoadingImpl implements _Loading {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
     required TResult orElse(),
   }) {
@@ -2439,7 +2448,7 @@ class _$NormalImpl implements _Normal {
       this.description = const MaterialDescription.pure(),
       this.category = const MaterialCategoryDropdown.pure(),
       this.quantity = 1,
-      final List<MaterialCategory> categories = const [],
+      final List<MaterialCategory> categories = const <MaterialCategory>[],
       this.imagePath})
       : _categories = categories;
 
@@ -2551,7 +2560,8 @@ class _$NormalImpl implements _Normal {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)
+            String? imagePath,
+            int materialId)
         success,
     required TResult Function(
             String message,
@@ -2559,8 +2569,8 @@ class _$NormalImpl implements _Normal {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)
+            List<MaterialCategory> categories,
+            String? imagePath)
         error,
   }) {
     return normal(name, description, category, quantity, categories, imagePath);
@@ -2615,7 +2625,8 @@ class _$NormalImpl implements _Normal {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult? Function(
             String message,
@@ -2623,8 +2634,8 @@ class _$NormalImpl implements _Normal {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
   }) {
     return normal?.call(
@@ -2680,7 +2691,8 @@ class _$NormalImpl implements _Normal {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult Function(
             String message,
@@ -2688,8 +2700,8 @@ class _$NormalImpl implements _Normal {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
     required TResult orElse(),
   }) {
@@ -2851,7 +2863,7 @@ class _$UploadingImpl implements _Uploading {
       this.description = const MaterialDescription.pure(),
       this.category = const MaterialCategoryDropdown.pure(),
       this.quantity = 1,
-      final List<MaterialCategory> categories = const [],
+      final List<MaterialCategory> categories = const <MaterialCategory>[],
       this.imagePath})
       : _categories = categories;
 
@@ -2963,7 +2975,8 @@ class _$UploadingImpl implements _Uploading {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)
+            String? imagePath,
+            int materialId)
         success,
     required TResult Function(
             String message,
@@ -2971,8 +2984,8 @@ class _$UploadingImpl implements _Uploading {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)
+            List<MaterialCategory> categories,
+            String? imagePath)
         error,
   }) {
     return uploading(
@@ -3028,7 +3041,8 @@ class _$UploadingImpl implements _Uploading {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult? Function(
             String message,
@@ -3036,8 +3050,8 @@ class _$UploadingImpl implements _Uploading {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
   }) {
     return uploading?.call(
@@ -3093,7 +3107,8 @@ class _$UploadingImpl implements _Uploading {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult Function(
             String message,
@@ -3101,8 +3116,8 @@ class _$UploadingImpl implements _Uploading {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
     required TResult orElse(),
   }) {
@@ -3264,7 +3279,7 @@ class _$UploadedImpl implements _Uploaded {
       this.description = const MaterialDescription.pure(),
       this.category = const MaterialCategoryDropdown.pure(),
       this.quantity = 1,
-      final List<MaterialCategory> categories = const [],
+      final List<MaterialCategory> categories = const <MaterialCategory>[],
       this.imagePath})
       : _categories = categories;
 
@@ -3376,7 +3391,8 @@ class _$UploadedImpl implements _Uploaded {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)
+            String? imagePath,
+            int materialId)
         success,
     required TResult Function(
             String message,
@@ -3384,8 +3400,8 @@ class _$UploadedImpl implements _Uploaded {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)
+            List<MaterialCategory> categories,
+            String? imagePath)
         error,
   }) {
     return uploaded(
@@ -3441,7 +3457,8 @@ class _$UploadedImpl implements _Uploaded {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult? Function(
             String message,
@@ -3449,8 +3466,8 @@ class _$UploadedImpl implements _Uploaded {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
   }) {
     return uploaded?.call(
@@ -3506,7 +3523,8 @@ class _$UploadedImpl implements _Uploaded {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult Function(
             String message,
@@ -3514,8 +3532,8 @@ class _$UploadedImpl implements _Uploaded {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
     required TResult orElse(),
   }) {
@@ -3617,7 +3635,8 @@ abstract class _$$SuccessImplCopyWith<$Res>
       MaterialCategoryDropdown category,
       int quantity,
       List<MaterialCategory> categories,
-      String? imagePath});
+      String? imagePath,
+      int materialId});
 }
 
 /// @nodoc
@@ -3639,6 +3658,7 @@ class __$$SuccessImplCopyWithImpl<$Res>
     Object? quantity = null,
     Object? categories = null,
     Object? imagePath = freezed,
+    Object? materialId = null,
   }) {
     return _then(_$SuccessImpl(
       name: null == name
@@ -3665,6 +3685,10 @@ class __$$SuccessImplCopyWithImpl<$Res>
           ? _value.imagePath
           : imagePath // ignore: cast_nullable_to_non_nullable
               as String?,
+      materialId: null == materialId
+          ? _value.materialId
+          : materialId // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -3677,8 +3701,9 @@ class _$SuccessImpl implements _Success {
       this.description = const MaterialDescription.pure(),
       this.category = const MaterialCategoryDropdown.pure(),
       this.quantity = 1,
-      final List<MaterialCategory> categories = const [],
-      this.imagePath})
+      final List<MaterialCategory> categories = const <MaterialCategory>[],
+      this.imagePath,
+      this.materialId = 0})
       : _categories = categories;
 
   @override
@@ -3704,10 +3729,13 @@ class _$SuccessImpl implements _Success {
 
   @override
   final String? imagePath;
+  @override
+  @JsonKey()
+  final int materialId;
 
   @override
   String toString() {
-    return 'AddMaterialState.success(name: $name, description: $description, category: $category, quantity: $quantity, categories: $categories, imagePath: $imagePath)';
+    return 'AddMaterialState.success(name: $name, description: $description, category: $category, quantity: $quantity, categories: $categories, imagePath: $imagePath, materialId: $materialId)';
   }
 
   @override
@@ -3725,12 +3753,21 @@ class _$SuccessImpl implements _Success {
             const DeepCollectionEquality()
                 .equals(other._categories, _categories) &&
             (identical(other.imagePath, imagePath) ||
-                other.imagePath == imagePath));
+                other.imagePath == imagePath) &&
+            (identical(other.materialId, materialId) ||
+                other.materialId == materialId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, description, category,
-      quantity, const DeepCollectionEquality().hash(_categories), imagePath);
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      description,
+      category,
+      quantity,
+      const DeepCollectionEquality().hash(_categories),
+      imagePath,
+      materialId);
 
   /// Create a copy of AddMaterialState
   /// with the given fields replaced by the non-null parameter values.
@@ -3789,7 +3826,8 @@ class _$SuccessImpl implements _Success {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)
+            String? imagePath,
+            int materialId)
         success,
     required TResult Function(
             String message,
@@ -3797,12 +3835,12 @@ class _$SuccessImpl implements _Success {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)
+            List<MaterialCategory> categories,
+            String? imagePath)
         error,
   }) {
-    return success(
-        name, description, category, quantity, categories, imagePath);
+    return success(name, description, category, quantity, categories, imagePath,
+        materialId);
   }
 
   @override
@@ -3854,7 +3892,8 @@ class _$SuccessImpl implements _Success {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult? Function(
             String message,
@@ -3862,12 +3901,12 @@ class _$SuccessImpl implements _Success {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
   }) {
-    return success?.call(
-        name, description, category, quantity, categories, imagePath);
+    return success?.call(name, description, category, quantity, categories,
+        imagePath, materialId);
   }
 
   @override
@@ -3919,7 +3958,8 @@ class _$SuccessImpl implements _Success {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult Function(
             String message,
@@ -3927,14 +3967,14 @@ class _$SuccessImpl implements _Success {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(
-          name, description, category, quantity, categories, imagePath);
+      return success(name, description, category, quantity, categories,
+          imagePath, materialId);
     }
     return orElse();
   }
@@ -3993,7 +4033,8 @@ abstract class _Success implements AddMaterialState {
       final MaterialCategoryDropdown category,
       final int quantity,
       final List<MaterialCategory> categories,
-      final String? imagePath}) = _$SuccessImpl;
+      final String? imagePath,
+      final int materialId}) = _$SuccessImpl;
 
   @override
   MaterialName get name;
@@ -4007,6 +4048,7 @@ abstract class _Success implements AddMaterialState {
   List<MaterialCategory> get categories;
   @override
   String? get imagePath;
+  int get materialId;
 
   /// Create a copy of AddMaterialState
   /// with the given fields replaced by the non-null parameter values.
@@ -4030,8 +4072,8 @@ abstract class _$$ErrorImplCopyWith<$Res>
       MaterialDescription description,
       MaterialCategoryDropdown category,
       int quantity,
-      String? imagePath,
-      List<MaterialCategory> categories});
+      List<MaterialCategory> categories,
+      String? imagePath});
 }
 
 /// @nodoc
@@ -4052,8 +4094,8 @@ class __$$ErrorImplCopyWithImpl<$Res>
     Object? description = null,
     Object? category = null,
     Object? quantity = null,
-    Object? imagePath = freezed,
     Object? categories = null,
+    Object? imagePath = freezed,
   }) {
     return _then(_$ErrorImpl(
       null == message
@@ -4076,14 +4118,14 @@ class __$$ErrorImplCopyWithImpl<$Res>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as int,
-      imagePath: freezed == imagePath
-          ? _value.imagePath
-          : imagePath // ignore: cast_nullable_to_non_nullable
-              as String?,
       categories: null == categories
           ? _value._categories
           : categories // ignore: cast_nullable_to_non_nullable
               as List<MaterialCategory>,
+      imagePath: freezed == imagePath
+          ? _value.imagePath
+          : imagePath // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -4096,8 +4138,8 @@ class _$ErrorImpl implements _Error {
       this.description = const MaterialDescription.pure(),
       this.category = const MaterialCategoryDropdown.pure(),
       this.quantity = 1,
-      this.imagePath,
-      final List<MaterialCategory> categories = const []})
+      final List<MaterialCategory> categories = const <MaterialCategory>[],
+      this.imagePath})
       : _categories = categories;
 
   @override
@@ -4114,8 +4156,6 @@ class _$ErrorImpl implements _Error {
   @override
   @JsonKey()
   final int quantity;
-  @override
-  final String? imagePath;
   final List<MaterialCategory> _categories;
   @override
   @JsonKey()
@@ -4126,8 +4166,11 @@ class _$ErrorImpl implements _Error {
   }
 
   @override
+  final String? imagePath;
+
+  @override
   String toString() {
-    return 'AddMaterialState.error(message: $message, name: $name, description: $description, category: $category, quantity: $quantity, imagePath: $imagePath, categories: $categories)';
+    return 'AddMaterialState.error(message: $message, name: $name, description: $description, category: $category, quantity: $quantity, categories: $categories, imagePath: $imagePath)';
   }
 
   @override
@@ -4143,10 +4186,10 @@ class _$ErrorImpl implements _Error {
                 other.category == category) &&
             (identical(other.quantity, quantity) ||
                 other.quantity == quantity) &&
-            (identical(other.imagePath, imagePath) ||
-                other.imagePath == imagePath) &&
             const DeepCollectionEquality()
-                .equals(other._categories, _categories));
+                .equals(other._categories, _categories) &&
+            (identical(other.imagePath, imagePath) ||
+                other.imagePath == imagePath));
   }
 
   @override
@@ -4157,8 +4200,8 @@ class _$ErrorImpl implements _Error {
       description,
       category,
       quantity,
-      imagePath,
-      const DeepCollectionEquality().hash(_categories));
+      const DeepCollectionEquality().hash(_categories),
+      imagePath);
 
   /// Create a copy of AddMaterialState
   /// with the given fields replaced by the non-null parameter values.
@@ -4217,7 +4260,8 @@ class _$ErrorImpl implements _Error {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)
+            String? imagePath,
+            int materialId)
         success,
     required TResult Function(
             String message,
@@ -4225,12 +4269,12 @@ class _$ErrorImpl implements _Error {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)
+            List<MaterialCategory> categories,
+            String? imagePath)
         error,
   }) {
     return error(
-        message, name, description, category, quantity, imagePath, categories);
+        message, name, description, category, quantity, categories, imagePath);
   }
 
   @override
@@ -4282,7 +4326,8 @@ class _$ErrorImpl implements _Error {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult? Function(
             String message,
@@ -4290,12 +4335,12 @@ class _$ErrorImpl implements _Error {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
   }) {
     return error?.call(
-        message, name, description, category, quantity, imagePath, categories);
+        message, name, description, category, quantity, categories, imagePath);
   }
 
   @override
@@ -4347,7 +4392,8 @@ class _$ErrorImpl implements _Error {
             MaterialCategoryDropdown category,
             int quantity,
             List<MaterialCategory> categories,
-            String? imagePath)?
+            String? imagePath,
+            int materialId)?
         success,
     TResult Function(
             String message,
@@ -4355,14 +4401,14 @@ class _$ErrorImpl implements _Error {
             MaterialDescription description,
             MaterialCategoryDropdown category,
             int quantity,
-            String? imagePath,
-            List<MaterialCategory> categories)?
+            List<MaterialCategory> categories,
+            String? imagePath)?
         error,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(message, name, description, category, quantity, imagePath,
-          categories);
+      return error(message, name, description, category, quantity, categories,
+          imagePath);
     }
     return orElse();
   }
@@ -4420,8 +4466,8 @@ abstract class _Error implements AddMaterialState {
       final MaterialDescription description,
       final MaterialCategoryDropdown category,
       final int quantity,
-      final String? imagePath,
-      final List<MaterialCategory> categories}) = _$ErrorImpl;
+      final List<MaterialCategory> categories,
+      final String? imagePath}) = _$ErrorImpl;
 
   String get message;
   @override
@@ -4433,9 +4479,9 @@ abstract class _Error implements AddMaterialState {
   @override
   int get quantity;
   @override
-  String? get imagePath;
-  @override
   List<MaterialCategory> get categories;
+  @override
+  String? get imagePath;
 
   /// Create a copy of AddMaterialState
   /// with the given fields replaced by the non-null parameter values.
