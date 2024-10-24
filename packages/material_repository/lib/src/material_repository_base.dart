@@ -3,15 +3,27 @@ import 'package:dio/dio.dart';
 import 'package:material_repository/material_repository.dart';
 
 abstract class IMaterialRepository {
-  Future<List<Material>> getMaterials([int? categoryId]);
+  Future<List<Material>> getMaterials([
+    int? categoryId,
+    MaterialSort sort = MaterialSort.lastModified,
+    SortOrder order = SortOrder.desc,
+  ]);
+  Future<List<Material>> getProjectMaterials(
+    int projectId, [
+    int? categoryId,
+    MaterialSort sort = MaterialSort.lastModified,
+    SortOrder order = SortOrder.desc,
+  ]);
   Future<String> uploadMaterialImage(String path);
   Future<List<MaterialCategory>> getMaterialCategories();
   Future<Material> getMaterial(int id);
-  Future<void> addMaterial(Material material);
+  Future<int> addMaterial(Material material);
   Future<void> updateMaterial(Material material);
   Future<void> deleteMaterial(int id);
   Future<List<Material>> deleteMaterials(List<int> ids);
   Future<List<Material>> searchMaterials(String query);
+  Future<List<Material>> addMaterials(int projectId, List<int> ids);
+  Future<List<Material>> deleteProjectMaterials(int projectId, List<int> ids);
 }
 
 class MaterialRepository implements IMaterialRepository {
@@ -19,6 +31,84 @@ class MaterialRepository implements IMaterialRepository {
       : _config = config;
 
   final ConfigRepository _config;
+
+  @override
+  Future<List<Material>> deleteProjectMaterials(
+      int projectId, List<int> ids) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/project/$projectId/materials/delete',
+        method: 'DELETE',
+        data: {'materials': ids},
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw MaterialException(message: 'No data found');
+      }
+
+      final materialsJson = response.data!['data'] as List<dynamic>;
+
+      final List<Material> materials =
+          materialsJson.map((material) => Material.fromJson(material)).toList();
+
+      return materials;
+    } on RequestException catch (e) {
+      throw MaterialException(message: e.message);
+    }
+  }
+
+  @override
+  Future<List<Material>> addMaterials(int projectId, List<int> ids) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/project/$projectId/materials/add',
+        method: 'POST',
+        data: {'materials': ids},
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw MaterialException(message: 'No data found');
+      }
+
+      final materialsJson = response.data!['data'] as List<dynamic>;
+
+      final List<Material> materials =
+          materialsJson.map((material) => Material.fromJson(material)).toList();
+
+      return materials;
+    } on RequestException catch (e) {
+      throw MaterialException(message: e.message);
+    }
+  }
+
+  @override
+  Future<List<Material>> getProjectMaterials(
+    int projectId, [
+    int? categoryId,
+    MaterialSort sort = MaterialSort.lastModified,
+    SortOrder order = SortOrder.desc,
+  ]) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/materials/project/$projectId',
+        method: 'GET',
+      );
+
+      if (response.data == null) {
+        throw MaterialException(message: 'No data found');
+      }
+
+      final materialsJson = response.data!['data'] as List<dynamic>;
+
+      return materialsJson
+          .map((material) => Material.fromJson(material))
+          .toList();
+    } on RequestException catch (e) {
+      throw MaterialException(message: e.message);
+    }
+  }
 
   @override
   Future<List<Material>> searchMaterials(String query) async {
@@ -69,9 +159,9 @@ class MaterialRepository implements IMaterialRepository {
   }
 
   @override
-  Future<void> addMaterial(Material material) async {
+  Future<int> addMaterial(Material material) async {
     try {
-      await _config.makeRequest<void>(
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         '/material/create',
         method: 'POST',
         data: {
@@ -83,6 +173,11 @@ class MaterialRepository implements IMaterialRepository {
         },
         withAuthorization: true,
       );
+      if (response.data == null) {
+        throw MaterialException(message: 'No data found');
+      }
+
+      return response.data!['data']['id'];
     } on RequestException catch (e) {
       throw MaterialException(message: e.message);
     }

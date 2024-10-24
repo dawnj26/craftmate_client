@@ -1,5 +1,5 @@
 import 'package:craftmate_client/helpers/modal/modal.dart';
-import 'package:craftmate_client/project_management/edit_project/bloc/edit_project_bloc.dart';
+import 'package:craftmate_client/project_management/edit_project/bloc/recipe/edit_project_bloc.dart';
 import 'package:craftmate_client/project_management/text_editor/bloc/text_editor_bloc.dart';
 import 'package:craftmate_client/project_management/text_editor/models/text_editor_controller.dart';
 import 'package:craftmate_client/project_management/text_editor/view/components/recipe_toolbar.dart';

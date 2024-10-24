@@ -66,7 +66,7 @@ class AddMaterialBloc extends Bloc<AddMaterialEvent, AddMaterialState> {
         (element) => element.id == state.category.value,
       );
 
-      await _materialRepository.addMaterial(
+      final materiaId = await _materialRepository.addMaterial(
         Material(
           name: state.name.value,
           description: state.description.value,
@@ -85,6 +85,7 @@ class AddMaterialBloc extends Bloc<AddMaterialEvent, AddMaterialState> {
           categories: state.categories,
           category: state.category,
           imagePath: state.imagePath,
+          materialId: materiaId,
         ),
       );
     } on MaterialException catch (e) {
