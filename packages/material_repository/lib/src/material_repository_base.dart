@@ -12,6 +12,7 @@ abstract class IMaterialRepository {
   Future<List<MaterialCategory>> getMaterialCategories();
   Future<Material> getMaterial(int id);
   Future<void> addMaterial(Material material);
+  Future<int> addMaterial(Material material);
   Future<void> updateMaterial(Material material);
   Future<void> deleteMaterial(int id);
   Future<List<Material>> deleteMaterials(List<int> ids);
@@ -23,6 +24,7 @@ class MaterialRepository implements IMaterialRepository {
       : _config = config;
 
   final ConfigRepository _config;
+
 
   @override
   Future<List<Material>> searchMaterials(String query) async {
@@ -73,9 +75,9 @@ class MaterialRepository implements IMaterialRepository {
   }
 
   @override
-  Future<void> addMaterial(Material material) async {
+  Future<int> addMaterial(Material material) async {
     try {
-      await _config.makeRequest<void>(
+      final response = await _config.makeRequest<Map<String, dynamic>>(
         '/material/create',
         method: 'POST',
         data: {
@@ -87,6 +89,11 @@ class MaterialRepository implements IMaterialRepository {
         },
         withAuthorization: true,
       );
+      if (response.data == null) {
+        throw MaterialException(message: 'No data found');
+      }
+
+      return response.data!['data']['id'];
     } on RequestException catch (e) {
       throw MaterialException(message: e.message);
     }
