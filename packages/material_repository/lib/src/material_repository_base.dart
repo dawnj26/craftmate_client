@@ -3,7 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:material_repository/material_repository.dart';
 
 abstract class IMaterialRepository {
-  Future<List<Material>> getMaterials([int? categoryId]);
+  Future<List<Material>> getMaterials([
+    int? categoryId,
+    MaterialSort sort = MaterialSort.lastModified,
+    SortOrder order = SortOrder.desc,
+  ]);
   Future<String> uploadMaterialImage(String path);
   Future<List<MaterialCategory>> getMaterialCategories();
   Future<Material> getMaterial(int id);
