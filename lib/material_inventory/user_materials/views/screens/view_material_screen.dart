@@ -306,7 +306,7 @@ class _MaterialInfo extends StatelessWidget {
                   ),
                   const Gap(4.0),
                   Text(
-                    _formatDate(material.createdAt),
+                    _formatDate(material.createdAt ?? DateTime.now()),
                     style: theme.textTheme.bodyLarge,
                   ),
                 ],
@@ -323,7 +323,7 @@ class _MaterialInfo extends StatelessWidget {
                   ),
                   const Gap(4.0),
                   Text(
-                    _formatDate(material.updatedAt),
+                    _formatDate(material.updatedAt ?? DateTime.now()),
                     style: theme.textTheme.bodyLarge,
                   ),
                 ],
