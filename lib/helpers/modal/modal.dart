@@ -19,6 +19,24 @@ class Modal {
     );
   }
 
+  void showGeneratingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        final theme = Theme.of(context);
+        return _NonDismissibleDialog(
+          child: AlertDialog(
+            title: const Text('Thinking ideas...'),
+            content: LoadingAnimationWidget.beat(
+              color: theme.colorScheme.primary,
+              size: 48,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Future<bool?> showConfirmationModal({
     required BuildContext context,
     required Widget content,
