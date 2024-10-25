@@ -8,7 +8,7 @@ import 'package:project_repository/src/models/models.dart';
 final class ProjectApi {
   final ConfigRepository _config;
 
-  ProjectApi({required ConfigRepository config}) : _config = config;
+  const ProjectApi({required ConfigRepository config}) : _config = config;
 
   Future<int> forkProject(int materialId) async {
     try {

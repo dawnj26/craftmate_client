@@ -27,8 +27,8 @@ mixin _$Material {
   String? get imageUrl => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
   MaterialCategory get materialCategory => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  DateTime get updatedAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Material to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,8 +53,8 @@ abstract class $MaterialCopyWith<$Res> {
       String? imageUrl,
       int quantity,
       MaterialCategory materialCategory,
-      DateTime createdAt,
-      DateTime updatedAt});
+      DateTime? createdAt,
+      DateTime? updatedAt});
 
   $UserCopyWith<$Res> get user;
   $MaterialCategoryCopyWith<$Res> get materialCategory;
@@ -82,8 +82,8 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
     Object? imageUrl = freezed,
     Object? quantity = null,
     Object? materialCategory = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -114,14 +114,14 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
           ? _value.materialCategory
           : materialCategory // ignore: cast_nullable_to_non_nullable
               as MaterialCategory,
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
+              as DateTime?,
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ) as $Val);
   }
 
@@ -162,8 +162,8 @@ abstract class _$$MaterialImplCopyWith<$Res>
       String? imageUrl,
       int quantity,
       MaterialCategory materialCategory,
-      DateTime createdAt,
-      DateTime updatedAt});
+      DateTime? createdAt,
+      DateTime? updatedAt});
 
   @override
   $UserCopyWith<$Res> get user;
@@ -191,8 +191,8 @@ class __$$MaterialImplCopyWithImpl<$Res>
     Object? imageUrl = freezed,
     Object? quantity = null,
     Object? materialCategory = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_$MaterialImpl(
       id: null == id
@@ -223,14 +223,14 @@ class __$$MaterialImplCopyWithImpl<$Res>
           ? _value.materialCategory
           : materialCategory // ignore: cast_nullable_to_non_nullable
               as MaterialCategory,
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
+              as DateTime?,
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -246,8 +246,8 @@ class _$MaterialImpl implements _Material {
       this.imageUrl,
       this.quantity = 0,
       this.materialCategory = const MaterialCategory(),
-      required this.createdAt,
-      required this.updatedAt});
+      this.createdAt,
+      this.updatedAt});
 
   factory _$MaterialImpl.fromJson(Map<String, dynamic> json) =>
       _$$MaterialImplFromJson(json);
@@ -273,9 +273,9 @@ class _$MaterialImpl implements _Material {
   @JsonKey()
   final MaterialCategory materialCategory;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   @override
   String toString() {
@@ -334,8 +334,8 @@ abstract class _Material implements Material {
       final String? imageUrl,
       final int quantity,
       final MaterialCategory materialCategory,
-      required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$MaterialImpl;
+      final DateTime? createdAt,
+      final DateTime? updatedAt}) = _$MaterialImpl;
 
   factory _Material.fromJson(Map<String, dynamic> json) =
       _$MaterialImpl.fromJson;
@@ -355,9 +355,9 @@ abstract class _Material implements Material {
   @override
   MaterialCategory get materialCategory;
   @override
-  DateTime get createdAt;
+  DateTime? get createdAt;
   @override
-  DateTime get updatedAt;
+  DateTime? get updatedAt;
 
   /// Create a copy of Material
   /// with the given fields replaced by the non-null parameter values.

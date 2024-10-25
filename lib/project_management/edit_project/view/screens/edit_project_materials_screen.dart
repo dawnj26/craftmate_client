@@ -36,7 +36,8 @@ class EditProjectMaterialsScreen extends StatelessWidget {
                         context: context,
                         title: 'Delete materials',
                         content: const Text(
-                            'Are you sure you want to delete these materials?'),
+                          'Are you sure you want to delete these materials?',
+                        ),
                         actions: [
                           TextButton(
                             onPressed: () {
