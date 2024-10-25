@@ -5,3 +5,5 @@ export 'tag/tag.dart';
 export 'comment/comment.dart';
 export 'filters.dart';
 export 'step/step.dart';
+export 'generate/project_suggestion.dart';
+export 'prompt/prompt.dart';
