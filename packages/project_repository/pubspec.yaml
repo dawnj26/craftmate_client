@@ -20,6 +20,7 @@ dependencies:
   material_repository:
     path: ../material_repository
   json_annotation: ^4.9.0
+  shared_preferences: ^2.3.2
   user_repository:
     path: ../user_repository
   # path: ^1.8.0

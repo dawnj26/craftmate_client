@@ -5,6 +5,7 @@ import 'package:config_repository/src/helpers/helpers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:log_collector/log_collector.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfigRepository {
   final String apiUrl;
@@ -12,9 +13,13 @@ class ConfigRepository {
   final LogCollector logger;
   final Dio _dio;
   final ConnectionStatus connectionStatus = ConnectionStatus();
+  final SharedPreferences prefs;
 
-  ConfigRepository({required this.apiUrl, required this.logger})
-      : _storage = const FlutterSecureStorage(),
+  ConfigRepository({
+    required this.apiUrl,
+    required this.logger,
+    required this.prefs,
+  })  : _storage = const FlutterSecureStorage(),
         _dio = Dio() {
     connectionStatus.init();
   }
