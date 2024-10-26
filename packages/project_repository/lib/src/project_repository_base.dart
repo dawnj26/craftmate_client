@@ -47,6 +47,9 @@ abstract class IProjectRepository {
   Future<List<ProjectSuggestion>> generateProjectSuggestion({
     required Prompt prompt,
   });
+  Future<ProjectSuggestion> generateProject(
+      Prompt prompt, ProjectSuggestion suggestion);
+  Future<void> saveSuggestion(ProjectSuggestion suggestion);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -61,6 +64,17 @@ class ProjectRepository implements IProjectRepository {
         _uploadApi = UploadApi(config: config),
         _commentApi = CommentApi(config: config),
         _generateApi = GenerateApi(config: config);
+
+  @override
+  Future<void> saveSuggestion(ProjectSuggestion suggestion) async {
+    return _projectApi.saveSuggestion(suggestion);
+  }
+
+  @override
+  Future<ProjectSuggestion> generateProject(
+      Prompt prompt, ProjectSuggestion suggestion) {
+    return _generateApi.generateProject(prompt, suggestion);
+  }
 
   @override
   Future<List<ProjectSuggestion>> generateProjectSuggestion(
