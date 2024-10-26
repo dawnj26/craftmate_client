@@ -9,15 +9,14 @@ part 'suggest_bloc.freezed.dart';
 class SuggestBloc extends Bloc<SuggestEvent, SuggestState> {
   SuggestBloc({
     required ProjectRepository projectRepo,
-    required Prompt prompt,
+    required this.prompt,
   })  : _projectRepo = projectRepo,
-        _prompt = prompt,
         super(const Initial()) {
     on<_Started>(_onStarted);
     on<_Regenerated>(_onRegenerated);
   }
 
-  final Prompt _prompt;
+  final Prompt prompt;
   final ProjectRepository _projectRepo;
 
   Future<void> _onRegenerated(
@@ -30,7 +29,7 @@ class SuggestBloc extends Bloc<SuggestEvent, SuggestState> {
       );
 
       final suggestions = await _projectRepo.generateProjectSuggestion(
-        prompt: _prompt,
+        prompt: prompt,
       );
       emit(RegenerateSuccess(suggestions: suggestions));
     } on GenerateException catch (e) {
