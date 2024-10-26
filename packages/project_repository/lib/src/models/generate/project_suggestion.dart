@@ -6,7 +6,7 @@ part 'project_suggestion.g.dart';
 
 @freezed
 class ProjectSuggestion with _$ProjectSuggestion {
-  factory ProjectSuggestion({
+  const factory ProjectSuggestion({
     @Default('') String title,
     @Default('') String description,
     List<String>? steps,
