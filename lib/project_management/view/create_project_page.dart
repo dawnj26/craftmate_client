@@ -46,16 +46,16 @@ class CreateProjectPage extends StatelessWidget {
                 navigator.push(GenerateProjectPage.route());
               },
             ),
-            const Gap(8.0),
-            _CardOption(
-              position: 3,
-              title: 'Make from existing',
-              subtitle: 'Use existing public projects and make your own.',
-              icon: Icons.merge_type,
-              callback: () {
-                navigator.push(ExistingProjectPage.route());
-              },
-            ),
+            // const Gap(8.0),
+            // _CardOption(
+            //   position: 3,
+            //   title: 'Make from existing',
+            //   subtitle: 'Use existing public projects and make your own.',
+            //   icon: Icons.merge_type,
+            //   callback: () {
+            //     navigator.push(ExistingProjectPage.route());
+            //   },
+            // ),
           ],
         ),
       ),

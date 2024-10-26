@@ -123,7 +123,10 @@ class SuggestionListView extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                ViewSuggestionScreen.route(suggestion: suggestion),
+                ViewSuggestionScreen.route(
+                  suggestion: suggestion,
+                  prompt: context.read<SuggestBloc>().prompt,
+                ),
               );
             },
           ),

@@ -10,6 +10,26 @@ final class ProjectApi {
 
   const ProjectApi({required ConfigRepository config}) : _config = config;
 
+  Future<void> saveSuggestion(ProjectSuggestion suggestion) async {
+    try {
+      await _config.makeRequest<void>(
+        '/project/suggestion/save',
+        method: 'POST',
+        data: {
+          'title': suggestion.title,
+          'description': suggestion.description,
+          'materials': suggestion.materials.map((e) => e.name).toList(),
+          'steps': suggestion.steps,
+        },
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
   Future<int> forkProject(int materialId) async {
     try {
       final response = await _config.makeRequest<Map<String, dynamic>>(

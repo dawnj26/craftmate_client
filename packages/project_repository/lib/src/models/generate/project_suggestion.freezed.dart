@@ -146,7 +146,7 @@ class __$$ProjectSuggestionImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ProjectSuggestionImpl implements _ProjectSuggestion {
-  _$ProjectSuggestionImpl(
+  const _$ProjectSuggestionImpl(
       {this.title = '',
       this.description = '',
       final List<String>? steps,
@@ -227,7 +227,7 @@ class _$ProjectSuggestionImpl implements _ProjectSuggestion {
 }
 
 abstract class _ProjectSuggestion implements ProjectSuggestion {
-  factory _ProjectSuggestion(
+  const factory _ProjectSuggestion(
       {final String title,
       final String description,
       final List<String>? steps,
