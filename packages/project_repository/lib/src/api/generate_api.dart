@@ -35,4 +35,39 @@ class GenerateApi {
       throw GenerateException(message: e.message);
     }
   }
+
+  Future<ProjectSuggestion> generateProject(
+      Prompt prompt, ProjectSuggestion suggestion) async {
+    final titleKey = suggestion.title.replaceAll(' ', '_');
+    final cache = _config.prefs.getString(titleKey);
+
+    if (cache != null) {
+      final p = ProjectSuggestion.fromJson(jsonDecode(cache));
+      return p;
+    }
+    try {
+      final textPrompt = prompt.generateProjectPrompt(suggestion);
+      _config.logger.info('Prompt: $textPrompt');
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/project/generate',
+        method: 'POST',
+        data: {'prompt': textPrompt},
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw GenerateException(message: 'Response is null');
+      }
+
+      final resJson = jsonDecode(response.data!['data']);
+      final res = ProjectSuggestion.fromJson(resJson);
+
+      _config.prefs.setString(titleKey, jsonEncode(res.toJson()));
+      return res;
+    } on RequestException catch (e) {
+      throw GenerateException(message: e.message);
+    } on TokenException catch (e) {
+      throw GenerateException(message: e.message);
+    }
+  }
 }
