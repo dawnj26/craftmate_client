@@ -31,7 +31,7 @@ class GenerateProjectPage extends StatelessWidget {
                 prompt: final prompt
               ):
               Navigator.pop(context);
-              Navigator.of(context).pushReplacement(
+              Navigator.of(context).push(
                 SuggestionsScreen.route(suggestions, prompt),
               );
           }
