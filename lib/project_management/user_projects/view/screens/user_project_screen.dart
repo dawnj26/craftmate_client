@@ -1,5 +1,6 @@
 import 'package:config_repository/config_repository.dart';
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
+import 'package:craftmate_client/dashboard/home/view/components/category_filter.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
@@ -25,19 +26,15 @@ class UserProjectScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<UserProjectBloc, UserProjectState>(
       listener: (context, state) {
-        state.maybeWhen(
-          orElse: () {},
-          deleting: (_, __, ___, ____, _____) {
+        switch (state) {
+          case Deleting():
             Modal.instance.showLoadingDialog(context);
-          },
-          deleted: (_, __, ___, ____, _____) {
+          case Deleted():
             Navigator.of(context).pop();
             Alert.instance.showSnackbar(context, 'Projects deleted');
-          },
-          error: (_, __, ___, ____, _____, err) {
-            Alert.instance.showSnackbar(context, err);
-          },
-        );
+          case Error(message: final message):
+            Alert.instance.showSnackbar(context, message);
+        }
       },
       child: Scaffold(
         appBar: const UserProjectAppBar(),
@@ -110,11 +107,38 @@ class UserProjectScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              const Gap(8.0),
+              BlocBuilder<UserProjectBloc, UserProjectState>(
+                builder: (context, state) {
+                  switch (state) {
+                    case Initial():
+                    case Loading():
+                      return const SizedBox.shrink();
+                    default:
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CategoryFilter(
+                            selectedCategory: state.selectedCategory,
+                            categories: state.categories,
+                            onSelected: (category) {
+                              context.read<UserProjectBloc>().add(
+                                    UserProjectEvent.categoryChanged(
+                                      category: category,
+                                    ),
+                                  );
+                            },
+                          ),
+                        ],
+                      );
+                  }
+                },
+              ),
               Expanded(
                 child: BlocBuilder<UserProjectBloc, UserProjectState>(
                   builder: (context, state) {
-                    return state.when(
-                      initial: (_, __, ___, ____, _____) {
+                    switch (state) {
+                      case Initial():
                         context.read<UserProjectBloc>().add(
                               const UserProjectEvent.fetchProjects(
                                 filter: ProjectFilter.all,
@@ -123,19 +147,12 @@ class UserProjectScreen extends StatelessWidget {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
-                      },
-                      loading: (_, __, ___, ____, _____) => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      loaded: (
-                        projects,
-                        paginatedProject,
-                        ___,
-                        ____,
-                        _____,
-                        ______,
-                      ) {
-                        if (projects.isEmpty) {
+                      case Loading():
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      default:
+                        if (state.projects.isEmpty) {
                           return const EmptyMessage(
                             emptyMessage: 'No projects found',
                           );
@@ -143,40 +160,10 @@ class UserProjectScreen extends StatelessWidget {
 
                         return UserProjectList(
                           key: const Key('user_project_list'),
-                          projects: projects,
-                          paginatedProject: paginatedProject,
+                          projects: state.projects,
+                          paginatedProject: state.paginatedProjects,
                         );
-                      },
-                      deleted: (projects, paginatedProject, ___, ____, _____) {
-                        if (projects.isEmpty) {
-                          return const EmptyMessage(
-                            emptyMessage: 'No projects found',
-                          );
-                        }
-
-                        return UserProjectList(
-                          key: const Key('user_project_list'),
-                          projects: projects,
-                          paginatedProject: paginatedProject,
-                        );
-                      },
-                      deleting: (projects, paginatedProject, ___, ____, _____) {
-                        if (projects.isEmpty) {
-                          return const EmptyMessage(
-                            emptyMessage: 'No projects found',
-                          );
-                        }
-
-                        return UserProjectList(
-                          key: const Key('user_project_list'),
-                          projects: projects,
-                          paginatedProject: paginatedProject,
-                        );
-                      },
-                      error: (_, __, ___, ____, _____, err) => Center(
-                        child: Text(err),
-                      ),
-                    );
+                    }
                   },
                 ),
               ),
@@ -236,7 +223,7 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
                 IconButton(
                   onPressed: () {
                     Navigator.of(context).push(
-                      SearchPage.route(),
+                      ProjectSearchPage.route(),
                     );
                   },
                   icon: const Icon(Icons.search),
@@ -271,7 +258,7 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
                 IconButton(
                   onPressed: () {
                     Navigator.of(context).push(
-                      SearchPage.route(),
+                      ProjectSearchPage.route(),
                     );
                   },
                   icon: const Icon(Icons.search),
@@ -479,7 +466,9 @@ class _FilterDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.sizeOf(context);
     return FilterDropdown<ProjectFilter>(
+      width: screenSize.width * 0.43,
       initialSelection: ProjectFilter.all,
       items: ProjectFilter.values
           .map(
