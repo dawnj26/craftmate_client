@@ -19,6 +19,7 @@ class ProjectSettingsBloc
             projectTitle: ProjectTitle.dirty(project.title),
             isValid: true,
             visibility: project.visibility,
+            selectedCategory: project.category!,
           ),
         ) {
     on<ProjectSettingsSaved>(_onSaved);
@@ -28,9 +29,69 @@ class ProjectSettingsBloc
       _onVisibilitySelectionChanged,
     );
     on<ProjectSettingsProjectDeleted>(_onProjectDeleted);
+    on<ProjectSettingsCategoryLoaded>(_onCategoryLoaded);
+    on<ProjectSettingsCategoryChanged>(_onCategoryChanged);
   }
 
   final ProjectRepository _projectRepo;
+
+  void _onCategoryChanged(
+    ProjectSettingsCategoryChanged event,
+    Emitter<ProjectSettingsState> emit,
+  ) {
+    emit(
+      ProjectSettingsChanged(
+        project: state.project.copyWith(),
+        projectTitle: ProjectTitle.dirty(state.projectTitle.value),
+        isValid: state.isValid,
+        visibility: state.visibility,
+        categories: [...state.categories],
+        selectedCategory: event.category,
+      ),
+    );
+  }
+
+  Future<void> _onCategoryLoaded(
+    ProjectSettingsCategoryLoaded event,
+    Emitter<ProjectSettingsState> emit,
+  ) async {
+    emit(
+      ProjectSettingsLoading(
+        project: state.project,
+        projectTitle: state.projectTitle,
+        isValid: state.isValid,
+        visibility: state.visibility,
+        categories: [...state.categories],
+        selectedCategory: state.selectedCategory,
+      ),
+    );
+
+    try {
+      final categories = await _projectRepo.getProjectCategories();
+      emit(
+        ProjectSettingsChanged(
+          project: state.project.copyWith(),
+          projectTitle: ProjectTitle.dirty(state.projectTitle.value),
+          isValid: state.isValid,
+          visibility: state.visibility,
+          categories: categories,
+          selectedCategory: state.selectedCategory,
+        ),
+      );
+    } on ProjectException catch (e) {
+      emit(
+        SettingsFailed(
+          project: state.project.copyWith(),
+          errMessage: e.message,
+          projectTitle: state.projectTitle,
+          isValid: state.isValid,
+          visibility: state.visibility,
+          categories: [...state.categories],
+          selectedCategory: state.selectedCategory,
+        ),
+      );
+    }
+  }
 
   void _onVisibilitySelectionChanged(
     ProjectSettingsVisibilitySelectionChanged event,
@@ -42,6 +103,8 @@ class ProjectSettingsBloc
         projectTitle: ProjectTitle.dirty(state.projectTitle.value),
         isValid: state.isValid,
         visibility: event.visibility,
+        categories: [...state.categories],
+        selectedCategory: state.selectedCategory,
       ),
     );
   }
@@ -51,11 +114,13 @@ class ProjectSettingsBloc
     Emitter<ProjectSettingsState> emit,
   ) async {
     emit(
-      ProjectSettingsLoading(
+      ProjectSettingsSaving(
         project: state.project.copyWith(),
         projectTitle: ProjectTitle.dirty(state.projectTitle.value),
         isValid: state.isValid,
         visibility: state.visibility,
+        categories: [...state.categories],
+        selectedCategory: state.selectedCategory,
       ),
     );
 
@@ -67,6 +132,8 @@ class ProjectSettingsBloc
           projectTitle: ProjectTitle.dirty(state.projectTitle.value),
           isValid: state.isValid,
           visibility: state.visibility,
+          categories: [...state.categories],
+          selectedCategory: state.selectedCategory,
         ),
       );
     } on ProjectException catch (e) {
@@ -77,6 +144,8 @@ class ProjectSettingsBloc
           projectTitle: state.projectTitle,
           visibility: state.visibility,
           isValid: state.isValid,
+          categories: [...state.categories],
+          selectedCategory: state.selectedCategory,
         ),
       );
     }
@@ -87,11 +156,13 @@ class ProjectSettingsBloc
     Emitter<ProjectSettingsState> emit,
   ) async {
     emit(
-      ProjectSettingsLoading(
+      ProjectSettingsSaving(
         project: state.project.copyWith(),
         projectTitle: ProjectTitle.dirty(state.projectTitle.value),
         isValid: state.isValid,
         visibility: state.visibility,
+        categories: [...state.categories],
+        selectedCategory: state.selectedCategory,
       ),
     );
 
@@ -105,6 +176,8 @@ class ProjectSettingsBloc
           projectTitle: ProjectTitle.dirty(state.projectTitle.value),
           isValid: state.isValid,
           visibility: state.visibility,
+          categories: [...state.categories],
+          selectedCategory: state.selectedCategory,
         ),
       );
     } on ProjectException catch (e) {
@@ -115,6 +188,8 @@ class ProjectSettingsBloc
           projectTitle: state.projectTitle,
           isValid: state.isValid,
           visibility: state.visibility,
+          categories: [...state.categories],
+          selectedCategory: state.selectedCategory,
         ),
       );
     }
@@ -132,6 +207,8 @@ class ProjectSettingsBloc
         projectTitle: projectTitle,
         isValid: isValid,
         visibility: state.visibility,
+        categories: [...state.categories],
+        selectedCategory: state.selectedCategory,
       ),
     );
   }
@@ -143,11 +220,13 @@ class ProjectSettingsBloc
     final project = state.project;
     final projectTitle = ProjectTitle.dirty(state.projectTitle.value);
     emit(
-      ProjectSettingsLoading(
+      ProjectSettingsSaving(
         project: project.copyWith(),
         projectTitle: projectTitle,
         isValid: Formz.validate([projectTitle]),
         visibility: state.visibility,
+        categories: [...state.categories],
+        selectedCategory: state.selectedCategory,
       ),
     );
 
@@ -156,6 +235,7 @@ class ProjectSettingsBloc
         final updatedProject = await _projectRepo.updateProject(
           state.projectTitle.value,
           project,
+          state.selectedCategory,
           event.tags,
         );
 
@@ -165,6 +245,8 @@ class ProjectSettingsBloc
             projectTitle: state.projectTitle,
             isValid: state.isValid,
             visibility: state.visibility,
+            categories: [...state.categories],
+            selectedCategory: state.selectedCategory,
           ),
         );
       } on ProjectException catch (e) {
@@ -175,6 +257,8 @@ class ProjectSettingsBloc
             projectTitle: state.projectTitle,
             isValid: state.isValid,
             visibility: state.visibility,
+            categories: [...state.categories],
+            selectedCategory: state.selectedCategory,
           ),
         );
       }
@@ -185,6 +269,8 @@ class ProjectSettingsBloc
           projectTitle: state.projectTitle,
           isValid: Formz.validate([state.projectTitle]),
           visibility: state.visibility,
+          categories: [...state.categories],
+          selectedCategory: state.selectedCategory,
         ),
       );
     }
