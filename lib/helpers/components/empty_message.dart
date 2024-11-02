@@ -13,19 +13,24 @@ class EmptyMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final screenSize = MediaQuery.sizeOf(context);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Assets.images.noDataTransparent.image(),
-        const Gap(12.0),
-        Text(
-          emptyMessage,
-          style: theme.textTheme.titleMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Assets.images.noDataTransparent.image(
+            width: screenSize.width * 0.8,
           ),
-        ),
-      ],
+          const Gap(12.0),
+          Text(
+            emptyMessage,
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
