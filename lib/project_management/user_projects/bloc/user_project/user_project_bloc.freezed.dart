@@ -25,6 +25,7 @@ mixin _$UserProjectEvent {
     required TResult Function(ProjectSort sort, SortOrder order) sortChanged,
     required TResult Function(List<int> projectIds) deleteProjects,
     required TResult Function(Project project) deleteProject,
+    required TResult Function(ProjectCategory category) categoryChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -36,6 +37,7 @@ mixin _$UserProjectEvent {
     TResult? Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult? Function(List<int> projectIds)? deleteProjects,
     TResult? Function(Project project)? deleteProject,
+    TResult? Function(ProjectCategory category)? categoryChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -47,6 +49,7 @@ mixin _$UserProjectEvent {
     TResult Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult Function(List<int> projectIds)? deleteProjects,
     TResult Function(Project project)? deleteProject,
+    TResult Function(ProjectCategory category)? categoryChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -59,6 +62,7 @@ mixin _$UserProjectEvent {
     required TResult Function(_SortChanged value) sortChanged,
     required TResult Function(_DeleteProjects value) deleteProjects,
     required TResult Function(_DeleteProject value) deleteProject,
+    required TResult Function(_CategoryChanged value) categoryChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -70,6 +74,7 @@ mixin _$UserProjectEvent {
     TResult? Function(_SortChanged value)? sortChanged,
     TResult? Function(_DeleteProjects value)? deleteProjects,
     TResult? Function(_DeleteProject value)? deleteProject,
+    TResult? Function(_CategoryChanged value)? categoryChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -81,6 +86,7 @@ mixin _$UserProjectEvent {
     TResult Function(_SortChanged value)? sortChanged,
     TResult Function(_DeleteProjects value)? deleteProjects,
     TResult Function(_DeleteProject value)? deleteProject,
+    TResult Function(_CategoryChanged value)? categoryChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -182,6 +188,7 @@ class _$FetchProjectsImpl implements _FetchProjects {
     required TResult Function(ProjectSort sort, SortOrder order) sortChanged,
     required TResult Function(List<int> projectIds) deleteProjects,
     required TResult Function(Project project) deleteProject,
+    required TResult Function(ProjectCategory category) categoryChanged,
   }) {
     return fetchProjects(filter);
   }
@@ -196,6 +203,7 @@ class _$FetchProjectsImpl implements _FetchProjects {
     TResult? Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult? Function(List<int> projectIds)? deleteProjects,
     TResult? Function(Project project)? deleteProject,
+    TResult? Function(ProjectCategory category)? categoryChanged,
   }) {
     return fetchProjects?.call(filter);
   }
@@ -210,6 +218,7 @@ class _$FetchProjectsImpl implements _FetchProjects {
     TResult Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult Function(List<int> projectIds)? deleteProjects,
     TResult Function(Project project)? deleteProject,
+    TResult Function(ProjectCategory category)? categoryChanged,
     required TResult orElse(),
   }) {
     if (fetchProjects != null) {
@@ -228,6 +237,7 @@ class _$FetchProjectsImpl implements _FetchProjects {
     required TResult Function(_SortChanged value) sortChanged,
     required TResult Function(_DeleteProjects value) deleteProjects,
     required TResult Function(_DeleteProject value) deleteProject,
+    required TResult Function(_CategoryChanged value) categoryChanged,
   }) {
     return fetchProjects(this);
   }
@@ -242,6 +252,7 @@ class _$FetchProjectsImpl implements _FetchProjects {
     TResult? Function(_SortChanged value)? sortChanged,
     TResult? Function(_DeleteProjects value)? deleteProjects,
     TResult? Function(_DeleteProject value)? deleteProject,
+    TResult? Function(_CategoryChanged value)? categoryChanged,
   }) {
     return fetchProjects?.call(this);
   }
@@ -256,6 +267,7 @@ class _$FetchProjectsImpl implements _FetchProjects {
     TResult Function(_SortChanged value)? sortChanged,
     TResult Function(_DeleteProjects value)? deleteProjects,
     TResult Function(_DeleteProject value)? deleteProject,
+    TResult Function(_CategoryChanged value)? categoryChanged,
     required TResult orElse(),
   }) {
     if (fetchProjects != null) {
@@ -326,6 +338,7 @@ class _$RefreshProjectsImpl implements _RefreshProjects {
     required TResult Function(ProjectSort sort, SortOrder order) sortChanged,
     required TResult Function(List<int> projectIds) deleteProjects,
     required TResult Function(Project project) deleteProject,
+    required TResult Function(ProjectCategory category) categoryChanged,
   }) {
     return refreshProjects();
   }
@@ -340,6 +353,7 @@ class _$RefreshProjectsImpl implements _RefreshProjects {
     TResult? Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult? Function(List<int> projectIds)? deleteProjects,
     TResult? Function(Project project)? deleteProject,
+    TResult? Function(ProjectCategory category)? categoryChanged,
   }) {
     return refreshProjects?.call();
   }
@@ -354,6 +368,7 @@ class _$RefreshProjectsImpl implements _RefreshProjects {
     TResult Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult Function(List<int> projectIds)? deleteProjects,
     TResult Function(Project project)? deleteProject,
+    TResult Function(ProjectCategory category)? categoryChanged,
     required TResult orElse(),
   }) {
     if (refreshProjects != null) {
@@ -372,6 +387,7 @@ class _$RefreshProjectsImpl implements _RefreshProjects {
     required TResult Function(_SortChanged value) sortChanged,
     required TResult Function(_DeleteProjects value) deleteProjects,
     required TResult Function(_DeleteProject value) deleteProject,
+    required TResult Function(_CategoryChanged value) categoryChanged,
   }) {
     return refreshProjects(this);
   }
@@ -386,6 +402,7 @@ class _$RefreshProjectsImpl implements _RefreshProjects {
     TResult? Function(_SortChanged value)? sortChanged,
     TResult? Function(_DeleteProjects value)? deleteProjects,
     TResult? Function(_DeleteProject value)? deleteProject,
+    TResult? Function(_CategoryChanged value)? categoryChanged,
   }) {
     return refreshProjects?.call(this);
   }
@@ -400,6 +417,7 @@ class _$RefreshProjectsImpl implements _RefreshProjects {
     TResult Function(_SortChanged value)? sortChanged,
     TResult Function(_DeleteProjects value)? deleteProjects,
     TResult Function(_DeleteProject value)? deleteProject,
+    TResult Function(_CategoryChanged value)? categoryChanged,
     required TResult orElse(),
   }) {
     if (refreshProjects != null) {
@@ -461,6 +479,7 @@ class _$LoadMoreProjectsImpl implements _LoadMoreProjects {
     required TResult Function(ProjectSort sort, SortOrder order) sortChanged,
     required TResult Function(List<int> projectIds) deleteProjects,
     required TResult Function(Project project) deleteProject,
+    required TResult Function(ProjectCategory category) categoryChanged,
   }) {
     return loadMoreProjects();
   }
@@ -475,6 +494,7 @@ class _$LoadMoreProjectsImpl implements _LoadMoreProjects {
     TResult? Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult? Function(List<int> projectIds)? deleteProjects,
     TResult? Function(Project project)? deleteProject,
+    TResult? Function(ProjectCategory category)? categoryChanged,
   }) {
     return loadMoreProjects?.call();
   }
@@ -489,6 +509,7 @@ class _$LoadMoreProjectsImpl implements _LoadMoreProjects {
     TResult Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult Function(List<int> projectIds)? deleteProjects,
     TResult Function(Project project)? deleteProject,
+    TResult Function(ProjectCategory category)? categoryChanged,
     required TResult orElse(),
   }) {
     if (loadMoreProjects != null) {
@@ -507,6 +528,7 @@ class _$LoadMoreProjectsImpl implements _LoadMoreProjects {
     required TResult Function(_SortChanged value) sortChanged,
     required TResult Function(_DeleteProjects value) deleteProjects,
     required TResult Function(_DeleteProject value) deleteProject,
+    required TResult Function(_CategoryChanged value) categoryChanged,
   }) {
     return loadMoreProjects(this);
   }
@@ -521,6 +543,7 @@ class _$LoadMoreProjectsImpl implements _LoadMoreProjects {
     TResult? Function(_SortChanged value)? sortChanged,
     TResult? Function(_DeleteProjects value)? deleteProjects,
     TResult? Function(_DeleteProject value)? deleteProject,
+    TResult? Function(_CategoryChanged value)? categoryChanged,
   }) {
     return loadMoreProjects?.call(this);
   }
@@ -535,6 +558,7 @@ class _$LoadMoreProjectsImpl implements _LoadMoreProjects {
     TResult Function(_SortChanged value)? sortChanged,
     TResult Function(_DeleteProjects value)? deleteProjects,
     TResult Function(_DeleteProject value)? deleteProject,
+    TResult Function(_CategoryChanged value)? categoryChanged,
     required TResult orElse(),
   }) {
     if (loadMoreProjects != null) {
@@ -623,6 +647,7 @@ class _$FilterChangedImpl implements _FilterChanged {
     required TResult Function(ProjectSort sort, SortOrder order) sortChanged,
     required TResult Function(List<int> projectIds) deleteProjects,
     required TResult Function(Project project) deleteProject,
+    required TResult Function(ProjectCategory category) categoryChanged,
   }) {
     return filterChanged(filter);
   }
@@ -637,6 +662,7 @@ class _$FilterChangedImpl implements _FilterChanged {
     TResult? Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult? Function(List<int> projectIds)? deleteProjects,
     TResult? Function(Project project)? deleteProject,
+    TResult? Function(ProjectCategory category)? categoryChanged,
   }) {
     return filterChanged?.call(filter);
   }
@@ -651,6 +677,7 @@ class _$FilterChangedImpl implements _FilterChanged {
     TResult Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult Function(List<int> projectIds)? deleteProjects,
     TResult Function(Project project)? deleteProject,
+    TResult Function(ProjectCategory category)? categoryChanged,
     required TResult orElse(),
   }) {
     if (filterChanged != null) {
@@ -669,6 +696,7 @@ class _$FilterChangedImpl implements _FilterChanged {
     required TResult Function(_SortChanged value) sortChanged,
     required TResult Function(_DeleteProjects value) deleteProjects,
     required TResult Function(_DeleteProject value) deleteProject,
+    required TResult Function(_CategoryChanged value) categoryChanged,
   }) {
     return filterChanged(this);
   }
@@ -683,6 +711,7 @@ class _$FilterChangedImpl implements _FilterChanged {
     TResult? Function(_SortChanged value)? sortChanged,
     TResult? Function(_DeleteProjects value)? deleteProjects,
     TResult? Function(_DeleteProject value)? deleteProject,
+    TResult? Function(_CategoryChanged value)? categoryChanged,
   }) {
     return filterChanged?.call(this);
   }
@@ -697,6 +726,7 @@ class _$FilterChangedImpl implements _FilterChanged {
     TResult Function(_SortChanged value)? sortChanged,
     TResult Function(_DeleteProjects value)? deleteProjects,
     TResult Function(_DeleteProject value)? deleteProject,
+    TResult Function(_CategoryChanged value)? categoryChanged,
     required TResult orElse(),
   }) {
     if (filterChanged != null) {
@@ -802,6 +832,7 @@ class _$SortChangedImpl implements _SortChanged {
     required TResult Function(ProjectSort sort, SortOrder order) sortChanged,
     required TResult Function(List<int> projectIds) deleteProjects,
     required TResult Function(Project project) deleteProject,
+    required TResult Function(ProjectCategory category) categoryChanged,
   }) {
     return sortChanged(sort, order);
   }
@@ -816,6 +847,7 @@ class _$SortChangedImpl implements _SortChanged {
     TResult? Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult? Function(List<int> projectIds)? deleteProjects,
     TResult? Function(Project project)? deleteProject,
+    TResult? Function(ProjectCategory category)? categoryChanged,
   }) {
     return sortChanged?.call(sort, order);
   }
@@ -830,6 +862,7 @@ class _$SortChangedImpl implements _SortChanged {
     TResult Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult Function(List<int> projectIds)? deleteProjects,
     TResult Function(Project project)? deleteProject,
+    TResult Function(ProjectCategory category)? categoryChanged,
     required TResult orElse(),
   }) {
     if (sortChanged != null) {
@@ -848,6 +881,7 @@ class _$SortChangedImpl implements _SortChanged {
     required TResult Function(_SortChanged value) sortChanged,
     required TResult Function(_DeleteProjects value) deleteProjects,
     required TResult Function(_DeleteProject value) deleteProject,
+    required TResult Function(_CategoryChanged value) categoryChanged,
   }) {
     return sortChanged(this);
   }
@@ -862,6 +896,7 @@ class _$SortChangedImpl implements _SortChanged {
     TResult? Function(_SortChanged value)? sortChanged,
     TResult? Function(_DeleteProjects value)? deleteProjects,
     TResult? Function(_DeleteProject value)? deleteProject,
+    TResult? Function(_CategoryChanged value)? categoryChanged,
   }) {
     return sortChanged?.call(this);
   }
@@ -876,6 +911,7 @@ class _$SortChangedImpl implements _SortChanged {
     TResult Function(_SortChanged value)? sortChanged,
     TResult Function(_DeleteProjects value)? deleteProjects,
     TResult Function(_DeleteProject value)? deleteProject,
+    TResult Function(_CategoryChanged value)? categoryChanged,
     required TResult orElse(),
   }) {
     if (sortChanged != null) {
@@ -984,6 +1020,7 @@ class _$DeleteProjectsImpl implements _DeleteProjects {
     required TResult Function(ProjectSort sort, SortOrder order) sortChanged,
     required TResult Function(List<int> projectIds) deleteProjects,
     required TResult Function(Project project) deleteProject,
+    required TResult Function(ProjectCategory category) categoryChanged,
   }) {
     return deleteProjects(projectIds);
   }
@@ -998,6 +1035,7 @@ class _$DeleteProjectsImpl implements _DeleteProjects {
     TResult? Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult? Function(List<int> projectIds)? deleteProjects,
     TResult? Function(Project project)? deleteProject,
+    TResult? Function(ProjectCategory category)? categoryChanged,
   }) {
     return deleteProjects?.call(projectIds);
   }
@@ -1012,6 +1050,7 @@ class _$DeleteProjectsImpl implements _DeleteProjects {
     TResult Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult Function(List<int> projectIds)? deleteProjects,
     TResult Function(Project project)? deleteProject,
+    TResult Function(ProjectCategory category)? categoryChanged,
     required TResult orElse(),
   }) {
     if (deleteProjects != null) {
@@ -1030,6 +1069,7 @@ class _$DeleteProjectsImpl implements _DeleteProjects {
     required TResult Function(_SortChanged value) sortChanged,
     required TResult Function(_DeleteProjects value) deleteProjects,
     required TResult Function(_DeleteProject value) deleteProject,
+    required TResult Function(_CategoryChanged value) categoryChanged,
   }) {
     return deleteProjects(this);
   }
@@ -1044,6 +1084,7 @@ class _$DeleteProjectsImpl implements _DeleteProjects {
     TResult? Function(_SortChanged value)? sortChanged,
     TResult? Function(_DeleteProjects value)? deleteProjects,
     TResult? Function(_DeleteProject value)? deleteProject,
+    TResult? Function(_CategoryChanged value)? categoryChanged,
   }) {
     return deleteProjects?.call(this);
   }
@@ -1058,6 +1099,7 @@ class _$DeleteProjectsImpl implements _DeleteProjects {
     TResult Function(_SortChanged value)? sortChanged,
     TResult Function(_DeleteProjects value)? deleteProjects,
     TResult Function(_DeleteProject value)? deleteProject,
+    TResult Function(_CategoryChanged value)? categoryChanged,
     required TResult orElse(),
   }) {
     if (deleteProjects != null) {
@@ -1167,6 +1209,7 @@ class _$DeleteProjectImpl implements _DeleteProject {
     required TResult Function(ProjectSort sort, SortOrder order) sortChanged,
     required TResult Function(List<int> projectIds) deleteProjects,
     required TResult Function(Project project) deleteProject,
+    required TResult Function(ProjectCategory category) categoryChanged,
   }) {
     return deleteProject(project);
   }
@@ -1181,6 +1224,7 @@ class _$DeleteProjectImpl implements _DeleteProject {
     TResult? Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult? Function(List<int> projectIds)? deleteProjects,
     TResult? Function(Project project)? deleteProject,
+    TResult? Function(ProjectCategory category)? categoryChanged,
   }) {
     return deleteProject?.call(project);
   }
@@ -1195,6 +1239,7 @@ class _$DeleteProjectImpl implements _DeleteProject {
     TResult Function(ProjectSort sort, SortOrder order)? sortChanged,
     TResult Function(List<int> projectIds)? deleteProjects,
     TResult Function(Project project)? deleteProject,
+    TResult Function(ProjectCategory category)? categoryChanged,
     required TResult orElse(),
   }) {
     if (deleteProject != null) {
@@ -1213,6 +1258,7 @@ class _$DeleteProjectImpl implements _DeleteProject {
     required TResult Function(_SortChanged value) sortChanged,
     required TResult Function(_DeleteProjects value) deleteProjects,
     required TResult Function(_DeleteProject value) deleteProject,
+    required TResult Function(_CategoryChanged value) categoryChanged,
   }) {
     return deleteProject(this);
   }
@@ -1227,6 +1273,7 @@ class _$DeleteProjectImpl implements _DeleteProject {
     TResult? Function(_SortChanged value)? sortChanged,
     TResult? Function(_DeleteProjects value)? deleteProjects,
     TResult? Function(_DeleteProject value)? deleteProject,
+    TResult? Function(_CategoryChanged value)? categoryChanged,
   }) {
     return deleteProject?.call(this);
   }
@@ -1241,6 +1288,7 @@ class _$DeleteProjectImpl implements _DeleteProject {
     TResult Function(_SortChanged value)? sortChanged,
     TResult Function(_DeleteProjects value)? deleteProjects,
     TResult Function(_DeleteProject value)? deleteProject,
+    TResult Function(_CategoryChanged value)? categoryChanged,
     required TResult orElse(),
   }) {
     if (deleteProject != null) {
@@ -1264,6 +1312,197 @@ abstract class _DeleteProject implements UserProjectEvent {
 }
 
 /// @nodoc
+abstract class _$$CategoryChangedImplCopyWith<$Res> {
+  factory _$$CategoryChangedImplCopyWith(_$CategoryChangedImpl value,
+          $Res Function(_$CategoryChangedImpl) then) =
+      __$$CategoryChangedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({ProjectCategory category});
+
+  $ProjectCategoryCopyWith<$Res> get category;
+}
+
+/// @nodoc
+class __$$CategoryChangedImplCopyWithImpl<$Res>
+    extends _$UserProjectEventCopyWithImpl<$Res, _$CategoryChangedImpl>
+    implements _$$CategoryChangedImplCopyWith<$Res> {
+  __$$CategoryChangedImplCopyWithImpl(
+      _$CategoryChangedImpl _value, $Res Function(_$CategoryChangedImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of UserProjectEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? category = null,
+  }) {
+    return _then(_$CategoryChangedImpl(
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as ProjectCategory,
+    ));
+  }
+
+  /// Create a copy of UserProjectEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ProjectCategoryCopyWith<$Res> get category {
+    return $ProjectCategoryCopyWith<$Res>(_value.category, (value) {
+      return _then(_value.copyWith(category: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$CategoryChangedImpl implements _CategoryChanged {
+  const _$CategoryChangedImpl({required this.category});
+
+  @override
+  final ProjectCategory category;
+
+  @override
+  String toString() {
+    return 'UserProjectEvent.categoryChanged(category: $category)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CategoryChangedImpl &&
+            (identical(other.category, category) ||
+                other.category == category));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, category);
+
+  /// Create a copy of UserProjectEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CategoryChangedImplCopyWith<_$CategoryChangedImpl> get copyWith =>
+      __$$CategoryChangedImplCopyWithImpl<_$CategoryChangedImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(ProjectFilter filter) fetchProjects,
+    required TResult Function() refreshProjects,
+    required TResult Function() loadMoreProjects,
+    required TResult Function(ProjectFilter filter) filterChanged,
+    required TResult Function(ProjectSort sort, SortOrder order) sortChanged,
+    required TResult Function(List<int> projectIds) deleteProjects,
+    required TResult Function(Project project) deleteProject,
+    required TResult Function(ProjectCategory category) categoryChanged,
+  }) {
+    return categoryChanged(category);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(ProjectFilter filter)? fetchProjects,
+    TResult? Function()? refreshProjects,
+    TResult? Function()? loadMoreProjects,
+    TResult? Function(ProjectFilter filter)? filterChanged,
+    TResult? Function(ProjectSort sort, SortOrder order)? sortChanged,
+    TResult? Function(List<int> projectIds)? deleteProjects,
+    TResult? Function(Project project)? deleteProject,
+    TResult? Function(ProjectCategory category)? categoryChanged,
+  }) {
+    return categoryChanged?.call(category);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(ProjectFilter filter)? fetchProjects,
+    TResult Function()? refreshProjects,
+    TResult Function()? loadMoreProjects,
+    TResult Function(ProjectFilter filter)? filterChanged,
+    TResult Function(ProjectSort sort, SortOrder order)? sortChanged,
+    TResult Function(List<int> projectIds)? deleteProjects,
+    TResult Function(Project project)? deleteProject,
+    TResult Function(ProjectCategory category)? categoryChanged,
+    required TResult orElse(),
+  }) {
+    if (categoryChanged != null) {
+      return categoryChanged(category);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchProjects value) fetchProjects,
+    required TResult Function(_RefreshProjects value) refreshProjects,
+    required TResult Function(_LoadMoreProjects value) loadMoreProjects,
+    required TResult Function(_FilterChanged value) filterChanged,
+    required TResult Function(_SortChanged value) sortChanged,
+    required TResult Function(_DeleteProjects value) deleteProjects,
+    required TResult Function(_DeleteProject value) deleteProject,
+    required TResult Function(_CategoryChanged value) categoryChanged,
+  }) {
+    return categoryChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchProjects value)? fetchProjects,
+    TResult? Function(_RefreshProjects value)? refreshProjects,
+    TResult? Function(_LoadMoreProjects value)? loadMoreProjects,
+    TResult? Function(_FilterChanged value)? filterChanged,
+    TResult? Function(_SortChanged value)? sortChanged,
+    TResult? Function(_DeleteProjects value)? deleteProjects,
+    TResult? Function(_DeleteProject value)? deleteProject,
+    TResult? Function(_CategoryChanged value)? categoryChanged,
+  }) {
+    return categoryChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchProjects value)? fetchProjects,
+    TResult Function(_RefreshProjects value)? refreshProjects,
+    TResult Function(_LoadMoreProjects value)? loadMoreProjects,
+    TResult Function(_FilterChanged value)? filterChanged,
+    TResult Function(_SortChanged value)? sortChanged,
+    TResult Function(_DeleteProjects value)? deleteProjects,
+    TResult Function(_DeleteProject value)? deleteProject,
+    TResult Function(_CategoryChanged value)? categoryChanged,
+    required TResult orElse(),
+  }) {
+    if (categoryChanged != null) {
+      return categoryChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _CategoryChanged implements UserProjectEvent {
+  const factory _CategoryChanged({required final ProjectCategory category}) =
+      _$CategoryChangedImpl;
+
+  ProjectCategory get category;
+
+  /// Create a copy of UserProjectEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CategoryChangedImplCopyWith<_$CategoryChangedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$UserProjectState {
   List<Project> get projects => throw _privateConstructorUsedError;
   Pagination<Project> get paginatedProjects =>
@@ -1271,6 +1510,8 @@ mixin _$UserProjectState {
   ProjectFilter get filter => throw _privateConstructorUsedError;
   ProjectSort get sort => throw _privateConstructorUsedError;
   SortOrder get order => throw _privateConstructorUsedError;
+  List<ProjectCategory> get categories => throw _privateConstructorUsedError;
+  ProjectCategory get selectedCategory => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -1278,14 +1519,18 @@ mixin _$UserProjectState {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         initial,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         loading,
     required TResult Function(
             List<Project> projects,
@@ -1293,6 +1538,8 @@ mixin _$UserProjectState {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)
         loaded,
     required TResult Function(
@@ -1300,14 +1547,18 @@ mixin _$UserProjectState {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleting,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleted,
     required TResult Function(
             List<Project> projects,
@@ -1315,6 +1566,8 @@ mixin _$UserProjectState {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)
         error,
   }) =>
@@ -1326,14 +1579,18 @@ mixin _$UserProjectState {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult? Function(
             List<Project> projects,
@@ -1341,6 +1598,8 @@ mixin _$UserProjectState {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult? Function(
@@ -1348,14 +1607,18 @@ mixin _$UserProjectState {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult? Function(
             List<Project> projects,
@@ -1363,6 +1626,8 @@ mixin _$UserProjectState {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
   }) =>
@@ -1374,14 +1639,18 @@ mixin _$UserProjectState {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult Function(
             List<Project> projects,
@@ -1389,6 +1658,8 @@ mixin _$UserProjectState {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult Function(
@@ -1396,14 +1667,18 @@ mixin _$UserProjectState {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult Function(
             List<Project> projects,
@@ -1411,6 +1686,8 @@ mixin _$UserProjectState {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
     required TResult orElse(),
@@ -1418,32 +1695,32 @@ mixin _$UserProjectState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Deleting value) deleting,
-    required TResult Function(_Deleted value) deleted,
-    required TResult Function(_Error value) error,
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
+    required TResult Function(Deleting value) deleting,
+    required TResult Function(Deleted value) deleted,
+    required TResult Function(Error value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Deleting value)? deleting,
-    TResult? Function(_Deleted value)? deleted,
-    TResult? Function(_Error value)? error,
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
+    TResult? Function(Deleting value)? deleting,
+    TResult? Function(Deleted value)? deleted,
+    TResult? Function(Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Deleting value)? deleting,
-    TResult Function(_Deleted value)? deleted,
-    TResult Function(_Error value)? error,
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
+    TResult Function(Deleting value)? deleting,
+    TResult Function(Deleted value)? deleted,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1466,9 +1743,12 @@ abstract class $UserProjectStateCopyWith<$Res> {
       Pagination<Project> paginatedProjects,
       ProjectFilter filter,
       ProjectSort sort,
-      SortOrder order});
+      SortOrder order,
+      List<ProjectCategory> categories,
+      ProjectCategory selectedCategory});
 
   $PaginationCopyWith<Project, $Res> get paginatedProjects;
+  $ProjectCategoryCopyWith<$Res> get selectedCategory;
 }
 
 /// @nodoc
@@ -1491,6 +1771,8 @@ class _$UserProjectStateCopyWithImpl<$Res, $Val extends UserProjectState>
     Object? filter = null,
     Object? sort = null,
     Object? order = null,
+    Object? categories = null,
+    Object? selectedCategory = null,
   }) {
     return _then(_value.copyWith(
       projects: null == projects
@@ -1513,6 +1795,14 @@ class _$UserProjectStateCopyWithImpl<$Res, $Val extends UserProjectState>
           ? _value.order
           : order // ignore: cast_nullable_to_non_nullable
               as SortOrder,
+      categories: null == categories
+          ? _value.categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<ProjectCategory>,
+      selectedCategory: null == selectedCategory
+          ? _value.selectedCategory
+          : selectedCategory // ignore: cast_nullable_to_non_nullable
+              as ProjectCategory,
     ) as $Val);
   }
 
@@ -1524,6 +1814,16 @@ class _$UserProjectStateCopyWithImpl<$Res, $Val extends UserProjectState>
     return $PaginationCopyWith<Project, $Res>(_value.paginatedProjects,
         (value) {
       return _then(_value.copyWith(paginatedProjects: value) as $Val);
+    });
+  }
+
+  /// Create a copy of UserProjectState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ProjectCategoryCopyWith<$Res> get selectedCategory {
+    return $ProjectCategoryCopyWith<$Res>(_value.selectedCategory, (value) {
+      return _then(_value.copyWith(selectedCategory: value) as $Val);
     });
   }
 }
@@ -1541,10 +1841,14 @@ abstract class _$$InitialImplCopyWith<$Res>
       Pagination<Project> paginatedProjects,
       ProjectFilter filter,
       ProjectSort sort,
-      SortOrder order});
+      SortOrder order,
+      List<ProjectCategory> categories,
+      ProjectCategory selectedCategory});
 
   @override
   $PaginationCopyWith<Project, $Res> get paginatedProjects;
+  @override
+  $ProjectCategoryCopyWith<$Res> get selectedCategory;
 }
 
 /// @nodoc
@@ -1565,6 +1869,8 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? filter = null,
     Object? sort = null,
     Object? order = null,
+    Object? categories = null,
+    Object? selectedCategory = null,
   }) {
     return _then(_$InitialImpl(
       projects: null == projects
@@ -1587,20 +1893,31 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.order
           : order // ignore: cast_nullable_to_non_nullable
               as SortOrder,
+      categories: null == categories
+          ? _value._categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<ProjectCategory>,
+      selectedCategory: null == selectedCategory
+          ? _value.selectedCategory
+          : selectedCategory // ignore: cast_nullable_to_non_nullable
+              as ProjectCategory,
     ));
   }
 }
 
 /// @nodoc
 
-class _$InitialImpl implements _Initial {
+class _$InitialImpl implements Initial {
   const _$InitialImpl(
       {final List<Project> projects = const [],
       this.paginatedProjects = const Pagination(),
       this.filter = ProjectFilter.all,
       this.sort = ProjectSort.lastModified,
-      this.order = SortOrder.desc})
-      : _projects = projects;
+      this.order = SortOrder.desc,
+      final List<ProjectCategory> categories = const [],
+      this.selectedCategory = const ProjectCategory(name: 'All')})
+      : _projects = projects,
+        _categories = categories;
 
   final List<Project> _projects;
   @override
@@ -1623,10 +1940,22 @@ class _$InitialImpl implements _Initial {
   @override
   @JsonKey()
   final SortOrder order;
+  final List<ProjectCategory> _categories;
+  @override
+  @JsonKey()
+  List<ProjectCategory> get categories {
+    if (_categories is EqualUnmodifiableListView) return _categories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categories);
+  }
+
+  @override
+  @JsonKey()
+  final ProjectCategory selectedCategory;
 
   @override
   String toString() {
-    return 'UserProjectState.initial(projects: $projects, paginatedProjects: $paginatedProjects, filter: $filter, sort: $sort, order: $order)';
+    return 'UserProjectState.initial(projects: $projects, paginatedProjects: $paginatedProjects, filter: $filter, sort: $sort, order: $order, categories: $categories, selectedCategory: $selectedCategory)';
   }
 
   @override
@@ -1639,7 +1968,11 @@ class _$InitialImpl implements _Initial {
                 other.paginatedProjects == paginatedProjects) &&
             (identical(other.filter, filter) || other.filter == filter) &&
             (identical(other.sort, sort) || other.sort == sort) &&
-            (identical(other.order, order) || other.order == order));
+            (identical(other.order, order) || other.order == order) &&
+            const DeepCollectionEquality()
+                .equals(other._categories, _categories) &&
+            (identical(other.selectedCategory, selectedCategory) ||
+                other.selectedCategory == selectedCategory));
   }
 
   @override
@@ -1649,7 +1982,9 @@ class _$InitialImpl implements _Initial {
       paginatedProjects,
       filter,
       sort,
-      order);
+      order,
+      const DeepCollectionEquality().hash(_categories),
+      selectedCategory);
 
   /// Create a copy of UserProjectState
   /// with the given fields replaced by the non-null parameter values.
@@ -1667,14 +2002,18 @@ class _$InitialImpl implements _Initial {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         initial,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         loading,
     required TResult Function(
             List<Project> projects,
@@ -1682,6 +2021,8 @@ class _$InitialImpl implements _Initial {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)
         loaded,
     required TResult Function(
@@ -1689,14 +2030,18 @@ class _$InitialImpl implements _Initial {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleting,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleted,
     required TResult Function(
             List<Project> projects,
@@ -1704,10 +2049,13 @@ class _$InitialImpl implements _Initial {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)
         error,
   }) {
-    return initial(projects, paginatedProjects, filter, sort, order);
+    return initial(projects, paginatedProjects, filter, sort, order, categories,
+        selectedCategory);
   }
 
   @override
@@ -1718,14 +2066,18 @@ class _$InitialImpl implements _Initial {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult? Function(
             List<Project> projects,
@@ -1733,6 +2085,8 @@ class _$InitialImpl implements _Initial {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult? Function(
@@ -1740,14 +2094,18 @@ class _$InitialImpl implements _Initial {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult? Function(
             List<Project> projects,
@@ -1755,10 +2113,13 @@ class _$InitialImpl implements _Initial {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
   }) {
-    return initial?.call(projects, paginatedProjects, filter, sort, order);
+    return initial?.call(projects, paginatedProjects, filter, sort, order,
+        categories, selectedCategory);
   }
 
   @override
@@ -1769,14 +2130,18 @@ class _$InitialImpl implements _Initial {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult Function(
             List<Project> projects,
@@ -1784,6 +2149,8 @@ class _$InitialImpl implements _Initial {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult Function(
@@ -1791,14 +2158,18 @@ class _$InitialImpl implements _Initial {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult Function(
             List<Project> projects,
@@ -1806,12 +2177,15 @@ class _$InitialImpl implements _Initial {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(projects, paginatedProjects, filter, sort, order);
+      return initial(projects, paginatedProjects, filter, sort, order,
+          categories, selectedCategory);
     }
     return orElse();
   }
@@ -1819,12 +2193,12 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Deleting value) deleting,
-    required TResult Function(_Deleted value) deleted,
-    required TResult Function(_Error value) error,
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
+    required TResult Function(Deleting value) deleting,
+    required TResult Function(Deleted value) deleted,
+    required TResult Function(Error value) error,
   }) {
     return initial(this);
   }
@@ -1832,12 +2206,12 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Deleting value)? deleting,
-    TResult? Function(_Deleted value)? deleted,
-    TResult? Function(_Error value)? error,
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
+    TResult? Function(Deleting value)? deleting,
+    TResult? Function(Deleted value)? deleted,
+    TResult? Function(Error value)? error,
   }) {
     return initial?.call(this);
   }
@@ -1845,12 +2219,12 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Deleting value)? deleting,
-    TResult Function(_Deleted value)? deleted,
-    TResult Function(_Error value)? error,
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
+    TResult Function(Deleting value)? deleting,
+    TResult Function(Deleted value)? deleted,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -1860,13 +2234,15 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements UserProjectState {
-  const factory _Initial(
+abstract class Initial implements UserProjectState {
+  const factory Initial(
       {final List<Project> projects,
       final Pagination<Project> paginatedProjects,
       final ProjectFilter filter,
       final ProjectSort sort,
-      final SortOrder order}) = _$InitialImpl;
+      final SortOrder order,
+      final List<ProjectCategory> categories,
+      final ProjectCategory selectedCategory}) = _$InitialImpl;
 
   @override
   List<Project> get projects;
@@ -1878,6 +2254,10 @@ abstract class _Initial implements UserProjectState {
   ProjectSort get sort;
   @override
   SortOrder get order;
+  @override
+  List<ProjectCategory> get categories;
+  @override
+  ProjectCategory get selectedCategory;
 
   /// Create a copy of UserProjectState
   /// with the given fields replaced by the non-null parameter values.
@@ -1900,10 +2280,14 @@ abstract class _$$LoadingImplCopyWith<$Res>
       Pagination<Project> paginatedProjects,
       ProjectFilter filter,
       ProjectSort sort,
-      SortOrder order});
+      SortOrder order,
+      List<ProjectCategory> categories,
+      ProjectCategory selectedCategory});
 
   @override
   $PaginationCopyWith<Project, $Res> get paginatedProjects;
+  @override
+  $ProjectCategoryCopyWith<$Res> get selectedCategory;
 }
 
 /// @nodoc
@@ -1924,6 +2308,8 @@ class __$$LoadingImplCopyWithImpl<$Res>
     Object? filter = null,
     Object? sort = null,
     Object? order = null,
+    Object? categories = null,
+    Object? selectedCategory = null,
   }) {
     return _then(_$LoadingImpl(
       projects: null == projects
@@ -1946,20 +2332,31 @@ class __$$LoadingImplCopyWithImpl<$Res>
           ? _value.order
           : order // ignore: cast_nullable_to_non_nullable
               as SortOrder,
+      categories: null == categories
+          ? _value._categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<ProjectCategory>,
+      selectedCategory: null == selectedCategory
+          ? _value.selectedCategory
+          : selectedCategory // ignore: cast_nullable_to_non_nullable
+              as ProjectCategory,
     ));
   }
 }
 
 /// @nodoc
 
-class _$LoadingImpl implements _Loading {
+class _$LoadingImpl implements Loading {
   const _$LoadingImpl(
       {final List<Project> projects = const [],
       this.paginatedProjects = const Pagination(),
       this.filter = ProjectFilter.all,
       this.sort = ProjectSort.lastModified,
-      this.order = SortOrder.desc})
-      : _projects = projects;
+      this.order = SortOrder.desc,
+      final List<ProjectCategory> categories = const [],
+      this.selectedCategory = const ProjectCategory(name: 'All')})
+      : _projects = projects,
+        _categories = categories;
 
   final List<Project> _projects;
   @override
@@ -1982,10 +2379,22 @@ class _$LoadingImpl implements _Loading {
   @override
   @JsonKey()
   final SortOrder order;
+  final List<ProjectCategory> _categories;
+  @override
+  @JsonKey()
+  List<ProjectCategory> get categories {
+    if (_categories is EqualUnmodifiableListView) return _categories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categories);
+  }
+
+  @override
+  @JsonKey()
+  final ProjectCategory selectedCategory;
 
   @override
   String toString() {
-    return 'UserProjectState.loading(projects: $projects, paginatedProjects: $paginatedProjects, filter: $filter, sort: $sort, order: $order)';
+    return 'UserProjectState.loading(projects: $projects, paginatedProjects: $paginatedProjects, filter: $filter, sort: $sort, order: $order, categories: $categories, selectedCategory: $selectedCategory)';
   }
 
   @override
@@ -1998,7 +2407,11 @@ class _$LoadingImpl implements _Loading {
                 other.paginatedProjects == paginatedProjects) &&
             (identical(other.filter, filter) || other.filter == filter) &&
             (identical(other.sort, sort) || other.sort == sort) &&
-            (identical(other.order, order) || other.order == order));
+            (identical(other.order, order) || other.order == order) &&
+            const DeepCollectionEquality()
+                .equals(other._categories, _categories) &&
+            (identical(other.selectedCategory, selectedCategory) ||
+                other.selectedCategory == selectedCategory));
   }
 
   @override
@@ -2008,7 +2421,9 @@ class _$LoadingImpl implements _Loading {
       paginatedProjects,
       filter,
       sort,
-      order);
+      order,
+      const DeepCollectionEquality().hash(_categories),
+      selectedCategory);
 
   /// Create a copy of UserProjectState
   /// with the given fields replaced by the non-null parameter values.
@@ -2026,14 +2441,18 @@ class _$LoadingImpl implements _Loading {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         initial,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         loading,
     required TResult Function(
             List<Project> projects,
@@ -2041,6 +2460,8 @@ class _$LoadingImpl implements _Loading {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)
         loaded,
     required TResult Function(
@@ -2048,14 +2469,18 @@ class _$LoadingImpl implements _Loading {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleting,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleted,
     required TResult Function(
             List<Project> projects,
@@ -2063,10 +2488,13 @@ class _$LoadingImpl implements _Loading {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)
         error,
   }) {
-    return loading(projects, paginatedProjects, filter, sort, order);
+    return loading(projects, paginatedProjects, filter, sort, order, categories,
+        selectedCategory);
   }
 
   @override
@@ -2077,14 +2505,18 @@ class _$LoadingImpl implements _Loading {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult? Function(
             List<Project> projects,
@@ -2092,6 +2524,8 @@ class _$LoadingImpl implements _Loading {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult? Function(
@@ -2099,14 +2533,18 @@ class _$LoadingImpl implements _Loading {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult? Function(
             List<Project> projects,
@@ -2114,10 +2552,13 @@ class _$LoadingImpl implements _Loading {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
   }) {
-    return loading?.call(projects, paginatedProjects, filter, sort, order);
+    return loading?.call(projects, paginatedProjects, filter, sort, order,
+        categories, selectedCategory);
   }
 
   @override
@@ -2128,14 +2569,18 @@ class _$LoadingImpl implements _Loading {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult Function(
             List<Project> projects,
@@ -2143,6 +2588,8 @@ class _$LoadingImpl implements _Loading {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult Function(
@@ -2150,14 +2597,18 @@ class _$LoadingImpl implements _Loading {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult Function(
             List<Project> projects,
@@ -2165,12 +2616,15 @@ class _$LoadingImpl implements _Loading {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading(projects, paginatedProjects, filter, sort, order);
+      return loading(projects, paginatedProjects, filter, sort, order,
+          categories, selectedCategory);
     }
     return orElse();
   }
@@ -2178,12 +2632,12 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Deleting value) deleting,
-    required TResult Function(_Deleted value) deleted,
-    required TResult Function(_Error value) error,
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
+    required TResult Function(Deleting value) deleting,
+    required TResult Function(Deleted value) deleted,
+    required TResult Function(Error value) error,
   }) {
     return loading(this);
   }
@@ -2191,12 +2645,12 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Deleting value)? deleting,
-    TResult? Function(_Deleted value)? deleted,
-    TResult? Function(_Error value)? error,
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
+    TResult? Function(Deleting value)? deleting,
+    TResult? Function(Deleted value)? deleted,
+    TResult? Function(Error value)? error,
   }) {
     return loading?.call(this);
   }
@@ -2204,12 +2658,12 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Deleting value)? deleting,
-    TResult Function(_Deleted value)? deleted,
-    TResult Function(_Error value)? error,
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
+    TResult Function(Deleting value)? deleting,
+    TResult Function(Deleted value)? deleted,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -2219,13 +2673,15 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements UserProjectState {
-  const factory _Loading(
+abstract class Loading implements UserProjectState {
+  const factory Loading(
       {final List<Project> projects,
       final Pagination<Project> paginatedProjects,
       final ProjectFilter filter,
       final ProjectSort sort,
-      final SortOrder order}) = _$LoadingImpl;
+      final SortOrder order,
+      final List<ProjectCategory> categories,
+      final ProjectCategory selectedCategory}) = _$LoadingImpl;
 
   @override
   List<Project> get projects;
@@ -2237,6 +2693,10 @@ abstract class _Loading implements UserProjectState {
   ProjectSort get sort;
   @override
   SortOrder get order;
+  @override
+  List<ProjectCategory> get categories;
+  @override
+  ProjectCategory get selectedCategory;
 
   /// Create a copy of UserProjectState
   /// with the given fields replaced by the non-null parameter values.
@@ -2260,10 +2720,14 @@ abstract class _$$LoadedImplCopyWith<$Res>
       ProjectFilter filter,
       ProjectSort sort,
       SortOrder order,
+      List<ProjectCategory> categories,
+      ProjectCategory selectedCategory,
       String? uuid});
 
   @override
   $PaginationCopyWith<Project, $Res> get paginatedProjects;
+  @override
+  $ProjectCategoryCopyWith<$Res> get selectedCategory;
 }
 
 /// @nodoc
@@ -2284,6 +2748,8 @@ class __$$LoadedImplCopyWithImpl<$Res>
     Object? filter = null,
     Object? sort = null,
     Object? order = null,
+    Object? categories = null,
+    Object? selectedCategory = null,
     Object? uuid = freezed,
   }) {
     return _then(_$LoadedImpl(
@@ -2307,6 +2773,14 @@ class __$$LoadedImplCopyWithImpl<$Res>
           ? _value.order
           : order // ignore: cast_nullable_to_non_nullable
               as SortOrder,
+      categories: null == categories
+          ? _value._categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<ProjectCategory>,
+      selectedCategory: null == selectedCategory
+          ? _value.selectedCategory
+          : selectedCategory // ignore: cast_nullable_to_non_nullable
+              as ProjectCategory,
       uuid: freezed == uuid
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
@@ -2317,15 +2791,18 @@ class __$$LoadedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadedImpl implements _Loaded {
+class _$LoadedImpl implements Loaded {
   const _$LoadedImpl(
       {final List<Project> projects = const [],
       this.paginatedProjects = const Pagination(),
       this.filter = ProjectFilter.all,
       this.sort = ProjectSort.lastModified,
       this.order = SortOrder.desc,
+      final List<ProjectCategory> categories = const [],
+      this.selectedCategory = const ProjectCategory(name: 'All'),
       this.uuid})
-      : _projects = projects;
+      : _projects = projects,
+        _categories = categories;
 
   final List<Project> _projects;
   @override
@@ -2348,12 +2825,24 @@ class _$LoadedImpl implements _Loaded {
   @override
   @JsonKey()
   final SortOrder order;
+  final List<ProjectCategory> _categories;
+  @override
+  @JsonKey()
+  List<ProjectCategory> get categories {
+    if (_categories is EqualUnmodifiableListView) return _categories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categories);
+  }
+
+  @override
+  @JsonKey()
+  final ProjectCategory selectedCategory;
   @override
   final String? uuid;
 
   @override
   String toString() {
-    return 'UserProjectState.loaded(projects: $projects, paginatedProjects: $paginatedProjects, filter: $filter, sort: $sort, order: $order, uuid: $uuid)';
+    return 'UserProjectState.loaded(projects: $projects, paginatedProjects: $paginatedProjects, filter: $filter, sort: $sort, order: $order, categories: $categories, selectedCategory: $selectedCategory, uuid: $uuid)';
   }
 
   @override
@@ -2367,6 +2856,10 @@ class _$LoadedImpl implements _Loaded {
             (identical(other.filter, filter) || other.filter == filter) &&
             (identical(other.sort, sort) || other.sort == sort) &&
             (identical(other.order, order) || other.order == order) &&
+            const DeepCollectionEquality()
+                .equals(other._categories, _categories) &&
+            (identical(other.selectedCategory, selectedCategory) ||
+                other.selectedCategory == selectedCategory) &&
             (identical(other.uuid, uuid) || other.uuid == uuid));
   }
 
@@ -2378,6 +2871,8 @@ class _$LoadedImpl implements _Loaded {
       filter,
       sort,
       order,
+      const DeepCollectionEquality().hash(_categories),
+      selectedCategory,
       uuid);
 
   /// Create a copy of UserProjectState
@@ -2396,14 +2891,18 @@ class _$LoadedImpl implements _Loaded {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         initial,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         loading,
     required TResult Function(
             List<Project> projects,
@@ -2411,6 +2910,8 @@ class _$LoadedImpl implements _Loaded {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)
         loaded,
     required TResult Function(
@@ -2418,14 +2919,18 @@ class _$LoadedImpl implements _Loaded {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleting,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleted,
     required TResult Function(
             List<Project> projects,
@@ -2433,10 +2938,13 @@ class _$LoadedImpl implements _Loaded {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)
         error,
   }) {
-    return loaded(projects, paginatedProjects, filter, sort, order, uuid);
+    return loaded(projects, paginatedProjects, filter, sort, order, categories,
+        selectedCategory, uuid);
   }
 
   @override
@@ -2447,14 +2955,18 @@ class _$LoadedImpl implements _Loaded {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult? Function(
             List<Project> projects,
@@ -2462,6 +2974,8 @@ class _$LoadedImpl implements _Loaded {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult? Function(
@@ -2469,14 +2983,18 @@ class _$LoadedImpl implements _Loaded {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult? Function(
             List<Project> projects,
@@ -2484,10 +3002,13 @@ class _$LoadedImpl implements _Loaded {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
   }) {
-    return loaded?.call(projects, paginatedProjects, filter, sort, order, uuid);
+    return loaded?.call(projects, paginatedProjects, filter, sort, order,
+        categories, selectedCategory, uuid);
   }
 
   @override
@@ -2498,14 +3019,18 @@ class _$LoadedImpl implements _Loaded {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult Function(
             List<Project> projects,
@@ -2513,6 +3038,8 @@ class _$LoadedImpl implements _Loaded {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult Function(
@@ -2520,14 +3047,18 @@ class _$LoadedImpl implements _Loaded {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult Function(
             List<Project> projects,
@@ -2535,12 +3066,15 @@ class _$LoadedImpl implements _Loaded {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(projects, paginatedProjects, filter, sort, order, uuid);
+      return loaded(projects, paginatedProjects, filter, sort, order,
+          categories, selectedCategory, uuid);
     }
     return orElse();
   }
@@ -2548,12 +3082,12 @@ class _$LoadedImpl implements _Loaded {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Deleting value) deleting,
-    required TResult Function(_Deleted value) deleted,
-    required TResult Function(_Error value) error,
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
+    required TResult Function(Deleting value) deleting,
+    required TResult Function(Deleted value) deleted,
+    required TResult Function(Error value) error,
   }) {
     return loaded(this);
   }
@@ -2561,12 +3095,12 @@ class _$LoadedImpl implements _Loaded {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Deleting value)? deleting,
-    TResult? Function(_Deleted value)? deleted,
-    TResult? Function(_Error value)? error,
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
+    TResult? Function(Deleting value)? deleting,
+    TResult? Function(Deleted value)? deleted,
+    TResult? Function(Error value)? error,
   }) {
     return loaded?.call(this);
   }
@@ -2574,12 +3108,12 @@ class _$LoadedImpl implements _Loaded {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Deleting value)? deleting,
-    TResult Function(_Deleted value)? deleted,
-    TResult Function(_Error value)? error,
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
+    TResult Function(Deleting value)? deleting,
+    TResult Function(Deleted value)? deleted,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -2589,13 +3123,15 @@ class _$LoadedImpl implements _Loaded {
   }
 }
 
-abstract class _Loaded implements UserProjectState {
-  const factory _Loaded(
+abstract class Loaded implements UserProjectState {
+  const factory Loaded(
       {final List<Project> projects,
       final Pagination<Project> paginatedProjects,
       final ProjectFilter filter,
       final ProjectSort sort,
       final SortOrder order,
+      final List<ProjectCategory> categories,
+      final ProjectCategory selectedCategory,
       final String? uuid}) = _$LoadedImpl;
 
   @override
@@ -2608,6 +3144,10 @@ abstract class _Loaded implements UserProjectState {
   ProjectSort get sort;
   @override
   SortOrder get order;
+  @override
+  List<ProjectCategory> get categories;
+  @override
+  ProjectCategory get selectedCategory;
   String? get uuid;
 
   /// Create a copy of UserProjectState
@@ -2631,10 +3171,14 @@ abstract class _$$DeletingImplCopyWith<$Res>
       Pagination<Project> paginatedProjects,
       ProjectFilter filter,
       ProjectSort sort,
-      SortOrder order});
+      SortOrder order,
+      List<ProjectCategory> categories,
+      ProjectCategory selectedCategory});
 
   @override
   $PaginationCopyWith<Project, $Res> get paginatedProjects;
+  @override
+  $ProjectCategoryCopyWith<$Res> get selectedCategory;
 }
 
 /// @nodoc
@@ -2655,6 +3199,8 @@ class __$$DeletingImplCopyWithImpl<$Res>
     Object? filter = null,
     Object? sort = null,
     Object? order = null,
+    Object? categories = null,
+    Object? selectedCategory = null,
   }) {
     return _then(_$DeletingImpl(
       projects: null == projects
@@ -2677,20 +3223,31 @@ class __$$DeletingImplCopyWithImpl<$Res>
           ? _value.order
           : order // ignore: cast_nullable_to_non_nullable
               as SortOrder,
+      categories: null == categories
+          ? _value._categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<ProjectCategory>,
+      selectedCategory: null == selectedCategory
+          ? _value.selectedCategory
+          : selectedCategory // ignore: cast_nullable_to_non_nullable
+              as ProjectCategory,
     ));
   }
 }
 
 /// @nodoc
 
-class _$DeletingImpl implements _Deleting {
+class _$DeletingImpl implements Deleting {
   const _$DeletingImpl(
       {final List<Project> projects = const [],
       this.paginatedProjects = const Pagination(),
       this.filter = ProjectFilter.all,
       this.sort = ProjectSort.lastModified,
-      this.order = SortOrder.desc})
-      : _projects = projects;
+      this.order = SortOrder.desc,
+      final List<ProjectCategory> categories = const [],
+      this.selectedCategory = const ProjectCategory(name: 'All')})
+      : _projects = projects,
+        _categories = categories;
 
   final List<Project> _projects;
   @override
@@ -2713,10 +3270,22 @@ class _$DeletingImpl implements _Deleting {
   @override
   @JsonKey()
   final SortOrder order;
+  final List<ProjectCategory> _categories;
+  @override
+  @JsonKey()
+  List<ProjectCategory> get categories {
+    if (_categories is EqualUnmodifiableListView) return _categories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categories);
+  }
+
+  @override
+  @JsonKey()
+  final ProjectCategory selectedCategory;
 
   @override
   String toString() {
-    return 'UserProjectState.deleting(projects: $projects, paginatedProjects: $paginatedProjects, filter: $filter, sort: $sort, order: $order)';
+    return 'UserProjectState.deleting(projects: $projects, paginatedProjects: $paginatedProjects, filter: $filter, sort: $sort, order: $order, categories: $categories, selectedCategory: $selectedCategory)';
   }
 
   @override
@@ -2729,7 +3298,11 @@ class _$DeletingImpl implements _Deleting {
                 other.paginatedProjects == paginatedProjects) &&
             (identical(other.filter, filter) || other.filter == filter) &&
             (identical(other.sort, sort) || other.sort == sort) &&
-            (identical(other.order, order) || other.order == order));
+            (identical(other.order, order) || other.order == order) &&
+            const DeepCollectionEquality()
+                .equals(other._categories, _categories) &&
+            (identical(other.selectedCategory, selectedCategory) ||
+                other.selectedCategory == selectedCategory));
   }
 
   @override
@@ -2739,7 +3312,9 @@ class _$DeletingImpl implements _Deleting {
       paginatedProjects,
       filter,
       sort,
-      order);
+      order,
+      const DeepCollectionEquality().hash(_categories),
+      selectedCategory);
 
   /// Create a copy of UserProjectState
   /// with the given fields replaced by the non-null parameter values.
@@ -2757,14 +3332,18 @@ class _$DeletingImpl implements _Deleting {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         initial,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         loading,
     required TResult Function(
             List<Project> projects,
@@ -2772,6 +3351,8 @@ class _$DeletingImpl implements _Deleting {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)
         loaded,
     required TResult Function(
@@ -2779,14 +3360,18 @@ class _$DeletingImpl implements _Deleting {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleting,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleted,
     required TResult Function(
             List<Project> projects,
@@ -2794,10 +3379,13 @@ class _$DeletingImpl implements _Deleting {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)
         error,
   }) {
-    return deleting(projects, paginatedProjects, filter, sort, order);
+    return deleting(projects, paginatedProjects, filter, sort, order,
+        categories, selectedCategory);
   }
 
   @override
@@ -2808,14 +3396,18 @@ class _$DeletingImpl implements _Deleting {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult? Function(
             List<Project> projects,
@@ -2823,6 +3415,8 @@ class _$DeletingImpl implements _Deleting {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult? Function(
@@ -2830,14 +3424,18 @@ class _$DeletingImpl implements _Deleting {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult? Function(
             List<Project> projects,
@@ -2845,10 +3443,13 @@ class _$DeletingImpl implements _Deleting {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
   }) {
-    return deleting?.call(projects, paginatedProjects, filter, sort, order);
+    return deleting?.call(projects, paginatedProjects, filter, sort, order,
+        categories, selectedCategory);
   }
 
   @override
@@ -2859,14 +3460,18 @@ class _$DeletingImpl implements _Deleting {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult Function(
             List<Project> projects,
@@ -2874,6 +3479,8 @@ class _$DeletingImpl implements _Deleting {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult Function(
@@ -2881,14 +3488,18 @@ class _$DeletingImpl implements _Deleting {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult Function(
             List<Project> projects,
@@ -2896,12 +3507,15 @@ class _$DeletingImpl implements _Deleting {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
     required TResult orElse(),
   }) {
     if (deleting != null) {
-      return deleting(projects, paginatedProjects, filter, sort, order);
+      return deleting(projects, paginatedProjects, filter, sort, order,
+          categories, selectedCategory);
     }
     return orElse();
   }
@@ -2909,12 +3523,12 @@ class _$DeletingImpl implements _Deleting {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Deleting value) deleting,
-    required TResult Function(_Deleted value) deleted,
-    required TResult Function(_Error value) error,
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
+    required TResult Function(Deleting value) deleting,
+    required TResult Function(Deleted value) deleted,
+    required TResult Function(Error value) error,
   }) {
     return deleting(this);
   }
@@ -2922,12 +3536,12 @@ class _$DeletingImpl implements _Deleting {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Deleting value)? deleting,
-    TResult? Function(_Deleted value)? deleted,
-    TResult? Function(_Error value)? error,
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
+    TResult? Function(Deleting value)? deleting,
+    TResult? Function(Deleted value)? deleted,
+    TResult? Function(Error value)? error,
   }) {
     return deleting?.call(this);
   }
@@ -2935,12 +3549,12 @@ class _$DeletingImpl implements _Deleting {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Deleting value)? deleting,
-    TResult Function(_Deleted value)? deleted,
-    TResult Function(_Error value)? error,
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
+    TResult Function(Deleting value)? deleting,
+    TResult Function(Deleted value)? deleted,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (deleting != null) {
@@ -2950,13 +3564,15 @@ class _$DeletingImpl implements _Deleting {
   }
 }
 
-abstract class _Deleting implements UserProjectState {
-  const factory _Deleting(
+abstract class Deleting implements UserProjectState {
+  const factory Deleting(
       {final List<Project> projects,
       final Pagination<Project> paginatedProjects,
       final ProjectFilter filter,
       final ProjectSort sort,
-      final SortOrder order}) = _$DeletingImpl;
+      final SortOrder order,
+      final List<ProjectCategory> categories,
+      final ProjectCategory selectedCategory}) = _$DeletingImpl;
 
   @override
   List<Project> get projects;
@@ -2968,6 +3584,10 @@ abstract class _Deleting implements UserProjectState {
   ProjectSort get sort;
   @override
   SortOrder get order;
+  @override
+  List<ProjectCategory> get categories;
+  @override
+  ProjectCategory get selectedCategory;
 
   /// Create a copy of UserProjectState
   /// with the given fields replaced by the non-null parameter values.
@@ -2990,10 +3610,14 @@ abstract class _$$DeletedImplCopyWith<$Res>
       Pagination<Project> paginatedProjects,
       ProjectFilter filter,
       ProjectSort sort,
-      SortOrder order});
+      SortOrder order,
+      List<ProjectCategory> categories,
+      ProjectCategory selectedCategory});
 
   @override
   $PaginationCopyWith<Project, $Res> get paginatedProjects;
+  @override
+  $ProjectCategoryCopyWith<$Res> get selectedCategory;
 }
 
 /// @nodoc
@@ -3014,6 +3638,8 @@ class __$$DeletedImplCopyWithImpl<$Res>
     Object? filter = null,
     Object? sort = null,
     Object? order = null,
+    Object? categories = null,
+    Object? selectedCategory = null,
   }) {
     return _then(_$DeletedImpl(
       projects: null == projects
@@ -3036,20 +3662,31 @@ class __$$DeletedImplCopyWithImpl<$Res>
           ? _value.order
           : order // ignore: cast_nullable_to_non_nullable
               as SortOrder,
+      categories: null == categories
+          ? _value._categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<ProjectCategory>,
+      selectedCategory: null == selectedCategory
+          ? _value.selectedCategory
+          : selectedCategory // ignore: cast_nullable_to_non_nullable
+              as ProjectCategory,
     ));
   }
 }
 
 /// @nodoc
 
-class _$DeletedImpl implements _Deleted {
+class _$DeletedImpl implements Deleted {
   const _$DeletedImpl(
       {final List<Project> projects = const [],
       this.paginatedProjects = const Pagination(),
       this.filter = ProjectFilter.all,
       this.sort = ProjectSort.lastModified,
-      this.order = SortOrder.desc})
-      : _projects = projects;
+      this.order = SortOrder.desc,
+      final List<ProjectCategory> categories = const [],
+      this.selectedCategory = const ProjectCategory(name: 'All')})
+      : _projects = projects,
+        _categories = categories;
 
   final List<Project> _projects;
   @override
@@ -3072,10 +3709,22 @@ class _$DeletedImpl implements _Deleted {
   @override
   @JsonKey()
   final SortOrder order;
+  final List<ProjectCategory> _categories;
+  @override
+  @JsonKey()
+  List<ProjectCategory> get categories {
+    if (_categories is EqualUnmodifiableListView) return _categories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categories);
+  }
+
+  @override
+  @JsonKey()
+  final ProjectCategory selectedCategory;
 
   @override
   String toString() {
-    return 'UserProjectState.deleted(projects: $projects, paginatedProjects: $paginatedProjects, filter: $filter, sort: $sort, order: $order)';
+    return 'UserProjectState.deleted(projects: $projects, paginatedProjects: $paginatedProjects, filter: $filter, sort: $sort, order: $order, categories: $categories, selectedCategory: $selectedCategory)';
   }
 
   @override
@@ -3088,7 +3737,11 @@ class _$DeletedImpl implements _Deleted {
                 other.paginatedProjects == paginatedProjects) &&
             (identical(other.filter, filter) || other.filter == filter) &&
             (identical(other.sort, sort) || other.sort == sort) &&
-            (identical(other.order, order) || other.order == order));
+            (identical(other.order, order) || other.order == order) &&
+            const DeepCollectionEquality()
+                .equals(other._categories, _categories) &&
+            (identical(other.selectedCategory, selectedCategory) ||
+                other.selectedCategory == selectedCategory));
   }
 
   @override
@@ -3098,7 +3751,9 @@ class _$DeletedImpl implements _Deleted {
       paginatedProjects,
       filter,
       sort,
-      order);
+      order,
+      const DeepCollectionEquality().hash(_categories),
+      selectedCategory);
 
   /// Create a copy of UserProjectState
   /// with the given fields replaced by the non-null parameter values.
@@ -3116,14 +3771,18 @@ class _$DeletedImpl implements _Deleted {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         initial,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         loading,
     required TResult Function(
             List<Project> projects,
@@ -3131,6 +3790,8 @@ class _$DeletedImpl implements _Deleted {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)
         loaded,
     required TResult Function(
@@ -3138,14 +3799,18 @@ class _$DeletedImpl implements _Deleted {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleting,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleted,
     required TResult Function(
             List<Project> projects,
@@ -3153,10 +3818,13 @@ class _$DeletedImpl implements _Deleted {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)
         error,
   }) {
-    return deleted(projects, paginatedProjects, filter, sort, order);
+    return deleted(projects, paginatedProjects, filter, sort, order, categories,
+        selectedCategory);
   }
 
   @override
@@ -3167,14 +3835,18 @@ class _$DeletedImpl implements _Deleted {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult? Function(
             List<Project> projects,
@@ -3182,6 +3854,8 @@ class _$DeletedImpl implements _Deleted {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult? Function(
@@ -3189,14 +3863,18 @@ class _$DeletedImpl implements _Deleted {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult? Function(
             List<Project> projects,
@@ -3204,10 +3882,13 @@ class _$DeletedImpl implements _Deleted {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
   }) {
-    return deleted?.call(projects, paginatedProjects, filter, sort, order);
+    return deleted?.call(projects, paginatedProjects, filter, sort, order,
+        categories, selectedCategory);
   }
 
   @override
@@ -3218,14 +3899,18 @@ class _$DeletedImpl implements _Deleted {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult Function(
             List<Project> projects,
@@ -3233,6 +3918,8 @@ class _$DeletedImpl implements _Deleted {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult Function(
@@ -3240,14 +3927,18 @@ class _$DeletedImpl implements _Deleted {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult Function(
             List<Project> projects,
@@ -3255,12 +3946,15 @@ class _$DeletedImpl implements _Deleted {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
     required TResult orElse(),
   }) {
     if (deleted != null) {
-      return deleted(projects, paginatedProjects, filter, sort, order);
+      return deleted(projects, paginatedProjects, filter, sort, order,
+          categories, selectedCategory);
     }
     return orElse();
   }
@@ -3268,12 +3962,12 @@ class _$DeletedImpl implements _Deleted {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Deleting value) deleting,
-    required TResult Function(_Deleted value) deleted,
-    required TResult Function(_Error value) error,
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
+    required TResult Function(Deleting value) deleting,
+    required TResult Function(Deleted value) deleted,
+    required TResult Function(Error value) error,
   }) {
     return deleted(this);
   }
@@ -3281,12 +3975,12 @@ class _$DeletedImpl implements _Deleted {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Deleting value)? deleting,
-    TResult? Function(_Deleted value)? deleted,
-    TResult? Function(_Error value)? error,
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
+    TResult? Function(Deleting value)? deleting,
+    TResult? Function(Deleted value)? deleted,
+    TResult? Function(Error value)? error,
   }) {
     return deleted?.call(this);
   }
@@ -3294,12 +3988,12 @@ class _$DeletedImpl implements _Deleted {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Deleting value)? deleting,
-    TResult Function(_Deleted value)? deleted,
-    TResult Function(_Error value)? error,
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
+    TResult Function(Deleting value)? deleting,
+    TResult Function(Deleted value)? deleted,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (deleted != null) {
@@ -3309,13 +4003,15 @@ class _$DeletedImpl implements _Deleted {
   }
 }
 
-abstract class _Deleted implements UserProjectState {
-  const factory _Deleted(
+abstract class Deleted implements UserProjectState {
+  const factory Deleted(
       {final List<Project> projects,
       final Pagination<Project> paginatedProjects,
       final ProjectFilter filter,
       final ProjectSort sort,
-      final SortOrder order}) = _$DeletedImpl;
+      final SortOrder order,
+      final List<ProjectCategory> categories,
+      final ProjectCategory selectedCategory}) = _$DeletedImpl;
 
   @override
   List<Project> get projects;
@@ -3327,6 +4023,10 @@ abstract class _Deleted implements UserProjectState {
   ProjectSort get sort;
   @override
   SortOrder get order;
+  @override
+  List<ProjectCategory> get categories;
+  @override
+  ProjectCategory get selectedCategory;
 
   /// Create a copy of UserProjectState
   /// with the given fields replaced by the non-null parameter values.
@@ -3350,10 +4050,14 @@ abstract class _$$ErrorImplCopyWith<$Res>
       ProjectFilter filter,
       ProjectSort sort,
       SortOrder order,
+      List<ProjectCategory> categories,
+      ProjectCategory selectedCategory,
       String message});
 
   @override
   $PaginationCopyWith<Project, $Res> get paginatedProjects;
+  @override
+  $ProjectCategoryCopyWith<$Res> get selectedCategory;
 }
 
 /// @nodoc
@@ -3374,6 +4078,8 @@ class __$$ErrorImplCopyWithImpl<$Res>
     Object? filter = null,
     Object? sort = null,
     Object? order = null,
+    Object? categories = null,
+    Object? selectedCategory = null,
     Object? message = null,
   }) {
     return _then(_$ErrorImpl(
@@ -3397,6 +4103,14 @@ class __$$ErrorImplCopyWithImpl<$Res>
           ? _value.order
           : order // ignore: cast_nullable_to_non_nullable
               as SortOrder,
+      categories: null == categories
+          ? _value._categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<ProjectCategory>,
+      selectedCategory: null == selectedCategory
+          ? _value.selectedCategory
+          : selectedCategory // ignore: cast_nullable_to_non_nullable
+              as ProjectCategory,
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -3407,15 +4121,18 @@ class __$$ErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ErrorImpl implements _Error {
+class _$ErrorImpl implements Error {
   const _$ErrorImpl(
       {final List<Project> projects = const [],
       this.paginatedProjects = const Pagination(),
       this.filter = ProjectFilter.all,
       this.sort = ProjectSort.lastModified,
       this.order = SortOrder.desc,
+      final List<ProjectCategory> categories = const [],
+      this.selectedCategory = const ProjectCategory(name: 'All'),
       required this.message})
-      : _projects = projects;
+      : _projects = projects,
+        _categories = categories;
 
   final List<Project> _projects;
   @override
@@ -3438,12 +4155,24 @@ class _$ErrorImpl implements _Error {
   @override
   @JsonKey()
   final SortOrder order;
+  final List<ProjectCategory> _categories;
+  @override
+  @JsonKey()
+  List<ProjectCategory> get categories {
+    if (_categories is EqualUnmodifiableListView) return _categories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categories);
+  }
+
+  @override
+  @JsonKey()
+  final ProjectCategory selectedCategory;
   @override
   final String message;
 
   @override
   String toString() {
-    return 'UserProjectState.error(projects: $projects, paginatedProjects: $paginatedProjects, filter: $filter, sort: $sort, order: $order, message: $message)';
+    return 'UserProjectState.error(projects: $projects, paginatedProjects: $paginatedProjects, filter: $filter, sort: $sort, order: $order, categories: $categories, selectedCategory: $selectedCategory, message: $message)';
   }
 
   @override
@@ -3457,6 +4186,10 @@ class _$ErrorImpl implements _Error {
             (identical(other.filter, filter) || other.filter == filter) &&
             (identical(other.sort, sort) || other.sort == sort) &&
             (identical(other.order, order) || other.order == order) &&
+            const DeepCollectionEquality()
+                .equals(other._categories, _categories) &&
+            (identical(other.selectedCategory, selectedCategory) ||
+                other.selectedCategory == selectedCategory) &&
             (identical(other.message, message) || other.message == message));
   }
 
@@ -3468,6 +4201,8 @@ class _$ErrorImpl implements _Error {
       filter,
       sort,
       order,
+      const DeepCollectionEquality().hash(_categories),
+      selectedCategory,
       message);
 
   /// Create a copy of UserProjectState
@@ -3486,14 +4221,18 @@ class _$ErrorImpl implements _Error {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         initial,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         loading,
     required TResult Function(
             List<Project> projects,
@@ -3501,6 +4240,8 @@ class _$ErrorImpl implements _Error {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)
         loaded,
     required TResult Function(
@@ -3508,14 +4249,18 @@ class _$ErrorImpl implements _Error {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleting,
     required TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)
         deleted,
     required TResult Function(
             List<Project> projects,
@@ -3523,10 +4268,13 @@ class _$ErrorImpl implements _Error {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)
         error,
   }) {
-    return error(projects, paginatedProjects, filter, sort, order, message);
+    return error(projects, paginatedProjects, filter, sort, order, categories,
+        selectedCategory, message);
   }
 
   @override
@@ -3537,14 +4285,18 @@ class _$ErrorImpl implements _Error {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult? Function(
             List<Project> projects,
@@ -3552,6 +4304,8 @@ class _$ErrorImpl implements _Error {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult? Function(
@@ -3559,14 +4313,18 @@ class _$ErrorImpl implements _Error {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult? Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult? Function(
             List<Project> projects,
@@ -3574,11 +4332,13 @@ class _$ErrorImpl implements _Error {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
   }) {
-    return error?.call(
-        projects, paginatedProjects, filter, sort, order, message);
+    return error?.call(projects, paginatedProjects, filter, sort, order,
+        categories, selectedCategory, message);
   }
 
   @override
@@ -3589,14 +4349,18 @@ class _$ErrorImpl implements _Error {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         initial,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         loading,
     TResult Function(
             List<Project> projects,
@@ -3604,6 +4368,8 @@ class _$ErrorImpl implements _Error {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String? uuid)?
         loaded,
     TResult Function(
@@ -3611,14 +4377,18 @@ class _$ErrorImpl implements _Error {
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleting,
     TResult Function(
             List<Project> projects,
             Pagination<Project> paginatedProjects,
             ProjectFilter filter,
             ProjectSort sort,
-            SortOrder order)?
+            SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory)?
         deleted,
     TResult Function(
             List<Project> projects,
@@ -3626,12 +4396,15 @@ class _$ErrorImpl implements _Error {
             ProjectFilter filter,
             ProjectSort sort,
             SortOrder order,
+            List<ProjectCategory> categories,
+            ProjectCategory selectedCategory,
             String message)?
         error,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(projects, paginatedProjects, filter, sort, order, message);
+      return error(projects, paginatedProjects, filter, sort, order, categories,
+          selectedCategory, message);
     }
     return orElse();
   }
@@ -3639,12 +4412,12 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Deleting value) deleting,
-    required TResult Function(_Deleted value) deleted,
-    required TResult Function(_Error value) error,
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
+    required TResult Function(Deleting value) deleting,
+    required TResult Function(Deleted value) deleted,
+    required TResult Function(Error value) error,
   }) {
     return error(this);
   }
@@ -3652,12 +4425,12 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Deleting value)? deleting,
-    TResult? Function(_Deleted value)? deleted,
-    TResult? Function(_Error value)? error,
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
+    TResult? Function(Deleting value)? deleting,
+    TResult? Function(Deleted value)? deleted,
+    TResult? Function(Error value)? error,
   }) {
     return error?.call(this);
   }
@@ -3665,12 +4438,12 @@ class _$ErrorImpl implements _Error {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Deleting value)? deleting,
-    TResult Function(_Deleted value)? deleted,
-    TResult Function(_Error value)? error,
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
+    TResult Function(Deleting value)? deleting,
+    TResult Function(Deleted value)? deleted,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -3680,13 +4453,15 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements UserProjectState {
-  const factory _Error(
+abstract class Error implements UserProjectState {
+  const factory Error(
       {final List<Project> projects,
       final Pagination<Project> paginatedProjects,
       final ProjectFilter filter,
       final ProjectSort sort,
       final SortOrder order,
+      final List<ProjectCategory> categories,
+      final ProjectCategory selectedCategory,
       required final String message}) = _$ErrorImpl;
 
   @override
@@ -3699,6 +4474,10 @@ abstract class _Error implements UserProjectState {
   ProjectSort get sort;
   @override
   SortOrder get order;
+  @override
+  List<ProjectCategory> get categories;
+  @override
+  ProjectCategory get selectedCategory;
   String get message;
 
   /// Create a copy of UserProjectState
