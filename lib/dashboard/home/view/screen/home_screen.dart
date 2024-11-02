@@ -1,5 +1,7 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
+import 'package:craftmate_client/dashboard/home/view/tabs/following_tab_page.dart';
 import 'package:craftmate_client/dashboard/home/view/tabs/for_you_tab.dart';
+import 'package:craftmate_client/dashboard/home/view/tabs/trending_tab_page.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/view/create_project_page.dart';
@@ -17,7 +19,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _tabController = TabController(
+      length: 3,
+      vsync: this,
+    );
+    super.initState();
+  }
+
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
