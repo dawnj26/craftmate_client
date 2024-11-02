@@ -50,6 +50,18 @@ class SocialCounters extends StatelessWidget {
               );
             },
           ),
+          const Gap(gap),
+          BlocBuilder<ViewProjectBloc, ViewProjectState>(
+            buildWhen: (previous, current) =>
+                previous.project.commentCount != current.project.commentCount ||
+                current is ViewProjectRefreshSuccess,
+            builder: (context, state) {
+              return Counter(
+                countText: '${state.project.viewCount}',
+                icon: const Icon(Icons.remove_red_eye_outlined),
+              );
+            },
+          ),
         ],
       ),
     );
