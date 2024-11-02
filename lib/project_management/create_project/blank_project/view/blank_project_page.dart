@@ -17,7 +17,7 @@ class BlankProjectPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => BlankProjectBloc(
         projectRepo: context.read<ProjectRepository>(),
-      ),
+      )..add(const BlankProjectInitialized()),
       child: const BlankProjectCreateScreen(),
     );
   }
