@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:isolate';
 
 import 'package:config_repository/config_repository.dart';
 import 'package:project_repository/src/exceptions/project_exception.dart';
@@ -9,6 +10,117 @@ final class ProjectApi {
   final ConfigRepository _config;
 
   const ProjectApi({required ConfigRepository config}) : _config = config;
+
+  Future<List<ProjectCategory>> getProjectCategories() async {
+    final projectCategories = _config.prefs.getString('projectCategories');
+
+    if (projectCategories != null) {
+      final json = await Isolate.run(() {
+        final jsonData = jsonDecode(projectCategories);
+        return jsonData;
+      });
+
+      final categories =
+          (json as List).map((e) => ProjectCategory.fromJson(e)).toList();
+
+      return categories;
+    }
+
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/project/categories',
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final categories = (response.data!['data'] as List)
+          .map((e) => ProjectCategory.fromJson(e))
+          .toList();
+
+      _config.prefs
+          .setString('projectCategories', jsonEncode(response.data!['data']));
+
+      return categories;
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<Pagination<Project>> getTrendingProjects(
+      [String timeframe = 'today', String sortBy = 'views_count']) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/projects/trending',
+        queryParameters: {
+          'timeframe': timeframe,
+          'sort_by': sortBy,
+        },
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final paginatedProjects = Pagination.fromJson(
+        response.data!['data'],
+        (dynamic item) => Project.fromJson(item),
+      );
+
+      return paginatedProjects;
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<Pagination<Project>> getFollowingProjects(
+      [int? categoryId, bool refresh = false]) async {
+    final followingProjects = _config.prefs.getString('followingProjects');
+
+    if (followingProjects != null && !refresh) {
+      final projects = Pagination.fromJson(
+        jsonDecode(followingProjects),
+        (dynamic item) => Project.fromJson(item),
+      );
+
+      return projects;
+    }
+
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/projects/following',
+        queryParameters:
+            categoryId != null ? {'category_id': categoryId} : null,
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final paginatedProjects = Pagination.fromJson(
+        response.data!['data'],
+        (dynamic item) => Project.fromJson(item),
+      );
+
+      _config.prefs.setString(
+        'followingProjects',
+        jsonEncode(response.data!['data']),
+      );
+
+      return paginatedProjects;
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
 
   Future<void> saveSuggestion(ProjectSuggestion suggestion) async {
     try {
@@ -108,18 +220,24 @@ final class ProjectApi {
     ProjectFilter filter,
     ProjectSort sort,
     SortOrder order,
+    int? categoryId,
   ) async {
     try {
       final path = filter.index != 0
           ? '/user/projects/${filter.index}'
           : '/user/projects';
+      final params = <String, dynamic>{
+        'sort_by': sort.value,
+        'order': order.value,
+      };
+
+      if (categoryId != null) {
+        params['category_id'] = categoryId;
+      }
 
       final response = await _config.makeRequest<Map<String, dynamic>>(
         path,
-        queryParameters: {
-          'sort_by': sort.value,
-          'order': order.value,
-        },
+        queryParameters: params,
         withAuthorization: true,
       );
 
@@ -165,10 +283,24 @@ final class ProjectApi {
     }
   }
 
-  Future<Pagination<Project>> getLatestProjects() async {
+  Future<Pagination<Project>> getLatestProjects(
+      [int? categoryId, bool refresh = false]) async {
+    final latestProjects = _config.prefs.getString('latestProjects');
+
+    if (latestProjects != null && !refresh) {
+      final projects = Pagination.fromJson(
+        jsonDecode(latestProjects),
+        (dynamic item) => Project.fromJson(item),
+      );
+
+      return projects;
+    }
+
     try {
       final response = await _config.makeRequest<Map<String, dynamic>>(
         '/projects/latest',
+        queryParameters:
+            categoryId != null ? {'category_id': categoryId} : null,
         withAuthorization: true,
       );
 
@@ -181,6 +313,11 @@ final class ProjectApi {
         (dynamic item) => Project.fromJson(item),
       );
 
+      _config.prefs.setString(
+        'latestProjects',
+        jsonEncode(response.data!['data']),
+      );
+
       return paginatedProjects;
     } on RequestException catch (e) {
       throw ProjectException(message: e.message);
@@ -189,12 +326,14 @@ final class ProjectApi {
     }
   }
 
-  Future<Project> tryCreateProject(String title, ProjectVisibility visibility,
+  Future<Project> tryCreateProject(
+      String title, ProjectVisibility visibility, ProjectCategory category,
       [String? tags]) async {
     try {
       var data = <String, dynamic>{
         'title': title,
         'visibility': visibility.index + 1,
+        'category': category.id,
       };
 
       if (tags != null) {
@@ -287,11 +426,13 @@ final class ProjectApi {
     }
   }
 
-  Future<Project> updateProject(String title, Project project,
+  Future<Project> updateProject(
+      String title, Project project, ProjectCategory category,
       [String? tags]) async {
     try {
       var data = <String, dynamic>{
         'title': title,
+        'category': category.id,
       };
 
       if (tags != null) {
