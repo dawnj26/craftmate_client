@@ -52,7 +52,11 @@ class _HomeScreenState extends State<HomeScreen>
         child: Scaffold(
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
-              Navigator.of(context).push(CreateProjectPage.route());
+              Navigator.of(context).push(CreateProjectPage.route()).then(
+                (value) {
+                  setState(() {});
+                },
+              );
             },
             label: const Text('New Project'),
             icon: const Icon(Icons.add),
@@ -86,29 +90,29 @@ class _HomeScreenState extends State<HomeScreen>
                 icon: const Icon(Icons.person_2_outlined),
               ),
             ],
-            bottom: const TabBar(
-              tabs: [
+            bottom: TabBar(
+              controller: _tabController,
+              tabAlignment: TabAlignment.fill,
+              // isScrollable: true,
+              tabs: const [
                 Tab(
-                  text: 'For you',
+                  text: 'Latest',
+                ),
+                Tab(
+                  text: 'Following',
                 ),
                 Tab(
                   text: 'Trending',
                 ),
-                Tab(
-                  text: 'Categories',
-                ),
               ],
             ),
           ),
-          body: const TabBarView(
-            children: [
-              ForYouTab(),
-              Center(
-                child: Text('Two'),
-              ),
-              Center(
-                child: Text('Three'),
-              ),
+          body: TabBarView(
+            controller: _tabController,
+            children: const [
+              ForYouPage(),
+              FollowingTabPage(),
+              TrendingTabPage(),
             ],
           ),
         ),
