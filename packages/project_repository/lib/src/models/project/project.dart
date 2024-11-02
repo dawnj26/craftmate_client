@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:material_repository/material_repository.dart';
 import 'package:project_repository/src/models/project/fork/project_fork.dart';
+import 'package:project_repository/src/models/project_category/project_category.dart';
 import 'package:project_repository/src/models/step/step.dart';
 import 'package:project_repository/src/models/tag/tag.dart';
 import 'package:user_repository/user_repository.dart';
@@ -18,7 +19,7 @@ enum ProjectVisibility {
 
 @freezed
 class Project with _$Project {
-  factory Project({
+  const factory Project({
     @Default(User()) User creator,
     @Default(0) int id,
     @Default('') String title,
@@ -37,6 +38,7 @@ class Project with _$Project {
     String? imageUrl,
     ProjectFork? fork,
     List<Material>? materials,
+    ProjectCategory? category,
   }) = _Project;
 
   factory Project.empty() => Project(
