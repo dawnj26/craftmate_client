@@ -9,7 +9,8 @@ import 'package:project_repository/src/api/upload_api.dart';
 import 'package:project_repository/src/models/models.dart';
 
 abstract class IProjectRepository {
-  Future<Project> tryCreateProject(String title, ProjectVisibility visibility,
+  Future<Project> tryCreateProject(
+      String title, ProjectVisibility visibility, ProjectCategory category,
       [String? tags]);
   Future<Project> tryGetProjectById(int id);
   Future<void> tryToggleLikeById(Project project);
@@ -27,7 +28,9 @@ abstract class IProjectRepository {
   Future<List<Comment>> getComments(int projectId);
   Future<Comment> addComment(Project project, String comment);
   Future<void> likeComment(Comment comment, int projectId);
-  Future<Project> updateProject(String title, Project project, [String? tags]);
+  Future<Project> updateProject(
+      String title, Project project, ProjectCategory category,
+      [String? tags]);
   Future<Project> changeVisibilty(
       Project project, ProjectVisibility visibility);
   Future<void> deleteProject(Project project);
@@ -37,10 +40,16 @@ abstract class IProjectRepository {
     String commentText,
   );
   Future<void> deleteComment(Comment comment, Project project);
-  Future<Pagination<Project>> getLatestProjects();
+  Future<Pagination<Project>> getLatestProjects(
+      [int? categoryId, bool refresh = false]);
   Future<Pagination<Project>> searchProjects(String query);
   Future<Pagination<Project>> getNextPage(String nextUrl);
-  Future<Pagination<Project>> getCurrentUserProjects(ProjectFilter filter);
+  Future<Pagination<Project>> getCurrentUserProjects(
+    ProjectFilter filter, [
+    ProjectSort sort = ProjectSort.lastModified,
+    SortOrder order = SortOrder.desc,
+    int? categoryId,
+  ]);
   Future<void> deleteProjects(List<int> projectIds);
   Future<void> viewProjectById(int id);
   Future<int> forkProject(int projectId);
@@ -50,6 +59,12 @@ abstract class IProjectRepository {
   Future<ProjectSuggestion> generateProject(
       Prompt prompt, ProjectSuggestion suggestion);
   Future<void> saveSuggestion(ProjectSuggestion suggestion);
+
+  Future<Pagination<Project>> getFollowingProjects(
+      [int? categoryId, bool refresh = false]);
+  Future<Pagination<Project>> getTrendingProjects(
+      [String timeframe = 'today', String sortBy = 'views_count']);
+  Future<List<ProjectCategory>> getProjectCategories();
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -64,6 +79,23 @@ class ProjectRepository implements IProjectRepository {
         _uploadApi = UploadApi(config: config),
         _commentApi = CommentApi(config: config),
         _generateApi = GenerateApi(config: config);
+
+  @override
+  Future<List<ProjectCategory>> getProjectCategories() {
+    return _projectApi.getProjectCategories();
+  }
+
+  @override
+  Future<Pagination<Project>> getTrendingProjects(
+      [String timeframe = 'today', String sortBy = 'views_count']) {
+    return _projectApi.getTrendingProjects(timeframe, sortBy);
+  }
+
+  @override
+  Future<Pagination<Project>> getFollowingProjects(
+      [int? categoryId, bool refresh = false]) {
+    return _projectApi.getFollowingProjects(categoryId, refresh);
+  }
 
   @override
   Future<void> saveSuggestion(ProjectSuggestion suggestion) async {
@@ -109,8 +141,9 @@ class ProjectRepository implements IProjectRepository {
     ProjectFilter filter, [
     ProjectSort sort = ProjectSort.lastModified,
     SortOrder order = SortOrder.desc,
+    int? categoryId,
   ]) {
-    return _projectApi.getCurrentUserProjects(filter, sort, order);
+    return _projectApi.getCurrentUserProjects(filter, sort, order, categoryId);
   }
 
   @override
@@ -119,8 +152,9 @@ class ProjectRepository implements IProjectRepository {
   }
 
   @override
-  Future<Pagination<Project>> getLatestProjects() {
-    return _projectApi.getLatestProjects();
+  Future<Pagination<Project>> getLatestProjects(
+      [int? categoryId, bool refresh = false]) {
+    return _projectApi.getLatestProjects(categoryId, refresh);
   }
 
   @override
@@ -149,9 +183,10 @@ class ProjectRepository implements IProjectRepository {
   }
 
   @override
-  Future<Project> updateProject(String title, Project project,
+  Future<Project> updateProject(
+      String title, Project project, ProjectCategory category,
       [String? tags]) async {
-    return _projectApi.updateProject(title, project, tags);
+    return _projectApi.updateProject(title, project, category, tags);
   }
 
   @override
@@ -177,9 +212,10 @@ class ProjectRepository implements IProjectRepository {
   }
 
   @override
-  Future<Project> tryCreateProject(String title, ProjectVisibility visibility,
+  Future<Project> tryCreateProject(
+      String title, ProjectVisibility visibility, ProjectCategory category,
       [String? tags]) async {
-    return _projectApi.tryCreateProject(title, visibility, tags);
+    return _projectApi.tryCreateProject(title, visibility, category, tags);
   }
 
   @override
