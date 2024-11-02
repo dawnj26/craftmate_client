@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$SearchEvent {
+mixin _$ProjectSearchEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String query) searchProjects,
@@ -63,23 +63,23 @@ mixin _$SearchEvent {
 }
 
 /// @nodoc
-abstract class $SearchEventCopyWith<$Res> {
-  factory $SearchEventCopyWith(
-          SearchEvent value, $Res Function(SearchEvent) then) =
-      _$SearchEventCopyWithImpl<$Res, SearchEvent>;
+abstract class $ProjectSearchEventCopyWith<$Res> {
+  factory $ProjectSearchEventCopyWith(
+          ProjectSearchEvent value, $Res Function(ProjectSearchEvent) then) =
+      _$ProjectSearchEventCopyWithImpl<$Res, ProjectSearchEvent>;
 }
 
 /// @nodoc
-class _$SearchEventCopyWithImpl<$Res, $Val extends SearchEvent>
-    implements $SearchEventCopyWith<$Res> {
-  _$SearchEventCopyWithImpl(this._value, this._then);
+class _$ProjectSearchEventCopyWithImpl<$Res, $Val extends ProjectSearchEvent>
+    implements $ProjectSearchEventCopyWith<$Res> {
+  _$ProjectSearchEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SearchEvent
+  /// Create a copy of ProjectSearchEvent
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -94,13 +94,13 @@ abstract class _$$SearchProjectsImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$SearchProjectsImplCopyWithImpl<$Res>
-    extends _$SearchEventCopyWithImpl<$Res, _$SearchProjectsImpl>
+    extends _$ProjectSearchEventCopyWithImpl<$Res, _$SearchProjectsImpl>
     implements _$$SearchProjectsImplCopyWith<$Res> {
   __$$SearchProjectsImplCopyWithImpl(
       _$SearchProjectsImpl _value, $Res Function(_$SearchProjectsImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SearchEvent
+  /// Create a copy of ProjectSearchEvent
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -126,7 +126,7 @@ class _$SearchProjectsImpl implements _SearchProjects {
 
   @override
   String toString() {
-    return 'SearchEvent.searchProjects(query: $query)';
+    return 'ProjectSearchEvent.searchProjects(query: $query)';
   }
 
   @override
@@ -140,7 +140,7 @@ class _$SearchProjectsImpl implements _SearchProjects {
   @override
   int get hashCode => Object.hash(runtimeType, query);
 
-  /// Create a copy of SearchEvent
+  /// Create a copy of ProjectSearchEvent
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -218,13 +218,13 @@ class _$SearchProjectsImpl implements _SearchProjects {
   }
 }
 
-abstract class _SearchProjects implements SearchEvent {
+abstract class _SearchProjects implements ProjectSearchEvent {
   const factory _SearchProjects({required final String query}) =
       _$SearchProjectsImpl;
 
   String get query;
 
-  /// Create a copy of SearchEvent
+  /// Create a copy of ProjectSearchEvent
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SearchProjectsImplCopyWith<_$SearchProjectsImpl> get copyWith =>
@@ -240,13 +240,13 @@ abstract class _$$LoadMoreProjectsImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadMoreProjectsImplCopyWithImpl<$Res>
-    extends _$SearchEventCopyWithImpl<$Res, _$LoadMoreProjectsImpl>
+    extends _$ProjectSearchEventCopyWithImpl<$Res, _$LoadMoreProjectsImpl>
     implements _$$LoadMoreProjectsImplCopyWith<$Res> {
   __$$LoadMoreProjectsImplCopyWithImpl(_$LoadMoreProjectsImpl _value,
       $Res Function(_$LoadMoreProjectsImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SearchEvent
+  /// Create a copy of ProjectSearchEvent
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -257,7 +257,7 @@ class _$LoadMoreProjectsImpl implements _LoadMoreProjects {
 
   @override
   String toString() {
-    return 'SearchEvent.loadMoreProjects()';
+    return 'ProjectSearchEvent.loadMoreProjects()';
   }
 
   @override
@@ -338,7 +338,7 @@ class _$LoadMoreProjectsImpl implements _LoadMoreProjects {
   }
 }
 
-abstract class _LoadMoreProjects implements SearchEvent {
+abstract class _LoadMoreProjects implements ProjectSearchEvent {
   const factory _LoadMoreProjects() = _$LoadMoreProjectsImpl;
 }
 
@@ -351,13 +351,13 @@ abstract class _$$ClearSearchImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ClearSearchImplCopyWithImpl<$Res>
-    extends _$SearchEventCopyWithImpl<$Res, _$ClearSearchImpl>
+    extends _$ProjectSearchEventCopyWithImpl<$Res, _$ClearSearchImpl>
     implements _$$ClearSearchImplCopyWith<$Res> {
   __$$ClearSearchImplCopyWithImpl(
       _$ClearSearchImpl _value, $Res Function(_$ClearSearchImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SearchEvent
+  /// Create a copy of ProjectSearchEvent
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -368,7 +368,7 @@ class _$ClearSearchImpl implements _ClearSearch {
 
   @override
   String toString() {
-    return 'SearchEvent.clearSearch()';
+    return 'ProjectSearchEvent.clearSearch()';
   }
 
   @override
@@ -449,12 +449,12 @@ class _$ClearSearchImpl implements _ClearSearch {
   }
 }
 
-abstract class _ClearSearch implements SearchEvent {
+abstract class _ClearSearch implements ProjectSearchEvent {
   const factory _ClearSearch() = _$ClearSearchImpl;
 }
 
 /// @nodoc
-mixin _$SearchState {
+mixin _$ProjectSearchState {
   List<Project> get projects => throw _privateConstructorUsedError;
   Pagination<Project> get pagination => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -526,18 +526,18 @@ mixin _$SearchState {
   }) =>
       throw _privateConstructorUsedError;
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SearchStateCopyWith<SearchState> get copyWith =>
+  $ProjectSearchStateCopyWith<ProjectSearchState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SearchStateCopyWith<$Res> {
-  factory $SearchStateCopyWith(
-          SearchState value, $Res Function(SearchState) then) =
-      _$SearchStateCopyWithImpl<$Res, SearchState>;
+abstract class $ProjectSearchStateCopyWith<$Res> {
+  factory $ProjectSearchStateCopyWith(
+          ProjectSearchState value, $Res Function(ProjectSearchState) then) =
+      _$ProjectSearchStateCopyWithImpl<$Res, ProjectSearchState>;
   @useResult
   $Res call({List<Project> projects, Pagination<Project> pagination});
 
@@ -545,16 +545,16 @@ abstract class $SearchStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
-    implements $SearchStateCopyWith<$Res> {
-  _$SearchStateCopyWithImpl(this._value, this._then);
+class _$ProjectSearchStateCopyWithImpl<$Res, $Val extends ProjectSearchState>
+    implements $ProjectSearchStateCopyWith<$Res> {
+  _$ProjectSearchStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -574,7 +574,7 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
     ) as $Val);
   }
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -587,7 +587,7 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
 
 /// @nodoc
 abstract class _$$InitialImplCopyWith<$Res>
-    implements $SearchStateCopyWith<$Res> {
+    implements $ProjectSearchStateCopyWith<$Res> {
   factory _$$InitialImplCopyWith(
           _$InitialImpl value, $Res Function(_$InitialImpl) then) =
       __$$InitialImplCopyWithImpl<$Res>;
@@ -601,13 +601,13 @@ abstract class _$$InitialImplCopyWith<$Res>
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$SearchStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$ProjectSearchStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -651,7 +651,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'SearchState.initial(projects: $projects, pagination: $pagination)';
+    return 'ProjectSearchState.initial(projects: $projects, pagination: $pagination)';
   }
 
   @override
@@ -668,7 +668,7 @@ class _$InitialImpl implements _Initial {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_projects), pagination);
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -769,7 +769,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements SearchState {
+abstract class _Initial implements ProjectSearchState {
   const factory _Initial(
       {final List<Project> projects,
       final Pagination<Project> pagination}) = _$InitialImpl;
@@ -779,7 +779,7 @@ abstract class _Initial implements SearchState {
   @override
   Pagination<Project> get pagination;
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -789,7 +789,7 @@ abstract class _Initial implements SearchState {
 
 /// @nodoc
 abstract class _$$LoadingImplCopyWith<$Res>
-    implements $SearchStateCopyWith<$Res> {
+    implements $ProjectSearchStateCopyWith<$Res> {
   factory _$$LoadingImplCopyWith(
           _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
       __$$LoadingImplCopyWithImpl<$Res>;
@@ -803,13 +803,13 @@ abstract class _$$LoadingImplCopyWith<$Res>
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$SearchStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$ProjectSearchStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -853,7 +853,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'SearchState.loading(projects: $projects, pagination: $pagination)';
+    return 'ProjectSearchState.loading(projects: $projects, pagination: $pagination)';
   }
 
   @override
@@ -870,7 +870,7 @@ class _$LoadingImpl implements _Loading {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_projects), pagination);
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -971,7 +971,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements SearchState {
+abstract class _Loading implements ProjectSearchState {
   const factory _Loading(
       {final List<Project> projects,
       final Pagination<Project> pagination}) = _$LoadingImpl;
@@ -981,7 +981,7 @@ abstract class _Loading implements SearchState {
   @override
   Pagination<Project> get pagination;
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -991,7 +991,7 @@ abstract class _Loading implements SearchState {
 
 /// @nodoc
 abstract class _$$LoadedImplCopyWith<$Res>
-    implements $SearchStateCopyWith<$Res> {
+    implements $ProjectSearchStateCopyWith<$Res> {
   factory _$$LoadedImplCopyWith(
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
@@ -1005,13 +1005,13 @@ abstract class _$$LoadedImplCopyWith<$Res>
 
 /// @nodoc
 class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$SearchStateCopyWithImpl<$Res, _$LoadedImpl>
+    extends _$ProjectSearchStateCopyWithImpl<$Res, _$LoadedImpl>
     implements _$$LoadedImplCopyWith<$Res> {
   __$$LoadedImplCopyWithImpl(
       _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -1052,7 +1052,7 @@ class _$LoadedImpl implements _Loaded {
 
   @override
   String toString() {
-    return 'SearchState.loaded(projects: $projects, pagination: $pagination)';
+    return 'ProjectSearchState.loaded(projects: $projects, pagination: $pagination)';
   }
 
   @override
@@ -1069,7 +1069,7 @@ class _$LoadedImpl implements _Loaded {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_projects), pagination);
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -1170,7 +1170,7 @@ class _$LoadedImpl implements _Loaded {
   }
 }
 
-abstract class _Loaded implements SearchState {
+abstract class _Loaded implements ProjectSearchState {
   const factory _Loaded(
       {required final List<Project> projects,
       required final Pagination<Project> pagination}) = _$LoadedImpl;
@@ -1180,7 +1180,7 @@ abstract class _Loaded implements SearchState {
   @override
   Pagination<Project> get pagination;
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1190,7 +1190,7 @@ abstract class _Loaded implements SearchState {
 
 /// @nodoc
 abstract class _$$ErrorImplCopyWith<$Res>
-    implements $SearchStateCopyWith<$Res> {
+    implements $ProjectSearchStateCopyWith<$Res> {
   factory _$$ErrorImplCopyWith(
           _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
       __$$ErrorImplCopyWithImpl<$Res>;
@@ -1205,13 +1205,13 @@ abstract class _$$ErrorImplCopyWith<$Res>
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$SearchStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$ProjectSearchStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -1263,7 +1263,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'SearchState.error(projects: $projects, pagination: $pagination, message: $message)';
+    return 'ProjectSearchState.error(projects: $projects, pagination: $pagination, message: $message)';
   }
 
   @override
@@ -1281,7 +1281,7 @@ class _$ErrorImpl implements _Error {
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_projects), pagination, message);
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -1382,7 +1382,7 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements SearchState {
+abstract class _Error implements ProjectSearchState {
   const factory _Error(
       {final List<Project> projects,
       final Pagination<Project> pagination,
@@ -1394,7 +1394,7 @@ abstract class _Error implements SearchState {
   Pagination<Project> get pagination;
   String get message;
 
-  /// Create a copy of SearchState
+  /// Create a copy of ProjectSearchState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)

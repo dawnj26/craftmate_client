@@ -1,11 +1,11 @@
 part of 'search_bloc.dart';
 
 @freezed
-class SearchEvent with _$SearchEvent {
-  const factory SearchEvent.searchProjects({
+class ProjectSearchEvent with _$ProjectSearchEvent {
+  const factory ProjectSearchEvent.searchProjects({
     required String query,
   }) = _SearchProjects;
 
-  const factory SearchEvent.loadMoreProjects() = _LoadMoreProjects;
-  const factory SearchEvent.clearSearch() = _ClearSearch;
+  const factory ProjectSearchEvent.loadMoreProjects() = _LoadMoreProjects;
+  const factory ProjectSearchEvent.clearSearch() = _ClearSearch;
 }

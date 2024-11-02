@@ -9,14 +9,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:project_repository/project_repository.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class ProjectSearchScreen extends StatefulWidget {
+  const ProjectSearchScreen({super.key});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<ProjectSearchScreen> createState() => _ProjectSearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
   final _searchController = TextEditingController();
   final _focusNode = FocusNode();
   final _scrollController = ScrollController();
@@ -52,15 +52,17 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           onChanged: (value) {
             context
-                .read<SearchBloc>()
-                .add(SearchEvent.searchProjects(query: value));
+                .read<ProjectSearchBloc>()
+                .add(ProjectSearchEvent.searchProjects(query: value));
           },
         ),
         actions: [
           IconButton(
             onPressed: () {
               _searchController.clear();
-              context.read<SearchBloc>().add(const SearchEvent.clearSearch());
+              context
+                  .read<ProjectSearchBloc>()
+                  .add(const ProjectSearchEvent.clearSearch());
             },
             icon: const Icon(Icons.clear),
           ),
@@ -70,7 +72,7 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           const Divider(),
           Expanded(
-            child: BlocBuilder<SearchBloc, SearchState>(
+            child: BlocBuilder<ProjectSearchBloc, ProjectSearchState>(
               builder: (context, state) {
                 return state.when(
                   initial: (_, __) {
@@ -125,7 +127,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _onScroll() {
     if (_isBottom) {
-      context.read<SearchBloc>().add(const SearchEvent.loadMoreProjects());
+      context
+          .read<ProjectSearchBloc>()
+          .add(const ProjectSearchEvent.loadMoreProjects());
     }
   }
 
