@@ -1,4 +1,4 @@
-import 'package:craftmate_client/dashboard/home/bloc/home_bloc.dart';
+import 'package:craftmate_client/dashboard/home/bloc/home/home_bloc.dart';
 import 'package:craftmate_client/dashboard/view/screens/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,10 +13,14 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeBloc(
-        projectRepo: context.read<ProjectRepository>(),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => HomeBloc(
+            projectRepo: context.read<ProjectRepository>(),
+          ),
+        ),
+      ],
       child: const DashboardScreen(),
     );
   }
