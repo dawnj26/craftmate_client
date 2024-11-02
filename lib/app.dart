@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:material_repository/material_repository.dart';
 import 'package:project_repository/project_repository.dart';
+import 'package:search_repository/search_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatefulWidget {
@@ -26,12 +27,10 @@ class _MyAppState extends State<MyApp> {
   late final UserRepository _userRepository;
   late final ProjectRepository _projectRepository;
   late final MaterialRepository _materialRepository;
+  late final SearchRepository _searchRepository;
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
-
     // initialize repositories
     config = ConfigRepository(
       apiUrl: dotenv.get('API_URL'),
@@ -42,6 +41,9 @@ class _MyAppState extends State<MyApp> {
     _userRepository = UserRepository(config: config);
     _projectRepository = ProjectRepository(config: config);
     _materialRepository = MaterialRepository(config: config);
+    _searchRepository = SearchRepository(configRepository: config);
+
+    super.initState();
   }
 
   @override
@@ -61,6 +63,7 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider.value(value: _userRepository),
         RepositoryProvider.value(value: _projectRepository),
         RepositoryProvider.value(value: _materialRepository),
+        RepositoryProvider.value(value: _searchRepository),
       ],
       child: MultiBlocProvider(
         providers: [
