@@ -14,7 +14,7 @@ part 'add_material_bloc.freezed.dart';
 class AddMaterialBloc extends Bloc<AddMaterialEvent, AddMaterialState> {
   AddMaterialBloc({required MaterialRepository materialRepo})
       : _materialRepository = materialRepo,
-        super(const _Initial()) {
+        super(const Initial()) {
     on<_Started>(_onStarted);
     on<_NameChanged>(_onNameChanged);
     on<_DescriptionChanged>(_onDescriptionChanged);

@@ -9,7 +9,7 @@ part 'view_material_bloc.freezed.dart';
 class ViewMaterialBloc extends Bloc<ViewMaterialEvent, ViewMaterialState> {
   ViewMaterialBloc({required MaterialRepository materialRepository})
       : _materialRepository = materialRepository,
-        super(const _Initial()) {
+        super(const Initial()) {
     on<_Started>(_onStarted);
     on<_Delete>(_onDelete);
   }
@@ -21,7 +21,7 @@ class ViewMaterialBloc extends Bloc<ViewMaterialEvent, ViewMaterialState> {
     Emitter<ViewMaterialState> emit,
   ) async {
     switch (state) {
-      case _Initialized(material: final material):
+      case Initialized(material: final material):
         emit(ViewMaterialState.deleting(material: material));
     }
     try {
