@@ -1,0 +1,27 @@
+targets:
+  $default:
+    builders:
+      freezed:
+        options:
+          # Tells Freezed not to format .freezed.dart files.
+          # This can significantly speed up code-generation.
+          format: false
+          # Disable the generation of copyWith/== for the entire project
+          copy_with: true
+          equal: true
+          # `when` and `map` can be enabled/disabled entirely by setting them to `true`/`false`
+          map: false
+          # We can also enable/disable specific variants of `when`/`map` by setting them to `true`/`false`:
+          when:
+            when: false
+            maybe_when: false
+            when_or_null: false
+          generate_for:
+            # Models
+            - lib/**/models/**.dart
+            - lib/**/bloc/**.dart
+            - packages/**/models/**.dart
+            # Blocs
+            - lib/**/bloc/**/*_bloc.dart
+            - lib/**/bloc/**/*_event.dart
+            - lib/**/bloc/**/*_state.dart
