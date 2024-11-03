@@ -20,11 +20,11 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
   };
 }
 
-class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  SearchBloc({
+class ProjectSearchBloc extends Bloc<ProjectSearchEvent, ProjectSearchState> {
+  ProjectSearchBloc({
     required ProjectRepository projectRepository,
   })  : _projectRepository = projectRepository,
-        super(const _Initial()) {
+        super(const Initial()) {
     on<_SearchProjects>(_searchProjects, transformer: debounce(_duration));
     on<_LoadMoreProjects>(
       _loadMoreProjects,
@@ -37,14 +37,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   void _clearSearch(
     _ClearSearch event,
-    Emitter<SearchState> emit,
+    Emitter<ProjectSearchState> emit,
   ) {
-    emit(const SearchState.initial());
+    emit(const ProjectSearchState.initial());
   }
 
   Future<void> _loadMoreProjects(
     _LoadMoreProjects event,
-    Emitter<SearchState> emit,
+    Emitter<ProjectSearchState> emit,
   ) async {
     if (!state.pagination.hasNextPage) return;
 
@@ -52,27 +52,27 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       final projects =
           await _projectRepository.getNextPage(state.pagination.nextPageUrl!);
       emit(
-        SearchState.loaded(
+        ProjectSearchState.loaded(
           projects: [...state.projects, ...projects.items],
           pagination: projects,
         ),
       );
     } catch (e) {
-      emit(SearchState.error(message: e.toString()));
+      emit(ProjectSearchState.error(message: e.toString()));
     }
   }
 
   Future<void> _searchProjects(
     _SearchProjects event,
-    Emitter<SearchState> emit,
+    Emitter<ProjectSearchState> emit,
   ) async {
     if (event.query.isEmpty) {
-      emit(const SearchState.initial());
+      emit(const ProjectSearchState.initial());
       return;
     }
 
     emit(
-      SearchState.loading(
+      ProjectSearchState.loading(
         projects: state.projects,
         pagination: state.pagination,
       ),
@@ -80,13 +80,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     try {
       final projects = await _projectRepository.searchProjects(event.query);
       emit(
-        SearchState.loaded(
+        ProjectSearchState.loaded(
           projects: projects.items,
           pagination: state.pagination,
         ),
       );
     } catch (e) {
-      emit(SearchState.error(message: e.toString()));
+      emit(ProjectSearchState.error(message: e.toString()));
     }
   }
 }

@@ -6,15 +6,26 @@ sealed class ProjectSettingsState extends Equatable {
     this.projectTitle = const ProjectTitle.pure(),
     this.isValid = false,
     this.visibility = ProjectVisibility.public,
+    this.categories = const [],
+    this.selectedCategory = const ProjectCategory(),
   });
 
   final ProjectTitle projectTitle;
   final bool isValid;
   final Project project;
   final ProjectVisibility visibility;
+  final List<ProjectCategory> categories;
+  final ProjectCategory selectedCategory;
 
   @override
-  List<Object> get props => [projectTitle, isValid, project, visibility];
+  List<Object> get props => [
+        projectTitle,
+        isValid,
+        project,
+        visibility,
+        categories,
+        selectedCategory,
+      ];
 }
 
 final class ProjectSettingsInitial extends ProjectSettingsState {
@@ -23,15 +34,7 @@ final class ProjectSettingsInitial extends ProjectSettingsState {
     super.projectTitle,
     super.isValid,
     super.visibility,
-  });
-}
-
-final class ProjectSettingsChanged extends ProjectSettingsState {
-  const ProjectSettingsChanged({
-    required super.project,
-    super.projectTitle,
-    super.isValid,
-    super.visibility,
+    super.selectedCategory,
   });
 }
 
@@ -41,6 +44,30 @@ final class ProjectSettingsLoading extends ProjectSettingsState {
     super.projectTitle,
     super.isValid,
     super.visibility,
+    super.categories,
+    super.selectedCategory,
+  });
+}
+
+final class ProjectSettingsChanged extends ProjectSettingsState {
+  const ProjectSettingsChanged({
+    required super.project,
+    super.projectTitle,
+    super.isValid,
+    super.visibility,
+    super.categories,
+    super.selectedCategory,
+  });
+}
+
+final class ProjectSettingsSaving extends ProjectSettingsState {
+  const ProjectSettingsSaving({
+    required super.project,
+    super.projectTitle,
+    super.isValid,
+    super.visibility,
+    super.categories,
+    super.selectedCategory,
   });
 }
 
@@ -50,6 +77,8 @@ final class SettingsSavedSuccess extends ProjectSettingsState {
     super.projectTitle,
     super.isValid,
     super.visibility,
+    super.categories,
+    super.selectedCategory,
   });
 }
 
@@ -59,6 +88,8 @@ final class SettingsDeleteSuccess extends ProjectSettingsState {
     super.projectTitle,
     super.isValid,
     super.visibility,
+    super.categories,
+    super.selectedCategory,
   });
 }
 
@@ -69,6 +100,8 @@ final class SettingsFailed extends ProjectSettingsState {
     super.projectTitle,
     super.isValid,
     super.visibility,
+    super.categories,
+    super.selectedCategory,
   });
   final String errMessage;
 

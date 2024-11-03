@@ -5,12 +5,14 @@ class FilterDropdown<T> extends StatelessWidget {
     super.key,
     this.initialSelection,
     required this.items,
+    this.width,
     this.onSelected,
   });
 
   final T? initialSelection;
   final List<DropdownMenuEntry<T>> items;
   final void Function(T?)? onSelected;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +20,7 @@ class FilterDropdown<T> extends StatelessWidget {
     // final screenSize = MediaQuery.sizeOf(context);
     return DropdownMenu<T>(
       // menuHeight: screenSize.height * 0.25,
+      width: width,
       onSelected: onSelected,
       leadingIcon: const Icon(Icons.filter_list),
       textStyle: theme.textTheme.titleSmall,

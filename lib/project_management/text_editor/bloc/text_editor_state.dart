@@ -5,29 +5,33 @@ class TextEditorState with _$TextEditorState {
   const factory TextEditorState.initial({
     @Default([]) List<TextEditorController> controllers,
     TextEditorController? descriptionController,
-  }) = _Initial;
+  }) = Initial;
 
   const factory TextEditorState.loaded({
     @Default([]) List<TextEditorController> controllers,
     TextEditorController? descriptionController,
-  }) = _Loaded;
+  }) = Loaded;
+  const factory TextEditorState.inserted({
+    @Default([]) List<TextEditorController> controllers,
+    TextEditorController? descriptionController,
+  }) = Inserted;
 
   const factory TextEditorState.deleted({
     @Default([]) List<TextEditorController> controllers,
     TextEditorController? descriptionController,
-  }) = _Deleted;
+  }) = Deleted;
 
   const factory TextEditorState.loading({
     @Default([]) List<TextEditorController> controllers,
     TextEditorController? descriptionController,
-  }) = _Loading;
+  }) = Loading;
   const factory TextEditorState.normal({
     @Default([]) List<TextEditorController> controllers,
     TextEditorController? descriptionController,
-  }) = _Normal;
+  }) = Normal;
   const factory TextEditorState.failed({
     required String errMessage,
     @Default([]) List<TextEditorController> controllers,
     TextEditorController? descriptionController,
-  }) = _Failed;
+  }) = Failed;
 }

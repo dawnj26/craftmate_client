@@ -7,6 +7,19 @@ sealed class ProjectSettingsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+final class ProjectSettingsCategoryChanged extends ProjectSettingsEvent {
+  const ProjectSettingsCategoryChanged(this.category);
+  final ProjectCategory category;
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [category];
+}
+
+final class ProjectSettingsCategoryLoaded extends ProjectSettingsEvent {
+  const ProjectSettingsCategoryLoaded();
+}
+
 final class ProjectSettingsTitleChanged extends ProjectSettingsEvent {
   const ProjectSettingsTitleChanged(this.title);
   final String title;

@@ -3,6 +3,7 @@ import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/create_project/blank_project/models/title.dart';
 import 'package:craftmate_client/project_management/create_project/blank_project/view/components/visibility_dropdown.dart';
+import 'package:craftmate_client/project_management/create_project/blank_project/view/create/create_screen.dart';
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/project_settings/bloc/project_settings_bloc.dart';
 import 'package:flutter/material.dart';
@@ -18,40 +19,54 @@ class SettingsScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
 
-    return BlocListener<ProjectSettingsBloc, ProjectSettingsState>(
+    return BlocConsumer<ProjectSettingsBloc, ProjectSettingsState>(
       listener: _handleState,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Settings'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'General',
-                  style: textTheme.headlineMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
+      builder: (context, state) {
+        if (state is ProjectSettingsInitial ||
+            state is ProjectSettingsLoading) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Settings'),
+            ),
+            body: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Settings'),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'General',
+                    style: textTheme.headlineMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   ),
-                ),
-                const Gap(24.0),
-                const GeneralSettings(),
-                const Gap(24.0),
-                Text(
-                  'Danger Zone',
-                  style: textTheme.headlineMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
+                  const Gap(24.0),
+                  const GeneralSettings(),
+                  const Gap(24.0),
+                  Text(
+                    'Danger Zone',
+                    style: textTheme.headlineMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   ),
-                ),
-                const Gap(12.0),
-                const DangerSettings(),
-              ],
+                  const Gap(12.0),
+                  const DangerSettings(),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -59,7 +74,7 @@ class SettingsScreen extends StatelessWidget {
     final navigator = Navigator.of(context);
     final viewProjectBloc = BlocProvider.of<ViewProjectBloc>(context);
 
-    if (state is ProjectSettingsLoading) {
+    if (state is ProjectSettingsSaving) {
       Modal.instance.showLoadingDialog(context);
     } else if (state is SettingsFailed) {
       Navigator.of(context).pop();
@@ -84,19 +99,38 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-class GeneralSettings extends StatelessWidget {
+class GeneralSettings extends StatefulWidget {
   const GeneralSettings({super.key});
+
+  @override
+  State<GeneralSettings> createState() => _GeneralSettingsState();
+}
+
+class _GeneralSettingsState extends State<GeneralSettings> {
+  final _titleController = TextEditingController();
+  final _tagsController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    final initState = BlocProvider.of<ProjectSettingsBloc>(context).state;
+    _titleController.text = initState.projectTitle.value;
+    _tagsController.text = combineTags(initState.project.tags) ?? '';
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _titleController.dispose();
+    _tagsController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final initState = BlocProvider.of<ProjectSettingsBloc>(context).state;
     final textTheme = theme.textTheme;
-    final titleController = TextEditingController();
-    final tagsController = TextEditingController();
-
-    titleController.text = initState.projectTitle.value;
-    tagsController.text = combineTags(initState.project.tags) ?? '';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -120,7 +154,7 @@ class GeneralSettings extends StatelessWidget {
 
             return TextField(
               key: const Key('projectSettings_title_textfield'),
-              controller: titleController,
+              controller: _titleController,
               decoration: InputDecoration(
                 filled: true,
                 errorText: errText,
@@ -137,17 +171,41 @@ class GeneralSettings extends StatelessWidget {
         ),
         const Gap(4.0),
         TextField(
-          controller: tagsController,
+          controller: _tagsController,
           decoration: const InputDecoration(
             filled: true,
             helperText: 'Separated by whitespaces',
           ),
         ),
         const Gap(12.0),
+        Text(
+          'Category',
+          style: textTheme.labelLarge,
+        ),
+        const Gap(4.0),
+        BlocBuilder<ProjectSettingsBloc, ProjectSettingsState>(
+          builder: (context, state) {
+            return ProjectCategoryDropdown(
+              categories: state.categories,
+              errorText: null,
+              initialSelection: state.selectedCategory,
+              onSelected: (value) {
+                if (value == null) {
+                  return;
+                }
+
+                context
+                    .read<ProjectSettingsBloc>()
+                    .add(ProjectSettingsCategoryChanged(value));
+              },
+            );
+          },
+        ),
+        const Gap(12.0),
         FilledButton(
           onPressed: () {
             final tags =
-                tagsController.text.isEmpty ? null : tagsController.text;
+                _tagsController.text.isEmpty ? null : _tagsController.text;
             BlocProvider.of<ProjectSettingsBloc>(context)
                 .add(ProjectSettingsSaved(tags));
           },

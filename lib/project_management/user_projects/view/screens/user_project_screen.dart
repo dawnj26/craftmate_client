@@ -1,5 +1,6 @@
 import 'package:config_repository/config_repository.dart';
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
+import 'package:craftmate_client/dashboard/home/view/components/category_filter.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
@@ -7,7 +8,8 @@ import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/components/asc_desc_button.dart';
 import 'package:craftmate_client/project_management/components/filter_dropdown.dart';
 import 'package:craftmate_client/project_management/components/sort_button.dart';
-import 'package:craftmate_client/project_management/user_projects/bloc/selection/selection_bloc.dart';
+import 'package:craftmate_client/project_management/user_projects/bloc/selection/selection_bloc.dart'
+    as s;
 import 'package:craftmate_client/project_management/user_projects/bloc/user_project/user_project_bloc.dart';
 import 'package:craftmate_client/project_management/user_projects/search/view/search_page.dart';
 import 'package:craftmate_client/project_management/view/create_project_page.dart';
@@ -25,19 +27,15 @@ class UserProjectScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<UserProjectBloc, UserProjectState>(
       listener: (context, state) {
-        state.maybeWhen(
-          orElse: () {},
-          deleting: (_, __, ___, ____, _____) {
+        switch (state) {
+          case Deleting():
             Modal.instance.showLoadingDialog(context);
-          },
-          deleted: (_, __, ___, ____, _____) {
+          case Deleted():
             Navigator.of(context).pop();
             Alert.instance.showSnackbar(context, 'Projects deleted');
-          },
-          error: (_, __, ___, ____, _____, err) {
-            Alert.instance.showSnackbar(context, err);
-          },
-        );
+          case Error(message: final message):
+            Alert.instance.showSnackbar(context, message);
+        }
       },
       child: Scaffold(
         appBar: const UserProjectAppBar(),
@@ -110,11 +108,38 @@ class UserProjectScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              const Gap(8.0),
+              BlocBuilder<UserProjectBloc, UserProjectState>(
+                builder: (context, state) {
+                  switch (state) {
+                    case Initial():
+                    case Loading():
+                      return const SizedBox.shrink();
+                    default:
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CategoryFilter(
+                            selectedCategory: state.selectedCategory,
+                            categories: state.categories,
+                            onSelected: (category) {
+                              context.read<UserProjectBloc>().add(
+                                    UserProjectEvent.categoryChanged(
+                                      category: category,
+                                    ),
+                                  );
+                            },
+                          ),
+                        ],
+                      );
+                  }
+                },
+              ),
               Expanded(
                 child: BlocBuilder<UserProjectBloc, UserProjectState>(
                   builder: (context, state) {
-                    return state.when(
-                      initial: (_, __, ___, ____, _____) {
+                    switch (state) {
+                      case Initial():
                         context.read<UserProjectBloc>().add(
                               const UserProjectEvent.fetchProjects(
                                 filter: ProjectFilter.all,
@@ -123,19 +148,12 @@ class UserProjectScreen extends StatelessWidget {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
-                      },
-                      loading: (_, __, ___, ____, _____) => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      loaded: (
-                        projects,
-                        paginatedProject,
-                        ___,
-                        ____,
-                        _____,
-                        ______,
-                      ) {
-                        if (projects.isEmpty) {
+                      case Loading():
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      default:
+                        if (state.projects.isEmpty) {
                           return const EmptyMessage(
                             emptyMessage: 'No projects found',
                           );
@@ -143,40 +161,10 @@ class UserProjectScreen extends StatelessWidget {
 
                         return UserProjectList(
                           key: const Key('user_project_list'),
-                          projects: projects,
-                          paginatedProject: paginatedProject,
+                          projects: state.projects,
+                          paginatedProject: state.paginatedProjects,
                         );
-                      },
-                      deleted: (projects, paginatedProject, ___, ____, _____) {
-                        if (projects.isEmpty) {
-                          return const EmptyMessage(
-                            emptyMessage: 'No projects found',
-                          );
-                        }
-
-                        return UserProjectList(
-                          key: const Key('user_project_list'),
-                          projects: projects,
-                          paginatedProject: paginatedProject,
-                        );
-                      },
-                      deleting: (projects, paginatedProject, ___, ____, _____) {
-                        if (projects.isEmpty) {
-                          return const EmptyMessage(
-                            emptyMessage: 'No projects found',
-                          );
-                        }
-
-                        return UserProjectList(
-                          key: const Key('user_project_list'),
-                          projects: projects,
-                          paginatedProject: paginatedProject,
-                        );
-                      },
-                      error: (_, __, ___, ____, _____, err) => Center(
-                        child: Text(err),
-                      ),
-                    );
+                    }
                   },
                 ),
               ),
@@ -226,59 +214,60 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SelectionBloc, SelectionState>(
+    return BlocBuilder<s.SelectionBloc, s.SelectionState>(
       builder: (context, state) {
-        return state.when(
-          initial: (_) {
+        switch (state) {
+          case s.Initial():
             return AppBar(
               title: const Text('Your projects'),
               actions: [
                 IconButton(
                   onPressed: () {
                     Navigator.of(context).push(
-                      SearchPage.route(),
+                      ProjectSearchPage.route(),
                     );
                   },
                   icon: const Icon(Icons.search),
                 ),
               ],
             );
-          },
-          on: (selectedProjects) {
+          case s.On(:final selectedProjectIds):
             return AppBar(
               automaticallyImplyLeading: false,
               leading: IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () {
-                  context.read<SelectionBloc>().add(
-                        const SelectionEvent.clear(),
+                  context.read<s.SelectionBloc>().add(
+                        const s.SelectionEvent.clear(),
                       );
                 },
               ),
-              title: Text('${selectedProjects.length} selected'),
+              title: Text('${selectedProjectIds.length} selected'),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.delete),
-                  onPressed: () => _handleDelete(context, selectedProjects),
+                  onPressed: () => _handleDelete(context, selectedProjectIds),
                 ),
               ],
             );
-          },
-          off: (_) {
+          case s.Off():
             return AppBar(
               title: const Text('Your projects'),
               actions: [
                 IconButton(
                   onPressed: () {
                     Navigator.of(context).push(
-                      SearchPage.route(),
+                      ProjectSearchPage.route(),
                     );
                   },
                   icon: const Icon(Icons.search),
                 ),
               ],
             );
-          },
+        }
+
+        return const Center(
+          child: Text('Error'),
         );
       },
     );
@@ -305,8 +294,8 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
                     projectIds: selectedProjects,
                   ),
                 );
-            context.read<SelectionBloc>().add(
-                  const SelectionEvent.clear(),
+            context.read<s.SelectionBloc>().add(
+                  const s.SelectionEvent.clear(),
                 );
             Navigator.of(context).pop();
           },
@@ -378,15 +367,15 @@ class _UserProjectListState extends State<UserProjectList> {
           }
 
           final project = widget.projects[index];
-          return BlocBuilder<SelectionBloc, SelectionState>(
+          return BlocBuilder<s.SelectionBloc, s.SelectionState>(
             builder: (context, state) {
-              return state.when(
-                initial: (_) {
+              switch (state) {
+                case s.Initial() || s.Off():
                   return ProjectCard(
                     project: project,
                     onLongPress: () {
-                      context.read<SelectionBloc>().add(
-                            SelectionEvent.started(projectId: project.id),
+                      context.read<s.SelectionBloc>().add(
+                            s.SelectionEvent.started(projectId: project.id),
                           );
                     },
                     onTap: () {
@@ -395,9 +384,8 @@ class _UserProjectListState extends State<UserProjectList> {
                       );
                     },
                   );
-                },
-                on: (selectedProjects) {
-                  final isSelected = selectedProjects.contains(project.id);
+                case s.On(:final selectedProjectIds):
+                  final isSelected = selectedProjectIds.contains(project.id);
                   return ProjectCard(
                     project: project,
                     isSelected: isSelected,
@@ -405,14 +393,16 @@ class _UserProjectListState extends State<UserProjectList> {
                     trailing: IconButton(
                       onPressed: () {
                         if (isSelected) {
-                          context.read<SelectionBloc>().add(
-                                SelectionEvent.unselected(
+                          context.read<s.SelectionBloc>().add(
+                                s.SelectionEvent.unselected(
                                   projectId: project.id,
                                 ),
                               );
                         } else {
-                          context.read<SelectionBloc>().add(
-                                SelectionEvent.selected(projectId: project.id),
+                          context.read<s.SelectionBloc>().add(
+                                s.SelectionEvent.selected(
+                                  projectId: project.id,
+                                ),
                               );
                         }
                       },
@@ -424,32 +414,22 @@ class _UserProjectListState extends State<UserProjectList> {
                     ),
                     onTap: () {
                       if (isSelected) {
-                        context.read<SelectionBloc>().add(
-                              SelectionEvent.unselected(projectId: project.id),
+                        context.read<s.SelectionBloc>().add(
+                              s.SelectionEvent.unselected(
+                                projectId: project.id,
+                              ),
                             );
                       } else {
-                        context.read<SelectionBloc>().add(
-                              SelectionEvent.selected(projectId: project.id),
+                        context.read<s.SelectionBloc>().add(
+                              s.SelectionEvent.selected(projectId: project.id),
                             );
                       }
                     },
                   );
-                },
-                off: (_) {
-                  return ProjectCard(
-                    project: project,
-                    onLongPress: () {
-                      context.read<SelectionBloc>().add(
-                            SelectionEvent.started(projectId: project.id),
-                          );
-                    },
-                    onTap: () {
-                      Navigator.of(context).push(
-                        ViewProjectPage.route(project.id),
-                      );
-                    },
-                  );
-                },
+              }
+
+              return const Center(
+                child: Text('Error'),
               );
             },
           );
@@ -479,7 +459,9 @@ class _FilterDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.sizeOf(context);
     return FilterDropdown<ProjectFilter>(
+      width: screenSize.width * 0.43,
       initialSelection: ProjectFilter.all,
       items: ProjectFilter.values
           .map(

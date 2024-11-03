@@ -111,37 +111,24 @@ class _ViewMain extends StatelessWidget {
       ),
       body: BlocBuilder<ViewMaterialBloc, ViewMaterialState>(
         builder: (context, state) {
-          return state.maybeWhen<Widget>(
-            initial: () {
+          switch (state) {
+            case Initial() || Initializing():
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            },
-            initializing: () {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-            initialized: (material) {
+            case Initialized(material: final material) ||
+                  Deleting(material: final material) ||
+                  Deleted(material: final material):
               return _MaterialBody(material: material);
-            },
-            error: (message) {
+            case Error(message: final message):
               return Center(
                 child: Text(message),
               );
-            },
-            deleting: (material) {
-              return _MaterialBody(material: material);
-            },
-            deleted: (material) {
-              return _MaterialBody(material: material);
-            },
-            orElse: () {
+            default:
               return const Center(
                 child: Text('Something went wrong'),
               );
-            },
-          );
+          }
         },
       ),
     );

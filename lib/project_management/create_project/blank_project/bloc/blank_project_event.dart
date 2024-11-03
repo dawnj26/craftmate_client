@@ -12,11 +12,30 @@ final class BlankProjectCreate extends BlankProjectEvent {
   final String? tags;
 }
 
+final class BlankProjectCategoryChange extends BlankProjectEvent {
+  const BlankProjectCategoryChange({
+    required this.category,
+  });
+  final ProjectCategory category;
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [category];
+}
+
+final class BlankProjectInitialized extends BlankProjectEvent {
+  const BlankProjectInitialized();
+}
+
 final class BlankProjectTitleChange extends BlankProjectEvent {
   const BlankProjectTitleChange({
     required this.title,
   });
   final String title;
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [title];
 }
 
 final class BlankProjectToggleVisibility extends BlankProjectEvent {
@@ -24,4 +43,8 @@ final class BlankProjectToggleVisibility extends BlankProjectEvent {
     required this.visibility,
   });
   final ProjectVisibility visibility;
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [visibility];
 }

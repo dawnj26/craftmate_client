@@ -7,3 +7,4 @@ export 'filters.dart';
 export 'step/step.dart';
 export 'generate/project_suggestion.dart';
 export 'prompt/prompt.dart';
+export 'project_category/project_category.dart';

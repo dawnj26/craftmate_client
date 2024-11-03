@@ -33,7 +33,7 @@ class SettingsPage extends StatelessWidget {
           create: (context) => ProjectSettingsBloc(
             projectRepo: context.read<ProjectRepository>(),
             project: project,
-          ),
+          )..add(const ProjectSettingsCategoryLoaded()),
         ),
         BlocProvider.value(
           value: viewProjectBloc,

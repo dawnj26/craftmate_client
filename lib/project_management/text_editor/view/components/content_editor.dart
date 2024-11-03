@@ -39,12 +39,10 @@ class ContentEditor extends StatelessWidget {
     const modalHelper = Modal.instance;
     final nav = Navigator.of(context);
 
-    state.maybeWhen(
-      orElse: () {},
-      loading: (_, __) {
+    switch (state) {
+      case Loading():
         modalHelper.showLoadingDialog(context);
-      },
-      failed: (errMessage, _, __) {
+      case Failed(:final errMessage):
         nav.pop();
         modalHelper.showConfirmationModal(
           context: context,
@@ -54,9 +52,9 @@ class ContentEditor extends StatelessWidget {
             FilledButton(onPressed: nav.pop, child: const Text('Ok')),
           ],
         );
-      },
-      loaded: (_, __) => nav.pop(),
-    );
+      case Inserted():
+        nav.pop();
+    }
   }
 }
 

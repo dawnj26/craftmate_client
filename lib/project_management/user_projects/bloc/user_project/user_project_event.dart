@@ -20,4 +20,7 @@ class UserProjectEvent with _$UserProjectEvent {
   }) = _DeleteProjects;
   const factory UserProjectEvent.deleteProject({required Project project}) =
       _DeleteProject;
+  const factory UserProjectEvent.categoryChanged({
+    required ProjectCategory category,
+  }) = _CategoryChanged;
 }

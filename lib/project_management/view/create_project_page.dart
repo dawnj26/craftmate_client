@@ -1,5 +1,4 @@
 import 'package:craftmate_client/project_management/create_project/blank_project/view/blank_project_page.dart';
-import 'package:craftmate_client/project_management/create_project/existing_project/view/existing_project_page.dart';
 import 'package:craftmate_client/project_management/create_project/generate_project/view/generate_project_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';

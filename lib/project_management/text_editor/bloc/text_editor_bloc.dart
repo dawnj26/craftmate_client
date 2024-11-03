@@ -15,9 +15,7 @@ class TextEditorBloc extends Bloc<TextEditorEvent, TextEditorState> {
   TextEditorBloc({
     required ProjectRepository projectRepository,
   })  : _projectRepository = projectRepository,
-        super(
-          const _Initial(),
-        ) {
+        super(const Initial()) {
     on<ImageInserted>(_onImageInserted);
     on<VideoInserted>(_onVideoInserted);
     on<EditorAdded>(_onEditorAdded);
@@ -108,23 +106,22 @@ class TextEditorBloc extends Bloc<TextEditorEvent, TextEditorState> {
       );
 
       emit(
-        TextEditorState.normal(
+        TextEditorState.loaded(
           controllers: newControllers,
           descriptionController: description,
         ),
       );
-      return;
-    }
-
-    emit(
-      TextEditorState.normal(
-        controllers: newControllers,
-        descriptionController: TextEditorController(
-          quillController: QuillController.basic(),
-          focusNode: FocusNode(),
+    } else {
+      emit(
+        TextEditorState.loaded(
+          controllers: newControllers,
+          descriptionController: TextEditorController(
+            quillController: QuillController.basic(),
+            focusNode: FocusNode(),
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   @override
@@ -173,7 +170,7 @@ class TextEditorBloc extends Bloc<TextEditorEvent, TextEditorState> {
       event.controller.insertImageBlock(imageSource: imageUrl);
 
       emit(
-        TextEditorState.loaded(
+        TextEditorState.inserted(
           controllers: List.of(state.controllers),
           descriptionController: state.descriptionController,
         ),
@@ -207,7 +204,7 @@ class TextEditorBloc extends Bloc<TextEditorEvent, TextEditorState> {
       event.controller.insertVideoBlock(videoUrl: videoUrl);
 
       emit(
-        TextEditorState.loaded(
+        TextEditorState.inserted(
           controllers: List.of(state.controllers),
           descriptionController: state.descriptionController,
         ),

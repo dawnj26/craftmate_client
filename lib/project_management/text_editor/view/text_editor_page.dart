@@ -12,23 +12,29 @@ class TextEditorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TextEditorBloc, TextEditorState>(
       builder: (context, state) {
-        state.maybeWhen(
-          orElse: () {},
-          loaded: (controllers, descriptionController) {
-            logger.info('Initialized text editor page');
-            final editBloc = BlocProvider.of<EditProjectBloc>(context);
-
+        switch (state) {
+          case Loaded(
+              controllers: final controllers,
+              descriptionController: final descriptionController
+            ):
+            logger.info('Loaded');
             for (final controller in controllers) {
               controller.quillController.document.changes.listen((docChange) {
-                editBloc.add(const EditProjectChanged());
+                if (context.mounted) {
+                  context
+                      .read<EditProjectBloc>()
+                      .add(const EditProjectChanged());
+                }
               });
             }
-            descriptionController?.quillController.document.changes
+            descriptionController!.quillController.document.changes
                 .listen((docChange) {
-              editBloc.add(const EditProjectChanged());
+              logger.info('Description changed');
+              if (context.mounted) {
+                context.read<EditProjectBloc>().add(const EditProjectChanged());
+              }
             });
-          },
-        );
+        }
 
         return const ContentEditor();
       },

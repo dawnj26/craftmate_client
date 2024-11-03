@@ -1,22 +1,22 @@
 part of 'search_bloc.dart';
 
 @freezed
-class SearchState with _$SearchState {
-  const factory SearchState.initial({
+class ProjectSearchState with _$ProjectSearchState {
+  const factory ProjectSearchState.initial({
     @Default([]) List<Project> projects,
     @Default(Pagination()) Pagination<Project> pagination,
-  }) = _Initial;
-  const factory SearchState.loading({
+  }) = Initial;
+  const factory ProjectSearchState.loading({
     @Default([]) List<Project> projects,
     @Default(Pagination()) Pagination<Project> pagination,
-  }) = _Loading;
-  const factory SearchState.loaded({
+  }) = Loading;
+  const factory ProjectSearchState.loaded({
     required List<Project> projects,
     required Pagination<Project> pagination,
-  }) = _Loaded;
-  const factory SearchState.error({
+  }) = Loaded;
+  const factory ProjectSearchState.error({
     @Default([]) List<Project> projects,
     @Default(Pagination()) Pagination<Project> pagination,
     required String message,
-  }) = _Error;
+  }) = Error;
 }

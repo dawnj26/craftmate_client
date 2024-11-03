@@ -41,6 +41,7 @@ mixin _$Project {
   String? get imageUrl => throw _privateConstructorUsedError;
   ProjectFork? get fork => throw _privateConstructorUsedError;
   List<Material>? get materials => throw _privateConstructorUsedError;
+  ProjectCategory? get category => throw _privateConstructorUsedError;
 
   /// Serializes this Project to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -74,10 +75,12 @@ abstract class $ProjectCopyWith<$Res> {
       List<Step>? steps,
       String? imageUrl,
       ProjectFork? fork,
-      List<Material>? materials});
+      List<Material>? materials,
+      ProjectCategory? category});
 
   $UserCopyWith<$Res> get creator;
   $ProjectForkCopyWith<$Res>? get fork;
+  $ProjectCategoryCopyWith<$Res>? get category;
 }
 
 /// @nodoc
@@ -113,6 +116,7 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
     Object? imageUrl = freezed,
     Object? fork = freezed,
     Object? materials = freezed,
+    Object? category = freezed,
   }) {
     return _then(_value.copyWith(
       creator: null == creator
@@ -187,6 +191,10 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
           ? _value.materials
           : materials // ignore: cast_nullable_to_non_nullable
               as List<Material>?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as ProjectCategory?,
     ) as $Val);
   }
 
@@ -211,6 +219,20 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
 
     return $ProjectForkCopyWith<$Res>(_value.fork!, (value) {
       return _then(_value.copyWith(fork: value) as $Val);
+    });
+  }
+
+  /// Create a copy of Project
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ProjectCategoryCopyWith<$Res>? get category {
+    if (_value.category == null) {
+      return null;
+    }
+
+    return $ProjectCategoryCopyWith<$Res>(_value.category!, (value) {
+      return _then(_value.copyWith(category: value) as $Val);
     });
   }
 }
@@ -240,12 +262,15 @@ abstract class _$$ProjectImplCopyWith<$Res> implements $ProjectCopyWith<$Res> {
       List<Step>? steps,
       String? imageUrl,
       ProjectFork? fork,
-      List<Material>? materials});
+      List<Material>? materials,
+      ProjectCategory? category});
 
   @override
   $UserCopyWith<$Res> get creator;
   @override
   $ProjectForkCopyWith<$Res>? get fork;
+  @override
+  $ProjectCategoryCopyWith<$Res>? get category;
 }
 
 /// @nodoc
@@ -279,6 +304,7 @@ class __$$ProjectImplCopyWithImpl<$Res>
     Object? imageUrl = freezed,
     Object? fork = freezed,
     Object? materials = freezed,
+    Object? category = freezed,
   }) {
     return _then(_$ProjectImpl(
       creator: null == creator
@@ -353,6 +379,10 @@ class __$$ProjectImplCopyWithImpl<$Res>
           ? _value._materials
           : materials // ignore: cast_nullable_to_non_nullable
               as List<Material>?,
+      category: freezed == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as ProjectCategory?,
     ));
   }
 }
@@ -360,7 +390,7 @@ class __$$ProjectImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ProjectImpl implements _Project {
-  _$ProjectImpl(
+  const _$ProjectImpl(
       {this.creator = const User(),
       this.id = 0,
       this.title = '',
@@ -378,7 +408,8 @@ class _$ProjectImpl implements _Project {
       final List<Step>? steps,
       this.imageUrl,
       this.fork,
-      final List<Material>? materials})
+      final List<Material>? materials,
+      this.category})
       : _description = description,
         _tags = tags,
         _steps = steps,
@@ -468,8 +499,11 @@ class _$ProjectImpl implements _Project {
   }
 
   @override
+  final ProjectCategory? category;
+
+  @override
   String toString() {
-    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, viewCount: $viewCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl, fork: $fork, materials: $materials)';
+    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, viewCount: $viewCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl, fork: $fork, materials: $materials, category: $category)';
   }
 
   @override
@@ -505,31 +539,35 @@ class _$ProjectImpl implements _Project {
                 other.imageUrl == imageUrl) &&
             (identical(other.fork, fork) || other.fork == fork) &&
             const DeepCollectionEquality()
-                .equals(other._materials, _materials));
+                .equals(other._materials, _materials) &&
+            (identical(other.category, category) ||
+                other.category == category));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      creator,
-      id,
-      title,
-      visibility,
-      isLiked,
-      likeCount,
-      commentCount,
-      forkCount,
-      viewCount,
-      createdAt,
-      updatedAt,
-      deletedAt,
-      const DeepCollectionEquality().hash(_description),
-      const DeepCollectionEquality().hash(_tags),
-      const DeepCollectionEquality().hash(_steps),
-      imageUrl,
-      fork,
-      const DeepCollectionEquality().hash(_materials));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        creator,
+        id,
+        title,
+        visibility,
+        isLiked,
+        likeCount,
+        commentCount,
+        forkCount,
+        viewCount,
+        createdAt,
+        updatedAt,
+        deletedAt,
+        const DeepCollectionEquality().hash(_description),
+        const DeepCollectionEquality().hash(_tags),
+        const DeepCollectionEquality().hash(_steps),
+        imageUrl,
+        fork,
+        const DeepCollectionEquality().hash(_materials),
+        category
+      ]);
 
   /// Create a copy of Project
   /// with the given fields replaced by the non-null parameter values.
@@ -548,7 +586,7 @@ class _$ProjectImpl implements _Project {
 }
 
 abstract class _Project implements Project {
-  factory _Project(
+  const factory _Project(
       {final User creator,
       final int id,
       final String title,
@@ -566,7 +604,8 @@ abstract class _Project implements Project {
       final List<Step>? steps,
       final String? imageUrl,
       final ProjectFork? fork,
-      final List<Material>? materials}) = _$ProjectImpl;
+      final List<Material>? materials,
+      final ProjectCategory? category}) = _$ProjectImpl;
 
   factory _Project.fromJson(Map<String, dynamic> json) = _$ProjectImpl.fromJson;
 
@@ -609,6 +648,8 @@ abstract class _Project implements Project {
   ProjectFork? get fork;
   @override
   List<Material>? get materials;
+  @override
+  ProjectCategory? get category;
 
   /// Create a copy of Project
   /// with the given fields replaced by the non-null parameter values.

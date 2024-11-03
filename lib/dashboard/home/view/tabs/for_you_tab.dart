@@ -1,12 +1,28 @@
-import 'package:craftmate_client/dashboard/home/bloc/home_bloc.dart';
+import 'package:craftmate_client/dashboard/home/bloc/latest/latest_tab_bloc.dart';
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
+import 'package:craftmate_client/dashboard/home/view/components/category_filter.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
+import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/project_management/view_project/view/view_project_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:project_repository/project_repository.dart';
+
+class ForYouPage extends StatelessWidget {
+  const ForYouPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => LatestTabBloc(
+        projectRepository: context.read<ProjectRepository>(),
+      ),
+      child: const ForYouTab(),
+    );
+  }
+}
 
 class ForYouTab extends StatefulWidget {
   const ForYouTab({super.key});
@@ -34,46 +50,122 @@ class _ForYouTabState extends State<ForYouTab> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
+    return BlocBuilder<LatestTabBloc, LatestTabState>(
       builder: (context, state) {
-        final bloc = BlocProvider.of<HomeBloc>(context);
-
-        switch (state.status) {
-          case HomeStatus.initial:
-            bloc.add(const HomeLoadProjects());
+        switch (state) {
+          case Initial():
+            context.read<LatestTabBloc>().add(const LatestTabEvent.started());
             return const Center(
               child: CircularProgressIndicator(),
             );
-          case HomeStatus.loading:
+          case Loading():
             return const Center(
               child: CircularProgressIndicator(),
             );
-          case HomeStatus.error:
-            return const Center(
-              child: Text('Failed to load projects'),
-            );
-          case HomeStatus.loaded:
+          case Loaded(projects: final project) when project.isEmpty:
             return RefreshIndicator(
-              onRefresh: () async {
-                final bloc = BlocProvider.of<HomeBloc>(context);
-                final newState = bloc.stream.first;
-                bloc.add(const HomeRefreshProjects());
-                await newState;
-              },
+              onRefresh: _onRefresh,
+              child: Stack(
+                children: [
+                  const EmptyMessage(
+                    emptyMessage: 'No projects found',
+                  ),
+                  ListView(
+                    children: [
+                      BlocBuilder<LatestTabBloc, LatestTabState>(
+                        builder: (context, state) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                CategoryFilter(
+                                  selectedCategory: state.selectedCategory,
+                                  categories: state.categories,
+                                  onSelected: (category) {
+                                    context.read<LatestTabBloc>().add(
+                                          LatestTabEvent.categoryChanged(
+                                            category,
+                                          ),
+                                        );
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          case Loaded(projects: final projects, page: final page):
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                BlocBuilder<LatestTabBloc, LatestTabState>(
+                  builder: (context, state) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CategoryFilter(
+                        selectedCategory: state.selectedCategory,
+                        categories: state.categories,
+                        onSelected: (category) {
+                          context.read<LatestTabBloc>().add(
+                                LatestTabEvent.categoryChanged(category),
+                              );
+                        },
+                      ),
+                    );
+                  },
+                ),
+                Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: _onRefresh,
+                    child: ProjectGrid(
+                      scrollController: _scrollController,
+                      projects: projects,
+                      paginatedProjects: page,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          case Error(projects: final projects, page: final page):
+            return RefreshIndicator(
+              onRefresh: _onRefresh,
               child: ProjectGrid(
                 scrollController: _scrollController,
-                projects: state.projects,
-                paginatedProjects: state.paginatedProjects,
+                projects: projects,
+                paginatedProjects: page,
+                onPop: () {
+                  context
+                      .read<LatestTabBloc>()
+                      .add(const LatestTabEvent.refreshed());
+                },
               ),
             );
         }
+
+        return const EmptyMessage(
+          emptyMessage: 'Something went wrong',
+        );
       },
     );
   }
 
+  Future<void> _onRefresh() async {
+    final bloc = BlocProvider.of<LatestTabBloc>(context);
+    final newState = bloc.stream.first;
+    bloc.add(const LatestTabEvent.refreshed());
+    await newState;
+  }
+
   void _onScroll() {
     if (_isBottom) {
-      context.read<HomeBloc>().add(const HomeLoadMoreProjects());
+      context
+          .read<LatestTabBloc>()
+          .add(const LatestTabEvent.loadMoreProjects());
     }
   }
 
@@ -91,11 +183,13 @@ class ProjectGrid extends StatelessWidget {
     required this.scrollController,
     required this.projects,
     required this.paginatedProjects,
+    this.onPop,
   });
 
   final ScrollController scrollController;
   final List<Project> projects;
   final Pagination<Project> paginatedProjects;
+  final void Function()? onPop;
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +211,10 @@ class ProjectGrid extends StatelessWidget {
           delegate: SliverChildBuilderDelegate(
             (context, index) {
               final project = projects[index];
-              return ProjectCard(project: project);
+              return ProjectCard(
+                project: project,
+                onPop: onPop,
+              );
             },
             childCount:
                 projects.length, // Adjust this number to add more grid items
@@ -156,9 +253,11 @@ class ProjectCard extends StatelessWidget {
   const ProjectCard({
     super.key,
     required this.project,
+    this.onPop,
   });
 
   final Project project;
+  final void Function()? onPop;
 
   @override
   Widget build(BuildContext context) {
@@ -168,9 +267,7 @@ class ProjectCard extends StatelessWidget {
       onTap: () async {
         await Navigator.of(context).push(ViewProjectPage.route(project.id));
 
-        if (context.mounted) {
-          context.read<HomeBloc>().add(const HomeLoadProjects());
-        }
+        onPop?.call();
       },
       child: Card(
         clipBehavior: Clip.hardEdge,

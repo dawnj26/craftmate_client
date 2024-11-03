@@ -9,7 +9,7 @@ class AddMaterialState with _$AddMaterialState {
     @Default(1) int quantity,
     @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
-  }) = _Initial;
+  }) = Initial;
   const factory AddMaterialState.loading({
     @Default(MaterialName.pure()) MaterialName name,
     @Default(MaterialDescription.pure()) MaterialDescription description,
@@ -17,7 +17,7 @@ class AddMaterialState with _$AddMaterialState {
     @Default(1) int quantity,
     @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
-  }) = _Loading;
+  }) = Loading;
   const factory AddMaterialState.normal({
     @Default(MaterialName.pure()) MaterialName name,
     @Default(MaterialDescription.pure()) MaterialDescription description,
@@ -25,7 +25,7 @@ class AddMaterialState with _$AddMaterialState {
     @Default(1) int quantity,
     @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
-  }) = _Normal;
+  }) = Normal;
   const factory AddMaterialState.uploading({
     @Default(MaterialName.pure()) MaterialName name,
     @Default(MaterialDescription.pure()) MaterialDescription description,
@@ -33,7 +33,7 @@ class AddMaterialState with _$AddMaterialState {
     @Default(1) int quantity,
     @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
-  }) = _Uploading;
+  }) = Uploading;
   const factory AddMaterialState.uploaded({
     @Default(MaterialName.pure()) MaterialName name,
     @Default(MaterialDescription.pure()) MaterialDescription description,
@@ -41,7 +41,7 @@ class AddMaterialState with _$AddMaterialState {
     @Default(1) int quantity,
     @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
-  }) = _Uploaded;
+  }) = Uploaded;
   const factory AddMaterialState.success({
     @Default(MaterialName.pure()) MaterialName name,
     @Default(MaterialDescription.pure()) MaterialDescription description,
@@ -50,7 +50,7 @@ class AddMaterialState with _$AddMaterialState {
     @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
     @Default(0) int materialId,
-  }) = _Success;
+  }) = Success;
   const factory AddMaterialState.error(
     String message, {
     @Default(MaterialName.pure()) MaterialName name,
@@ -59,5 +59,5 @@ class AddMaterialState with _$AddMaterialState {
     @Default(1) int quantity,
     @Default(<MaterialCategory>[]) List<MaterialCategory> categories,
     String? imagePath,
-  }) = _Error;
+  }) = Error;
 }

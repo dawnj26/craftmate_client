@@ -6,29 +6,99 @@ import 'package:craftmate_client/project_management/view_project/view/view_proje
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:project_repository/project_repository.dart';
 
-class BlankProjectCreateScreen extends StatelessWidget {
+class BlankProjectCreateScreen extends StatefulWidget {
   const BlankProjectCreateScreen({super.key});
 
   @override
+  State<BlankProjectCreateScreen> createState() =>
+      _BlankProjectCreateScreenState();
+}
+
+class _BlankProjectCreateScreenState extends State<BlankProjectCreateScreen> {
+  final _tagController = TextEditingController();
+  final _tagFocusNode = FocusNode();
+  final _titleFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _tagController.dispose();
+    _tagFocusNode.dispose();
+    _titleFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocListener<BlankProjectBloc, BlankProjectState>(
+    return BlocConsumer<BlankProjectBloc, BlankProjectState>(
       listener: _handleState,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Blank project'),
-        ),
-        body: const Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              _VisibilitySwitch(),
-              Gap(12.0),
-              _CreateProjectForm(),
-            ],
+      builder: (context, state) {
+        if (state is BlankProjectInitial || state is BlankProjectLoading) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Blank project'),
+            ),
+            body: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Blank project'),
           ),
-        ),
-      ),
+          body: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const _VisibilitySwitch(),
+                const Gap(12.0),
+                _CreateProjectForm(
+                  tagController: _tagController,
+                  tagFocusNode: _tagFocusNode,
+                  titleFocusNode: _titleFocusNode,
+                ),
+                const Gap(12.0),
+                BlocBuilder<BlankProjectBloc, BlankProjectState>(
+                  buildWhen: (previous, current) => previous != current,
+                  builder: (context, state) {
+                    String? errorText;
+
+                    if (state is BlankProjectInvalid &&
+                        state.selectedCategory.id == -1) {
+                      errorText = 'Category is required';
+                    }
+
+                    return ProjectCategoryDropdown(
+                      errorText: errorText,
+                      categories: state.categories,
+                      initialSelection: state.categories.first,
+                      onSelected: (category) {
+                        if (category == null) {
+                          return;
+                        }
+
+                        context.read<BlankProjectBloc>().add(
+                              BlankProjectCategoryChange(category: category),
+                            );
+                      },
+                    );
+                  },
+                ),
+                const Gap(40.0),
+                FilledButton(
+                  onPressed: () => _createProject(context, _tagController),
+                  child: const Text('Create Project'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -56,6 +126,54 @@ class BlankProjectCreateScreen extends StatelessWidget {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(msg);
+  }
+
+  void _createProject(
+    BuildContext context,
+    TextEditingController tagController,
+  ) {
+    String? tags;
+    if (tagController.text.isNotEmpty) {
+      tags = tagController.text;
+    }
+
+    context
+        .read<BlankProjectBloc>()
+        .add(BlankProjectCreate(tags: tags?.trim()));
+  }
+}
+
+class ProjectCategoryDropdown extends StatelessWidget {
+  const ProjectCategoryDropdown({
+    super.key,
+    required this.categories,
+    required this.errorText,
+    this.initialSelection,
+    this.onSelected,
+  });
+
+  final String? errorText;
+  final List<ProjectCategory> categories;
+  final ProjectCategory? initialSelection;
+  final void Function(ProjectCategory?)? onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.sizeOf(context);
+
+    return DropdownMenu<ProjectCategory>(
+      errorText: errorText,
+      onSelected: onSelected,
+      leadingIcon: const Icon(Icons.category_outlined),
+      width: screenSize.width - 24,
+      menuHeight: screenSize.height * 0.3,
+      initialSelection: initialSelection,
+      dropdownMenuEntries: categories
+          .map(
+            (e) => DropdownMenuEntry(value: e, label: e.name),
+          )
+          .toList(),
+    );
   }
 }
 
@@ -103,14 +221,18 @@ class _VisibilitySwitch extends StatelessWidget {
 }
 
 class _CreateProjectForm extends StatelessWidget {
-  const _CreateProjectForm();
+  const _CreateProjectForm({
+    required this.tagController,
+    required this.tagFocusNode,
+    required this.titleFocusNode,
+  });
+
+  final TextEditingController tagController;
+  final FocusNode tagFocusNode;
+  final FocusNode titleFocusNode;
 
   @override
   Widget build(BuildContext context) {
-    final tagController = TextEditingController();
-    final tagFocusNode = FocusNode();
-    final titleFocusNode = FocusNode();
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -149,27 +271,8 @@ class _CreateProjectForm extends StatelessWidget {
           helperText: 'Separated by whitespaces',
           focusNode: tagFocusNode,
         ),
-        const Gap(40.0),
-        FilledButton(
-          onPressed: () => _createProject(context, tagController),
-          child: const Text('Create Project'),
-        ),
       ],
     );
-  }
-
-  void _createProject(
-    BuildContext context,
-    TextEditingController tagController,
-  ) {
-    String? tags;
-    if (tagController.text.isNotEmpty) {
-      tags = tagController.text;
-    }
-
-    context
-        .read<BlankProjectBloc>()
-        .add(BlankProjectCreate(tags: tags?.trim()));
   }
 }
 

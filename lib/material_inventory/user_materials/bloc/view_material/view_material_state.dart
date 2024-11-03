@@ -2,12 +2,12 @@ part of 'view_material_bloc.dart';
 
 @freezed
 class ViewMaterialState with _$ViewMaterialState {
-  const factory ViewMaterialState.initial() = _Initial;
+  const factory ViewMaterialState.initial() = Initial;
 
-  const factory ViewMaterialState.initializing() = _Initializing;
+  const factory ViewMaterialState.initializing() = Initializing;
   const factory ViewMaterialState.initialized({
     required Material material,
-  }) = _Initialized;
+  }) = Initialized;
   const factory ViewMaterialState.deleting({
     required Material material,
   }) = Deleting;
@@ -17,5 +17,5 @@ class ViewMaterialState with _$ViewMaterialState {
 
   const factory ViewMaterialState.error({
     required String message,
-  }) = _Error;
+  }) = Error;
 }

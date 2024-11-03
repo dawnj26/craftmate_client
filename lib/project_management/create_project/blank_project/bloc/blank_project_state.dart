@@ -5,18 +5,33 @@ sealed class BlankProjectState extends Equatable {
     this.projectTitle = const ProjectTitle.pure(),
     this.valid = false,
     this.visibility = ProjectVisibility.public,
+    this.categories = const [],
+    this.selectedCategory = const ProjectCategory(name: 'Select a category'),
   });
 
   final ProjectTitle projectTitle;
   final bool valid;
   final ProjectVisibility visibility;
+  final List<ProjectCategory> categories;
+  final ProjectCategory selectedCategory;
 
   @override
-  List<Object> get props => [projectTitle, valid, visibility];
+  List<Object> get props =>
+      [projectTitle, valid, visibility, categories, selectedCategory];
 }
 
 final class BlankProjectInitial extends BlankProjectState {
   const BlankProjectInitial();
+}
+
+final class BlankProjectLoading extends BlankProjectState {
+  const BlankProjectLoading();
+}
+
+final class BlankProjectLoaded extends BlankProjectState {
+  const BlankProjectLoaded({
+    required super.categories,
+  });
 }
 
 final class BlankProjectModified extends BlankProjectState {
@@ -24,6 +39,8 @@ final class BlankProjectModified extends BlankProjectState {
     required super.projectTitle,
     required super.valid,
     required super.visibility,
+    required super.categories,
+    required super.selectedCategory,
   });
 }
 
@@ -32,6 +49,8 @@ final class BlankProjectInProgress extends BlankProjectState {
     required super.projectTitle,
     required super.valid,
     required super.visibility,
+    required super.categories,
+    required super.selectedCategory,
   });
 }
 
@@ -40,6 +59,8 @@ final class BlankProjectInvalid extends BlankProjectState {
     required super.projectTitle,
     required super.valid,
     required super.visibility,
+    required super.categories,
+    required super.selectedCategory,
   });
 }
 
@@ -49,6 +70,8 @@ final class BlankProjectFailed extends BlankProjectState {
     required super.valid,
     required super.visibility,
     required this.errorMsg,
+    required super.categories,
+    required super.selectedCategory,
   });
   final String errorMsg;
 
@@ -63,6 +86,8 @@ final class BlankProjectSuccess extends BlankProjectState {
     required super.valid,
     required super.visibility,
     required this.project,
+    required super.categories,
+    required super.selectedCategory,
   });
   final Project project;
 

@@ -6,33 +6,29 @@ part 'selection_state.dart';
 part 'selection_bloc.freezed.dart';
 
 class SelectionBloc extends Bloc<SelectionEvent, SelectionState> {
-  SelectionBloc() : super(const _Initial()) {
+  SelectionBloc() : super(const Initial()) {
     on<SelectionEvent>((event, emit) {
-      event.when(
-        started: (id) {
-          emit(SelectionState.on(selectedProjectIds: [id]));
-        },
-        selected: (id) {
+      switch (event) {
+        case _Started(:final projectId):
+          emit(SelectionState.on(selectedProjectIds: [projectId]));
+        case _Selected(:final projectId):
           emit(
             SelectionState.on(
-              selectedProjectIds: [...state.selectedProjectIds, id],
+              selectedProjectIds: [...state.selectedProjectIds, projectId],
             ),
           );
-        },
-        unselected: (id) {
+        case _Unselected(:final projectId):
           final updatedIds =
-              state.selectedProjectIds.where((e) => e != id).toList();
+              state.selectedProjectIds.where((e) => e != projectId).toList();
           if (updatedIds.isEmpty) {
             emit(const SelectionState.off());
             return;
           }
 
           emit(SelectionState.on(selectedProjectIds: updatedIds));
-        },
-        clear: () {
+        case _Clear():
           emit(const SelectionState.off());
-        },
-      );
+      }
     });
   }
 }
