@@ -44,15 +44,12 @@ class AddMaterialForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AddMaterialBloc, AddMaterialState>(
       listener: (context, state) {
-        state.maybeWhen(
-          orElse: () {},
-          uploading: (_, __, ___, ____, _____, ______) {
+        switch (state) {
+          case Uploading():
             Modal.instance.showLoadingDialog(context);
-          },
-          uploaded: (_, __, ___, ____, _____, ______) {
+          case Uploaded():
             Navigator.pop(context);
-          },
-          success: (_, __, ___, ____, _____, ______, materialId) {
+          case Success(:final materialId):
             Navigator.pop(context);
             Modal.instance.showConfirmationModal(
               context: context,
@@ -69,8 +66,34 @@ class AddMaterialForm extends StatelessWidget {
                 ),
               ],
             );
-          },
-        );
+        }
+        // state.maybeWhen(
+        //   orElse: () {},
+        //   uploading: (_, __, ___, ____, _____, ______) {
+        //     Modal.instance.showLoadingDialog(context);
+        //   },
+        //   uploaded: (_, __, ___, ____, _____, ______) {
+        //     Navigator.pop(context);
+        //   },
+        //   success: (_, __, ___, ____, _____, ______, materialId) {
+        //     Navigator.pop(context);
+        //     Modal.instance.showConfirmationModal(
+        //       context: context,
+        //       title: 'Material Added',
+        //       content: const Text('Material has been added successfully'),
+        //       actions: [
+        //         FilledButton(
+        //           onPressed: () {
+        //             Navigator.pop(context);
+        //             Navigator.pop(context);
+        //             onMaterialAdded?.call(materialId);
+        //           },
+        //           child: const Text('Close'),
+        //         ),
+        //       ],
+        //     );
+        //   },
+        // );
       },
       child: Scaffold(
         appBar: AppBar(
@@ -78,25 +101,22 @@ class AddMaterialForm extends StatelessWidget {
         ),
         body: BlocBuilder<AddMaterialBloc, AddMaterialState>(
           builder: (context, state) {
-            return state.maybeWhen<Widget>(
-              orElse: () {
+            switch (state) {
+              case Loading():
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              case Error(:final message):
+                return Center(
+                  child: Text(message),
+                );
+              default:
                 return SingleChildScrollView(
                   child: AddForm(
                     materialCategories: state.categories,
                   ),
                 );
-              },
-              loading: (_, __, ___, ____, _____, ______) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-              error: (message, _, __, ___, ____, _____, ______) {
-                return Center(
-                  child: Text(message),
-                );
-              },
-            );
+            }
           },
         ),
       ),

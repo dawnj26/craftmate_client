@@ -8,7 +8,8 @@ import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/components/asc_desc_button.dart';
 import 'package:craftmate_client/project_management/components/filter_dropdown.dart';
 import 'package:craftmate_client/project_management/components/sort_button.dart';
-import 'package:craftmate_client/project_management/user_projects/bloc/selection/selection_bloc.dart';
+import 'package:craftmate_client/project_management/user_projects/bloc/selection/selection_bloc.dart'
+    as s;
 import 'package:craftmate_client/project_management/user_projects/bloc/user_project/user_project_bloc.dart';
 import 'package:craftmate_client/project_management/user_projects/search/view/search_page.dart';
 import 'package:craftmate_client/project_management/view/create_project_page.dart';
@@ -213,10 +214,10 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SelectionBloc, SelectionState>(
+    return BlocBuilder<s.SelectionBloc, s.SelectionState>(
       builder: (context, state) {
-        return state.when(
-          initial: (_) {
+        switch (state) {
+          case s.Initial():
             return AppBar(
               title: const Text('Your projects'),
               actions: [
@@ -230,28 +231,26 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ],
             );
-          },
-          on: (selectedProjects) {
+          case s.On(:final selectedProjectIds):
             return AppBar(
               automaticallyImplyLeading: false,
               leading: IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () {
-                  context.read<SelectionBloc>().add(
-                        const SelectionEvent.clear(),
+                  context.read<s.SelectionBloc>().add(
+                        const s.SelectionEvent.clear(),
                       );
                 },
               ),
-              title: Text('${selectedProjects.length} selected'),
+              title: Text('${selectedProjectIds.length} selected'),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.delete),
-                  onPressed: () => _handleDelete(context, selectedProjects),
+                  onPressed: () => _handleDelete(context, selectedProjectIds),
                 ),
               ],
             );
-          },
-          off: (_) {
+          case s.Off():
             return AppBar(
               title: const Text('Your projects'),
               actions: [
@@ -265,7 +264,10 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ],
             );
-          },
+        }
+
+        return const Center(
+          child: Text('Error'),
         );
       },
     );
@@ -292,8 +294,8 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
                     projectIds: selectedProjects,
                   ),
                 );
-            context.read<SelectionBloc>().add(
-                  const SelectionEvent.clear(),
+            context.read<s.SelectionBloc>().add(
+                  const s.SelectionEvent.clear(),
                 );
             Navigator.of(context).pop();
           },
@@ -365,15 +367,15 @@ class _UserProjectListState extends State<UserProjectList> {
           }
 
           final project = widget.projects[index];
-          return BlocBuilder<SelectionBloc, SelectionState>(
+          return BlocBuilder<s.SelectionBloc, s.SelectionState>(
             builder: (context, state) {
-              return state.when(
-                initial: (_) {
+              switch (state) {
+                case s.Initial() || s.Off():
                   return ProjectCard(
                     project: project,
                     onLongPress: () {
-                      context.read<SelectionBloc>().add(
-                            SelectionEvent.started(projectId: project.id),
+                      context.read<s.SelectionBloc>().add(
+                            s.SelectionEvent.started(projectId: project.id),
                           );
                     },
                     onTap: () {
@@ -382,9 +384,8 @@ class _UserProjectListState extends State<UserProjectList> {
                       );
                     },
                   );
-                },
-                on: (selectedProjects) {
-                  final isSelected = selectedProjects.contains(project.id);
+                case s.On(:final selectedProjectIds):
+                  final isSelected = selectedProjectIds.contains(project.id);
                   return ProjectCard(
                     project: project,
                     isSelected: isSelected,
@@ -392,14 +393,16 @@ class _UserProjectListState extends State<UserProjectList> {
                     trailing: IconButton(
                       onPressed: () {
                         if (isSelected) {
-                          context.read<SelectionBloc>().add(
-                                SelectionEvent.unselected(
+                          context.read<s.SelectionBloc>().add(
+                                s.SelectionEvent.unselected(
                                   projectId: project.id,
                                 ),
                               );
                         } else {
-                          context.read<SelectionBloc>().add(
-                                SelectionEvent.selected(projectId: project.id),
+                          context.read<s.SelectionBloc>().add(
+                                s.SelectionEvent.selected(
+                                  projectId: project.id,
+                                ),
                               );
                         }
                       },
@@ -411,32 +414,22 @@ class _UserProjectListState extends State<UserProjectList> {
                     ),
                     onTap: () {
                       if (isSelected) {
-                        context.read<SelectionBloc>().add(
-                              SelectionEvent.unselected(projectId: project.id),
+                        context.read<s.SelectionBloc>().add(
+                              s.SelectionEvent.unselected(
+                                projectId: project.id,
+                              ),
                             );
                       } else {
-                        context.read<SelectionBloc>().add(
-                              SelectionEvent.selected(projectId: project.id),
+                        context.read<s.SelectionBloc>().add(
+                              s.SelectionEvent.selected(projectId: project.id),
                             );
                       }
                     },
                   );
-                },
-                off: (_) {
-                  return ProjectCard(
-                    project: project,
-                    onLongPress: () {
-                      context.read<SelectionBloc>().add(
-                            SelectionEvent.started(projectId: project.id),
-                          );
-                    },
-                    onTap: () {
-                      Navigator.of(context).push(
-                        ViewProjectPage.route(project.id),
-                      );
-                    },
-                  );
-                },
+              }
+
+              return const Center(
+                child: Text('Error'),
               );
             },
           );

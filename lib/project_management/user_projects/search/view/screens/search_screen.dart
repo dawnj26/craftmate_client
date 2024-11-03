@@ -74,8 +74,8 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
           Expanded(
             child: BlocBuilder<ProjectSearchBloc, ProjectSearchState>(
               builder: (context, state) {
-                return state.when(
-                  initial: (_, __) {
+                switch (state) {
+                  case Initial():
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -90,13 +90,14 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                         ),
                       ],
                     );
-                  },
-                  loading: (_, __) {
+                  case Loading():
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  },
-                  loaded: (projects, pagination) {
+                  case Loaded(
+                      projects: final projects,
+                      pagination: final pagination
+                    ):
                     if (projects.isEmpty) {
                       return const EmptyMessage(
                         emptyMessage: 'No projects found',
@@ -110,12 +111,14 @@ class _ProjectSearchScreenState extends State<ProjectSearchScreen> {
                           ? projects.length + 1
                           : projects.length,
                     );
-                  },
-                  error: (_, __, message) {
+                  case Error(message: final message):
                     return Center(
                       child: Text('Error: $message'),
                     );
-                  },
+                }
+
+                return const Center(
+                  child: Text('Something went wrong'),
                 );
               },
             ),
