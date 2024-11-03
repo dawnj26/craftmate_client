@@ -2,6 +2,7 @@ import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/home/view/tabs/following_tab_page.dart';
 import 'package:craftmate_client/dashboard/home/view/tabs/for_you_tab.dart';
 import 'package:craftmate_client/dashboard/home/view/tabs/trending_tab_page.dart';
+import 'package:craftmate_client/dashboard/profile/view/profile_page.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/project_management/view/create_project_page.dart';
@@ -86,7 +87,9 @@ class _HomeScreenState extends State<HomeScreen>
                 icon: const Icon(Icons.notifications_outlined),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, ProfilePage.route());
+                },
                 icon: const Icon(Icons.person_2_outlined),
               ),
             ],
