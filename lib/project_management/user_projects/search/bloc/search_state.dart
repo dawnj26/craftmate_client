@@ -5,18 +5,18 @@ class ProjectSearchState with _$ProjectSearchState {
   const factory ProjectSearchState.initial({
     @Default([]) List<Project> projects,
     @Default(Pagination()) Pagination<Project> pagination,
-  }) = _Initial;
+  }) = Initial;
   const factory ProjectSearchState.loading({
     @Default([]) List<Project> projects,
     @Default(Pagination()) Pagination<Project> pagination,
-  }) = _Loading;
+  }) = Loading;
   const factory ProjectSearchState.loaded({
     required List<Project> projects,
     required Pagination<Project> pagination,
-  }) = _Loaded;
+  }) = Loaded;
   const factory ProjectSearchState.error({
     @Default([]) List<Project> projects,
     @Default(Pagination()) Pagination<Project> pagination,
     required String message,
-  }) = _Error;
+  }) = Error;
 }

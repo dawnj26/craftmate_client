@@ -24,7 +24,7 @@ class ProjectSearchBloc extends Bloc<ProjectSearchEvent, ProjectSearchState> {
   ProjectSearchBloc({
     required ProjectRepository projectRepository,
   })  : _projectRepository = projectRepository,
-        super(const _Initial()) {
+        super(const Initial()) {
     on<_SearchProjects>(_searchProjects, transformer: debounce(_duration));
     on<_LoadMoreProjects>(
       _loadMoreProjects,
