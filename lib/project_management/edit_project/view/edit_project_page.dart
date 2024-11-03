@@ -5,7 +5,8 @@ import 'package:craftmate_client/project_management/edit_project/bloc/materials/
 import 'package:craftmate_client/project_management/edit_project/bloc/recipe/edit_project_bloc.dart';
 import 'package:craftmate_client/project_management/edit_project/view/screens/edit_project_materials_screen.dart';
 import 'package:craftmate_client/project_management/edit_project/view/screens/edit_recipe_screen.dart';
-import 'package:craftmate_client/project_management/text_editor/bloc/text_editor_bloc.dart';
+import 'package:craftmate_client/project_management/text_editor/bloc/text_editor_bloc.dart'
+    as t;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_repository/material_repository.dart' as m;
@@ -47,10 +48,10 @@ class EditRecipePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => TextEditorBloc(
+          create: (context) => t.TextEditorBloc(
             projectRepository: context.read<ProjectRepository>(),
           )..add(
-              TextEditorEvent.initialized(project: project),
+              t.TextEditorEvent.initialized(project: project),
             ),
         ),
         BlocProvider(
