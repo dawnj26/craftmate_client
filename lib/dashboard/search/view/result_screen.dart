@@ -1,5 +1,5 @@
 import 'package:craftmate_client/dashboard/home/view/tabs/trending_tab_page.dart';
-import 'package:craftmate_client/dashboard/search/bloc/search_bloc.dart';
+import 'package:craftmate_client/dashboard/search/bloc/result/search_result_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,9 +17,10 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SearchBloc(
+      create: (context) => SearchResultBloc(
         searchRepository: context.read(),
-      )..add(SearchEvent.started(query)),
+        projectRepository: context.read(),
+      )..add(SearchResultEvent.started(query)),
       child: Scaffold(
         appBar: AppBar(
           title: Text('Search results for $query'),
@@ -35,7 +36,7 @@ class _ResultList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchBloc, SearchState>(
+    return BlocBuilder<SearchResultBloc, SearchResultState>(
       builder: (context, state) {
         switch (state) {
           case Initial():
