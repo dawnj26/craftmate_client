@@ -23,6 +23,12 @@ mixin _$User {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  int get followerCount => throw _privateConstructorUsedError;
+  int get followingCount => throw _privateConstructorUsedError;
+  int get projectCount => throw _privateConstructorUsedError;
+  bool get isFollowing => throw _privateConstructorUsedError;
+  String? get image => throw _privateConstructorUsedError;
+  String? get bio => throw _privateConstructorUsedError;
 
   /// Serializes this User to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +44,16 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({int id, String name, String email});
+  $Res call(
+      {int id,
+      String name,
+      String email,
+      int followerCount,
+      int followingCount,
+      int projectCount,
+      bool isFollowing,
+      String? image,
+      String? bio});
 }
 
 /// @nodoc
@@ -59,6 +74,12 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? id = null,
     Object? name = null,
     Object? email = null,
+    Object? followerCount = null,
+    Object? followingCount = null,
+    Object? projectCount = null,
+    Object? isFollowing = null,
+    Object? image = freezed,
+    Object? bio = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -73,6 +94,30 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      followerCount: null == followerCount
+          ? _value.followerCount
+          : followerCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      followingCount: null == followingCount
+          ? _value.followingCount
+          : followingCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      projectCount: null == projectCount
+          ? _value.projectCount
+          : projectCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      isFollowing: null == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -84,7 +129,16 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, String email});
+  $Res call(
+      {int id,
+      String name,
+      String email,
+      int followerCount,
+      int followingCount,
+      int projectCount,
+      bool isFollowing,
+      String? image,
+      String? bio});
 }
 
 /// @nodoc
@@ -102,6 +156,12 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? email = null,
+    Object? followerCount = null,
+    Object? followingCount = null,
+    Object? projectCount = null,
+    Object? isFollowing = null,
+    Object? image = freezed,
+    Object? bio = freezed,
   }) {
     return _then(_$UserImpl(
       id: null == id
@@ -116,6 +176,30 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      followerCount: null == followerCount
+          ? _value.followerCount
+          : followerCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      followingCount: null == followingCount
+          ? _value.followingCount
+          : followingCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      projectCount: null == projectCount
+          ? _value.projectCount
+          : projectCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      isFollowing: null == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -123,7 +207,16 @@ class __$$UserImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UserImpl implements _User {
-  const _$UserImpl({this.id = -1, this.name = '', this.email = ''});
+  const _$UserImpl(
+      {this.id = -1,
+      this.name = '',
+      this.email = '',
+      this.followerCount = 0,
+      this.followingCount = 0,
+      this.projectCount = 0,
+      this.isFollowing = false,
+      this.image,
+      this.bio});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -137,10 +230,26 @@ class _$UserImpl implements _User {
   @override
   @JsonKey()
   final String email;
+  @override
+  @JsonKey()
+  final int followerCount;
+  @override
+  @JsonKey()
+  final int followingCount;
+  @override
+  @JsonKey()
+  final int projectCount;
+  @override
+  @JsonKey()
+  final bool isFollowing;
+  @override
+  final String? image;
+  @override
+  final String? bio;
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email)';
+    return 'User(id: $id, name: $name, email: $email, followerCount: $followerCount, followingCount: $followingCount, projectCount: $projectCount, isFollowing: $isFollowing, image: $image, bio: $bio)';
   }
 
   @override
@@ -150,12 +259,23 @@ class _$UserImpl implements _User {
             other is _$UserImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.followerCount, followerCount) ||
+                other.followerCount == followerCount) &&
+            (identical(other.followingCount, followingCount) ||
+                other.followingCount == followingCount) &&
+            (identical(other.projectCount, projectCount) ||
+                other.projectCount == projectCount) &&
+            (identical(other.isFollowing, isFollowing) ||
+                other.isFollowing == isFollowing) &&
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.bio, bio) || other.bio == bio));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, email);
+  int get hashCode => Object.hash(runtimeType, id, name, email, followerCount,
+      followingCount, projectCount, isFollowing, image, bio);
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -174,8 +294,16 @@ class _$UserImpl implements _User {
 }
 
 abstract class _User implements User {
-  const factory _User({final int id, final String name, final String email}) =
-      _$UserImpl;
+  const factory _User(
+      {final int id,
+      final String name,
+      final String email,
+      final int followerCount,
+      final int followingCount,
+      final int projectCount,
+      final bool isFollowing,
+      final String? image,
+      final String? bio}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -185,6 +313,18 @@ abstract class _User implements User {
   String get name;
   @override
   String get email;
+  @override
+  int get followerCount;
+  @override
+  int get followingCount;
+  @override
+  int get projectCount;
+  @override
+  bool get isFollowing;
+  @override
+  String? get image;
+  @override
+  String? get bio;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
