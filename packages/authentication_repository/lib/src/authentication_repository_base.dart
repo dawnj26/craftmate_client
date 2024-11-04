@@ -24,7 +24,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
     try {
       // Validate token
-      await userRepo.getUserByToken();
+      await userRepo.getUserByToken(true);
 
       yield AuthenticationStatus.authenticated;
       yield* _controller.stream;

@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:config_repository/config_repository.dart';
 import 'package:user_repository/src/exceptions/user_exception.dart';
 import 'package:user_repository/src/models/user.dart';
 
 abstract class IUserRepository {
-  Future<User> getUserByToken();
+  Future<User> getUserByToken([bool refresh = false]);
   Future<void> getUserByEmail(String email);
 }
 
@@ -15,7 +17,15 @@ class UserRepository implements IUserRepository {
   }) : _config = config;
 
   @override
-  Future<User> getUserByToken() async {
+  Future<User> getUserByToken([bool refresh = false]) async {
+    final userCache = _config.prefs.getString('currentUser');
+
+    if (userCache != null && !refresh) {
+      return User.fromJson(
+        jsonDecode(userCache) as Map<String, dynamic>,
+      );
+    }
+
     try {
       final response = await _config.makeRequest<Map<String, dynamic>>(
         '/auth/user',
@@ -23,6 +33,8 @@ class UserRepository implements IUserRepository {
       );
       final user =
           User.fromJson(response.data!['data'] as Map<String, dynamic>);
+
+      _config.prefs.setString('currentUser', jsonEncode(user.toJson()));
 
       return user;
     } on RequestException catch (e) {
