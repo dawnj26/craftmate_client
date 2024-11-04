@@ -1,5 +1,6 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/home/view/home_page.dart';
+import 'package:craftmate_client/dashboard/profile/view/profile_page.dart';
 import 'package:craftmate_client/dashboard/search/search_page.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/user_materials_page.dart';
 import 'package:craftmate_client/project_management/user_projects/view/user_projects_page.dart';
@@ -32,6 +33,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       const Center(
         child: Text('Fourth Screen'),
       ),
+      const ProfilePage(),
     ];
     super.initState();
   }
@@ -128,6 +130,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             selectedIcon: Icon(Icons.chat),
             icon: Icon(Icons.chat_outlined),
             label: 'Chat',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.person_rounded),
+            icon: Icon(Icons.person_outline_rounded),
+            label: 'Profile',
           ),
         ],
       ),
