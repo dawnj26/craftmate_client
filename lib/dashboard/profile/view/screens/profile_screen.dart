@@ -133,7 +133,14 @@ class UserProfile extends StatelessWidget {
         ),
         const Gap(12),
         OutlinedButton.icon(
-          onPressed: () {},
+          onPressed: () async {
+            await Navigator.of(context).push(EditProfileScreen.route(user));
+            if (context.mounted) {
+              context
+                  .read<UserProfileBloc>()
+                  .add(const UserProfileEvent.loadedProfile());
+            }
+          },
           icon: const Icon(Icons.edit_outlined),
           label: const Text('Edit Profile'),
         ),
