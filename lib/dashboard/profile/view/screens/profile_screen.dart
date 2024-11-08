@@ -38,8 +38,7 @@ class ProfileScreen extends StatelessWidget {
       body: BlocBuilder<UserProfileBloc, UserProfileState>(
         builder: (context, state) {
           switch (state) {
-            case Initial():
-            case Loading():
+            case Initial() || Loading():
               return const Center(
                 child: CircularProgressIndicator(),
               );
