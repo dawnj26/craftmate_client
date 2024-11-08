@@ -31,6 +31,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
     } on UserException catch (e) {
       // Throw error
       _config.storage.delete(key: 'token');
+      _config.prefs.remove('currentUser');
 
       yield AuthenticationStatus.unauthenticated;
       yield* _controller.stream;
