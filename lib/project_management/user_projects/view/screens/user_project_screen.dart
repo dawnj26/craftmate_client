@@ -63,6 +63,32 @@ class UserProjectScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              BlocBuilder<UserProjectBloc, UserProjectState>(
+                builder: (context, state) {
+                  switch (state) {
+                    case Initial():
+                    case Loading():
+                      return const SizedBox.shrink();
+                    default:
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CategoryFilter(
+                            selectedCategory: state.selectedCategory,
+                            categories: state.categories,
+                            onSelected: (category) {
+                              context.read<UserProjectBloc>().add(
+                                    UserProjectEvent.categoryChanged(
+                                      category: category,
+                                    ),
+                                  );
+                            },
+                          ),
+                        ],
+                      );
+                  }
+                },
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -109,32 +135,6 @@ class UserProjectScreen extends StatelessWidget {
                 ],
               ),
               const Gap(8.0),
-              BlocBuilder<UserProjectBloc, UserProjectState>(
-                builder: (context, state) {
-                  switch (state) {
-                    case Initial():
-                    case Loading():
-                      return const SizedBox.shrink();
-                    default:
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          CategoryFilter(
-                            selectedCategory: state.selectedCategory,
-                            categories: state.categories,
-                            onSelected: (category) {
-                              context.read<UserProjectBloc>().add(
-                                    UserProjectEvent.categoryChanged(
-                                      category: category,
-                                    ),
-                                  );
-                            },
-                          ),
-                        ],
-                      );
-                  }
-                },
-              ),
               Expanded(
                 child: BlocBuilder<UserProjectBloc, UserProjectState>(
                   builder: (context, state) {
