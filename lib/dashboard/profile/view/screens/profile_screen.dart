@@ -107,7 +107,13 @@ class UserProfile extends StatelessWidget {
           imageUrl: user.image ?? '',
           email: user.email,
         ),
-        const Gap(20),
+        const Gap(8),
+        if (user.bio != null)
+          Text(
+            user.bio!,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        const Gap(16),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
