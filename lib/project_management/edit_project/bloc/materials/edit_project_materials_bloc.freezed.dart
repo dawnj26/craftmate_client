@@ -145,6 +145,73 @@ _$$StartedImplCopyWith<_$StartedImpl> get copyWith => throw _privateConstructorU
 }
 
 /// @nodoc
+abstract class _$$ReloadedImplCopyWith<$Res>  {
+  factory _$$ReloadedImplCopyWith(_$ReloadedImpl value, $Res Function(_$ReloadedImpl) then) = __$$ReloadedImplCopyWithImpl<$Res>;
+
+
+
+}
+
+/// @nodoc
+class __$$ReloadedImplCopyWithImpl<$Res> extends _$EditProjectMaterialsEventCopyWithImpl<$Res, _$ReloadedImpl> implements _$$ReloadedImplCopyWith<$Res> {
+  __$$ReloadedImplCopyWithImpl(_$ReloadedImpl _value, $Res Function(_$ReloadedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of EditProjectMaterialsEvent
+/// with the given fields replaced by the non-null parameter values.
+
+
+
+}
+
+/// @nodoc
+
+
+class _$ReloadedImpl  implements _Reloaded {
+  const _$ReloadedImpl();
+
+  
+
+
+
+@override
+String toString() {
+  return 'EditProjectMaterialsEvent.reloaded()';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ReloadedImpl);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _Reloaded implements EditProjectMaterialsEvent {
+  const factory _Reloaded() = _$ReloadedImpl;
+  
+
+  
+
+
+
+}
+
+/// @nodoc
 abstract class _$$AddMaterialImplCopyWith<$Res>  {
   factory _$$AddMaterialImplCopyWith(_$AddMaterialImpl value, $Res Function(_$AddMaterialImpl) then) = __$$AddMaterialImplCopyWithImpl<$Res>;
 @useResult
