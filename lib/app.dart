@@ -37,6 +37,7 @@ class _MyAppState extends State<MyApp> {
       logger: logger,
       prefs: prefs,
     );
+
     _authenticationRepository = AuthenticationRepository(config: config);
     _userRepository = UserRepository(config: config);
     _projectRepository = ProjectRepository(config: config);
