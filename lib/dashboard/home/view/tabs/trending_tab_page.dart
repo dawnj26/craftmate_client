@@ -64,13 +64,40 @@ class _TrendingTabState extends State<TrendingTab> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          case Loaded(projects: final project) when project.isEmpty:
+          case Loaded(projects: final project, filter: final filter)
+              when project.isEmpty:
             return RefreshIndicator(
               onRefresh: _onRefresh,
               child: Stack(
                 children: [
-                  const EmptyMessage(
-                    emptyMessage: 'No projects found',
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            FilterChip(
+                              selected: true,
+                              label: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(filter.label),
+                                  const Gap(4.0),
+                                  const Icon(
+                                    Icons.arrow_drop_down_rounded,
+                                    size: 20.0,
+                                  ),
+                                ],
+                              ),
+                              onSelected: _onSelected,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const EmptyMessage(
+                        emptyMessage: 'No projects found',
+                      ),
+                    ],
                   ),
                   ListView(),
                 ],
