@@ -14,7 +14,7 @@ class ForkLink extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: RichText(
         text: TextSpan(
           text: 'Forked from ',

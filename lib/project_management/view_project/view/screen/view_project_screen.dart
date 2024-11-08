@@ -462,8 +462,7 @@ class _ProjectCardHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CreatorAvatar(
-            initialName: creator.name[0].toUpperCase(),
-            fullName: creator.name,
+            user: project.creator,
             updatedAt: project.updatedAt,
             visibility: project.visibility,
           ),
@@ -500,7 +499,7 @@ class _ProjectCardHeader extends StatelessWidget {
                     projectTitle: project.title,
                   ),
                   Tags(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     tags: project.tags,
                   ),
                 ],

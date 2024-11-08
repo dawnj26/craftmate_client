@@ -24,6 +24,7 @@ abstract class IMaterialRepository {
   Future<List<Material>> searchMaterials(String query);
   Future<List<Material>> addMaterials(int projectId, List<int> ids);
   Future<List<Material>> deleteProjectMaterials(int projectId, List<int> ids);
+  Future<void> saveProjectMaterials(int projectId, List<int> ids);
 }
 
 class MaterialRepository implements IMaterialRepository {
@@ -31,6 +32,20 @@ class MaterialRepository implements IMaterialRepository {
       : _config = config;
 
   final ConfigRepository _config;
+
+  @override
+  Future<void> saveProjectMaterials(int projectId, List<int> ids) async {
+    try {
+      await _config.makeRequest<void>(
+        '/project/$projectId/materials/save',
+        method: 'POST',
+        data: {'materials': ids},
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      throw MaterialException(message: e.message);
+    }
+  }
 
   @override
   Future<List<Material>> deleteProjectMaterials(

@@ -1,10 +1,9 @@
-import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/home/view/home_page.dart';
+import 'package:craftmate_client/dashboard/profile/view/profile_page.dart';
 import 'package:craftmate_client/dashboard/search/search_page.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/user_materials_page.dart';
 import 'package:craftmate_client/project_management/user_projects/view/user_projects_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -32,6 +31,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       const Center(
         child: Text('Fourth Screen'),
       ),
+      const ProfilePage(),
     ];
     super.initState();
   }
@@ -88,21 +88,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Navigator.of(context).push(UserMaterialsPage.route());
               },
             ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: FilledButton.icon(
-                onPressed: () {
-                  context.read<AuthBloc>().add(AuthLogoutRequest());
-                },
-                icon: const Icon(Icons.logout),
-                label: const Text('Logout'),
-                style: FilledButton.styleFrom(
-                  backgroundColor: colorScheme.error,
-                  foregroundColor: colorScheme.onError,
-                ),
-              ),
-            ),
           ],
         ),
       ),
@@ -128,6 +113,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             selectedIcon: Icon(Icons.chat),
             icon: Icon(Icons.chat_outlined),
             label: 'Chat',
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.person_rounded),
+            icon: Icon(Icons.person_outline_rounded),
+            label: 'Profile',
           ),
         ],
       ),

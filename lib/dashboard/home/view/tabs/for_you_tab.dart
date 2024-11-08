@@ -2,8 +2,10 @@ import 'package:craftmate_client/dashboard/home/bloc/latest/latest_tab_bloc.dart
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
 import 'package:craftmate_client/dashboard/home/view/components/category_filter.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/project_management/view_project/view/view_project_page.dart';
+import 'package:craftmate_client/user_profile/views/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -263,6 +265,10 @@ class ProjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
+    final hasProfile = project.creator.image != null;
+
+    logger.info('Has profile: $hasProfile');
+
     return GestureDetector(
       onTap: () async {
         await Navigator.of(context).push(ViewProjectPage.route(project.id));
@@ -284,11 +290,21 @@ class ProjectCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const CircleAvatar(
-                        radius: 12.0,
-                        child: Icon(
-                          Icons.person_outline,
-                          size: 16.0,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(UserProfilePage.route());
+                        },
+                        child: CircleAvatar(
+                          radius: 12.0,
+                          backgroundImage: hasProfile
+                              ? NetworkImage(project.creator.image!)
+                              : null,
+                          child: !hasProfile
+                              ? const Icon(
+                                  Icons.person_outline,
+                                  size: 16.0,
+                                )
+                              : null,
                         ),
                       ),
                       const Gap(8.0),
@@ -302,7 +318,7 @@ class ProjectCard extends StatelessWidget {
                   const Gap(8.0),
                   Text(
                     project.title,
-                    style: textTheme.titleMedium,
+                    style: textTheme.labelLarge,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const Gap(8.0),

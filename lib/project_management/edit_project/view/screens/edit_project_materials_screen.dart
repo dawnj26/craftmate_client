@@ -5,11 +5,14 @@ import 'package:craftmate_client/material_inventory/user_materials/bloc/selectio
 import 'package:craftmate_client/material_inventory/user_materials/views/screens/screens.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/screens/user_materials_screen.dart';
 import 'package:craftmate_client/project_management/edit_project/bloc/materials/edit_project_materials_bloc.dart';
+import 'package:craftmate_client/project_management/edit_project/view/screens/select_materials_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditProjectMaterialsScreen extends StatelessWidget {
-  const EditProjectMaterialsScreen({super.key});
+  const EditProjectMaterialsScreen({super.key, required this.projectId});
+
+  final int projectId;
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +242,19 @@ class EditProjectMaterialsScreen extends StatelessWidget {
             ),
             ListTile(
               title: const Text('Choose from inventory'),
-              onTap: () {},
+              onTap: () {
+                Navigator.pop(context1);
+                Navigator.push(
+                  context1,
+                  SelectMaterialsScreen.route(projectId),
+                ).then((_) {
+                  if (context.mounted) {
+                    context.read<EditProjectMaterialsBloc>().add(
+                          const EditProjectMaterialsEvent.reloaded(),
+                        );
+                  }
+                });
+              },
             ),
           ],
         );

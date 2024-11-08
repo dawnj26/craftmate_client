@@ -24,13 +24,14 @@ class AuthenticationRepository implements IAuthenticationRepository {
 
     try {
       // Validate token
-      await userRepo.getUserByToken();
+      await userRepo.getUserByToken(true);
 
       yield AuthenticationStatus.authenticated;
       yield* _controller.stream;
     } on UserException catch (e) {
       // Throw error
       _config.storage.delete(key: 'token');
+      _config.prefs.remove('currentUser');
 
       yield AuthenticationStatus.unauthenticated;
       yield* _controller.stream;

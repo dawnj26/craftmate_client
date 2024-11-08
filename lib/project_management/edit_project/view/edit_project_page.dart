@@ -125,7 +125,9 @@ class EditProjectMaterialsPage extends StatelessWidget {
               );
           }
         },
-        child: const EditProjectMaterialsScreen(),
+        child: EditProjectMaterialsScreen(
+          projectId: projectId,
+        ),
       ),
     );
   }

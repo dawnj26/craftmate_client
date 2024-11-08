@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:material_repository/material_repository.dart';
 
@@ -17,10 +18,31 @@ class EditProjectMaterialsBloc
     on<_Started>(_onStarted);
     on<_AddMaterial>(_onAddMaterial);
     on<_DeleteMaterials>(_onDeleteMaterials);
+    on<_Reloaded>(_onReloaded);
   }
 
   final MaterialRepository _materialRepo;
   final int _projectId;
+
+  Future<void> _onReloaded(
+    _Reloaded event,
+    Emitter<EditProjectMaterialsState> emit,
+  ) async {
+    logger.info('Reloading materials');
+    emit(EditProjectMaterialsState.loading(materials: [...state.materials]));
+
+    try {
+      final materials = await _materialRepo.getProjectMaterials(_projectId);
+      emit(EditProjectMaterialsState.loaded(materials: materials));
+    } on MaterialException catch (e) {
+      emit(
+        EditProjectMaterialsState.error(
+          materials: [...state.materials],
+          message: e.message,
+        ),
+      );
+    }
+  }
 
   Future<void> _onDeleteMaterials(
     _DeleteMaterials event,

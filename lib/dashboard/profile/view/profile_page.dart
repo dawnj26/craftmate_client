@@ -1,5 +1,7 @@
-import 'package:craftmate_client/dashboard/profile/view/profile_screen.dart';
+import 'package:craftmate_client/dashboard/profile/bloc/user_profile/user_profile_bloc.dart';
+import 'package:craftmate_client/dashboard/profile/view/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -10,6 +12,13 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ProfileScreen();
+    return BlocProvider(
+      create: (context) => UserProfileBloc(
+        userRepository: RepositoryProvider.of(context),
+      )..add(
+          const UserProfileEvent.loadedProfile(),
+        ),
+      child: const ProfileScreen(),
+    );
   }
 }
