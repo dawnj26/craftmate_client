@@ -1,10 +1,261 @@
+import 'package:craftmate_client/helpers/alert/alert.dart';
+import 'package:craftmate_client/helpers/components/empty_message.dart';
+import 'package:craftmate_client/helpers/modal/modal.dart';
+import 'package:craftmate_client/helpers/transition/page_transition.dart';
+import 'package:craftmate_client/project_management/edit_project/bloc/select_material_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:material_repository/material_repository.dart' as m;
 
 class SelectMaterialsScreen extends StatelessWidget {
-  const SelectMaterialsScreen({super.key});
+  const SelectMaterialsScreen({super.key, required this.projectId});
+
+  final int projectId;
+
+  static Route<void> route(int projectId) {
+    return PageTransition.effect.slideFromRightToLeft(
+      SelectMaterialsScreen(
+        projectId: projectId,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return BlocProvider(
+      create: (context) => SelectMaterialBloc(
+        materialRepository: context.read(),
+        projectId: projectId,
+      )..add(
+          const SelectMaterialEvent.started(),
+        ),
+      child: BlocListener<SelectMaterialBloc, SelectMaterialState>(
+        listener: (context, state) {
+          switch (state) {
+            case Adding():
+              Modal.instance.showLoadingDialog(context);
+            case Added():
+              Navigator.pop(context);
+              Navigator.pop(context);
+              Alert.instance.showSnackbar(context, 'Materials saved');
+          }
+        },
+        child: const Scaffold(
+          appBar: _SearchAppBar(),
+          body: _SelectMaterialBody(),
+        ),
+      ),
+    );
+  }
+}
+
+class _SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const _SearchAppBar();
+
+  @override
+  State<_SearchAppBar> createState() => _SearchAppBarState();
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _SearchAppBarState extends State<_SearchAppBar> {
+  final _searchController = TextEditingController();
+  final _focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _searchController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SelectMaterialBloc, SelectMaterialState>(
+      builder: (context, state) {
+        final searching = switch (state) {
+          Searching() => true,
+          SelectMaterialState() => false
+        };
+
+        return AnimatedCrossFade(
+          firstChild: AppBar(
+            title: const Text('Select Materials'),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.search),
+                onPressed: () {
+                  context.read<SelectMaterialBloc>().add(
+                        const SelectMaterialEvent.searchStarted(),
+                      );
+                },
+              ),
+            ],
+          ),
+          secondChild: AppBar(
+            automaticallyImplyLeading: false,
+            title: TextField(
+              controller: _searchController,
+              focusNode: _focusNode,
+              decoration: const InputDecoration(
+                hintText: 'Search materials',
+                border: InputBorder.none,
+              ),
+              onChanged: (value) {
+                context.read<SelectMaterialBloc>().add(
+                      SelectMaterialEvent.search(value),
+                    );
+              },
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  _searchController.text = '';
+                  context.read<SelectMaterialBloc>().add(
+                        const SelectMaterialEvent.searchCanceled(),
+                      );
+                },
+              ),
+            ],
+          ),
+          crossFadeState:
+              searching ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+          duration: const Duration(milliseconds: 200),
+        );
+      },
+    );
+  }
+}
+
+class _SelectMaterialBody extends StatelessWidget {
+  const _SelectMaterialBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SelectMaterialBloc, SelectMaterialState>(
+      builder: (context, state) {
+        switch (state) {
+          case Initial() || Loading():
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          case Error():
+            return Center(
+              child: Text(state.message),
+            );
+          case Searching(:final materials) when materials.isEmpty:
+            final selectedCount = state.selectedMaterials.values
+                .where((element) => element)
+                .length;
+            final hasSelected = selectedCount == 0;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Expanded(
+                  child: EmptyMessage(
+                    emptyMessage: 'No materials found',
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: FilledButton(
+                    onPressed: () {
+                      context.read<SelectMaterialBloc>().add(
+                            const SelectMaterialEvent.addedMaterials(),
+                          );
+                    },
+                    child: Text(
+                      !hasSelected
+                          ? 'Save $selectedCount material/s'
+                          : 'Save materials',
+                    ),
+                  ),
+                ),
+              ],
+            );
+          default:
+            final selectedCount = state.selectedMaterials.values
+                .where((element) => element)
+                .length;
+            final hasSelected = selectedCount == 0;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Divider(),
+                Expanded(
+                  child: MaterialList(
+                    materials: state.materials,
+                    selectedMaterials: state.selectedMaterials,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: FilledButton(
+                    onPressed: () {
+                      context.read<SelectMaterialBloc>().add(
+                            const SelectMaterialEvent.addedMaterials(),
+                          );
+                    },
+                    child: Text(
+                      !hasSelected
+                          ? 'Save $selectedCount material/s'
+                          : 'Save materials',
+                    ),
+                  ),
+                ),
+              ],
+            );
+        }
+      },
+    );
+  }
+}
+
+class MaterialList extends StatelessWidget {
+  const MaterialList({
+    super.key,
+    required this.materials,
+    required this.selectedMaterials,
+  });
+
+  final List<m.Material> materials;
+  final Map<int, bool> selectedMaterials;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      padding: const EdgeInsets.all(12.0),
+      itemCount: materials.length,
+      itemBuilder: (context, index) {
+        final material = materials[index];
+        final isSelected = selectedMaterials[material.id] ?? false;
+
+        return Card(
+          clipBehavior: Clip.antiAlias,
+          child: ListTile(
+            title: Text(material.name),
+            trailing: Checkbox(
+              value: isSelected,
+              onChanged: (value) {
+                context.read<SelectMaterialBloc>().add(
+                      SelectMaterialEvent.materialSelected(material.id),
+                    );
+              },
+            ),
+            onTap: () {
+              context.read<SelectMaterialBloc>().add(
+                    SelectMaterialEvent.materialSelected(material.id),
+                  );
+            },
+          ),
+        );
+      },
+    );
   }
 }
