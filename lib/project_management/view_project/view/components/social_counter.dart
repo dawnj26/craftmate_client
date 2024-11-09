@@ -34,7 +34,7 @@ class SocialCounters extends StatelessWidget {
             builder: (context, state) {
               return Counter(
                 countText: '${state.project.forkCount}',
-                icon: const Icon(Icons.transform),
+                icon: const Icon(Icons.copy_all_outlined),
               );
             },
           ),
