@@ -11,10 +11,37 @@ final class ProjectApi {
 
   const ProjectApi({required ConfigRepository config}) : _config = config;
 
-  Future<List<ProjectCategory>> getProjectCategories() async {
+  Future<Pagination<Project>> getProjectsByUserId(int id,
+      [int? categoryId]) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/user/$id/projects',
+        queryParameters:
+            categoryId != null ? {'category_id': categoryId} : null,
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final paginatedProjects = Pagination.fromJson(
+        response.data!['data'],
+        (dynamic item) => Project.fromJson(item),
+      );
+
+      return paginatedProjects;
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<List<ProjectCategory>> getProjectCategories(bool refresh) async {
     final projectCategories = _config.prefs.getString('projectCategories');
 
-    if (projectCategories != null) {
+    if (projectCategories != null && !refresh) {
       final json = await Isolate.run(() {
         final jsonData = jsonDecode(projectCategories);
         return jsonData;

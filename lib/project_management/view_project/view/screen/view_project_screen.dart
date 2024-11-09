@@ -11,6 +11,7 @@ import 'package:craftmate_client/project_management/view_project/project_setting
 import 'package:craftmate_client/project_management/view_project/view/components/components.dart';
 import 'package:craftmate_client/project_management/view_project/view/components/fork_link.dart';
 import 'package:craftmate_client/project_management/view_project/view/view_project_page.dart';
+import 'package:craftmate_client/user_profile/views/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -55,6 +56,11 @@ class ViewProjectScreen extends StatelessWidget {
             await newState;
           },
           child: Scaffold(
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: () {},
+              label: const Text('Start project'),
+              icon: const Icon(Icons.play_arrow_rounded),
+            ),
             appBar: AppBar(
               automaticallyImplyLeading: false,
               leading: IconButton(
@@ -298,7 +304,7 @@ class _ProjectBody extends StatelessWidget {
           ),
           const Gap(8.0),
           ProjectBodySection(
-            sectionName: 'Recipe',
+            sectionName: 'Procedures',
             canEdit: canEdit,
             onPressed: () {
               Navigator.push(
@@ -465,6 +471,12 @@ class _ProjectCardHeader extends StatelessWidget {
             user: project.creator,
             updatedAt: project.updatedAt,
             visibility: project.visibility,
+            onTap: () {
+              Navigator.push(
+                context,
+                UserProfilePage.route(creator.id),
+              );
+            },
           ),
           if (project.fork != null) ForkLink(fork: project.fork!),
           const Gap(8.0),

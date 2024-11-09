@@ -2,7 +2,6 @@ import 'package:craftmate_client/dashboard/home/bloc/latest/latest_tab_bloc.dart
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
 import 'package:craftmate_client/dashboard/home/view/components/category_filter.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/project_management/view_project/view/view_project_page.dart';
 import 'package:craftmate_client/user_profile/views/user_profile_page.dart';
@@ -196,12 +195,10 @@ class ProjectGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const gap = 8.0;
-    return Scaffold(
-      body: CustomScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        controller: scrollController,
-        slivers: _buildSlivers(gap),
-      ),
+    return CustomScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      controller: scrollController,
+      slivers: _buildSlivers(gap),
     );
   }
 
@@ -267,8 +264,6 @@ class ProjectCard extends StatelessWidget {
     final textTheme = theme.textTheme;
     final hasProfile = project.creator.image != null;
 
-    logger.info('Has profile: $hasProfile');
-
     return GestureDetector(
       onTap: () async {
         await Navigator.of(context).push(ViewProjectPage.route(project.id));
@@ -292,7 +287,8 @@ class ProjectCard extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(UserProfilePage.route());
+                          Navigator.of(context)
+                              .push(UserProfilePage.route(project.creator.id));
                         },
                         child: CircleAvatar(
                           radius: 12.0,

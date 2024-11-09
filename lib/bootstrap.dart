@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:craftmate_client/firebase_options.dart';
 import 'package:craftmate_client/globals.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:log_collector/log_collector.dart';
@@ -31,12 +33,13 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   Bloc.observer = const AppBlocObserver();
 
   WidgetsFlutterBinding.ensureInitialized();
+
   logger = await LogCollector.getInstance();
-
   prefs = await SharedPreferences.getInstance();
-
-  logger.info('Loading environment variables.');
   await dotenv.load();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   logger.info('Starting the app');
 

@@ -64,7 +64,8 @@ abstract class IProjectRepository {
       [int? categoryId, bool refresh = false]);
   Future<Pagination<Project>> getTrendingProjects(
       [String timeframe = 'today', String sortBy = 'views_count']);
-  Future<List<ProjectCategory>> getProjectCategories();
+  Future<List<ProjectCategory>> getProjectCategories([bool refresh = false]);
+  Future<Pagination<Project>> getProjectsByUserId(int id, [int? categoryId]);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -81,8 +82,13 @@ class ProjectRepository implements IProjectRepository {
         _generateApi = GenerateApi(config: config);
 
   @override
-  Future<List<ProjectCategory>> getProjectCategories() {
-    return _projectApi.getProjectCategories();
+  Future<Pagination<Project>> getProjectsByUserId(int id, [int? categoryId]) {
+    return _projectApi.getProjectsByUserId(id, categoryId);
+  }
+
+  @override
+  Future<List<ProjectCategory>> getProjectCategories([bool refresh = false]) {
+    return _projectApi.getProjectCategories(refresh);
   }
 
   @override

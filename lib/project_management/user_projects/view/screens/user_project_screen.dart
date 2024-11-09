@@ -219,7 +219,7 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
         switch (state) {
           case s.Initial():
             return AppBar(
-              title: const Text('Your projects'),
+              title: const Text('My projects'),
               actions: [
                 IconButton(
                   onPressed: () {
@@ -252,7 +252,7 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
             );
           case s.Off():
             return AppBar(
-              title: const Text('Your projects'),
+              title: const Text('My projects'),
               actions: [
                 IconButton(
                   onPressed: () {
@@ -583,9 +583,6 @@ class ProjectCard extends StatelessWidget {
           PopupMenuItem(
             onTap: () => _handleDelete(context, project),
             child: const Text('Delete'),
-          ),
-          const PopupMenuItem(
-            child: Text('Info'),
           ),
         ],
       );
