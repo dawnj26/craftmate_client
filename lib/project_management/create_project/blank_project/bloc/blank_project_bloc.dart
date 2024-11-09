@@ -42,7 +42,7 @@ class BlankProjectBloc extends Bloc<BlankProjectEvent, BlankProjectState> {
   ) async {
     emit(const BlankProjectLoading());
     try {
-      final categories = await _projectRepo.getProjectCategories();
+      final categories = await _projectRepo.getProjectCategories(true);
 
       emit(
         BlankProjectLoaded(
