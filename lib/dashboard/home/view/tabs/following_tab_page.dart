@@ -309,7 +309,8 @@ class ProjectCard extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(UserProfilePage.route());
+                          Navigator.of(context)
+                              .push(UserProfilePage.route(project.creator.id));
                         },
                         child: CircleAvatar(
                           radius: 12.0,
