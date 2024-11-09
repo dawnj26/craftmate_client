@@ -38,6 +38,7 @@ dependencies:
   dropdown_search: ^6.0.1
   email_validator: ^3.0.0
   equatable: ^2.0.5
+  firebase_core: ^3.7.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6

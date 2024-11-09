@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "48480038474",
+    "project_id": "craftmate-b37fd",
+    "storage_bucket": "craftmate-b37fd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:48480038474:android:2b71105b1e1e95419600b3",
+        "android_client_info": {
+          "package_name": "com.craftmate.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoH2a0pjXuPHlGjMmIt7lv3eVrMQ7not0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
