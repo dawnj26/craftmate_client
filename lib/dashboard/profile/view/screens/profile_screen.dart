@@ -117,15 +117,15 @@ class UserProfile extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _ProfileCounter(
+            ProfileCounter(
               count: user.followerCount,
               label: 'Following',
             ),
-            _ProfileCounter(
+            ProfileCounter(
               count: user.followerCount,
               label: 'Followers',
             ),
-            _ProfileCounter(
+            ProfileCounter(
               count: user.projectCount,
               label: 'Projects',
             ),
@@ -187,8 +187,8 @@ class _ProfileImageAndEmail extends StatelessWidget {
   }
 }
 
-class _ProfileCounter extends StatelessWidget {
-  const _ProfileCounter({
+class ProfileCounter extends StatelessWidget {
+  const ProfileCounter({
     required this.count,
     required this.label,
   });
