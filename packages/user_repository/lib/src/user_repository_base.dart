@@ -8,10 +8,12 @@ import 'package:user_repository/src/models/user.dart';
 abstract class IUserRepository {
   Future<User> getUserByToken([bool refresh = false]);
   Future<void> getUserByEmail(String email);
+  Future<User> getUserById(int id);
   Future<User> updateUserName(String name);
   Future<User> updateUserEmail(String email);
   Future<User> updateUserBio(String? bio);
   Future<User> uploadProfilePicture(String filePath);
+  Future<User> toggleFollow(int id);
 }
 
 class UserRepository implements IUserRepository {
@@ -20,6 +22,45 @@ class UserRepository implements IUserRepository {
   UserRepository({
     required ConfigRepository config,
   }) : _config = config;
+
+  @override
+  Future<User> toggleFollow(int id) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/user/$id/follow',
+        method: 'POST',
+        withAuthorization: true,
+      );
+
+      final user =
+          User.fromJson(response.data!['data'] as Map<String, dynamic>);
+
+      return user;
+    } on RequestException catch (e) {
+      throw UserException(e.message);
+    } on TokenException catch (e) {
+      throw UserException(e.message);
+    }
+  }
+
+  @override
+  Future<User> getUserById(int id) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/user/$id',
+        withAuthorization: true,
+      );
+
+      final user =
+          User.fromJson(response.data!['data'] as Map<String, dynamic>);
+
+      return user;
+    } on RequestException catch (e) {
+      throw UserException(e.message);
+    } on TokenException catch (e) {
+      throw UserException(e.message);
+    }
+  }
 
   @override
   Future<User> uploadProfilePicture(String filePath) async {
