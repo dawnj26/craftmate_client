@@ -49,6 +49,7 @@ class ViewProjectScreen extends StatelessWidget {
           );
         }
 
+        final ownedByCurrentUser = currentUser.id == state.project.creator.id;
         final isStarted = state.project.startedAt != null;
         final isFinished = state.project.completedAt != null;
         final fabLabel = isFinished
@@ -65,25 +66,29 @@ class ViewProjectScreen extends StatelessWidget {
             await newState;
           },
           child: Scaffold(
-            floatingActionButton: FloatingActionButton.extended(
-              onPressed: () async {
-                if (isStarted || isFinished) {
-                  await Navigator.push(
-                    context,
-                    StartProjectPage.route(state.project.id),
-                  );
-                  if (!context.mounted) return;
-                  context
-                      .read<ViewProjectBloc>()
-                      .add(const ViewProjectReloaded());
-                  return;
-                }
+            floatingActionButton: !ownedByCurrentUser
+                ? null
+                : FloatingActionButton.extended(
+                    onPressed: () async {
+                      if (isStarted || isFinished) {
+                        await Navigator.push(
+                          context,
+                          StartProjectPage.route(state.project.id),
+                        );
+                        if (!context.mounted) return;
+                        context
+                            .read<ViewProjectBloc>()
+                            .add(const ViewProjectReloaded());
+                        return;
+                      }
 
-                context.read<ViewProjectBloc>().add(const ViewProjectStarted());
-              },
-              label: Text(fabLabel),
-              icon: const Icon(Icons.play_arrow_rounded),
-            ),
+                      context
+                          .read<ViewProjectBloc>()
+                          .add(const ViewProjectStarted());
+                    },
+                    label: Text(fabLabel),
+                    icon: const Icon(Icons.play_arrow_rounded),
+                  ),
             appBar: AppBar(
               automaticallyImplyLeading: false,
               leading: IconButton(
@@ -500,7 +505,7 @@ class _ProjectCardHeader extends StatelessWidget {
         children: [
           CreatorAvatar(
             user: project.creator,
-            updatedAt: project.updatedAt,
+            updatedAt: project.createdAt,
             visibility: project.visibility,
             onTap: () {
               Navigator.push(
