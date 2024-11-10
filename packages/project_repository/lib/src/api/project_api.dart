@@ -95,6 +95,27 @@ final class ProjectApi {
     }
   }
 
+  Future<Project> finishProject(int id) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/project/$id/finish',
+        method: 'PUT',
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final project = Project.fromJson(response.data!['data']);
+      return project;
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
   Future<Pagination<Project>> getCurrentUserOngoingProjects(
     ProjectFilter filter,
     ProjectSort sort,
@@ -130,6 +151,55 @@ final class ProjectApi {
       );
 
       return paginatedProjects;
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<void> toggleAllStepsComplete(int projectId) async {
+    try {
+      await _config.makeRequest<void>(
+        '/project/$projectId/steps/toggle-complete',
+        method: 'PUT',
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<void> toggleStepComplete(int projectId, int stepId) async {
+    try {
+      await _config.makeRequest<void>(
+        '/project/$projectId/step/$stepId/toggle-complete',
+        method: 'PUT',
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<Project> startProject(int id) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/project/$id/start',
+        method: 'POST',
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final project = Project.fromJson(response.data!['data']);
+      return project;
     } on RequestException catch (e) {
       throw ProjectException(message: e.message);
     } on TokenException catch (e) {
