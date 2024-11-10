@@ -1,3 +1,4 @@
+import 'package:craftmate_client/dashboard/chat/views/chat_page.dart';
 import 'package:craftmate_client/dashboard/home/view/home_page.dart';
 import 'package:craftmate_client/dashboard/profile/view/profile_page.dart';
 import 'package:craftmate_client/dashboard/search/search_page.dart';
@@ -28,9 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Text('Second Screen'),
       ),
       const SearchPage(),
-      const Center(
-        child: Text('Fourth Screen'),
-      ),
+      const ChatPage(),
       const ProfilePage(),
     ];
     super.initState();
