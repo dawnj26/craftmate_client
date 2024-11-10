@@ -11,6 +11,202 @@ final class ProjectApi {
 
   const ProjectApi({required ConfigRepository config}) : _config = config;
 
+  Future<Pagination<Project>> getCurrentUserInactiveProjects(
+    ProjectFilter filter,
+    ProjectSort sort,
+    SortOrder order,
+    int? categoryId,
+  ) async {
+    try {
+      final path = filter.index != 0
+          ? '/user/projects/inactive/${filter.index}'
+          : '/user/projects/inactive';
+      final params = <String, dynamic>{
+        'sort_by': sort.value,
+        'order': order.value,
+      };
+
+      if (categoryId != null) {
+        params['category_id'] = categoryId;
+      }
+
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        path,
+        queryParameters: params,
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final paginatedProjects = Pagination.fromJson(
+        response.data!['data'],
+        (dynamic item) => Project.fromJson(item),
+      );
+
+      return paginatedProjects;
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<Pagination<Project>> getCurrentUserCompletedProjects(
+    ProjectFilter filter,
+    ProjectSort sort,
+    SortOrder order,
+    int? categoryId,
+  ) async {
+    try {
+      final path = filter.index != 0
+          ? '/user/projects/completed/${filter.index}'
+          : '/user/projects/completed';
+      final params = <String, dynamic>{
+        'sort_by': sort.value,
+        'order': order.value,
+      };
+
+      if (categoryId != null) {
+        params['category_id'] = categoryId;
+      }
+
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        path,
+        queryParameters: params,
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final paginatedProjects = Pagination.fromJson(
+        response.data!['data'],
+        (dynamic item) => Project.fromJson(item),
+      );
+
+      return paginatedProjects;
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<Project> finishProject(int id) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/project/$id/finish',
+        method: 'PUT',
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final project = Project.fromJson(response.data!['data']);
+      return project;
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<Pagination<Project>> getCurrentUserOngoingProjects(
+    ProjectFilter filter,
+    ProjectSort sort,
+    SortOrder order,
+    int? categoryId,
+  ) async {
+    try {
+      final path = filter.index != 0
+          ? '/user/projects/ongoing/${filter.index}'
+          : '/user/projects/ongoing';
+      final params = <String, dynamic>{
+        'sort_by': sort.value,
+        'order': order.value,
+      };
+
+      if (categoryId != null) {
+        params['category_id'] = categoryId;
+      }
+
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        path,
+        queryParameters: params,
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final paginatedProjects = Pagination.fromJson(
+        response.data!['data'],
+        (dynamic item) => Project.fromJson(item),
+      );
+
+      return paginatedProjects;
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<void> toggleAllStepsComplete(int projectId) async {
+    try {
+      await _config.makeRequest<void>(
+        '/project/$projectId/steps/toggle-complete',
+        method: 'PUT',
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<void> toggleStepComplete(int projectId, int stepId) async {
+    try {
+      await _config.makeRequest<void>(
+        '/project/$projectId/step/$stepId/toggle-complete',
+        method: 'PUT',
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
+  Future<Project> startProject(int id) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/project/$id/start',
+        method: 'POST',
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      final project = Project.fromJson(response.data!['data']);
+      return project;
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
   Future<Pagination<Project>> getProjectsByUserId(int id,
       [int? categoryId]) async {
     try {

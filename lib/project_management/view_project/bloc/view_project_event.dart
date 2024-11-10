@@ -44,3 +44,7 @@ final class ViewProjectViewed extends ViewProjectEvent {
 final class ViewProjectForked extends ViewProjectEvent {
   const ViewProjectForked();
 }
+
+final class ViewProjectStarted extends ViewProjectEvent {
+  const ViewProjectStarted();
+}

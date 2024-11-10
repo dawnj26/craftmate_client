@@ -73,3 +73,9 @@ final class ViewProjectForkSuccess extends ViewProjectState {
   // TODO: implement props
   List<Object> get props => [projectId];
 }
+
+final class ViewProjectStartSuccess extends ViewProjectState {
+  const ViewProjectStartSuccess({
+    required super.project,
+  });
+}

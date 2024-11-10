@@ -23,6 +23,7 @@ mixin _$Step {
   int get id => throw _privateConstructorUsedError;
   int get stepNumber => throw _privateConstructorUsedError;
   List<dynamic>? get content => throw _privateConstructorUsedError;
+  DateTime? get completedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Step to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +39,8 @@ abstract class $StepCopyWith<$Res> {
   factory $StepCopyWith(Step value, $Res Function(Step) then) =
       _$StepCopyWithImpl<$Res, Step>;
   @useResult
-  $Res call({int id, int stepNumber, List<dynamic>? content});
+  $Res call(
+      {int id, int stepNumber, List<dynamic>? content, DateTime? completedAt});
 }
 
 /// @nodoc
@@ -59,6 +61,7 @@ class _$StepCopyWithImpl<$Res, $Val extends Step>
     Object? id = null,
     Object? stepNumber = null,
     Object? content = freezed,
+    Object? completedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -73,6 +76,10 @@ class _$StepCopyWithImpl<$Res, $Val extends Step>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as List<dynamic>?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -84,7 +91,8 @@ abstract class _$$StepImplCopyWith<$Res> implements $StepCopyWith<$Res> {
       __$$StepImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, int stepNumber, List<dynamic>? content});
+  $Res call(
+      {int id, int stepNumber, List<dynamic>? content, DateTime? completedAt});
 }
 
 /// @nodoc
@@ -102,6 +110,7 @@ class __$$StepImplCopyWithImpl<$Res>
     Object? id = null,
     Object? stepNumber = null,
     Object? content = freezed,
+    Object? completedAt = freezed,
   }) {
     return _then(_$StepImpl(
       id: null == id
@@ -116,6 +125,10 @@ class __$$StepImplCopyWithImpl<$Res>
           ? _value._content
           : content // ignore: cast_nullable_to_non_nullable
               as List<dynamic>?,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -126,7 +139,8 @@ class _$StepImpl implements _Step {
   const _$StepImpl(
       {required this.id,
       required this.stepNumber,
-      final List<dynamic>? content})
+      final List<dynamic>? content,
+      this.completedAt})
       : _content = content;
 
   factory _$StepImpl.fromJson(Map<String, dynamic> json) =>
@@ -147,8 +161,11 @@ class _$StepImpl implements _Step {
   }
 
   @override
+  final DateTime? completedAt;
+
+  @override
   String toString() {
-    return 'Step(id: $id, stepNumber: $stepNumber, content: $content)';
+    return 'Step(id: $id, stepNumber: $stepNumber, content: $content, completedAt: $completedAt)';
   }
 
   @override
@@ -159,13 +176,15 @@ class _$StepImpl implements _Step {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.stepNumber, stepNumber) ||
                 other.stepNumber == stepNumber) &&
-            const DeepCollectionEquality().equals(other._content, _content));
+            const DeepCollectionEquality().equals(other._content, _content) &&
+            (identical(other.completedAt, completedAt) ||
+                other.completedAt == completedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, stepNumber,
-      const DeepCollectionEquality().hash(_content));
+      const DeepCollectionEquality().hash(_content), completedAt);
 
   /// Create a copy of Step
   /// with the given fields replaced by the non-null parameter values.
@@ -187,7 +206,8 @@ abstract class _Step implements Step {
   const factory _Step(
       {required final int id,
       required final int stepNumber,
-      final List<dynamic>? content}) = _$StepImpl;
+      final List<dynamic>? content,
+      final DateTime? completedAt}) = _$StepImpl;
 
   factory _Step.fromJson(Map<String, dynamic> json) = _$StepImpl.fromJson;
 
@@ -197,6 +217,8 @@ abstract class _Step implements Step {
   int get stepNumber;
   @override
   List<dynamic>? get content;
+  @override
+  DateTime? get completedAt;
 
   /// Create a copy of Step
   /// with the given fields replaced by the non-null parameter values.

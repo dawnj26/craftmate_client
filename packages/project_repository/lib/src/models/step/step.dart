@@ -9,6 +9,7 @@ class Step with _$Step {
     required int id,
     required int stepNumber,
     List<dynamic>? content,
+    DateTime? completedAt,
   }) = _Step;
 
   factory Step.fromJson(Map<String, dynamic> json) => _$StepFromJson(json);

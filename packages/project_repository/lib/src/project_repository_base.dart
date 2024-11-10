@@ -66,6 +66,28 @@ abstract class IProjectRepository {
       [String timeframe = 'today', String sortBy = 'views_count']);
   Future<List<ProjectCategory>> getProjectCategories([bool refresh = false]);
   Future<Pagination<Project>> getProjectsByUserId(int id, [int? categoryId]);
+  Future<Project> startProject(int id);
+  Future<void> toggleStepComplete(int projectId, int stepId);
+  Future<void> toggleAllStepsComplete(int projectId);
+  Future<Pagination<Project>> getCurrentUserOngoingProjects(
+    ProjectFilter filter, [
+    ProjectSort sort = ProjectSort.lastModified,
+    SortOrder order = SortOrder.desc,
+    int? categoryId,
+  ]);
+  Future<Pagination<Project>> getCurrentUserCompletedProjects(
+    ProjectFilter filter, [
+    ProjectSort sort = ProjectSort.lastModified,
+    SortOrder order = SortOrder.desc,
+    int? categoryId,
+  ]);
+  Future<Pagination<Project>> getCurrentUserInactiveProjects(
+    ProjectFilter filter, [
+    ProjectSort sort = ProjectSort.lastModified,
+    SortOrder order = SortOrder.desc,
+    int? categoryId,
+  ]);
+  Future<Project> finishProject(int id);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -80,6 +102,57 @@ class ProjectRepository implements IProjectRepository {
         _uploadApi = UploadApi(config: config),
         _commentApi = CommentApi(config: config),
         _generateApi = GenerateApi(config: config);
+
+  @override
+  Future<Pagination<Project>> getCurrentUserCompletedProjects(
+      ProjectFilter filter,
+      [ProjectSort sort = ProjectSort.lastModified,
+      SortOrder order = SortOrder.desc,
+      int? categoryId]) {
+    return _projectApi.getCurrentUserCompletedProjects(
+        filter, sort, order, categoryId);
+  }
+
+  @override
+  Future<Pagination<Project>> getCurrentUserInactiveProjects(
+      ProjectFilter filter,
+      [ProjectSort sort = ProjectSort.lastModified,
+      SortOrder order = SortOrder.desc,
+      int? categoryId]) {
+    return _projectApi.getCurrentUserInactiveProjects(
+        filter, sort, order, categoryId);
+  }
+
+  @override
+  Future<Project> finishProject(int id) async {
+    return _projectApi.finishProject(id);
+  }
+
+  @override
+  Future<Pagination<Project>> getCurrentUserOngoingProjects(
+    ProjectFilter filter, [
+    ProjectSort sort = ProjectSort.lastModified,
+    SortOrder order = SortOrder.desc,
+    int? categoryId,
+  ]) {
+    return _projectApi.getCurrentUserOngoingProjects(
+        filter, sort, order, categoryId);
+  }
+
+  @override
+  Future<void> toggleAllStepsComplete(int projectId) {
+    return _projectApi.toggleAllStepsComplete(projectId);
+  }
+
+  @override
+  Future<void> toggleStepComplete(int projectId, int stepId) async {
+    return _projectApi.toggleStepComplete(projectId, stepId);
+  }
+
+  @override
+  Future<Project> startProject(int id) async {
+    return _projectApi.startProject(id);
+  }
 
   @override
   Future<Pagination<Project>> getProjectsByUserId(int id, [int? categoryId]) {

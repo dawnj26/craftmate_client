@@ -24,6 +24,10 @@ _$ProjectImpl _$$ProjectImplFromJson(Map<String, dynamic> json) =>
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
       deletedAt: _parseDateTime(json['deletedAt'] as String?),
+      startedAt: _parseDateTime(json['startedAt'] as String?),
+      expectedCompletionAt:
+          _parseDateTime(json['expectedCompletionAt'] as String?),
+      completedAt: _parseDateTime(json['completedAt'] as String?),
       description: json['description'] as List<dynamic>?,
       tags: (json['tags'] as List<dynamic>?)
           ?.map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -57,6 +61,9 @@ Map<String, dynamic> _$$ProjectImplToJson(_$ProjectImpl instance) =>
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
       'deletedAt': instance.deletedAt?.toIso8601String(),
+      'startedAt': instance.startedAt?.toIso8601String(),
+      'expectedCompletionAt': instance.expectedCompletionAt?.toIso8601String(),
+      'completedAt': instance.completedAt?.toIso8601String(),
       'description': instance.description,
       'tags': instance.tags,
       'steps': instance.steps,

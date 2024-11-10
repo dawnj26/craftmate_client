@@ -30,10 +30,30 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     on<ViewProjectViewed>(_onProjectViewed);
     on<ViewProjectReloaded>(_onProjectReloaded);
     on<ViewProjectForked>(_onProjectForked);
+    on<ViewProjectStarted>(_onProjectStarted);
   }
 
   final ProjectRepository _projectRepository;
   final int _projectId;
+
+  Future<void> _onProjectStarted(
+    ViewProjectStarted event,
+    Emitter<ViewProjectState> emit,
+  ) async {
+    emit(ViewProjectUploading(project: state.project.copyWith()));
+
+    try {
+      final project = await _projectRepository.startProject(_projectId);
+      emit(ViewProjectStartSuccess(project: project));
+    } on ProjectException catch (e) {
+      emit(
+        ViewProjectFailed(
+          errMessage: e.message,
+          project: state.project.copyWith(),
+        ),
+      );
+    }
+  }
 
   Future<void> _onProjectForked(
     ViewProjectForked event,

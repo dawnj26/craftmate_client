@@ -4,6 +4,7 @@ import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/screens/screens.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/screens/user_materials_screen.dart';
 import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
+import 'package:craftmate_client/project_management/start_project/views/start_project_page.dart';
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/bloc/comment_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/comment/view/comment_modal.dart';
@@ -48,6 +49,14 @@ class ViewProjectScreen extends StatelessWidget {
           );
         }
 
+        final isStarted = state.project.startedAt != null;
+        final isFinished = state.project.completedAt != null;
+        final fabLabel = isFinished
+            ? 'Open tracker'
+            : isStarted
+                ? 'Continue project'
+                : 'Start project';
+
         return RefreshIndicator(
           displacement: 100.0,
           onRefresh: () async {
@@ -57,8 +66,22 @@ class ViewProjectScreen extends StatelessWidget {
           },
           child: Scaffold(
             floatingActionButton: FloatingActionButton.extended(
-              onPressed: () {},
-              label: const Text('Start project'),
+              onPressed: () async {
+                if (isStarted || isFinished) {
+                  await Navigator.push(
+                    context,
+                    StartProjectPage.route(state.project.id),
+                  );
+                  if (!context.mounted) return;
+                  context
+                      .read<ViewProjectBloc>()
+                      .add(const ViewProjectReloaded());
+                  return;
+                }
+
+                context.read<ViewProjectBloc>().add(const ViewProjectStarted());
+              },
+              label: Text(fabLabel),
               icon: const Icon(Icons.play_arrow_rounded),
             ),
             appBar: AppBar(
@@ -201,6 +224,7 @@ class ViewProjectScreen extends StatelessWidget {
 
   void _handleState(BuildContext context, ViewProjectState state) {
     if (state is ViewProjectFailed) {
+      Navigator.pop(context);
       Modal.instance.showConfirmationModal(
         context: context,
         content: Text(state.errMessage),
@@ -216,6 +240,13 @@ class ViewProjectScreen extends StatelessWidget {
     } else if (state is ViewProjectForkSuccess) {
       Navigator.of(context).pop();
       Navigator.push(context, ViewProjectPage.route(state.projectId));
+    } else if (state is ViewProjectStartSuccess) {
+      Navigator.of(context).pop();
+      Navigator.push(context, StartProjectPage.route(state.project.id))
+          .then((_) {
+        if (!context.mounted) return;
+        context.read<ViewProjectBloc>().add(const ViewProjectReloaded());
+      });
     }
   }
 }
