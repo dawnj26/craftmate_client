@@ -1,3 +1,4 @@
+import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/screens/user_materials_screen.dart';
 import 'package:craftmate_client/project_management/create_project/generate_project/view/screens/generate_project_screen.dart';
@@ -25,8 +26,9 @@ class StartProjectScreen extends StatelessWidget {
                   return AppBar();
               }
 
-              final progress =
-                  state.completedSteps.where((element) => element).length /
+              final progress = state.completedSteps.isEmpty
+                  ? 1.0
+                  : state.completedSteps.where((element) => element).length /
                       state.completedSteps.length;
 
               return AppBar(
@@ -211,42 +213,59 @@ class _Procedures extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        Column(
-          children: List.generate(controllers.length, (index) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                BlocBuilder<StartProjectBloc, StartProjectState>(
-                  builder: (context, state) {
-                    final isPreviousCompleted =
-                        index == 0 || state.completedSteps[index - 1];
-                    final isNextCompleted = index != controllers.length - 1 &&
-                        state.completedSteps[index + 1];
-
-                    return _StepHeader(
-                      step: index + 1,
-                      value: state.completedSteps[index],
-                      onChanged: isNextCompleted
-                          ? null
-                          : (value) {
-                              context.read<StartProjectBloc>().add(
-                                    StartProjectEvent.stepCompleteToggled(
-                                      index,
-                                    ),
-                                  );
-                            },
-                      showCheckbox: isPreviousCompleted,
-                    );
-                  },
-                ),
-                const SizedBox(height: 8),
-                StepCard(controller: controllers[index]),
-                if (index != controllers.length - 1) const SizedBox(height: 24),
-              ],
-            );
-          }),
-        ),
+        _Step(controllers: controllers),
       ],
+    );
+  }
+}
+
+class _Step extends StatelessWidget {
+  const _Step({
+    required this.controllers,
+  });
+
+  final List<QuillController> controllers;
+
+  @override
+  Widget build(BuildContext context) {
+    if (controllers.isEmpty) {
+      return const EmptyMessage(emptyMessage: 'No steps');
+    }
+
+    return Column(
+      children: List.generate(controllers.length, (index) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            BlocBuilder<StartProjectBloc, StartProjectState>(
+              builder: (context, state) {
+                final isPreviousCompleted =
+                    index == 0 || state.completedSteps[index - 1];
+                final isNextCompleted = index != controllers.length - 1 &&
+                    state.completedSteps[index + 1];
+
+                return _StepHeader(
+                  step: index + 1,
+                  value: state.completedSteps[index],
+                  onChanged: isNextCompleted
+                      ? null
+                      : (value) {
+                          context.read<StartProjectBloc>().add(
+                                StartProjectEvent.stepCompleteToggled(
+                                  index,
+                                ),
+                              );
+                        },
+                  showCheckbox: isPreviousCompleted,
+                );
+              },
+            ),
+            const SizedBox(height: 8),
+            StepCard(controller: controllers[index]),
+            if (index != controllers.length - 1) const SizedBox(height: 24),
+          ],
+        );
+      }),
     );
   }
 }
