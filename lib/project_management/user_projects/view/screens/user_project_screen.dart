@@ -2,6 +2,7 @@ import 'package:config_repository/config_repository.dart';
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
 import 'package:craftmate_client/dashboard/home/view/components/category_filter.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
@@ -12,6 +13,9 @@ import 'package:craftmate_client/project_management/user_projects/bloc/selection
     as s;
 import 'package:craftmate_client/project_management/user_projects/bloc/user_project/user_project_bloc.dart';
 import 'package:craftmate_client/project_management/user_projects/search/view/search_page.dart';
+import 'package:craftmate_client/project_management/user_projects/view/tabs/completed_tab.dart';
+import 'package:craftmate_client/project_management/user_projects/view/tabs/inactive_tab.dart';
+import 'package:craftmate_client/project_management/user_projects/view/tabs/ongoing_tab.dart';
 import 'package:craftmate_client/project_management/view/create_project_page.dart';
 import 'package:craftmate_client/project_management/view_project/view/view_project_page.dart';
 import 'package:flutter/material.dart';
@@ -26,151 +30,240 @@ class UserProjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<UserProjectBloc, UserProjectState>(
-      listener: (context, state) {
-        switch (state) {
-          case Deleting():
-            Modal.instance.showLoadingDialog(context);
-          case Deleted():
-            Navigator.of(context).pop();
-            Alert.instance.showSnackbar(context, 'Projects deleted');
-          case Error(message: final message):
-            Alert.instance.showSnackbar(context, message);
-        }
-      },
-      child: Scaffold(
-        appBar: const UserProjectAppBar(),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 32.0, right: 8.0),
-          child: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.of(context).push(CreateProjectPage.route()).then((_) {
-                if (context.mounted) {
-                  final bloc = context.read<UserProjectBloc>();
-                  bloc.add(
-                    UserProjectEvent.fetchProjects(
-                      filter: bloc.state.filter,
-                    ),
-                  );
-                }
-              });
-            },
-            label: const Text('New Project'),
-            icon: const Icon(Icons.add),
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BlocBuilder<UserProjectBloc, UserProjectState>(
-                builder: (context, state) {
-                  switch (state) {
-                    case Initial():
-                    case Loading():
-                      return const SizedBox.shrink();
-                    default:
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          CategoryFilter(
-                            selectedCategory: state.selectedCategory,
-                            categories: state.categories,
-                            onSelected: (category) {
-                              context.read<UserProjectBloc>().add(
-                                    UserProjectEvent.categoryChanged(
-                                      category: category,
-                                    ),
-                                  );
-                            },
-                          ),
-                        ],
-                      );
-                  }
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const _FilterDropdown(),
-                  Row(
-                    children: [
-                      BlocBuilder<UserProjectBloc, UserProjectState>(
-                        builder: (context, state) {
-                          return _SortButton(
-                            label: state.sort.label,
-                            onSortChanged: (sort) {
-                              context.read<UserProjectBloc>().add(
-                                    UserProjectEvent.sortChanged(
-                                      sort: sort,
-                                      order: state.order,
-                                    ),
-                                  );
-                            },
-                            selectedSort: state.sort,
-                          );
-                        },
-                      ),
-                      BlocBuilder<UserProjectBloc, UserProjectState>(
-                        builder: (context, state) {
-                          final isAsc = state.order == SortOrder.asc;
+      listener: _handleState,
+      child: const _Body(),
+    );
+  }
 
-                          return AscDescButton(
-                            isAsc: isAsc,
-                            onOrderChanged: () {
-                              context.read<UserProjectBloc>().add(
-                                    UserProjectEvent.sortChanged(
-                                      sort: state.sort,
-                                      order: isAsc
-                                          ? SortOrder.desc
-                                          : SortOrder.asc,
-                                    ),
-                                  );
-                            },
-                          );
+  void _handleState(BuildContext context, UserProjectState state) {
+    switch (state) {
+      case Deleting():
+        Modal.instance.showLoadingDialog(context);
+      case Deleted():
+        Navigator.of(context).pop();
+        Alert.instance.showSnackbar(context, 'Projects deleted');
+      case Error(message: final message):
+        Alert.instance.showSnackbar(context, message);
+    }
+  }
+}
+
+class _Body extends StatefulWidget {
+  const _Body();
+
+  @override
+  State<_Body> createState() => __BodyState();
+}
+
+class __BodyState extends State<_Body> with TickerProviderStateMixin {
+  final _tabs = [
+    'All',
+    'Ongoing',
+    'Inactive',
+    'Completed',
+  ];
+
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _tabController = TabController(
+      length: _tabs.length,
+      vsync: this,
+    );
+
+    _tabController.addListener(_onTabChanged);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _tabController.removeListener(_onTabChanged);
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void _onTabChanged() {
+    context.read<s.SelectionBloc>().add(
+          const s.SelectionEvent.clear(),
+        );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: UserProjectAppBar(
+        tabBar: TabBar(
+          controller: _tabController,
+          tabs: _tabs
+              .map(
+                (tab) => Tab(
+                  text: tab,
+                ),
+              )
+              .toList(),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => _handleCreate(context),
+        label: const Text('New Project'),
+        icon: const Icon(Icons.add),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: const [
+          _AllProjects(),
+          OngoingTab(),
+          InactiveTab(),
+          CompletedTab(),
+        ],
+      ),
+    );
+  }
+
+  void _handleCreate(BuildContext context) {
+    Navigator.of(context).push(CreateProjectPage.route()).then((_) {
+      if (context.mounted) {
+        final bloc = context.read<UserProjectBloc>();
+        bloc.add(
+          UserProjectEvent.fetchProjects(
+            filter: bloc.state.filter,
+          ),
+        );
+      }
+    });
+  }
+}
+
+class _AllProjects extends StatelessWidget {
+  const _AllProjects();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          BlocBuilder<UserProjectBloc, UserProjectState>(
+            builder: (context, state) {
+              switch (state) {
+                case Initial():
+                case Loading():
+                  return const SizedBox.shrink();
+                default:
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CategoryFilter(
+                        selectedCategory: state.selectedCategory,
+                        categories: state.categories,
+                        onSelected: (category) {
+                          context.read<UserProjectBloc>().add(
+                                UserProjectEvent.categoryChanged(
+                                  category: category,
+                                ),
+                              );
                         },
                       ),
                     ],
+                  );
+              }
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const _FilterDropdown(),
+              Row(
+                children: [
+                  BlocBuilder<UserProjectBloc, UserProjectState>(
+                    builder: (context, state) {
+                      return _SortButton(
+                        label: state.sort.label,
+                        onSortChanged: (sort) {
+                          context.read<UserProjectBloc>().add(
+                                UserProjectEvent.sortChanged(
+                                  sort: sort,
+                                  order: state.order,
+                                ),
+                              );
+                        },
+                        selectedSort: state.sort,
+                      );
+                    },
+                  ),
+                  BlocBuilder<UserProjectBloc, UserProjectState>(
+                    builder: (context, state) {
+                      final isAsc = state.order == SortOrder.asc;
+
+                      return AscDescButton(
+                        isAsc: isAsc,
+                        onOrderChanged: () {
+                          context.read<UserProjectBloc>().add(
+                                UserProjectEvent.sortChanged(
+                                  sort: state.sort,
+                                  order: isAsc ? SortOrder.desc : SortOrder.asc,
+                                ),
+                              );
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
-              const Gap(8.0),
-              Expanded(
-                child: BlocBuilder<UserProjectBloc, UserProjectState>(
-                  builder: (context, state) {
-                    switch (state) {
-                      case Initial():
-                        context.read<UserProjectBloc>().add(
-                              const UserProjectEvent.fetchProjects(
-                                filter: ProjectFilter.all,
-                              ),
-                            );
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      case Loading():
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      default:
-                        if (state.projects.isEmpty) {
-                          return const EmptyMessage(
-                            emptyMessage: 'No projects found',
-                          );
-                        }
-
-                        return UserProjectList(
-                          key: const Key('user_project_list'),
-                          projects: state.projects,
-                          paginatedProject: state.paginatedProjects,
-                        );
-                    }
-                  },
-                ),
-              ),
             ],
           ),
-        ),
+          const Gap(8.0),
+          Expanded(
+            child: BlocBuilder<UserProjectBloc, UserProjectState>(
+              builder: (context, state) {
+                switch (state) {
+                  case Initial():
+                    context.read<UserProjectBloc>().add(
+                          const UserProjectEvent.fetchProjects(
+                            filter: ProjectFilter.all,
+                          ),
+                        );
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  case Loading():
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  default:
+                    if (state.projects.isEmpty) {
+                      return const EmptyMessage(
+                        emptyMessage: 'No projects found',
+                      );
+                    }
+
+                    return UserProjectList(
+                      key: const Key('user_project_list'),
+                      projects: state.projects,
+                      paginatedProject: state.paginatedProjects,
+                      onRefresh: () async {
+                        final state =
+                            context.read<UserProjectBloc>().stream.first;
+                        context.read<UserProjectBloc>().add(
+                              const UserProjectEvent.refreshProjects(),
+                            );
+                        await state;
+                      },
+                      onFetchMore: () {
+                        context.read<UserProjectBloc>().add(
+                              const UserProjectEvent.loadMoreProjects(),
+                            );
+                      },
+                    );
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -210,7 +303,9 @@ class _SortButton extends StatelessWidget {
 }
 
 class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const UserProjectAppBar({super.key});
+  const UserProjectAppBar({super.key, required this.tabBar});
+
+  final TabBar tabBar;
 
   @override
   Widget build(BuildContext context) {
@@ -220,6 +315,7 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
           case s.Initial():
             return AppBar(
               title: const Text('My projects'),
+              bottom: tabBar,
               actions: [
                 IconButton(
                   onPressed: () {
@@ -233,6 +329,7 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
             );
           case s.On(:final selectedProjectIds):
             return AppBar(
+              bottom: tabBar,
               automaticallyImplyLeading: false,
               leading: IconButton(
                 icon: const Icon(Icons.close),
@@ -252,6 +349,7 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
             );
           case s.Off():
             return AppBar(
+              bottom: tabBar,
               title: const Text('My projects'),
               actions: [
                 IconButton(
@@ -307,7 +405,8 @@ class UserProjectAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize =>
+      Size.fromHeight(kToolbarHeight + tabBar.preferredSize.height);
 }
 
 class UserProjectList extends StatefulWidget {
@@ -315,10 +414,14 @@ class UserProjectList extends StatefulWidget {
     super.key,
     required this.projects,
     required this.paginatedProject,
+    required this.onRefresh,
+    required this.onFetchMore,
   });
 
   final List<Project> projects;
   final Pagination<Project> paginatedProject;
+  final Future<void> Function() onRefresh;
+  final void Function() onFetchMore;
 
   @override
   State<UserProjectList> createState() => _UserProjectListState();
@@ -344,13 +447,7 @@ class _UserProjectListState extends State<UserProjectList> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async {
-        final state = context.read<UserProjectBloc>().stream.first;
-        context.read<UserProjectBloc>().add(
-              const UserProjectEvent.refreshProjects(),
-            );
-        await state;
-      },
+      onRefresh: widget.onRefresh,
       child: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
@@ -440,9 +537,7 @@ class _UserProjectListState extends State<UserProjectList> {
 
   void _onScroll() {
     if (_isBottom) {
-      context
-          .read<UserProjectBloc>()
-          .add(const UserProjectEvent.loadMoreProjects());
+      widget.onFetchMore();
     }
   }
 
