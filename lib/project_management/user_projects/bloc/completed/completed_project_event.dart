@@ -18,8 +18,9 @@ class CompletedProjectEvent with _$CompletedProjectEvent {
   const factory CompletedProjectEvent.deleteProjects({
     required List<int> projectIds,
   }) = _DeleteProjects;
-  const factory CompletedProjectEvent.deleteProject(
-      {required Project project}) = _DeleteProject;
+  const factory CompletedProjectEvent.deleteProject({
+    required Project project,
+  }) = _DeleteProject;
   const factory CompletedProjectEvent.categoryChanged({
     required ProjectCategory category,
   }) = _CategoryChanged;
