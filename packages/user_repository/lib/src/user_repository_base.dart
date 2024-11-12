@@ -14,6 +14,7 @@ abstract class IUserRepository {
   Future<User> updateUserBio(String? bio);
   Future<User> uploadProfilePicture(String filePath);
   Future<User> toggleFollow(int id);
+  Future<List<User>> getUsers();
 }
 
 class UserRepository implements IUserRepository {
@@ -22,6 +23,26 @@ class UserRepository implements IUserRepository {
   UserRepository({
     required ConfigRepository config,
   }) : _config = config;
+
+  @override
+  Future<List<User>> getUsers() async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/auth/users',
+        withAuthorization: true,
+      );
+
+      final users = (response.data!['data'] as List)
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      return users;
+    } on RequestException catch (e) {
+      throw UserException(e.message);
+    } on TokenException catch (e) {
+      throw UserException(e.message);
+    }
+  }
 
   @override
   Future<User> toggleFollow(int id) async {
