@@ -4,5 +4,6 @@
 library;
 
 export 'src/chat_repository_base.dart';
+export 'src/models/models.dart';
 
 // TODO: Export any libraries intended for clients of this package.
