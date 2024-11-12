@@ -1,4 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:chat_repository/chat_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:config_repository/config_repository.dart';
 import 'package:craftmate_client/auth/auth.dart';
 import 'package:craftmate_client/auth/login/login.dart';
@@ -28,6 +30,7 @@ class _MyAppState extends State<MyApp> {
   late final ProjectRepository _projectRepository;
   late final MaterialRepository _materialRepository;
   late final SearchRepository _searchRepository;
+  late final ChatRepository _chatRepository;
 
   @override
   void initState() {
@@ -36,10 +39,13 @@ class _MyAppState extends State<MyApp> {
       apiUrl: dotenv.get('API_URL'),
       logger: logger,
       prefs: prefs,
+      db: FirebaseFirestore.instance,
     );
 
     _authenticationRepository = AuthenticationRepository(config: config);
     _userRepository = UserRepository(config: config);
+    _chatRepository =
+        ChatRepository(config: config, userRepository: _userRepository);
     _projectRepository = ProjectRepository(config: config);
     _materialRepository = MaterialRepository(config: config);
     _searchRepository = SearchRepository(configRepository: config);
@@ -65,6 +71,7 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider.value(value: _projectRepository),
         RepositoryProvider.value(value: _materialRepository),
         RepositoryProvider.value(value: _searchRepository),
+        RepositoryProvider.value(value: _chatRepository),
       ],
       child: MultiBlocProvider(
         providers: [
