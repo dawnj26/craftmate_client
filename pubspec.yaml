@@ -32,6 +32,9 @@ dependencies:
     path: packages/authentication_repository
   bloc: ^8.1.4
   bloc_concurrency: ^0.2.5
+  chat_repository:
+    path: packages/chat_repository
+  cloud_firestore: ^5.4.5
   config_repository:
     path: packages/config_repository
   cupertino_icons: ^1.0.6
