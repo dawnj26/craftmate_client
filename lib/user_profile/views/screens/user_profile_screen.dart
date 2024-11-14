@@ -1,4 +1,5 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
+import 'package:craftmate_client/dashboard/chats/views/screens/chat_screen.dart';
 import 'package:craftmate_client/dashboard/home/view/components/category_filter.dart';
 import 'package:craftmate_client/dashboard/home/view/tabs/for_you_tab.dart';
 import 'package:craftmate_client/dashboard/profile/view/screens/profile_screen.dart';
@@ -199,14 +200,28 @@ class Profile extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           if (curUser.id != user.id)
-            OutlinedButton.icon(
-              onPressed: () {
-                context
-                    .read<ViewProfileBloc>()
-                    .add(const ViewProfileEvent.followToggled());
-              },
-              icon: Icon(user.isFollowing ? Icons.check : Icons.add),
-              label: Text(user.isFollowing ? 'Followed' : 'Follow'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                OutlinedButton.icon(
+                  onPressed: () {
+                    context
+                        .read<ViewProfileBloc>()
+                        .add(const ViewProfileEvent.followToggled());
+                  },
+                  icon: Icon(user.isFollowing ? Icons.check : Icons.add),
+                  label: Text(user.isFollowing ? 'Followed' : 'Follow'),
+                ),
+                const SizedBox(width: 8),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      ChatScreen.route(user),
+                    );
+                  },
+                  child: const Text('Message'),
+                ),
+              ],
             ),
         ],
       ),

@@ -2,7 +2,6 @@ import 'package:config_repository/config_repository.dart';
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
 import 'package:craftmate_client/dashboard/home/view/components/category_filter.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';

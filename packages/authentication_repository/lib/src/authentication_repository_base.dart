@@ -79,6 +79,7 @@ class AuthenticationRepository implements IAuthenticationRepository {
         withAuthorization: true,
       );
       _controller.add(AuthenticationStatus.unauthenticated);
+      _config.prefs.remove('currentUser');
 
       await _config.storage.delete(key: 'token');
     } on RequestException catch (e) {

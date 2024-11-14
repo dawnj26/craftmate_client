@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:craftmate_client/firebase_options.dart';
 import 'package:craftmate_client/globals.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -39,6 +40,10 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   await dotenv.load();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
   );
 
   logger.info('Starting the app');

@@ -5,8 +5,9 @@ class PageTransition {
 
   static const effect = PageTransition();
 
-  Route<T> slideFromRightToLeft<T>(Widget child) {
+  Route<T> slideFromRightToLeft<T>(Widget child, [bool opaque = true]) {
     return PageRouteBuilder<T>(
+      opaque: opaque,
       pageBuilder: (_, __, ___) => child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(1.0, 0.0); // Start from the right

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:config_repository/src/exceptions/internet_exception.dart';
 import 'package:config_repository/src/exceptions/request_exception.dart';
 import 'package:config_repository/src/exceptions/token_exception.dart';
@@ -14,11 +15,13 @@ class ConfigRepository {
   final Dio _dio;
   final ConnectionStatus connectionStatus = ConnectionStatus();
   final SharedPreferences prefs;
+  final FirebaseFirestore db;
 
   ConfigRepository({
     required this.apiUrl,
     required this.logger,
     required this.prefs,
+    required this.db,
   })  : _storage = const FlutterSecureStorage(),
         _dio = Dio() {
     connectionStatus.init();

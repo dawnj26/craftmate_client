@@ -10,6 +10,7 @@ class SocialCounters extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const gap = 20.0;
+    final theme = Theme.of(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -59,6 +60,34 @@ class SocialCounters extends StatelessWidget {
               return Counter(
                 countText: '${state.project.viewCount}',
                 icon: const Icon(Icons.remove_red_eye_outlined),
+              );
+            },
+          ),
+          const Spacer(),
+          BlocBuilder<ViewProjectBloc, ViewProjectState>(
+            buildWhen: (previous, current) =>
+                previous.project.commentCount != current.project.commentCount ||
+                current is ViewProjectRefreshSuccess,
+            builder: (context, state) {
+              final startedAt = state.project.startedAt;
+              final completedAt = state.project.completedAt;
+
+              final message = startedAt != null && completedAt != null
+                  ? 'Completed'
+                  : startedAt != null
+                      ? 'Ongoing'
+                      : 'Inactive';
+
+              return Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Text(
+                  message,
+                  style: theme.textTheme.labelSmall,
+                ),
               );
             },
           ),
