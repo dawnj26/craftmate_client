@@ -14,9 +14,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     required ChatRepository chatRepository,
     required User sender,
     required User receiver,
-  })  : _sender = sender,
-        _receiver = receiver,
-        _chatRepository = chatRepository,
+  })  : _chatRepository = chatRepository,
         super(const Initial()) {
     _messagesSubscription =
         _chatRepository.messages(sender.id, receiver.id).listen(
@@ -29,13 +27,15 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   final ChatRepository _chatRepository;
   late final StreamSubscription<List<Message>> _messagesSubscription;
-  final User _sender;
-  final User _receiver;
 
   Future<void> _onMessageSent(
     _MessageSent event,
     Emitter<ChatState> emit,
   ) async {
+    emit(
+      ChatState.sending(messages: [event.message, ...state.messages]),
+    );
+
     try {
       await _chatRepository.sendMessage(
         event.message,
@@ -44,7 +44,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       emit(
         ChatState.error(
           message: 'An error occurred',
-          messages: state.messages,
+          messages: [...state.messages],
         ),
       );
     }

@@ -8,6 +8,9 @@ class ChatState with _$ChatState {
   const factory ChatState.loading({
     @Default([]) List<Message> messages,
   }) = Loading;
+  const factory ChatState.sending({
+    @Default([]) List<Message> messages,
+  }) = Sending;
   const factory ChatState.loaded({
     @Default([]) List<Message> messages,
   }) = Loaded;

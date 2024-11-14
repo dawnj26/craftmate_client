@@ -542,6 +542,98 @@ _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => throw _privateConstructorU
 }
 
 /// @nodoc
+abstract class _$$SendingImplCopyWith<$Res> implements $ChatStateCopyWith<$Res> {
+  factory _$$SendingImplCopyWith(_$SendingImpl value, $Res Function(_$SendingImpl) then) = __$$SendingImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ List<Message> messages
+});
+
+
+
+}
+
+/// @nodoc
+class __$$SendingImplCopyWithImpl<$Res> extends _$ChatStateCopyWithImpl<$Res, _$SendingImpl> implements _$$SendingImplCopyWith<$Res> {
+  __$$SendingImplCopyWithImpl(_$SendingImpl _value, $Res Function(_$SendingImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ChatState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? messages = null,}) {
+  return _then(_$SendingImpl(
+messages: null == messages ? _value._messages : messages // ignore: cast_nullable_to_non_nullable
+as List<Message>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$SendingImpl  implements Sending {
+  const _$SendingImpl({final  List<Message> messages = const []}): _messages = messages;
+
+  
+
+ final  List<Message> _messages;
+@override@JsonKey() List<Message> get messages {
+  if (_messages is EqualUnmodifiableListView) return _messages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_messages);
+}
+
+
+@override
+String toString() {
+  return 'ChatState.sending(messages: $messages)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SendingImpl&&const DeepCollectionEquality().equals(other._messages, _messages));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_messages));
+
+/// Create a copy of ChatState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$SendingImplCopyWith<_$SendingImpl> get copyWith => __$$SendingImplCopyWithImpl<_$SendingImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class Sending implements ChatState {
+  const factory Sending({final  List<Message> messages}) = _$SendingImpl;
+  
+
+  
+
+@override List<Message> get messages;
+/// Create a copy of ChatState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$SendingImplCopyWith<_$SendingImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
 abstract class _$$LoadedImplCopyWith<$Res> implements $ChatStateCopyWith<$Res> {
   factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
 @override @useResult
