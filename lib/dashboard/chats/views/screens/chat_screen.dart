@@ -113,6 +113,11 @@ class _MessagesState extends State<Messages> {
                       ],
                     );
                   }
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ReceiverMessage(
+                      receiver: widget.user,
+                      message: message,
                     ),
                   );
                 },
@@ -120,21 +125,64 @@ class _MessagesState extends State<Messages> {
             },
           ),
         ),
-        Container(
+        SendField(controller: _controller, receiver: widget.user),
+      ],
+    );
+  }
+}
+
+class SendField extends StatelessWidget {
+  const SendField({
+    super.key,
+    required TextEditingController controller,
+    required this.receiver,
+  }) : _controller = controller;
+
+  final TextEditingController _controller;
+  final User receiver;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
           padding: const EdgeInsets.all(8),
           child: Row(
             children: [
               Expanded(
                 child: TextField(
                   controller: _controller,
-                  decoration: const InputDecoration(
-                    hintText: 'Type a message',
-                  ),
+                  decoration: InputDecoration(
+                labelText: 'Type a message',
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.camera_alt_outlined),
+                      onPressed: () => _handleCamera(context),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.attach_file_rounded),
+                      onPressed: () => _handleMedia(context),
+                    ),
+                  ],
+                ),
+                border: const OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.multiline,
+              maxLines: 4,
+              minLines: 1,
                 ),
               ),
               IconButton(
                 icon: const Icon(Icons.send_rounded),
-                onPressed: () {
+            onPressed: () => _handleSend(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _handleSend(BuildContext context) {
                   final messageText = _controller.text.trim();
 
                   if (messageText.isEmpty) {
@@ -144,7 +192,7 @@ class _MessagesState extends State<Messages> {
                   final message = Message(
                     message: messageText,
                     senderId: context.read<AuthBloc>().state.user.id,
-                    receiverId: widget.user.id,
+      receiverId: receiver.id,
                     createdAt: DateTime.now(),
                     senderReadAt: DateTime.now(),
                   );
@@ -153,13 +201,107 @@ class _MessagesState extends State<Messages> {
                   context.read<ChatBloc>().add(
                         ChatEvent.messageSent(message),
                       );
+  }
+
+  Future<void> _handleCamera(BuildContext context) async {
+    final picker = ImagePicker();
+
+    showModalBottomSheet(
+      context: context,
+      clipBehavior: Clip.antiAlias,
+      builder: (context1) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt_rounded),
+              title: const Text('Camera'),
+              onTap: () async {
+                final media =
+                    await picker.pickImage(source: ImageSource.camera);
+
+                if (!context.mounted || media == null) {
+                  return;
+                }
+
+                final message = Message(
+                  message: media.path,
+                  senderId: context.read<AuthBloc>().state.user.id,
+                  receiverId: receiver.id,
+                  createdAt: DateTime.now(),
+                  senderReadAt: DateTime.now(),
+                  type: MessageType.image,
+                );
+
+                context.read<ChatBloc>().add(
+                      ChatEvent.messageSent(message),
+                    );
+                Navigator.of(context).pop();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.video_call_rounded),
+              title: const Text('Video'),
+              onTap: () async {
+                final media =
+                    await picker.pickVideo(source: ImageSource.camera);
+
+                if (!context.mounted || media == null) {
+                  logger.info('Media is null or context is not mounted');
+                  return;
+                }
+
+                final message = Message(
+                  message: media.path,
+                  senderId: context.read<AuthBloc>().state.user.id,
+                  receiverId: receiver.id,
+                  createdAt: DateTime.now(),
+                  senderReadAt: DateTime.now(),
+                  type: MessageType.video,
+                );
+
+                context.read<ChatBloc>().add(
+                      ChatEvent.messageSent(message),
+                    );
+                Navigator.of(context).pop();
                 },
               ),
             ],
-          ),
-        ),
-      ],
+        );
+      },
     );
+  }
+
+  Future<void> _handleMedia(BuildContext context) async {
+    final picker = ImagePicker();
+
+    final media = await picker.pickMedia();
+
+    if (!context.mounted || media == null) {
+      return;
+    }
+
+    final messageType =
+        _isImage(media.path) ? MessageType.image : MessageType.video;
+
+    final message = Message(
+      message: media.path,
+      senderId: context.read<AuthBloc>().state.user.id,
+      receiverId: receiver.id,
+      createdAt: DateTime.now(),
+      senderReadAt: DateTime.now(),
+      type: messageType,
+    );
+
+    context.read<ChatBloc>().add(
+          ChatEvent.messageSent(message),
+    );
+  }
+
+  bool _isImage(String path) {
+    final mimeType = lookupMimeType(path);
+
+    return mimeType?.startsWith('image') ?? false;
   }
 }
 
