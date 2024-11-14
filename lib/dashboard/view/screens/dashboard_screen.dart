@@ -2,6 +2,7 @@ import 'package:craftmate_client/dashboard/chats/views/chats_page.dart';
 import 'package:craftmate_client/dashboard/home/view/home_page.dart';
 import 'package:craftmate_client/dashboard/profile/view/profile_page.dart';
 import 'package:craftmate_client/dashboard/search/search_page.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/shop_page.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/user_materials_page.dart';
 import 'package:craftmate_client/project_management/user_projects/view/user_projects_page.dart';
 import 'package:flutter/material.dart';
@@ -25,9 +26,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     _screenList = [
       const HomePage(),
-      const Center(
-        child: Text('Second Screen'),
-      ),
+      const ShopPage(),
       const SearchPage(),
       const ChatPage(),
       const ProfilePage(),
