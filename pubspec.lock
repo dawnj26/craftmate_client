@@ -1459,6 +1459,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  shop_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/shop_repository"
+      relative: true
+    source: path
+    version: "1.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
