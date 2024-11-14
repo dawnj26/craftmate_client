@@ -20,6 +20,7 @@ class ChatScreen extends StatelessWidget {
   static Route<void> route(User user) {
     return PageTransition.effect.slideFromRightToLeft(
       ChatScreen(user: user),
+      false,
     );
   }
 
@@ -76,6 +77,10 @@ class _MessagesState extends State<Messages> {
                     child: CircularProgressIndicator(),
                   );
               }
+              final isSending = switch (state) {
+                Sending() => true,
+                _ => false,
+              };
 
               return ListView.builder(
                 reverse: true,
@@ -109,7 +114,7 @@ class _MessagesState extends State<Messages> {
                               Icons.done,
                               size: 16,
                             ),
-                        ),
+                          ),
                       ],
                     );
                   }
@@ -144,13 +149,13 @@ class SendField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _controller,
-                  decoration: InputDecoration(
+      padding: const EdgeInsets.all(8),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _controller,
+              decoration: InputDecoration(
                 labelText: 'Type a message',
                 suffixIcon: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -171,10 +176,10 @@ class SendField extends StatelessWidget {
               keyboardType: TextInputType.multiline,
               maxLines: 4,
               minLines: 1,
-                ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.send_rounded),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.send_rounded),
             onPressed: () => _handleSend(context),
           ),
         ],
@@ -183,24 +188,24 @@ class SendField extends StatelessWidget {
   }
 
   void _handleSend(BuildContext context) {
-                  final messageText = _controller.text.trim();
+    final messageText = _controller.text.trim();
 
-                  if (messageText.isEmpty) {
-                    return;
-                  }
+    if (messageText.isEmpty) {
+      return;
+    }
 
-                  final message = Message(
-                    message: messageText,
-                    senderId: context.read<AuthBloc>().state.user.id,
+    final message = Message(
+      message: messageText,
+      senderId: context.read<AuthBloc>().state.user.id,
       receiverId: receiver.id,
-                    createdAt: DateTime.now(),
-                    senderReadAt: DateTime.now(),
-                  );
-                  _controller.clear();
+      createdAt: DateTime.now(),
+      senderReadAt: DateTime.now(),
+    );
+    _controller.clear();
 
-                  context.read<ChatBloc>().add(
-                        ChatEvent.messageSent(message),
-                      );
+    context.read<ChatBloc>().add(
+          ChatEvent.messageSent(message),
+        );
   }
 
   Future<void> _handleCamera(BuildContext context) async {
@@ -264,9 +269,9 @@ class SendField extends StatelessWidget {
                       ChatEvent.messageSent(message),
                     );
                 Navigator.of(context).pop();
-                },
-              ),
-            ],
+              },
+            ),
+          ],
         );
       },
     );
@@ -295,7 +300,7 @@ class SendField extends StatelessWidget {
 
     context.read<ChatBloc>().add(
           ChatEvent.messageSent(message),
-    );
+        );
   }
 
   bool _isImage(String path) {
@@ -306,9 +311,14 @@ class SendField extends StatelessWidget {
 }
 
 class SenderMessage extends StatelessWidget {
-  const SenderMessage({super.key, required this.message});
+  const SenderMessage({
+    super.key,
+    required this.message,
+    this.isSending = false,
+  });
 
   final Message message;
+  final bool isSending;
 
   @override
   Widget build(BuildContext context) {
@@ -320,6 +330,8 @@ class SenderMessage extends StatelessWidget {
       child: Container(
         constraints: BoxConstraints(
           maxWidth: screenSize.width * 0.7,
+          minWidth: message.type == MessageType.text ? 0 : 200,
+          minHeight: message.type == MessageType.text ? 0 : 200,
         ),
         margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.all(12),
@@ -327,44 +339,113 @@ class SenderMessage extends StatelessWidget {
           color: theme.colorScheme.primaryContainer,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Text(
-          message.message,
-          style: TextStyle(
-            color: theme.colorScheme.onPrimaryContainer,
-          ),
-        ),
+        child: MessageContent(message: message, isSending: isSending),
       ),
     );
   }
 }
 
-class ReceiverMessage extends StatelessWidget {
-  const ReceiverMessage({super.key, required this.message});
+class MessageContent extends StatelessWidget {
+  const MessageContent({
+    super.key,
+    required this.message,
+    this.isSending = false,
+  });
 
   final Message message;
+  final bool isSending;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    switch (message.type) {
+      case MessageType.text:
+        return Text(
+          message.message,
+          style: TextStyle(
+            color: theme.colorScheme.onPrimaryContainer,
+          ),
+        );
+      case MessageType.image:
+        if (isSending) {
+          return Image.file(File(message.message));
+        }
+
+        return Image.network(
+          message.message,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) {
+              return child;
+            }
+            return Center(
+              child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                    : null,
+              ),
+            );
+          },
+        );
+      case MessageType.video:
+        if (isSending) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        return VideoPlayer(
+          url: message.message,
+        );
+      default:
+    }
+
+    return const Placeholder();
+  }
+}
+
+class ReceiverMessage extends StatelessWidget {
+  const ReceiverMessage({
+    super.key,
+    required this.message,
+    required this.receiver,
+  });
+
+  final Message message;
+  final User receiver;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final screenSize = MediaQuery.sizeOf(context);
+    final hasProfileImage = receiver.image != null;
 
     return Align(
       alignment: Alignment.centerLeft,
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        constraints: BoxConstraints(
-          maxWidth: screenSize.width * 0.7,
-        ),
-        decoration: BoxDecoration(
-          color: theme.colorScheme.surfaceContainer,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Text(
-          message.message,
-          style: TextStyle(
-            color: theme.colorScheme.onSecondaryContainer,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          CircleAvatar(
+            radius: 16,
+            backgroundImage:
+                hasProfileImage ? NetworkImage(receiver.image!) : null,
+            child:
+                hasProfileImage ? null : Text(receiver.name[0].toUpperCase()),
           ),
-        ),
+          const SizedBox(width: 8),
+          Container(
+            padding: const EdgeInsets.all(12),
+            constraints: BoxConstraints(
+              maxWidth: screenSize.width * 0.7,
+            ),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceContainer,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: MessageContent(message: message),
+          ),
+        ],
       ),
     );
   }
