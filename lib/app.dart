@@ -15,6 +15,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:material_repository/material_repository.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:search_repository/search_repository.dart';
+import 'package:shop_repository/shop_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatefulWidget {
@@ -31,6 +32,7 @@ class _MyAppState extends State<MyApp> {
   late final MaterialRepository _materialRepository;
   late final SearchRepository _searchRepository;
   late final ChatRepository _chatRepository;
+  late final ShopRepository _shopRepository;
 
   @override
   void initState() {
@@ -49,15 +51,13 @@ class _MyAppState extends State<MyApp> {
     _projectRepository = ProjectRepository(config: config);
     _materialRepository = MaterialRepository(config: config);
     _searchRepository = SearchRepository(configRepository: config);
+    _shopRepository = ShopRepository(config);
 
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
-    // dispose auth streams
     _authenticationRepository.dispose();
     super.dispose();
   }
@@ -72,6 +72,7 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider.value(value: _materialRepository),
         RepositoryProvider.value(value: _searchRepository),
         RepositoryProvider.value(value: _chatRepository),
+        RepositoryProvider.value(value: _shopRepository),
       ],
       child: MultiBlocProvider(
         providers: [
