@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:chat_repository/chat_repository.dart';
 import 'package:craftmate_client/auth/auth.dart';
 import 'package:craftmate_client/dashboard/chats/bloc/chat/chat_bloc.dart';
+import 'package:craftmate_client/dashboard/chats/views/components/video_player.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mime/mime.dart';
 import 'package:user_repository/user_repository.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -78,22 +84,35 @@ class _MessagesState extends State<Messages> {
                   final message = state.messages[index];
 
                   if (message.senderId != widget.user.id) {
-                    return SenderMessage(message: message);
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
+                    return Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        CircleAvatar(
-                          radius: 16,
-                          child: Text(widget.user.name[0].toUpperCase()),
-                        ),
-                        const SizedBox(width: 8),
-                        ReceiverMessage(
+                        SenderMessage(
                           message: message,
+                          isSending: isSending && index == 0,
+                        ),
+                        if (isSending && index == 0)
+                          const Padding(
+                            padding: EdgeInsets.only(right: 8),
+                            child: SizedBox(
+                              height: 16,
+                              width: 16,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          )
+                        else if (index == 0)
+                          const Padding(
+                            padding: EdgeInsets.only(right: 8),
+                            child: Icon(
+                              Icons.done,
+                              size: 16,
+                            ),
                         ),
                       ],
+                    );
+                  }
                     ),
                   );
                 },
