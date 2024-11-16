@@ -12,6 +12,7 @@ import 'package:craftmate_client/settings/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:map_repository/map_repository.dart';
 import 'package:material_repository/material_repository.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:search_repository/search_repository.dart';
@@ -33,6 +34,7 @@ class _MyAppState extends State<MyApp> {
   late final SearchRepository _searchRepository;
   late final ChatRepository _chatRepository;
   late final ShopRepository _shopRepository;
+  late final MapRepository _mapRepository;
 
   @override
   void initState() {
@@ -42,6 +44,7 @@ class _MyAppState extends State<MyApp> {
       logger: logger,
       prefs: prefs,
       db: FirebaseFirestore.instance,
+      placesApiKey: dotenv.get('GEOAPIFY_API_KEY'),
     );
 
     _authenticationRepository = AuthenticationRepository(config: config);
@@ -52,6 +55,7 @@ class _MyAppState extends State<MyApp> {
     _materialRepository = MaterialRepository(config: config);
     _searchRepository = SearchRepository(configRepository: config);
     _shopRepository = ShopRepository(config);
+    _mapRepository = MapRepository(config);
 
     super.initState();
   }
@@ -73,6 +77,7 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider.value(value: _searchRepository),
         RepositoryProvider.value(value: _chatRepository),
         RepositoryProvider.value(value: _shopRepository),
+        RepositoryProvider.value(value: _mapRepository),
       ],
       child: MultiBlocProvider(
         providers: [
