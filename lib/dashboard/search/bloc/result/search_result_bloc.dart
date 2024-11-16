@@ -1,18 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'package:craftmate_client/helpers/stream_helper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:search_repository/search_repository.dart';
-import 'package:stream_transform/stream_transform.dart';
 
 part 'search_result_event.dart';
 part 'search_result_state.dart';
 part 'search_result_bloc.freezed.dart';
 
 const _duration = Duration(milliseconds: 300);
-
-EventTransformer<Event> debounce<Event>(Duration duration) {
-  return (events, mapper) => events.debounce(duration).switchMap(mapper);
-}
 
 class SearchResultBloc extends Bloc<SearchResultEvent, SearchResultState> {
   SearchResultBloc({
