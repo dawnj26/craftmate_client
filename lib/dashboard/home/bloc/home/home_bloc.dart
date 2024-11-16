@@ -1,18 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:craftmate_client/helpers/stream_helper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:project_repository/project_repository.dart';
-import 'package:stream_transform/stream_transform.dart';
 import 'package:uuid/uuid.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
-
-EventTransformer<E> throttleDroppable<E>(Duration duration) {
-  return (events, mapper) {
-    return droppable<E>().call(events.throttle(duration), mapper);
-  };
-}
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({required ProjectRepository projectRepo})

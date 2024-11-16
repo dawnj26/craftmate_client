@@ -1,24 +1,13 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:craftmate_client/helpers/stream_helper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:project_repository/project_repository.dart';
-import 'package:stream_transform/stream_transform.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';
 part 'search_bloc.freezed.dart';
 
 const _duration = Duration(milliseconds: 300);
-
-EventTransformer<Event> debounce<Event>(Duration duration) {
-  return (events, mapper) => events.debounce(duration).switchMap(mapper);
-}
-
-EventTransformer<E> throttleDroppable<E>(Duration duration) {
-  return (events, mapper) {
-    return droppable<E>().call(events.throttle(duration), mapper);
-  };
-}
 
 class ProjectSearchBloc extends Bloc<ProjectSearchEvent, ProjectSearchState> {
   ProjectSearchBloc({

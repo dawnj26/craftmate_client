@@ -2,16 +2,12 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:craftmate_client/globals.dart';
+import 'package:craftmate_client/helpers/stream_helper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:project_repository/project_repository.dart';
-import 'package:stream_transform/stream_transform.dart';
 
 part 'view_project_event.dart';
 part 'view_project_state.dart';
-
-EventTransformer<T> debounce<T>(Duration duration) {
-  return (events, mapper) => events.debounce(duration).switchMap(mapper);
-}
 
 class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
   ViewProjectBloc({
