@@ -67,33 +67,6 @@ class AddMaterialForm extends StatelessWidget {
               ],
             );
         }
-        // state.maybeWhen(
-        //   orElse: () {},
-        //   uploading: (_, __, ___, ____, _____, ______) {
-        //     Modal.instance.showLoadingDialog(context);
-        //   },
-        //   uploaded: (_, __, ___, ____, _____, ______) {
-        //     Navigator.pop(context);
-        //   },
-        //   success: (_, __, ___, ____, _____, ______, materialId) {
-        //     Navigator.pop(context);
-        //     Modal.instance.showConfirmationModal(
-        //       context: context,
-        //       title: 'Material Added',
-        //       content: const Text('Material has been added successfully'),
-        //       actions: [
-        //         FilledButton(
-        //           onPressed: () {
-        //             Navigator.pop(context);
-        //             Navigator.pop(context);
-        //             onMaterialAdded?.call(materialId);
-        //           },
-        //           child: const Text('Close'),
-        //         ),
-        //       ],
-        //     );
-        //   },
-        // );
       },
       child: Scaffold(
         appBar: AppBar(
