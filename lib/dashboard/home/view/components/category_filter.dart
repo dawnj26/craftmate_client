@@ -76,6 +76,40 @@ class CategoryFilter extends StatelessWidget {
   }
 }
 
+class DraggableCategory extends StatelessWidget {
+  const DraggableCategory({
+    super.key,
+    required this.allCategories,
+    required this.selectedCategory,
+    this.onSelected,
+  });
+
+  final List<ProjectCategory> allCategories;
+  final ProjectCategory selectedCategory;
+  final void Function(ProjectCategory)? onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.8,
+      snap: true,
+      expand: false,
+      builder: (_, scrollController) {
+        return BlocProvider(
+          create: (context) => CategorySearchBloc(
+            categories: allCategories,
+          ),
+          child: _CategoryList(
+            onSelected: onSelected,
+            scrollController: scrollController,
+            selectedCategory: selectedCategory,
+          ),
+        );
+      },
+    );
+  }
+}
+
 class _CategoryList extends StatelessWidget {
   const _CategoryList({
     this.onSelected,
@@ -136,7 +170,7 @@ class _CategoryList extends StatelessWidget {
                     ),
                     itemBuilder: (_, index) {
                       final category = state.filteredCategories[index];
-                      final isSelected = category == selectedCategory;
+                      final isSelected = category.name == selectedCategory.name;
 
                       return ListTile(
                         title: Text(
