@@ -94,8 +94,10 @@ class _TrendingTabState extends State<TrendingTab> {
                           ],
                         ),
                       ),
-                      const EmptyMessage(
-                        emptyMessage: 'No projects found',
+                      const Expanded(
+                        child: EmptyMessage(
+                          emptyMessage: 'No projects found',
+                        ),
                       ),
                     ],
                   ),

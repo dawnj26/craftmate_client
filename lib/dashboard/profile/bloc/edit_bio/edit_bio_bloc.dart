@@ -1,15 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:craftmate_client/helpers/stream_helper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stream_transform/stream_transform.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'edit_bio_event.dart';
 part 'edit_bio_state.dart';
 part 'edit_bio_bloc.freezed.dart';
-
-EventTransformer<Event> debounce<Event>(Duration duration) {
-  return (events, mapper) => events.debounce(duration).switchMap(mapper);
-}
 
 class EditBioBloc extends Bloc<EditBioEvent, EditBioState> {
   EditBioBloc({

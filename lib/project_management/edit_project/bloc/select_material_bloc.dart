@@ -1,15 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:craftmate_client/helpers/stream_helper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:material_repository/material_repository.dart';
-import 'package:stream_transform/stream_transform.dart';
 
 part 'select_material_event.dart';
 part 'select_material_state.dart';
 part 'select_material_bloc.freezed.dart';
-
-EventTransformer<Event> debounce<Event>(Duration duration) {
-  return (events, mapper) => events.debounce(duration).switchMap(mapper);
-}
 
 class SelectMaterialBloc
     extends Bloc<SelectMaterialEvent, SelectMaterialState> {

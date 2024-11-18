@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfigRepository {
   final String apiUrl;
+  final String placesApiKey;
   final FlutterSecureStorage _storage;
   final LogCollector logger;
   final Dio _dio;
@@ -22,6 +23,7 @@ class ConfigRepository {
     required this.logger,
     required this.prefs,
     required this.db,
+    required this.placesApiKey,
   })  : _storage = const FlutterSecureStorage(),
         _dio = Dio() {
     connectionStatus.init();
@@ -38,6 +40,17 @@ class ConfigRepository {
     return _dio;
   }
 
+  Dio get placesApi {
+    _dio.options = BaseOptions(
+      baseUrl: 'https://api.geoapify.com/v1/geocode',
+      headers: {
+        'Accept': 'application/json',
+      },
+    );
+
+    return _dio;
+  }
+
   Future<Response<T>> makeRequest<T>(
     String path, {
     bool withAuthorization = false,
@@ -45,17 +58,20 @@ class ConfigRepository {
     dynamic data,
     Map<String, dynamic>? queryParameters,
     String? token,
+    bool isPlacesApi = false,
   }) async {
     if (!await connectionStatus.checkConnection()) {
       throw const InternetException('No internet connection');
     }
 
     try {
-      final api = token != null
-          ? apiWithToken(token)
-          : withAuthorization
-              ? await apiWithAuthorization
-              : this.api;
+      final api = isPlacesApi
+          ? placesApi
+          : token != null
+              ? apiWithToken(token)
+              : withAuthorization
+                  ? await apiWithAuthorization
+                  : this.api;
       final response = await api.request<T>(
         path,
         data: data,

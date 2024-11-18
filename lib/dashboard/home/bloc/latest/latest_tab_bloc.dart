@@ -1,19 +1,12 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:craftmate_client/helpers/stream_helper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:project_repository/project_repository.dart';
-import 'package:stream_transform/stream_transform.dart';
 import 'package:uuid/uuid.dart';
 
 part 'latest_tab_event.dart';
 part 'latest_tab_state.dart';
 part 'latest_tab_bloc.freezed.dart';
-
-EventTransformer<E> throttleDroppable<E>(Duration duration) {
-  return (events, mapper) {
-    return droppable<E>().call(events.throttle(duration), mapper);
-  };
-}
 
 class LatestTabBloc extends Bloc<LatestTabEvent, LatestTabState> {
   LatestTabBloc({

@@ -12,9 +12,11 @@ import 'package:craftmate_client/settings/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:map_repository/map_repository.dart';
 import 'package:material_repository/material_repository.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:search_repository/search_repository.dart';
+import 'package:shop_repository/shop_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatefulWidget {
@@ -31,6 +33,8 @@ class _MyAppState extends State<MyApp> {
   late final MaterialRepository _materialRepository;
   late final SearchRepository _searchRepository;
   late final ChatRepository _chatRepository;
+  late final ShopRepository _shopRepository;
+  late final MapRepository _mapRepository;
 
   @override
   void initState() {
@@ -40,6 +44,7 @@ class _MyAppState extends State<MyApp> {
       logger: logger,
       prefs: prefs,
       db: FirebaseFirestore.instance,
+      placesApiKey: dotenv.get('GEOAPIFY_API_KEY'),
     );
 
     _authenticationRepository = AuthenticationRepository(config: config);
@@ -49,15 +54,14 @@ class _MyAppState extends State<MyApp> {
     _projectRepository = ProjectRepository(config: config);
     _materialRepository = MaterialRepository(config: config);
     _searchRepository = SearchRepository(configRepository: config);
+    _shopRepository = ShopRepository(config);
+    _mapRepository = MapRepository(config);
 
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
-    // dispose auth streams
     _authenticationRepository.dispose();
     super.dispose();
   }
@@ -72,6 +76,8 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider.value(value: _materialRepository),
         RepositoryProvider.value(value: _searchRepository),
         RepositoryProvider.value(value: _chatRepository),
+        RepositoryProvider.value(value: _shopRepository),
+        RepositoryProvider.value(value: _mapRepository),
       ],
       child: MultiBlocProvider(
         providers: [

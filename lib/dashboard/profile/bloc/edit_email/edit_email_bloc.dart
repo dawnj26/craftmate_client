@@ -1,16 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:craftmate_client/helpers/stream_helper.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stream_transform/stream_transform.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'edit_email_event.dart';
 part 'edit_email_state.dart';
 part 'edit_email_bloc.freezed.dart';
-
-EventTransformer<Event> debounce<Event>(Duration duration) {
-  return (events, mapper) => events.debounce(duration).switchMap(mapper);
-}
 
 class EditEmailBloc extends Bloc<EditEmailEvent, EditEmailState> {
   EditEmailBloc({
