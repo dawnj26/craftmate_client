@@ -33,6 +33,7 @@ dependencies:
   better_player: ^0.0.84
   bloc: ^8.1.4
   bloc_concurrency: ^0.2.5
+  carousel_slider: ^5.0.0
   chat_repository:
     path: packages/chat_repository
   cloud_firestore: ^5.4.5
