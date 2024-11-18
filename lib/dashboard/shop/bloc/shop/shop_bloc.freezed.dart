@@ -122,7 +122,7 @@ abstract class _Started implements ShopEvent {
 /// @nodoc
 mixin _$ShopState {
 
- List<Product> get products => throw _privateConstructorUsedError;
+ List<QueryProduct> get products => throw _privateConstructorUsedError;
 
 
 
@@ -142,7 +142,7 @@ abstract class $ShopStateCopyWith<$Res>  {
   factory $ShopStateCopyWith(ShopState value, $Res Function(ShopState) then) = _$ShopStateCopyWithImpl<$Res, ShopState>;
 @useResult
 $Res call({
- List<Product> products
+ List<QueryProduct> products
 });
 
 
@@ -163,7 +163,7 @@ class _$ShopStateCopyWithImpl<$Res,$Val extends ShopState> implements $ShopState
 @pragma('vm:prefer-inline') @override $Res call({Object? products = null,}) {
   return _then(_value.copyWith(
 products: null == products ? _value.products : products // ignore: cast_nullable_to_non_nullable
-as List<Product>,
+as List<QueryProduct>,
   )as $Val);
 }
 
@@ -175,7 +175,7 @@ abstract class _$$InitialImplCopyWith<$Res> implements $ShopStateCopyWith<$Res> 
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Product> products
+ List<QueryProduct> products
 });
 
 
@@ -193,7 +193,7 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$ShopStateCopyWithImpl<$Res, _$
 @pragma('vm:prefer-inline') @override $Res call({Object? products = null,}) {
   return _then(_$InitialImpl(
 products: null == products ? _value._products : products // ignore: cast_nullable_to_non_nullable
-as List<Product>,
+as List<QueryProduct>,
   ));
 }
 
@@ -204,12 +204,12 @@ as List<Product>,
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl({final  List<Product> products = const []}): _products = products;
+  const _$InitialImpl({final  List<QueryProduct> products = const <QueryProduct>[]}): _products = products;
 
   
 
- final  List<Product> _products;
-@override@JsonKey() List<Product> get products {
+ final  List<QueryProduct> _products;
+@override@JsonKey() List<QueryProduct> get products {
   if (_products is EqualUnmodifiableListView) return _products;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_products);
@@ -249,12 +249,12 @@ _$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImp
 
 
 abstract class Initial implements ShopState {
-  const factory Initial({final  List<Product> products}) = _$InitialImpl;
+  const factory Initial({final  List<QueryProduct> products}) = _$InitialImpl;
   
 
   
 
-@override List<Product> get products;
+@override List<QueryProduct> get products;
 /// Create a copy of ShopState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -267,7 +267,7 @@ abstract class _$$LoadingImplCopyWith<$Res> implements $ShopStateCopyWith<$Res> 
   factory _$$LoadingImplCopyWith(_$LoadingImpl value, $Res Function(_$LoadingImpl) then) = __$$LoadingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Product> products
+ List<QueryProduct> products
 });
 
 
@@ -285,7 +285,7 @@ class __$$LoadingImplCopyWithImpl<$Res> extends _$ShopStateCopyWithImpl<$Res, _$
 @pragma('vm:prefer-inline') @override $Res call({Object? products = null,}) {
   return _then(_$LoadingImpl(
 products: null == products ? _value._products : products // ignore: cast_nullable_to_non_nullable
-as List<Product>,
+as List<QueryProduct>,
   ));
 }
 
@@ -296,12 +296,12 @@ as List<Product>,
 
 
 class _$LoadingImpl  implements Loading {
-  const _$LoadingImpl({final  List<Product> products = const []}): _products = products;
+  const _$LoadingImpl({final  List<QueryProduct> products = const <QueryProduct>[]}): _products = products;
 
   
 
- final  List<Product> _products;
-@override@JsonKey() List<Product> get products {
+ final  List<QueryProduct> _products;
+@override@JsonKey() List<QueryProduct> get products {
   if (_products is EqualUnmodifiableListView) return _products;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_products);
@@ -341,12 +341,12 @@ _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => __$$LoadingImplCopyWithImp
 
 
 abstract class Loading implements ShopState {
-  const factory Loading({final  List<Product> products}) = _$LoadingImpl;
+  const factory Loading({final  List<QueryProduct> products}) = _$LoadingImpl;
   
 
   
 
-@override List<Product> get products;
+@override List<QueryProduct> get products;
 /// Create a copy of ShopState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -359,7 +359,7 @@ abstract class _$$LoadedImplCopyWith<$Res> implements $ShopStateCopyWith<$Res> {
   factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Product> products
+ List<QueryProduct> products
 });
 
 
@@ -377,7 +377,7 @@ class __$$LoadedImplCopyWithImpl<$Res> extends _$ShopStateCopyWithImpl<$Res, _$L
 @pragma('vm:prefer-inline') @override $Res call({Object? products = null,}) {
   return _then(_$LoadedImpl(
 products: null == products ? _value._products : products // ignore: cast_nullable_to_non_nullable
-as List<Product>,
+as List<QueryProduct>,
   ));
 }
 
@@ -388,12 +388,12 @@ as List<Product>,
 
 
 class _$LoadedImpl  implements Loaded {
-  const _$LoadedImpl({required final  List<Product> products}): _products = products;
+  const _$LoadedImpl({required final  List<QueryProduct> products}): _products = products;
 
   
 
- final  List<Product> _products;
-@override List<Product> get products {
+ final  List<QueryProduct> _products;
+@override List<QueryProduct> get products {
   if (_products is EqualUnmodifiableListView) return _products;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_products);
@@ -433,12 +433,12 @@ _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_
 
 
 abstract class Loaded implements ShopState {
-  const factory Loaded({required final  List<Product> products}) = _$LoadedImpl;
+  const factory Loaded({required final  List<QueryProduct> products}) = _$LoadedImpl;
   
 
   
 
-@override List<Product> get products;
+@override List<QueryProduct> get products;
 /// Create a copy of ShopState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -451,7 +451,7 @@ abstract class _$$ErrorImplCopyWith<$Res> implements $ShopStateCopyWith<$Res> {
   factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) = __$$ErrorImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- String message, List<Product> products
+ String message, List<QueryProduct> products
 });
 
 
@@ -470,7 +470,7 @@ class __$$ErrorImplCopyWithImpl<$Res> extends _$ShopStateCopyWithImpl<$Res, _$Er
   return _then(_$ErrorImpl(
 message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
 as String,products: null == products ? _value._products : products // ignore: cast_nullable_to_non_nullable
-as List<Product>,
+as List<QueryProduct>,
   ));
 }
 
@@ -481,13 +481,13 @@ as List<Product>,
 
 
 class _$ErrorImpl  implements Error {
-  const _$ErrorImpl({required this.message, final  List<Product> products = const []}): _products = products;
+  const _$ErrorImpl({required this.message, final  List<QueryProduct> products = const <QueryProduct>[]}): _products = products;
 
   
 
 @override final  String message;
- final  List<Product> _products;
-@override@JsonKey() List<Product> get products {
+ final  List<QueryProduct> _products;
+@override@JsonKey() List<QueryProduct> get products {
   if (_products is EqualUnmodifiableListView) return _products;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_products);
@@ -527,12 +527,12 @@ _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => __$$ErrorImplCopyWithImpl<_$Er
 
 
 abstract class Error implements ShopState {
-  const factory Error({required final  String message, final  List<Product> products}) = _$ErrorImpl;
+  const factory Error({required final  String message, final  List<QueryProduct> products}) = _$ErrorImpl;
   
 
   
 
- String get message;@override List<Product> get products;
+ String get message;@override List<QueryProduct> get products;
 /// Create a copy of ShopState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
