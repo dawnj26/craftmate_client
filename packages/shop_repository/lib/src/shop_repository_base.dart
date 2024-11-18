@@ -28,7 +28,7 @@ class ShopRepository implements IShopRepository {
     }
   }
 
-Future<List<String>> _uploadImages(List<String> images) async {
+  Future<List<String>> _uploadImages(List<String> images) async {
     try {
       final formData = FormData.fromMap({
         'images[]': images.map((e) {
