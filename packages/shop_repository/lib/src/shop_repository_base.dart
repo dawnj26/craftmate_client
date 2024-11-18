@@ -1,4 +1,7 @@
 import 'package:config_repository/config_repository.dart';
+import 'package:dio/dio.dart';
+import 'package:shop_repository/src/exceptions/shop_exception.dart';
+import 'package:shop_repository/src/models/product.dart';
 
 abstract class IShopRepository {
   Future<void> publishListing(Product product);
@@ -25,4 +28,32 @@ class ShopRepository implements IShopRepository {
     }
   }
 
+Future<List<String>> _uploadImages(List<String> images) async {
+    try {
+      final formData = FormData.fromMap({
+        'images[]': images.map((e) {
+          final filename = e.split('/').last;
+          return MultipartFile.fromFileSync(e, filename: filename);
+        }).toList(),
+      });
+
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/shop/images',
+        method: 'POST',
+        data: formData,
+      );
+
+      if (response.data == null) {
+        throw ShopException('No response');
+      }
+
+      final imageUrls = response.data!['data']['images']
+          .map<String>((e) => e as String)
+          .toList();
+
+      return imageUrls;
+    } on RequestException catch (e) {
+      throw ShopException('Failed to upload images: $e');
+    }
+  }
 }
