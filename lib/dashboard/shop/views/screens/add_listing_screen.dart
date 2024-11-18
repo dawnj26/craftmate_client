@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/home/view/components/category_filter.dart';
-import 'package:craftmate_client/dashboard/shop/bloc/add_listing_bloc.dart';
+import 'package:craftmate_client/dashboard/shop/bloc/add_listing/add_listing_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/models/listing_category.dart';
 import 'package:craftmate_client/dashboard/shop/models/listing_price.dart';
 import 'package:craftmate_client/dashboard/shop/models/listing_title.dart';
