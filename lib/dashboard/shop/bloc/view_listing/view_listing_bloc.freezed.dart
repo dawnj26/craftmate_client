@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError('It seems like you constru
 /// @nodoc
 mixin _$ViewListingEvent {
 
- int get id => throw _privateConstructorUsedError;
+ String get id => throw _privateConstructorUsedError;
 
 
 
@@ -37,7 +37,7 @@ abstract class $ViewListingEventCopyWith<$Res>  {
   factory $ViewListingEventCopyWith(ViewListingEvent value, $Res Function(ViewListingEvent) then) = _$ViewListingEventCopyWithImpl<$Res, ViewListingEvent>;
 @useResult
 $Res call({
- int id
+ String id
 });
 
 
@@ -58,7 +58,7 @@ class _$ViewListingEventCopyWithImpl<$Res,$Val extends ViewListingEvent> impleme
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,}) {
   return _then(_value.copyWith(
 id: null == id ? _value.id : id // ignore: cast_nullable_to_non_nullable
-as int,
+as String,
   )as $Val);
 }
 
@@ -70,7 +70,7 @@ abstract class _$$StartedImplCopyWith<$Res> implements $ViewListingEventCopyWith
   factory _$$StartedImplCopyWith(_$StartedImpl value, $Res Function(_$StartedImpl) then) = __$$StartedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- int id
+ String id
 });
 
 
@@ -88,7 +88,7 @@ class __$$StartedImplCopyWithImpl<$Res> extends _$ViewListingEventCopyWithImpl<$
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,}) {
   return _then(_$StartedImpl(
 null == id ? _value.id : id // ignore: cast_nullable_to_non_nullable
-as int,
+as String,
   ));
 }
 
@@ -103,7 +103,7 @@ class _$StartedImpl  implements _Started {
 
   
 
-@override final  int id;
+@override final  String id;
 
 @override
 String toString() {
@@ -138,12 +138,12 @@ _$$StartedImplCopyWith<_$StartedImpl> get copyWith => __$$StartedImplCopyWithImp
 
 
 abstract class _Started implements ViewListingEvent {
-  const factory _Started(final  int id) = _$StartedImpl;
+  const factory _Started(final  String id) = _$StartedImpl;
   
 
   
 
-@override int get id;
+@override String get id;
 /// Create a copy of ViewListingEvent
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -154,6 +154,7 @@ _$$StartedImplCopyWith<_$StartedImpl> get copyWith => throw _privateConstructorU
 /// @nodoc
 mixin _$ViewListingState {
 
+ QueryProduct get product => throw _privateConstructorUsedError;
 
 
 
@@ -161,13 +162,20 @@ mixin _$ViewListingState {
 
 
 
-
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+$ViewListingStateCopyWith<ViewListingState> get copyWith => throw _privateConstructorUsedError;
 
 }
 
 /// @nodoc
 abstract class $ViewListingStateCopyWith<$Res>  {
   factory $ViewListingStateCopyWith(ViewListingState value, $Res Function(ViewListingState) then) = _$ViewListingStateCopyWithImpl<$Res, ViewListingState>;
+@useResult
+$Res call({
+ QueryProduct product
+});
 
 
 
@@ -184,14 +192,23 @@ class _$ViewListingStateCopyWithImpl<$Res,$Val extends ViewListingState> impleme
 
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
-
+@pragma('vm:prefer-inline') @override $Res call({Object? product = null,}) {
+  return _then(_value.copyWith(
+product: null == product ? _value.product : product // ignore: cast_nullable_to_non_nullable
+as QueryProduct,
+  )as $Val);
+}
 
 }
 
 
 /// @nodoc
-abstract class _$$InitialImplCopyWith<$Res>  {
+abstract class _$$InitialImplCopyWith<$Res> implements $ViewListingStateCopyWith<$Res> {
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ QueryProduct product
+});
 
 
 
@@ -205,7 +222,12 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$ViewListingStateCopyWithImpl<$
 
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
-
+@pragma('vm:prefer-inline') @override $Res call({Object? product = null,}) {
+  return _then(_$InitialImpl(
+product: null == product ? _value.product : product // ignore: cast_nullable_to_non_nullable
+as QueryProduct,
+  ));
+}
 
 
 }
@@ -214,27 +236,33 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$ViewListingStateCopyWithImpl<$
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl();
+  const _$InitialImpl({this.product = const QueryProduct.empty()});
 
   
 
-
+@override@JsonKey() final  QueryProduct product;
 
 @override
 String toString() {
-  return 'ViewListingState.initial()';
+  return 'ViewListingState.initial(product: $product)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&(identical(other.product, product) || other.product == product));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,product);
 
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImpl<_$InitialImpl>(this, _$identity);
 
 
 
@@ -247,11 +275,275 @@ int get hashCode => runtimeType.hashCode;
 
 
 abstract class Initial implements ViewListingState {
-  const factory Initial() = _$InitialImpl;
+  const factory Initial({final  QueryProduct product}) = _$InitialImpl;
   
 
   
 
+@override QueryProduct get product;
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$InitialImplCopyWith<_$InitialImpl> get copyWith => throw _privateConstructorUsedError;
 
+}
+
+/// @nodoc
+abstract class _$$LoadingImplCopyWith<$Res> implements $ViewListingStateCopyWith<$Res> {
+  factory _$$LoadingImplCopyWith(_$LoadingImpl value, $Res Function(_$LoadingImpl) then) = __$$LoadingImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ QueryProduct product
+});
+
+
+
+}
+
+/// @nodoc
+class __$$LoadingImplCopyWithImpl<$Res> extends _$ViewListingStateCopyWithImpl<$Res, _$LoadingImpl> implements _$$LoadingImplCopyWith<$Res> {
+  __$$LoadingImplCopyWithImpl(_$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? product = null,}) {
+  return _then(_$LoadingImpl(
+product: null == product ? _value.product : product // ignore: cast_nullable_to_non_nullable
+as QueryProduct,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$LoadingImpl  implements Loading {
+  const _$LoadingImpl({this.product = const QueryProduct.empty()});
+
+  
+
+@override@JsonKey() final  QueryProduct product;
+
+@override
+String toString() {
+  return 'ViewListingState.loading(product: $product)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&(identical(other.product, product) || other.product == product));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,product);
+
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => __$$LoadingImplCopyWithImpl<_$LoadingImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class Loading implements ViewListingState {
+  const factory Loading({final  QueryProduct product}) = _$LoadingImpl;
+  
+
+  
+
+@override QueryProduct get product;
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
+abstract class _$$LoadedImplCopyWith<$Res> implements $ViewListingStateCopyWith<$Res> {
+  factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ QueryProduct product
+});
+
+
+
+}
+
+/// @nodoc
+class __$$LoadedImplCopyWithImpl<$Res> extends _$ViewListingStateCopyWithImpl<$Res, _$LoadedImpl> implements _$$LoadedImplCopyWith<$Res> {
+  __$$LoadedImplCopyWithImpl(_$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? product = null,}) {
+  return _then(_$LoadedImpl(
+product: null == product ? _value.product : product // ignore: cast_nullable_to_non_nullable
+as QueryProduct,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$LoadedImpl  implements Loaded {
+  const _$LoadedImpl({required this.product});
+
+  
+
+@override final  QueryProduct product;
+
+@override
+String toString() {
+  return 'ViewListingState.loaded(product: $product)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&(identical(other.product, product) || other.product == product));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,product);
+
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class Loaded implements ViewListingState {
+  const factory Loaded({required final  QueryProduct product}) = _$LoadedImpl;
+  
+
+  
+
+@override QueryProduct get product;
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
+abstract class _$$ErrorImplCopyWith<$Res> implements $ViewListingStateCopyWith<$Res> {
+  factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) = __$$ErrorImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ String message, QueryProduct product
+});
+
+
+
+}
+
+/// @nodoc
+class __$$ErrorImplCopyWithImpl<$Res> extends _$ViewListingStateCopyWithImpl<$Res, _$ErrorImpl> implements _$$ErrorImplCopyWith<$Res> {
+  __$$ErrorImplCopyWithImpl(_$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? product = null,}) {
+  return _then(_$ErrorImpl(
+message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
+as String,product: null == product ? _value.product : product // ignore: cast_nullable_to_non_nullable
+as QueryProduct,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$ErrorImpl  implements Error {
+  const _$ErrorImpl({required this.message, this.product = const QueryProduct.empty()});
+
+  
+
+@override final  String message;
+@override@JsonKey() final  QueryProduct product;
+
+@override
+String toString() {
+  return 'ViewListingState.error(message: $message, product: $product)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&(identical(other.message, message) || other.message == message)&&(identical(other.product, product) || other.product == product));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message,product);
+
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class Error implements ViewListingState {
+  const factory Error({required final  String message, final  QueryProduct product}) = _$ErrorImpl;
+  
+
+  
+
+ String get message;@override QueryProduct get product;
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => throw _privateConstructorUsedError;
 
 }
