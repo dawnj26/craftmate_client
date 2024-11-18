@@ -496,9 +496,8 @@ class ListingField extends StatelessWidget {
       keyboardType: number ? TextInputType.number : null,
       inputFormatters: number
           ? [
-              FilteringTextInputFormatter.digitsOnly,
-              FilteringTextInputFormatter.deny(
-                RegExp('^0+'),
+              FilteringTextInputFormatter.allow(
+                RegExp(r'^([1-9]\d*|0)\.?\d*$'),
               ),
             ]
           : null,
