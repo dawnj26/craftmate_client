@@ -1,5 +1,9 @@
+import 'package:craftmate_client/dashboard/shop/bloc/shop/shop_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/add_listing_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:shop_repository/shop_repository.dart';
 
 class ShopScreen extends StatelessWidget {
   const ShopScreen({super.key});
@@ -18,13 +22,26 @@ class ShopScreen extends StatelessWidget {
         ],
         bottom: const ShopBottom(),
       ),
-      body: const CustomScrollView(
-        slivers: [
-          SliverLabel(
-            labelText: "Today's picks",
-          ),
-          ListingGrid(),
-        ],
+      body: BlocBuilder<ShopBloc, ShopState>(
+        builder: (context, state) {
+          switch (state) {
+            case Initial() || Loading():
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+          }
+
+          return CustomScrollView(
+            slivers: [
+              const SliverLabel(
+                labelText: "Today's picks",
+              ),
+              ListingGrid(
+                products: state.products,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -33,7 +50,10 @@ class ShopScreen extends StatelessWidget {
 class ListingGrid extends StatelessWidget {
   const ListingGrid({
     super.key,
+    required this.products,
   });
+
+  final List<Product> products;
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +66,12 @@ class ListingGrid extends StatelessWidget {
       ),
       delegate: SliverChildBuilderDelegate(
         (context, index) {
-          return const ListingTile();
+          final product = products[index];
+          return ListingTile(
+            product: product,
+          );
         },
-        childCount: 10,
+        childCount: products.length,
       ),
     );
   }
@@ -81,7 +104,10 @@ class SliverLabel extends StatelessWidget {
 class ListingTile extends StatelessWidget {
   const ListingTile({
     super.key,
+    required this.product,
   });
+
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +117,7 @@ class ListingTile extends StatelessWidget {
       children: [
         Expanded(
           child: Image.network(
-            'https://picsum.photos/200',
+            product.imageUrls.first,
             fit: BoxFit.cover,
           ),
         ),
@@ -99,12 +125,21 @@ class ListingTile extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Text(
-            '₱7,000 · Product name',
+            '${_formatPrice(product.price)} · ${product.name}',
             style: theme.textTheme.labelLarge,
           ),
         ),
       ],
     );
+  }
+
+  String _formatPrice(double price) {
+    final formatter = NumberFormat.currency(
+      symbol: '₱',
+      decimalDigits: 0,
+      locale: 'en_PH',
+    );
+    return formatter.format(price);
   }
 }
 
