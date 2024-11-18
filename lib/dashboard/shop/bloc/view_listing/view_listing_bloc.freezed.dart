@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError('It seems like you constru
 /// @nodoc
 mixin _$ViewListingEvent {
 
+ int get id => throw _privateConstructorUsedError;
 
 
 
@@ -24,13 +25,20 @@ mixin _$ViewListingEvent {
 
 
 
-
+/// Create a copy of ViewListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+$ViewListingEventCopyWith<ViewListingEvent> get copyWith => throw _privateConstructorUsedError;
 
 }
 
 /// @nodoc
 abstract class $ViewListingEventCopyWith<$Res>  {
   factory $ViewListingEventCopyWith(ViewListingEvent value, $Res Function(ViewListingEvent) then) = _$ViewListingEventCopyWithImpl<$Res, ViewListingEvent>;
+@useResult
+$Res call({
+ int id
+});
 
 
 
@@ -47,14 +55,23 @@ class _$ViewListingEventCopyWithImpl<$Res,$Val extends ViewListingEvent> impleme
 
 /// Create a copy of ViewListingEvent
 /// with the given fields replaced by the non-null parameter values.
-
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,}) {
+  return _then(_value.copyWith(
+id: null == id ? _value.id : id // ignore: cast_nullable_to_non_nullable
+as int,
+  )as $Val);
+}
 
 }
 
 
 /// @nodoc
-abstract class _$$StartedImplCopyWith<$Res>  {
+abstract class _$$StartedImplCopyWith<$Res> implements $ViewListingEventCopyWith<$Res> {
   factory _$$StartedImplCopyWith(_$StartedImpl value, $Res Function(_$StartedImpl) then) = __$$StartedImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ int id
+});
 
 
 
@@ -68,7 +85,12 @@ class __$$StartedImplCopyWithImpl<$Res> extends _$ViewListingEventCopyWithImpl<$
 
 /// Create a copy of ViewListingEvent
 /// with the given fields replaced by the non-null parameter values.
-
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,}) {
+  return _then(_$StartedImpl(
+null == id ? _value.id : id // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
 
 
 }
@@ -77,27 +99,33 @@ class __$$StartedImplCopyWithImpl<$Res> extends _$ViewListingEventCopyWithImpl<$
 
 
 class _$StartedImpl  implements _Started {
-  const _$StartedImpl();
+  const _$StartedImpl(this.id);
 
   
 
-
+@override final  int id;
 
 @override
 String toString() {
-  return 'ViewListingEvent.started()';
+  return 'ViewListingEvent.started(id: $id)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$StartedImpl);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$StartedImpl&&(identical(other.id, id) || other.id == id));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,id);
 
+/// Create a copy of ViewListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$StartedImplCopyWith<_$StartedImpl> get copyWith => __$$StartedImplCopyWithImpl<_$StartedImpl>(this, _$identity);
 
 
 
@@ -110,12 +138,16 @@ int get hashCode => runtimeType.hashCode;
 
 
 abstract class _Started implements ViewListingEvent {
-  const factory _Started() = _$StartedImpl;
+  const factory _Started(final  int id) = _$StartedImpl;
   
 
   
 
-
+@override int get id;
+/// Create a copy of ViewListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$StartedImplCopyWith<_$StartedImpl> get copyWith => throw _privateConstructorUsedError;
 
 }
 
