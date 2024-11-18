@@ -7,6 +7,7 @@ import 'package:craftmate_client/dashboard/shop/models/listing_category.dart';
 import 'package:craftmate_client/dashboard/shop/models/listing_price.dart';
 import 'package:craftmate_client/dashboard/shop/models/listing_title.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/add_address_page.dart';
+import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,6 +28,7 @@ class AddListingScreen extends StatelessWidget {
           case Success():
             Navigator.of(context).pop();
             Navigator.of(context).pop();
+            Alert.instance.showSnackbar(context, 'Listing published');
         }
       },
       child: Scaffold(
