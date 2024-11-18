@@ -122,6 +122,7 @@ abstract class _Started implements ShopEvent {
 /// @nodoc
 mixin _$ShopState {
 
+ List<Product> get products => throw _privateConstructorUsedError;
 
 
 
@@ -129,13 +130,20 @@ mixin _$ShopState {
 
 
 
-
+/// Create a copy of ShopState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+$ShopStateCopyWith<ShopState> get copyWith => throw _privateConstructorUsedError;
 
 }
 
 /// @nodoc
 abstract class $ShopStateCopyWith<$Res>  {
   factory $ShopStateCopyWith(ShopState value, $Res Function(ShopState) then) = _$ShopStateCopyWithImpl<$Res, ShopState>;
+@useResult
+$Res call({
+ List<Product> products
+});
 
 
 
@@ -152,14 +160,23 @@ class _$ShopStateCopyWithImpl<$Res,$Val extends ShopState> implements $ShopState
 
 /// Create a copy of ShopState
 /// with the given fields replaced by the non-null parameter values.
-
+@pragma('vm:prefer-inline') @override $Res call({Object? products = null,}) {
+  return _then(_value.copyWith(
+products: null == products ? _value.products : products // ignore: cast_nullable_to_non_nullable
+as List<Product>,
+  )as $Val);
+}
 
 }
 
 
 /// @nodoc
-abstract class _$$InitialImplCopyWith<$Res>  {
+abstract class _$$InitialImplCopyWith<$Res> implements $ShopStateCopyWith<$Res> {
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ List<Product> products
+});
 
 
 
@@ -173,7 +190,12 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$ShopStateCopyWithImpl<$Res, _$
 
 /// Create a copy of ShopState
 /// with the given fields replaced by the non-null parameter values.
-
+@pragma('vm:prefer-inline') @override $Res call({Object? products = null,}) {
+  return _then(_$InitialImpl(
+products: null == products ? _value._products : products // ignore: cast_nullable_to_non_nullable
+as List<Product>,
+  ));
+}
 
 
 }
@@ -182,27 +204,39 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$ShopStateCopyWithImpl<$Res, _$
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl();
+  const _$InitialImpl({final  List<Product> products = const []}): _products = products;
 
   
 
+ final  List<Product> _products;
+@override@JsonKey() List<Product> get products {
+  if (_products is EqualUnmodifiableListView) return _products;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_products);
+}
 
 
 @override
 String toString() {
-  return 'ShopState.initial()';
+  return 'ShopState.initial(products: $products)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&const DeepCollectionEquality().equals(other._products, _products));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_products));
 
+/// Create a copy of ShopState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImpl<_$InitialImpl>(this, _$identity);
 
 
 
@@ -215,11 +249,293 @@ int get hashCode => runtimeType.hashCode;
 
 
 abstract class Initial implements ShopState {
-  const factory Initial() = _$InitialImpl;
+  const factory Initial({final  List<Product> products}) = _$InitialImpl;
   
 
   
 
+@override List<Product> get products;
+/// Create a copy of ShopState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$InitialImplCopyWith<_$InitialImpl> get copyWith => throw _privateConstructorUsedError;
 
+}
+
+/// @nodoc
+abstract class _$$LoadingImplCopyWith<$Res> implements $ShopStateCopyWith<$Res> {
+  factory _$$LoadingImplCopyWith(_$LoadingImpl value, $Res Function(_$LoadingImpl) then) = __$$LoadingImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ List<Product> products
+});
+
+
+
+}
+
+/// @nodoc
+class __$$LoadingImplCopyWithImpl<$Res> extends _$ShopStateCopyWithImpl<$Res, _$LoadingImpl> implements _$$LoadingImplCopyWith<$Res> {
+  __$$LoadingImplCopyWithImpl(_$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ShopState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? products = null,}) {
+  return _then(_$LoadingImpl(
+products: null == products ? _value._products : products // ignore: cast_nullable_to_non_nullable
+as List<Product>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$LoadingImpl  implements Loading {
+  const _$LoadingImpl({final  List<Product> products = const []}): _products = products;
+
+  
+
+ final  List<Product> _products;
+@override@JsonKey() List<Product> get products {
+  if (_products is EqualUnmodifiableListView) return _products;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_products);
+}
+
+
+@override
+String toString() {
+  return 'ShopState.loading(products: $products)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&const DeepCollectionEquality().equals(other._products, _products));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_products));
+
+/// Create a copy of ShopState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => __$$LoadingImplCopyWithImpl<_$LoadingImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class Loading implements ShopState {
+  const factory Loading({final  List<Product> products}) = _$LoadingImpl;
+  
+
+  
+
+@override List<Product> get products;
+/// Create a copy of ShopState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
+abstract class _$$LoadedImplCopyWith<$Res> implements $ShopStateCopyWith<$Res> {
+  factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ List<Product> products
+});
+
+
+
+}
+
+/// @nodoc
+class __$$LoadedImplCopyWithImpl<$Res> extends _$ShopStateCopyWithImpl<$Res, _$LoadedImpl> implements _$$LoadedImplCopyWith<$Res> {
+  __$$LoadedImplCopyWithImpl(_$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ShopState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? products = null,}) {
+  return _then(_$LoadedImpl(
+products: null == products ? _value._products : products // ignore: cast_nullable_to_non_nullable
+as List<Product>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$LoadedImpl  implements Loaded {
+  const _$LoadedImpl({required final  List<Product> products}): _products = products;
+
+  
+
+ final  List<Product> _products;
+@override List<Product> get products {
+  if (_products is EqualUnmodifiableListView) return _products;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_products);
+}
+
+
+@override
+String toString() {
+  return 'ShopState.loaded(products: $products)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&const DeepCollectionEquality().equals(other._products, _products));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_products));
+
+/// Create a copy of ShopState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class Loaded implements ShopState {
+  const factory Loaded({required final  List<Product> products}) = _$LoadedImpl;
+  
+
+  
+
+@override List<Product> get products;
+/// Create a copy of ShopState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
+abstract class _$$ErrorImplCopyWith<$Res> implements $ShopStateCopyWith<$Res> {
+  factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) = __$$ErrorImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ String message, List<Product> products
+});
+
+
+
+}
+
+/// @nodoc
+class __$$ErrorImplCopyWithImpl<$Res> extends _$ShopStateCopyWithImpl<$Res, _$ErrorImpl> implements _$$ErrorImplCopyWith<$Res> {
+  __$$ErrorImplCopyWithImpl(_$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ShopState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? products = null,}) {
+  return _then(_$ErrorImpl(
+message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
+as String,products: null == products ? _value._products : products // ignore: cast_nullable_to_non_nullable
+as List<Product>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$ErrorImpl  implements Error {
+  const _$ErrorImpl({required this.message, final  List<Product> products = const []}): _products = products;
+
+  
+
+@override final  String message;
+ final  List<Product> _products;
+@override@JsonKey() List<Product> get products {
+  if (_products is EqualUnmodifiableListView) return _products;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_products);
+}
+
+
+@override
+String toString() {
+  return 'ShopState.error(message: $message, products: $products)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other._products, _products));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message,const DeepCollectionEquality().hash(_products));
+
+/// Create a copy of ShopState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class Error implements ShopState {
+  const factory Error({required final  String message, final  List<Product> products}) = _$ErrorImpl;
+  
+
+  
+
+ String get message;@override List<Product> get products;
+/// Create a copy of ShopState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => throw _privateConstructorUsedError;
 
 }
