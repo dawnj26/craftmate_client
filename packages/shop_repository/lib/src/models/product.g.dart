@@ -8,18 +8,18 @@ part of 'product.dart';
 
 _$ProductImpl _$$ProductImplFromJson(Map<String, dynamic> json) =>
     _$ProductImpl(
+      sellerId: (json['sellerId'] as num?)?.toInt() ?? -1,
       name: json['name'] as String? ?? '',
       description: json['description'] as String? ?? '',
       price: (json['price'] as num?)?.toDouble() ?? -1.0,
-      imageUrl: json['imageUrl'] as String? ?? '',
       category: json['category'] as String? ?? '',
-      condition:
-          $enumDecodeNullable(_$ProductConditionEnumMap, json['condition']) ??
-              ProductCondition.new_,
       imageUrls: (json['imageUrls'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      address: json['address'] == null
+          ? const Place()
+          : Place.fromJson(json['address'] as Map<String, dynamic>),
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -29,6 +29,7 @@ _$ProductImpl _$$ProductImplFromJson(Map<String, dynamic> json) =>
       soldAt: json['soldAt'] == null
           ? null
           : DateTime.parse(json['soldAt'] as String),
+      buyerId: (json['buyerId'] as num?)?.toInt(),
       deletedAt: json['deletedAt'] == null
           ? null
           : DateTime.parse(json['deletedAt'] as String),
@@ -36,21 +37,16 @@ _$ProductImpl _$$ProductImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$ProductImplToJson(_$ProductImpl instance) =>
     <String, dynamic>{
+      'sellerId': instance.sellerId,
       'name': instance.name,
       'description': instance.description,
       'price': instance.price,
-      'imageUrl': instance.imageUrl,
       'category': instance.category,
-      'condition': _$ProductConditionEnumMap[instance.condition]!,
       'imageUrls': instance.imageUrls,
+      'address': instance.address.toJson(),
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'soldAt': instance.soldAt?.toIso8601String(),
+      'buyerId': instance.buyerId,
       'deletedAt': instance.deletedAt?.toIso8601String(),
     };
-
-const _$ProductConditionEnumMap = {
-  ProductCondition.new_: 'new_',
-  ProductCondition.used: 'used',
-  ProductCondition.refurbished: 'refurbished',
-};

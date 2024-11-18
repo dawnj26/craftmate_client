@@ -20,16 +20,17 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Product {
+  int get sellerId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
-  String get imageUrl => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
-  ProductCondition get condition => throw _privateConstructorUsedError;
   List<String> get imageUrls => throw _privateConstructorUsedError;
+  Place get address => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   DateTime? get soldAt => throw _privateConstructorUsedError;
+  int? get buyerId => throw _privateConstructorUsedError;
   DateTime? get deletedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Product to a JSON map.
@@ -47,17 +48,20 @@ abstract class $ProductCopyWith<$Res> {
       _$ProductCopyWithImpl<$Res, Product>;
   @useResult
   $Res call(
-      {String name,
+      {int sellerId,
+      String name,
       String description,
       double price,
-      String imageUrl,
       String category,
-      ProductCondition condition,
       List<String> imageUrls,
+      Place address,
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? soldAt,
+      int? buyerId,
       DateTime? deletedAt});
+
+  $PlaceCopyWith<$Res> get address;
 }
 
 /// @nodoc
@@ -75,19 +79,24 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? sellerId = null,
     Object? name = null,
     Object? description = null,
     Object? price = null,
-    Object? imageUrl = null,
     Object? category = null,
-    Object? condition = null,
     Object? imageUrls = null,
+    Object? address = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? soldAt = freezed,
+    Object? buyerId = freezed,
     Object? deletedAt = freezed,
   }) {
     return _then(_value.copyWith(
+      sellerId: null == sellerId
+          ? _value.sellerId
+          : sellerId // ignore: cast_nullable_to_non_nullable
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -100,22 +109,18 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String,
-      condition: null == condition
-          ? _value.condition
-          : condition // ignore: cast_nullable_to_non_nullable
-              as ProductCondition,
       imageUrls: null == imageUrls
           ? _value.imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as Place,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -128,11 +133,25 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
           ? _value.soldAt
           : soldAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      buyerId: freezed == buyerId
+          ? _value.buyerId
+          : buyerId // ignore: cast_nullable_to_non_nullable
+              as int?,
       deletedAt: freezed == deletedAt
           ? _value.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ) as $Val);
+  }
+
+  /// Create a copy of Product
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PlaceCopyWith<$Res> get address {
+    return $PlaceCopyWith<$Res>(_value.address, (value) {
+      return _then(_value.copyWith(address: value) as $Val);
+    });
   }
 }
 
@@ -144,17 +163,21 @@ abstract class _$$ProductImplCopyWith<$Res> implements $ProductCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String name,
+      {int sellerId,
+      String name,
       String description,
       double price,
-      String imageUrl,
       String category,
-      ProductCondition condition,
       List<String> imageUrls,
+      Place address,
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? soldAt,
+      int? buyerId,
       DateTime? deletedAt});
+
+  @override
+  $PlaceCopyWith<$Res> get address;
 }
 
 /// @nodoc
@@ -170,19 +193,24 @@ class __$$ProductImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? sellerId = null,
     Object? name = null,
     Object? description = null,
     Object? price = null,
-    Object? imageUrl = null,
     Object? category = null,
-    Object? condition = null,
     Object? imageUrls = null,
+    Object? address = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? soldAt = freezed,
+    Object? buyerId = freezed,
     Object? deletedAt = freezed,
   }) {
     return _then(_$ProductImpl(
+      sellerId: null == sellerId
+          ? _value.sellerId
+          : sellerId // ignore: cast_nullable_to_non_nullable
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -195,22 +223,18 @@ class __$$ProductImplCopyWithImpl<$Res>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as String,
-      condition: null == condition
-          ? _value.condition
-          : condition // ignore: cast_nullable_to_non_nullable
-              as ProductCondition,
       imageUrls: null == imageUrls
           ? _value._imageUrls
           : imageUrls // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as Place,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -223,6 +247,10 @@ class __$$ProductImplCopyWithImpl<$Res>
           ? _value.soldAt
           : soldAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      buyerId: freezed == buyerId
+          ? _value.buyerId
+          : buyerId // ignore: cast_nullable_to_non_nullable
+              as int?,
       deletedAt: freezed == deletedAt
           ? _value.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable
@@ -232,25 +260,30 @@ class __$$ProductImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$ProductImpl implements _Product {
   const _$ProductImpl(
-      {this.name = '',
+      {this.sellerId = -1,
+      this.name = '',
       this.description = '',
       this.price = -1.0,
-      this.imageUrl = '',
       this.category = '',
-      this.condition = ProductCondition.new_,
       final List<String> imageUrls = const [],
+      this.address = const Place(),
       this.createdAt,
       this.updatedAt,
       this.soldAt,
+      this.buyerId,
       this.deletedAt})
       : _imageUrls = imageUrls;
 
   factory _$ProductImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProductImplFromJson(json);
 
+  @override
+  @JsonKey()
+  final int sellerId;
   @override
   @JsonKey()
   final String name;
@@ -262,13 +295,7 @@ class _$ProductImpl implements _Product {
   final double price;
   @override
   @JsonKey()
-  final String imageUrl;
-  @override
-  @JsonKey()
   final String category;
-  @override
-  @JsonKey()
-  final ProductCondition condition;
   final List<String> _imageUrls;
   @override
   @JsonKey()
@@ -279,17 +306,22 @@ class _$ProductImpl implements _Product {
   }
 
   @override
+  @JsonKey()
+  final Place address;
+  @override
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
   @override
   final DateTime? soldAt;
   @override
+  final int? buyerId;
+  @override
   final DateTime? deletedAt;
 
   @override
   String toString() {
-    return 'Product(name: $name, description: $description, price: $price, imageUrl: $imageUrl, category: $category, condition: $condition, imageUrls: $imageUrls, createdAt: $createdAt, updatedAt: $updatedAt, soldAt: $soldAt, deletedAt: $deletedAt)';
+    return 'Product(sellerId: $sellerId, name: $name, description: $description, price: $price, category: $category, imageUrls: $imageUrls, address: $address, createdAt: $createdAt, updatedAt: $updatedAt, soldAt: $soldAt, buyerId: $buyerId, deletedAt: $deletedAt)';
   }
 
   @override
@@ -297,23 +329,23 @@ class _$ProductImpl implements _Product {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ProductImpl &&
+            (identical(other.sellerId, sellerId) ||
+                other.sellerId == sellerId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.condition, condition) ||
-                other.condition == condition) &&
             const DeepCollectionEquality()
                 .equals(other._imageUrls, _imageUrls) &&
+            (identical(other.address, address) || other.address == address) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.soldAt, soldAt) || other.soldAt == soldAt) &&
+            (identical(other.buyerId, buyerId) || other.buyerId == buyerId) &&
             (identical(other.deletedAt, deletedAt) ||
                 other.deletedAt == deletedAt));
   }
@@ -322,16 +354,17 @@ class _$ProductImpl implements _Product {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      sellerId,
       name,
       description,
       price,
-      imageUrl,
       category,
-      condition,
       const DeepCollectionEquality().hash(_imageUrls),
+      address,
       createdAt,
       updatedAt,
       soldAt,
+      buyerId,
       deletedAt);
 
   /// Create a copy of Product
@@ -352,20 +385,23 @@ class _$ProductImpl implements _Product {
 
 abstract class _Product implements Product {
   const factory _Product(
-      {final String name,
+      {final int sellerId,
+      final String name,
       final String description,
       final double price,
-      final String imageUrl,
       final String category,
-      final ProductCondition condition,
       final List<String> imageUrls,
+      final Place address,
       final DateTime? createdAt,
       final DateTime? updatedAt,
       final DateTime? soldAt,
+      final int? buyerId,
       final DateTime? deletedAt}) = _$ProductImpl;
 
   factory _Product.fromJson(Map<String, dynamic> json) = _$ProductImpl.fromJson;
 
+  @override
+  int get sellerId;
   @override
   String get name;
   @override
@@ -373,19 +409,19 @@ abstract class _Product implements Product {
   @override
   double get price;
   @override
-  String get imageUrl;
-  @override
   String get category;
   @override
-  ProductCondition get condition;
-  @override
   List<String> get imageUrls;
+  @override
+  Place get address;
   @override
   DateTime? get createdAt;
   @override
   DateTime? get updatedAt;
   @override
   DateTime? get soldAt;
+  @override
+  int? get buyerId;
   @override
   DateTime? get deletedAt;
 
