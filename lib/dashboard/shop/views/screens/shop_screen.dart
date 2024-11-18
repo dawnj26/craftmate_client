@@ -38,7 +38,7 @@ class ShopScreen extends StatelessWidget {
                 labelText: "Today's picks",
               ),
               ListingGrid(
-                products: state.products,
+                query: state.products,
               ),
             ],
           );
@@ -51,10 +51,10 @@ class ShopScreen extends StatelessWidget {
 class ListingGrid extends StatelessWidget {
   const ListingGrid({
     super.key,
-    required this.products,
+    required this.query,
   });
 
-  final List<Product> products;
+  final List<QueryProduct> query;
 
   @override
   Widget build(BuildContext context) {
@@ -67,15 +67,15 @@ class ListingGrid extends StatelessWidget {
       ),
       delegate: SliverChildBuilderDelegate(
         (context, index) {
-          final product = products[index];
+          final product = query[index].product;
           return ListingTile(
             product: product,
             onTap: () {
-              Navigator.of(context).push(ViewListingPage.route(product));
+              Navigator.of(context).push(ViewListingPage.route(query[index]));
             },
           );
         },
-        childCount: products.length,
+        childCount: query.length,
       ),
     );
   }
