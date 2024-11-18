@@ -4,6 +4,7 @@ import 'package:shop_repository/src/exceptions/shop_exception.dart';
 import 'package:shop_repository/src/models/product.dart';
 
 abstract class IShopRepository {
+  Future<List<Product>> fetchListings();
   Future<void> publishListing(Product product);
 }
 
@@ -54,6 +55,19 @@ class ShopRepository implements IShopRepository {
       return imageUrls;
     } on RequestException catch (e) {
       throw ShopException('Failed to upload images: $e');
+    }
+  }
+
+  @override
+  Future<List<Product>> fetchListings() async {
+    try {
+      final products = await _config.db.collection('marketplace').get();
+
+      return products.docs.map((e) => Product.fromJson(e.data())).toList();
+    } catch (e) {
+      _config.logger
+          .error('Failed to fetch listings: $e', e, StackTrace.current);
+      throw ShopException('Failed to fetch listings: $e');
     }
   }
 }
