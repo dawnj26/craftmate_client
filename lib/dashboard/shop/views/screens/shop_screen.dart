@@ -1,5 +1,6 @@
 import 'package:craftmate_client/dashboard/shop/bloc/shop/shop_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/add_listing_page.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/view_listing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -69,6 +70,9 @@ class ListingGrid extends StatelessWidget {
           final product = products[index];
           return ListingTile(
             product: product,
+            onTap: () {
+              Navigator.of(context).push(ViewListingPage.route(product));
+            },
           );
         },
         childCount: products.length,
@@ -105,31 +109,36 @@ class ListingTile extends StatelessWidget {
   const ListingTile({
     super.key,
     required this.product,
+    this.onTap,
   });
 
   final Product product;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: Image.network(
-            product.imageUrls.first,
-            fit: BoxFit.cover,
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: Image.network(
+              product.imageUrls.first,
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        const SizedBox(height: 4),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text(
-            '${_formatPrice(product.price)} · ${product.name}',
-            style: theme.textTheme.labelLarge,
+          const SizedBox(height: 4),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              '${_formatPrice(product.price)} · ${product.name}',
+              style: theme.textTheme.labelLarge,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
