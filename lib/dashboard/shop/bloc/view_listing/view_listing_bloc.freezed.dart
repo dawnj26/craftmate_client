@@ -154,7 +154,7 @@ _$$StartedImplCopyWith<_$StartedImpl> get copyWith => throw _privateConstructorU
 /// @nodoc
 mixin _$ViewListingState {
 
- QueryProduct get product => throw _privateConstructorUsedError;
+ QueryProduct get query => throw _privateConstructorUsedError; User get seller => throw _privateConstructorUsedError;
 
 
 
@@ -174,11 +174,11 @@ abstract class $ViewListingStateCopyWith<$Res>  {
   factory $ViewListingStateCopyWith(ViewListingState value, $Res Function(ViewListingState) then) = _$ViewListingStateCopyWithImpl<$Res, ViewListingState>;
 @useResult
 $Res call({
- QueryProduct product
+ QueryProduct query, User seller
 });
 
 
-
+$UserCopyWith<$Res> get seller;
 }
 
 /// @nodoc
@@ -192,13 +192,23 @@ class _$ViewListingStateCopyWithImpl<$Res,$Val extends ViewListingState> impleme
 
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? product = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? seller = null,}) {
   return _then(_value.copyWith(
-product: null == product ? _value.product : product // ignore: cast_nullable_to_non_nullable
-as QueryProduct,
+query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
+as QueryProduct,seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
+as User,
   )as $Val);
 }
-
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res> get seller {
+  
+  return $UserCopyWith<$Res>(_value.seller, (value) {
+    return _then(_value.copyWith(seller: value) as $Val);
+  });
+}
 }
 
 
@@ -207,11 +217,11 @@ abstract class _$$InitialImplCopyWith<$Res> implements $ViewListingStateCopyWith
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- QueryProduct product
+ QueryProduct query, User seller
 });
 
 
-
+@override $UserCopyWith<$Res> get seller;
 }
 
 /// @nodoc
@@ -222,10 +232,11 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$ViewListingStateCopyWithImpl<$
 
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? product = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? seller = null,}) {
   return _then(_$InitialImpl(
-product: null == product ? _value.product : product // ignore: cast_nullable_to_non_nullable
-as QueryProduct,
+query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
+as QueryProduct,seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
+as User,
   ));
 }
 
@@ -236,26 +247,27 @@ as QueryProduct,
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl({this.product = const QueryProduct.empty()});
+  const _$InitialImpl({this.query = const QueryProduct.empty(), this.seller = const User()});
 
   
 
-@override@JsonKey() final  QueryProduct product;
+@override@JsonKey() final  QueryProduct query;
+@override@JsonKey() final  User seller;
 
 @override
 String toString() {
-  return 'ViewListingState.initial(product: $product)';
+  return 'ViewListingState.initial(query: $query, seller: $seller)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&(identical(other.product, product) || other.product == product));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&(identical(other.query, query) || other.query == query)&&(identical(other.seller, seller) || other.seller == seller));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,product);
+int get hashCode => Object.hash(runtimeType,query,seller);
 
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -275,12 +287,12 @@ _$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImp
 
 
 abstract class Initial implements ViewListingState {
-  const factory Initial({final  QueryProduct product}) = _$InitialImpl;
+  const factory Initial({final  QueryProduct query, final  User seller}) = _$InitialImpl;
   
 
   
 
-@override QueryProduct get product;
+@override QueryProduct get query;@override User get seller;
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -293,11 +305,11 @@ abstract class _$$LoadingImplCopyWith<$Res> implements $ViewListingStateCopyWith
   factory _$$LoadingImplCopyWith(_$LoadingImpl value, $Res Function(_$LoadingImpl) then) = __$$LoadingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- QueryProduct product
+ QueryProduct query, User seller
 });
 
 
-
+@override $UserCopyWith<$Res> get seller;
 }
 
 /// @nodoc
@@ -308,10 +320,11 @@ class __$$LoadingImplCopyWithImpl<$Res> extends _$ViewListingStateCopyWithImpl<$
 
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? product = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? seller = null,}) {
   return _then(_$LoadingImpl(
-product: null == product ? _value.product : product // ignore: cast_nullable_to_non_nullable
-as QueryProduct,
+query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
+as QueryProduct,seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
+as User,
   ));
 }
 
@@ -322,26 +335,27 @@ as QueryProduct,
 
 
 class _$LoadingImpl  implements Loading {
-  const _$LoadingImpl({this.product = const QueryProduct.empty()});
+  const _$LoadingImpl({this.query = const QueryProduct.empty(), this.seller = const User()});
 
   
 
-@override@JsonKey() final  QueryProduct product;
+@override@JsonKey() final  QueryProduct query;
+@override@JsonKey() final  User seller;
 
 @override
 String toString() {
-  return 'ViewListingState.loading(product: $product)';
+  return 'ViewListingState.loading(query: $query, seller: $seller)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&(identical(other.product, product) || other.product == product));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&(identical(other.query, query) || other.query == query)&&(identical(other.seller, seller) || other.seller == seller));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,product);
+int get hashCode => Object.hash(runtimeType,query,seller);
 
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -361,12 +375,12 @@ _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => __$$LoadingImplCopyWithImp
 
 
 abstract class Loading implements ViewListingState {
-  const factory Loading({final  QueryProduct product}) = _$LoadingImpl;
+  const factory Loading({final  QueryProduct query, final  User seller}) = _$LoadingImpl;
   
 
   
 
-@override QueryProduct get product;
+@override QueryProduct get query;@override User get seller;
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -379,11 +393,11 @@ abstract class _$$LoadedImplCopyWith<$Res> implements $ViewListingStateCopyWith<
   factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- QueryProduct product
+ QueryProduct query, User seller
 });
 
 
-
+@override $UserCopyWith<$Res> get seller;
 }
 
 /// @nodoc
@@ -394,10 +408,11 @@ class __$$LoadedImplCopyWithImpl<$Res> extends _$ViewListingStateCopyWithImpl<$R
 
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? product = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? seller = null,}) {
   return _then(_$LoadedImpl(
-product: null == product ? _value.product : product // ignore: cast_nullable_to_non_nullable
-as QueryProduct,
+query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
+as QueryProduct,seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
+as User,
   ));
 }
 
@@ -408,26 +423,27 @@ as QueryProduct,
 
 
 class _$LoadedImpl  implements Loaded {
-  const _$LoadedImpl({required this.product});
+  const _$LoadedImpl({required this.query, required this.seller});
 
   
 
-@override final  QueryProduct product;
+@override final  QueryProduct query;
+@override final  User seller;
 
 @override
 String toString() {
-  return 'ViewListingState.loaded(product: $product)';
+  return 'ViewListingState.loaded(query: $query, seller: $seller)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&(identical(other.product, product) || other.product == product));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&(identical(other.query, query) || other.query == query)&&(identical(other.seller, seller) || other.seller == seller));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,product);
+int get hashCode => Object.hash(runtimeType,query,seller);
 
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -447,12 +463,12 @@ _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_
 
 
 abstract class Loaded implements ViewListingState {
-  const factory Loaded({required final  QueryProduct product}) = _$LoadedImpl;
+  const factory Loaded({required final  QueryProduct query, required final  User seller}) = _$LoadedImpl;
   
 
   
 
-@override QueryProduct get product;
+@override QueryProduct get query;@override User get seller;
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -465,11 +481,11 @@ abstract class _$$ErrorImplCopyWith<$Res> implements $ViewListingStateCopyWith<$
   factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) = __$$ErrorImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- String message, QueryProduct product
+ String message, QueryProduct query, User seller
 });
 
 
-
+@override $UserCopyWith<$Res> get seller;
 }
 
 /// @nodoc
@@ -480,11 +496,12 @@ class __$$ErrorImplCopyWithImpl<$Res> extends _$ViewListingStateCopyWithImpl<$Re
 
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? product = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? query = null,Object? seller = null,}) {
   return _then(_$ErrorImpl(
 message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
-as String,product: null == product ? _value.product : product // ignore: cast_nullable_to_non_nullable
-as QueryProduct,
+as String,query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
+as QueryProduct,seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
+as User,
   ));
 }
 
@@ -495,27 +512,28 @@ as QueryProduct,
 
 
 class _$ErrorImpl  implements Error {
-  const _$ErrorImpl({required this.message, this.product = const QueryProduct.empty()});
+  const _$ErrorImpl({required this.message, this.query = const QueryProduct.empty(), this.seller = const User()});
 
   
 
 @override final  String message;
-@override@JsonKey() final  QueryProduct product;
+@override@JsonKey() final  QueryProduct query;
+@override@JsonKey() final  User seller;
 
 @override
 String toString() {
-  return 'ViewListingState.error(message: $message, product: $product)';
+  return 'ViewListingState.error(message: $message, query: $query, seller: $seller)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&(identical(other.message, message) || other.message == message)&&(identical(other.product, product) || other.product == product));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&(identical(other.message, message) || other.message == message)&&(identical(other.query, query) || other.query == query)&&(identical(other.seller, seller) || other.seller == seller));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message,product);
+int get hashCode => Object.hash(runtimeType,message,query,seller);
 
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -535,12 +553,12 @@ _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => __$$ErrorImplCopyWithImpl<_$Er
 
 
 abstract class Error implements ViewListingState {
-  const factory Error({required final  String message, final  QueryProduct product}) = _$ErrorImpl;
+  const factory Error({required final  String message, final  QueryProduct query, final  User seller}) = _$ErrorImpl;
   
 
   
 
- String get message;@override QueryProduct get product;
+ String get message;@override QueryProduct get query;@override User get seller;
 /// Create a copy of ViewListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
