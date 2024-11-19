@@ -69,6 +69,7 @@ dependencies:
   logger: ^2.4.0
   map_repository:
     path: packages/map_repository
+  maps_launcher: ^2.2.1
   material_repository:
     path: packages/material_repository
   meta: ^1.12.0
