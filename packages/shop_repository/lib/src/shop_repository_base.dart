@@ -12,6 +12,7 @@ abstract class IShopRepository {
 
 class ShopRepository implements IShopRepository {
   final ConfigRepository _config;
+  final String _baseUrl = '/shop';
 
   const ShopRepository(this._config);
 
@@ -23,7 +24,7 @@ class ShopRepository implements IShopRepository {
         imageUrls: imageUrls,
       );
 
-      await _config.db.collection('marketplace').add(newProduct.toJson());
+      await _config.db.collection(_baseUrl).add(newProduct.toJson());
     } catch (e) {
       _config.logger
           .error('Failed to publish listing: $e', e, StackTrace.current);
@@ -63,7 +64,7 @@ class ShopRepository implements IShopRepository {
   @override
   Future<List<QueryProduct>> fetchListings() async {
     try {
-      final products = await _config.db.collection('marketplace').get();
+      final products = await _config.db.collection(_baseUrl).get();
 
       return products.docs
           .map((e) =>
@@ -79,7 +80,7 @@ class ShopRepository implements IShopRepository {
   @override
   Future<QueryProduct> fetchListing(String id) async {
     try {
-      final product = await _config.db.collection('marketplace').doc(id).get();
+      final product = await _config.db.collection(_baseUrl).doc(id).get();
       final data = product.data();
 
       if (data == null) {
