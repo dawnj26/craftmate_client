@@ -135,6 +135,7 @@ class ListingTile extends StatelessWidget {
             child: Text(
               '${_formatPrice(product.price)} · ${product.name}',
               style: theme.textTheme.labelLarge,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
