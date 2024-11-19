@@ -20,6 +20,7 @@ class ViewListingPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ViewListingBloc(
         shopRepository: context.read(),
+        userRepository: context.read(),
       )..add(ViewListingEvent.started(query.id)),
       child: const ViewListingScreen(),
     );
