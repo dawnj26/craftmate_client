@@ -163,7 +163,7 @@ class _FilterDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.sizeOf(context);
     return FilterDropdown<ProjectFilter>(
-      width: screenSize.width * 0.43,
+      width: screenSize.width * 0.35,
       initialSelection: ProjectFilter.all,
       items: ProjectFilter.values
           .map(
