@@ -5,15 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_repository/map_repository.dart';
 import 'package:uuid/uuid.dart';
 
 class AddAddressScreen extends StatefulWidget {
-  const AddAddressScreen({super.key, this.onAddressSelected});
+  const AddAddressScreen({
+    super.key,
+    this.onAddressSelected,
+    this.showCircle = false,
+  });
 
-  final void Function(Place place)? onAddressSelected;
+  final void Function(Place place, double radius)? onAddressSelected;
+  final bool showCircle;
 
   @override
   State<AddAddressScreen> createState() => AddAddressScreenState();
@@ -23,18 +27,21 @@ class AddAddressScreenState extends State<AddAddressScreen> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  final CameraPosition _defaultLocation = const CameraPosition(
-    target: LatLng(15.813742, 120.456334),
-    zoom: 14.4746,
-  );
+  LatLng _currentCenter = const LatLng(15.813742, 120.456334);
+  late final CameraPosition _defaultLocation;
 
-  LatLng _currentCenter = const LatLng(0, 0);
   final TextEditingController searchController = TextEditingController();
+  double _radius = 5000; // Radius in meters
+  final _zoomLevel = 13.0;
 
   @override
   void initState() {
+    _defaultLocation = CameraPosition(
+      target: _currentCenter,
+      zoom: _zoomLevel,
+    );
+    _getCurrentLocation();
     super.initState();
-    _requestLocationPermission();
   }
 
   @override
@@ -43,32 +50,14 @@ class AddAddressScreenState extends State<AddAddressScreen> {
     super.dispose();
   }
 
-  Future<void> _requestLocationPermission() async {
-    var status = await Geolocator.checkPermission();
-
-    if (status == LocationPermission.denied) {
-      status = await Geolocator.requestPermission();
-    }
-
-    if (status == LocationPermission.whileInUse ||
-        status == LocationPermission.always) {
-      _getCurrentLocation();
-    }
-  }
-
   Future<void> _getCurrentLocation() async {
     try {
-      final position = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(
-          accuracy: LocationAccuracy.high,
-          distanceFilter: 100,
-        ),
-      );
+      final curPlace = await context.read<MapRepository>().getCurrentLocation();
 
       final controller = await _controller.future;
       final newPosition = CameraPosition(
-        target: LatLng(position.latitude, position.longitude),
-        zoom: 14.4746,
+        target: LatLng(curPlace.lat, curPlace.lon),
+        zoom: _zoomLevel,
       );
 
       controller.animateCamera(CameraUpdate.newCameraPosition(newPosition));
@@ -79,10 +68,12 @@ class AddAddressScreenState extends State<AddAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final circleSize = (_radius / 10000) * MediaQuery.sizeOf(context).width;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Add Address'),
+        title: Text(!widget.showCircle ? 'Add Address' : 'Nearby'),
         actions: [
           IconButton(
             onPressed: () async {
@@ -92,7 +83,6 @@ class AddAddressScreenState extends State<AddAddressScreen> {
               );
 
               if (!context.mounted) return;
-              logger.info(placemarks);
 
               final placemark = placemarks.first;
 
@@ -103,69 +93,92 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                 lon: _currentCenter.longitude,
               );
 
-              widget.onAddressSelected?.call(place);
+              widget.onAddressSelected?.call(place, _radius);
               Navigator.of(context).pop();
             },
             icon: const Icon(Icons.check),
           ),
         ],
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TypeAheadField<Place>(
-              builder: (context, controller, focusNode) {
-                return TextField(
-                  controller: controller,
-                  focusNode: focusNode,
-                  decoration: InputDecoration(
-                    hintText: 'Search for a place',
-                    border: const OutlineInputBorder(),
-                    prefixIcon: const Icon(Icons.search),
-                    suffixIcon: IconButton(
-                      onPressed: () => controller.clear(),
-                      icon: const Icon(Icons.clear),
-                    ),
-                  ),
-                );
-              },
-              itemBuilder: (context, place) {
-                return ListTile(
-                  leading: const Icon(Icons.location_on),
-                  title: Text(place.name),
-                  subtitle: Text('${place.lat}, ${place.lon}'),
-                );
-              },
-              onSelected: (place) async {
-                final controller = await _controller.future;
-                controller.animateCamera(
-                  CameraUpdate.newLatLng(LatLng(place.lat, place.lon)),
-                );
-              },
-              suggestionsCallback: (q) {
-                if (q.trim().isEmpty) {
-                  return null;
-                }
-                return context.read<MapRepository>().searchPlaces(q);
-              },
-            ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TypeAheadField<Place>(
+                  builder: (context, controller, focusNode) {
+                    return TextField(
+                      controller: controller,
+                      focusNode: focusNode,
+                      decoration: InputDecoration(
+                        hintText: 'Search for a place',
+                        border: const OutlineInputBorder(),
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: IconButton(
+                          onPressed: () => controller.clear(),
+                          icon: const Icon(Icons.clear),
+                        ),
+                      ),
+                    );
+                  },
+                  itemBuilder: (context, place) {
+                    return ListTile(
+                      leading: const Icon(Icons.location_on),
+                      title: Text(place.name),
+                      subtitle: Text('${place.lat}, ${place.lon}'),
+                    );
+                  },
+                  onSelected: (place) async {
+                    final controller = await _controller.future;
+                    controller.animateCamera(
+                      CameraUpdate.newLatLng(LatLng(place.lat, place.lon)),
+                    );
+                  },
+                  suggestionsCallback: (q) {
+                    if (q.trim().isEmpty) {
+                      return null;
+                    }
+                    return context.read<MapRepository>().searchPlaces(q);
+                  },
+                ),
+              ),
+              Expanded(
+                child: GoogleMapper(
+                  showCircle: widget.showCircle,
+                  initialCameraPosition: _defaultLocation,
+                  circleSize: circleSize,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  },
+                  onCameraMove: (CameraPosition position) {
+                    _currentCenter = position.target;
+                  },
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            child: GoogleMapper(
-              initialCameraPosition: _defaultLocation,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
-              onCameraMove: (CameraPosition position) {
-                _currentCenter = position.target;
+          Positioned(
+            bottom: 50,
+            left: 10,
+            right: 10,
+            child: Slider(
+              value: _radius,
+              min: 1000,
+              max: 10000,
+              divisions: 9,
+              label: '${(_radius / 1000).round()} km',
+              onChanged: (value) {
+                setState(() {
+                  _radius = value;
+                });
               },
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _requestLocationPermission,
+        onPressed: _getCurrentLocation,
         child: const Icon(Icons.location_searching_rounded),
       ),
     );
@@ -183,6 +196,8 @@ class AddAddressScreenState extends State<AddAddressScreen> {
 
     return parts.isEmpty ? 'Unknown location' : parts;
   }
+
+  // Add this function to calculate zoom level based on radius
 }
 
 class GoogleMapper extends StatelessWidget {
@@ -191,14 +206,19 @@ class GoogleMapper extends StatelessWidget {
     required this.initialCameraPosition,
     this.onCameraMove,
     this.onMapCreated,
+    required this.circleSize,
+    this.showCircle = false,
   });
 
   final CameraPosition initialCameraPosition;
+  final double circleSize;
   final void Function(CameraPosition)? onCameraMove;
   final void Function(GoogleMapController)? onMapCreated;
+  final bool showCircle;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Stack(
       children: [
         GoogleMap(
@@ -206,12 +226,29 @@ class GoogleMapper extends StatelessWidget {
           onMapCreated: onMapCreated,
           onCameraMove: onCameraMove,
           zoomControlsEnabled: false,
+          zoomGesturesEnabled: !showCircle,
         ),
-        const Center(
-          child: IgnorePointer(
-            child: Crosshair(),
+        if (!showCircle)
+          const Center(
+            child: IgnorePointer(
+              child: Crosshair(),
+            ),
+          )
+        else
+          Center(
+            child: Container(
+              width: circleSize,
+              height: circleSize,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: theme.colorScheme.error.withOpacity(0.1),
+                border: Border.all(
+                  color: theme.colorScheme.error,
+                  width: 2,
+                ),
+              ),
+            ),
           ),
-        ),
       ],
     );
   }

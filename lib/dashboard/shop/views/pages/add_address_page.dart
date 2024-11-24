@@ -3,16 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:map_repository/map_repository.dart';
 
 class AddAddressPage extends StatelessWidget {
-  const AddAddressPage({super.key, this.onAddressSelected});
+  const AddAddressPage({
+    super.key,
+    this.onAddressSelected,
+    this.showCircle = false,
+  });
 
-  final void Function(Place place)? onAddressSelected;
+  final void Function(Place place, double radius)? onAddressSelected;
+  final bool showCircle;
 
   static Route<void> route({
-    void Function(Place place)? onAddressSelected,
+    void Function(Place place, double radius)? onAddressSelected,
+    bool showCircle = false,
   }) {
     return MaterialPageRoute<void>(
       builder: (_) => AddAddressPage(
         onAddressSelected: onAddressSelected,
+        showCircle: showCircle,
       ),
     );
   }
@@ -21,6 +28,7 @@ class AddAddressPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return AddAddressScreen(
       onAddressSelected: onAddressSelected,
+      showCircle: showCircle,
     );
   }
 }
