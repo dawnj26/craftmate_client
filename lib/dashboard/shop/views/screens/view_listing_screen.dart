@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:map_repository/map_repository.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:shop_repository/shop_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class ViewListingScreen extends StatelessWidget {
@@ -13,7 +14,6 @@ class ViewListingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final screenSize = MediaQuery.sizeOf(context);
 
     return Scaffold(
@@ -58,12 +58,19 @@ class ViewListingScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     NameAndPrice(
-                      name: state.query.product.name,
-                      price: state.query.product.price,
+                      query: state.query,
                     ),
                     SendMessage(
-                      onSend: () {},
-                      onTextChanged: (text) {},
+                      onSend: () {
+                        context
+                            .read<ViewListingBloc>()
+                            .add(const ViewListingEvent.messageSent());
+                      },
+                      onTextChanged: (text) {
+                        context.read<ViewListingBloc>().add(
+                              ViewListingEvent.messageChanged(text),
+                            );
+                      },
                     ),
                     const Divider(
                       height: dividerHeight,
@@ -89,9 +96,6 @@ class ViewListingScreen extends StatelessWidget {
                       child: ListingLocation(
                         place: state.query.product.address,
                       ),
-                    ),
-                    const Divider(
-                      height: dividerHeight,
                     ),
                   ],
                 ),
@@ -261,24 +265,39 @@ class SendMessage extends StatelessWidget {
 class NameAndPrice extends StatelessWidget {
   const NameAndPrice({
     super.key,
-    required this.name,
-    required this.price,
+    required this.query,
   });
 
-  final String name;
-  final double price;
+  final QueryProduct query;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          name,
-          style: theme.textTheme.titleLarge,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              query.product.name,
+              style: theme.textTheme.titleLarge,
+            ),
+            Text(_formatPrice(query.product.price)),
+          ],
         ),
-        Text(_formatPrice(price)),
+        IconButton.outlined(
+          onPressed: () {
+            context
+                .read<ViewListingBloc>()
+                .add(const ViewListingEvent.favoriteToggled());
+          },
+          icon: Icon(
+            query.isFavorite
+                ? Icons.favorite_rounded
+                : Icons.favorite_border_rounded,
+          ),
+        ),
       ],
     );
   }
