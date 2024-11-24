@@ -12,6 +12,10 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/begin_chat.png
+  AssetGenImage get beginChat =>
+      const AssetGenImage('assets/images/begin_chat.png');
+
   /// File path: assets/images/logo_with_label.png
   AssetGenImage get logoWithLabel =>
       const AssetGenImage('assets/images/logo_with_label.png');
@@ -42,6 +46,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        beginChat,
         logoWithLabel,
         logoWithoutLabel,
         noDataTransparent,
