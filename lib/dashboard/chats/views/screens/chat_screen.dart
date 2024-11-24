@@ -4,6 +4,7 @@ import 'package:chat_repository/chat_repository.dart';
 import 'package:craftmate_client/auth/auth.dart';
 import 'package:craftmate_client/dashboard/chats/bloc/chat/chat_bloc.dart';
 import 'package:craftmate_client/dashboard/chats/views/components/video_player.dart';
+import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +14,14 @@ import 'package:mime/mime.dart';
 import 'package:user_repository/user_repository.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key, required this.user});
+  const ChatScreen({super.key, required this.user, this.listingId});
 
   final User user;
+  final String? listingId;
 
-  static Route<void> route(User user) {
+  static Route<void> route(User user, {String? listingId}) {
     return PageTransition.effect.slideFromRightToLeft(
-      ChatScreen(user: user),
+      ChatScreen(user: user, listingId: listingId),
       false,
     );
   }
@@ -29,9 +31,13 @@ class ChatScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ChatBloc(
         chatRepository: context.read(),
-        sender: context.read<AuthBloc>().state.user,
-        receiver: user,
-      ),
+        listingId: listingId,
+      )..add(
+          ChatEvent.started(
+            context.read<AuthBloc>().state.user.id,
+            user.id,
+          ),
+        ),
       child: Scaffold(
         appBar: AppBar(
           title: Text(user.name),
@@ -66,6 +72,8 @@ class _MessagesState extends State<Messages> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
       children: [
         Expanded(
@@ -75,6 +83,25 @@ class _MessagesState extends State<Messages> {
                 case Initial() || Loading():
                   return const Center(
                     child: CircularProgressIndicator(),
+                  );
+                case Loaded(:final messages) when messages.isEmpty:
+                  const imageSize = 300.0;
+                  return Center(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Assets.images.beginChat.image(
+                            width: imageSize,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Start a conversation',
+                            style: theme.textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
+                    ),
                   );
               }
               final isSending = switch (state) {
