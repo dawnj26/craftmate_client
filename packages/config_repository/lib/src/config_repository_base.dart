@@ -40,6 +40,17 @@ class ConfigRepository {
     return _dio;
   }
 
+  Dio get geoApi {
+    _dio.options = BaseOptions(
+      baseUrl: 'http://ip-api.com',
+      headers: {
+        'Accept': 'application/json',
+      },
+    );
+
+    return _dio;
+  }
+
   Dio get placesApi {
     _dio.options = BaseOptions(
       baseUrl: 'https://api.geoapify.com/v1/geocode',
