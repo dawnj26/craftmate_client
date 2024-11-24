@@ -120,6 +120,92 @@ abstract class _ThemeModeChanged implements SettingsEvent {
 }
 
 /// @nodoc
+abstract class _$$StartedImplCopyWith<$Res>  {
+  factory _$$StartedImplCopyWith(_$StartedImpl value, $Res Function(_$StartedImpl) then) = __$$StartedImplCopyWithImpl<$Res>;
+@useResult
+$Res call({
+ Brightness brightness
+});
+
+
+
+}
+
+/// @nodoc
+class __$$StartedImplCopyWithImpl<$Res> extends _$SettingsEventCopyWithImpl<$Res, _$StartedImpl> implements _$$StartedImplCopyWith<$Res> {
+  __$$StartedImplCopyWithImpl(_$StartedImpl _value, $Res Function(_$StartedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of SettingsEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? brightness = null,}) {
+  return _then(_$StartedImpl(
+null == brightness ? _value.brightness : brightness // ignore: cast_nullable_to_non_nullable
+as Brightness,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$StartedImpl  implements _Started {
+  const _$StartedImpl(this.brightness);
+
+  
+
+@override final  Brightness brightness;
+
+@override
+String toString() {
+  return 'SettingsEvent.started(brightness: $brightness)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$StartedImpl&&(identical(other.brightness, brightness) || other.brightness == brightness));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,brightness);
+
+/// Create a copy of SettingsEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$StartedImplCopyWith<_$StartedImpl> get copyWith => __$$StartedImplCopyWithImpl<_$StartedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _Started implements SettingsEvent {
+  const factory _Started(final  Brightness brightness) = _$StartedImpl;
+  
+
+  
+
+ Brightness get brightness;
+/// Create a copy of SettingsEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+_$$StartedImplCopyWith<_$StartedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
 mixin _$SettingsState {
 
  ThemeData get theme => throw _privateConstructorUsedError;
