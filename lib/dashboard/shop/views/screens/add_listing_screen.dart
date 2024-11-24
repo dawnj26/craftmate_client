@@ -122,7 +122,17 @@ class _AddListingFormState extends State<AddListingForm> {
     return ListView(
       padding: const EdgeInsets.all(12),
       children: [
-        const ListingProfile(),
+        ListingProfile(
+          subtitle: Row(
+            children: [
+              Text(
+                'Listing on Shop · ',
+                style: theme.textTheme.bodySmall,
+              ),
+              const Icon(Icons.shopping_bag_rounded, size: 16),
+            ],
+          ),
+        ),
         SizedBox(
           height: screenSize.height * 0.15,
           child: BlocBuilder<AddListingBloc, AddListingState>(
@@ -295,7 +305,7 @@ class _AddListingFormState extends State<AddListingForm> {
                 FocusManager.instance.primaryFocus?.unfocus();
                 Navigator.of(context).push(
                   AddAddressPage.route(
-                    onAddressSelected: (place) {
+                    onAddressSelected: (place, radius) {
                       context
                           .read<AddListingBloc>()
                           .add(AddListingEvent.addressChanged(place));
@@ -338,7 +348,10 @@ class _AddListingFormState extends State<AddListingForm> {
 class ListingProfile extends StatelessWidget {
   const ListingProfile({
     super.key,
+    required this.subtitle,
   });
+
+  final Widget subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -347,6 +360,7 @@ class ListingProfile extends StatelessWidget {
     final hasImage = currentUser.image != null;
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CircleAvatar(
           radius: 24,
@@ -356,17 +370,10 @@ class ListingProfile extends StatelessWidget {
         const SizedBox(width: 8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(currentUser.name, style: theme.textTheme.labelLarge),
-            Row(
-              children: [
-                Text(
-                  'Listing on Shop · ',
-                  style: theme.textTheme.bodySmall,
-                ),
-                const Icon(Icons.shopping_bag_rounded, size: 16),
-              ],
-            ),
+            subtitle,
           ],
         ),
       ],
