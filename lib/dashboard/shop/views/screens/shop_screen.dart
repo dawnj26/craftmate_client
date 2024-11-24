@@ -1,16 +1,28 @@
 import 'package:craftmate_client/dashboard/shop/bloc/shop/shop_bloc.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/add_address_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/add_listing_page.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/shop_profile_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/view_listing_page.dart';
+import 'package:craftmate_client/gen/assets.gen.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:map_repository/map_repository.dart';
 import 'package:shop_repository/shop_repository.dart';
 
-class ShopScreen extends StatelessWidget {
+class ShopScreen extends StatefulWidget {
   const ShopScreen({super.key});
 
   @override
+  State<ShopScreen> createState() => _ShopScreenState();
+}
+
+class _ShopScreenState extends State<ShopScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Shop'),
@@ -19,33 +31,57 @@ class ShopScreen extends StatelessWidget {
             icon: const Icon(Icons.search),
             onPressed: () {},
           ),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.person_2)),
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(ShopProfilePage.route());
+            },
+            icon: const Icon(Icons.person_2),
+          ),
         ],
         bottom: const ShopBottom(),
       ),
       body: BlocBuilder<ShopBloc, ShopState>(
         builder: (context, state) {
           switch (state) {
-            case Initial() || Loading():
+            case Initial() || Initializing():
               return const Center(
                 child: CircularProgressIndicator(),
               );
           }
 
-          return CustomScrollView(
-            slivers: [
-              const SliverLabel(
-                labelText: "Today's picks",
-              ),
-              ListingGrid(
-                query: state.products,
-              ),
-            ],
+          return RefreshIndicator(
+            onRefresh: () async {
+              final bloc = BlocProvider.of<ShopBloc>(context);
+              final newState = bloc.stream.first;
+              bloc.add(const ShopEvent.refreshed());
+              await newState;
+            },
+            child: CustomScrollView(
+              slivers: [
+                SliverLabel(
+                  labelText: "Nearby",
+                  currentLocation: state.currentLocation,
+                ),
+                ListingGrid(
+                  query: state.nearbyProducts,
+                ),
+                const SliverLabel(
+                  labelText: "All Listings",
+                ),
+                ListingGrid(
+                  query: state.products,
+                ),
+              ],
+            ),
           );
         },
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 class ListingGrid extends StatelessWidget {
@@ -58,6 +94,21 @@ class ListingGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (query.isEmpty) {
+      return SliverToBoxAdapter(
+        child: Column(
+          children: [
+            Assets.images.noDataTransparent.image(
+              width: 200,
+              height: 200,
+            ),
+            const SizedBox(height: 16),
+            const Text('No listings found'),
+          ],
+        ),
+      );
+    }
+
     return SliverGrid(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -85,20 +136,55 @@ class SliverLabel extends StatelessWidget {
   const SliverLabel({
     super.key,
     required this.labelText,
+    this.currentLocation,
   });
 
   final String labelText;
+  final Place? currentLocation;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    logger.info('Current location: $currentLocation');
 
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Text(
-          labelText,
-          style: theme.textTheme.titleMedium,
+        padding: currentLocation != null
+            ? const EdgeInsets.symmetric(horizontal: 12.0)
+            : const EdgeInsets.all(12.0),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                labelText,
+                style: theme.textTheme.titleMedium,
+              ),
+            ),
+            if (currentLocation != null)
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      AddAddressPage.route(
+                        onAddressSelected: (place, radius) {
+                          context.read<ShopBloc>().add(
+                                ShopEvent.currentLocationChanged(
+                                  place,
+                                  radius / 1000,
+                                ),
+                              );
+                        },
+                        showCircle: true,
+                      ),
+                    );
+                  },
+                  child: Text(
+                    currentLocation!.name,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );
