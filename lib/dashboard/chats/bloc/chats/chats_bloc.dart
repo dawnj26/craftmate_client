@@ -12,9 +12,11 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
   ChatsBloc({
     required ChatRepository chatRepository,
     required int userId,
+    String? listingId,
   })  : _chatRepository = chatRepository,
         super(const Initial()) {
-    _chatsSubscription = _chatRepository.chats(userId).listen((chats) {
+    _chatsSubscription =
+        _chatRepository.chats(userId, listingId: listingId).listen((chats) {
       add(ChatsEvent.chatsReceived(chats));
     });
 
