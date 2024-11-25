@@ -89,7 +89,7 @@ class ChatTile extends StatelessWidget {
       subtitle: Text(messageText),
       onTap: () {
         Navigator.of(context).push(
-          ChatScreen.route(chat.sender),
+          ChatScreen.route(chat.sender, imageUrl: chat.sender.image),
         );
       },
     );
