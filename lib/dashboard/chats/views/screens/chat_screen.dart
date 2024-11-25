@@ -14,20 +14,40 @@ import 'package:mime/mime.dart';
 import 'package:user_repository/user_repository.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key, required this.user, this.listingId});
+  const ChatScreen({
+    super.key,
+    required this.user,
+    this.listingId,
+    this.title,
+    this.imageUrl,
+  });
 
   final User user;
   final String? listingId;
+  final String? title;
+  final String? imageUrl;
 
-  static Route<void> route(User user, {String? listingId}) {
+  static Route<void> route(
+    User user, {
+    String? listingId,
+    String? title,
+    String? imageUrl,
+  }) {
     return PageTransition.effect.slideFromRightToLeft(
-      ChatScreen(user: user, listingId: listingId),
+      ChatScreen(
+        user: user,
+        listingId: listingId,
+        title: title,
+        imageUrl: imageUrl,
+      ),
       false,
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final hasProfileImage = imageUrl != null;
+
     return BlocProvider(
       create: (context) => ChatBloc(
         chatRepository: context.read(),
@@ -40,7 +60,25 @@ class ChatScreen extends StatelessWidget {
         ),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(user.name),
+          title: Row(
+            children: [
+              CircleAvatar(
+                backgroundImage:
+                    hasProfileImage ? NetworkImage(imageUrl!) : null,
+                child:
+                    hasProfileImage ? null : Text(user.name[0].toUpperCase()),
+              ),
+              const SizedBox(
+                width: 12.0,
+              ),
+              Expanded(
+                child: Text(
+                  title ?? user.name,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ),
         body: Messages(user: user),
       ),
