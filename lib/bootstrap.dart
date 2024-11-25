@@ -33,8 +33,6 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   Bloc.observer = const AppBlocObserver();
 
-  WidgetsFlutterBinding.ensureInitialized();
-
   logger = await LogCollector.getInstance();
   prefs = await SharedPreferences.getInstance();
   await dotenv.load();
