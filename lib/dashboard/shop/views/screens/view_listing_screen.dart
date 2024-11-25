@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/bloc/view_listing/view_listing_bloc.dart';
 import 'package:craftmate_client/user_profile/views/user_profile_page.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,7 @@ class ViewListingScreen extends StatelessWidget {
               );
           }
           const dividerHeight = 24.0;
+          final curUser = context.read<AuthBloc>().state.user;
 
           return ListView(
             children: [
@@ -60,18 +62,19 @@ class ViewListingScreen extends StatelessWidget {
                     NameAndPrice(
                       query: state.query,
                     ),
-                    SendMessage(
-                      onSend: () {
-                        context
-                            .read<ViewListingBloc>()
-                            .add(const ViewListingEvent.messageSent());
-                      },
-                      onTextChanged: (text) {
-                        context.read<ViewListingBloc>().add(
-                              ViewListingEvent.messageChanged(text),
-                            );
-                      },
-                    ),
+                    if (curUser.id != state.query.product.sellerId)
+                      SendMessage(
+                        onSend: () {
+                          context
+                              .read<ViewListingBloc>()
+                              .add(const ViewListingEvent.messageSent());
+                        },
+                        onTextChanged: (text) {
+                          context.read<ViewListingBloc>().add(
+                                ViewListingEvent.messageChanged(text),
+                              );
+                        },
+                      ),
                     const Divider(
                       height: dividerHeight,
                     ),

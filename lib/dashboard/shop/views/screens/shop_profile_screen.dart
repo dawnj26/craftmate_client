@@ -1,4 +1,6 @@
 import 'package:craftmate_client/dashboard/shop/views/pages/inbox_page.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/saved_items_page.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/user_listing_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/screens/add_listing_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -213,7 +215,9 @@ class _FourRectButtons extends StatelessWidget {
               child: MenuButton(
                 icon: const Icon(Icons.favorite_outline_rounded),
                 text: 'Saved items',
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, SavedItemsPage.route());
+                },
               ),
             ),
             SizedBox(
@@ -249,7 +253,9 @@ class _FourRectButtons extends StatelessWidget {
               child: MenuButton(
                 icon: const Icon(Icons.folder_outlined),
                 text: 'Your listings',
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, UserListingPage.route());
+                },
               ),
             ),
           ],

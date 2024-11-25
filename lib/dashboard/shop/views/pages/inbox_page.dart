@@ -1,5 +1,8 @@
+import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
+import 'package:craftmate_client/dashboard/shop/bloc/inbox/inbox_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/views/screens/inbox_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class InboxPage extends StatelessWidget {
   const InboxPage({super.key});
@@ -12,6 +15,12 @@ class InboxPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const InboxScreen();
+    return BlocProvider(
+      create: (context) => InboxBloc(
+        context.read(),
+        context.read<AuthBloc>().state.user.id,
+      ),
+      child: const InboxScreen(),
+    );
   }
 }

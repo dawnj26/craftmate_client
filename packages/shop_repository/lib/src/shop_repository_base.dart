@@ -10,6 +10,11 @@ abstract class IShopRepository {
   Future<List<QueryProduct>> fetchListings({
     String? category,
   });
+  Future<List<QueryProduct>> fetchUserListings(
+    int userId, {
+    String? category,
+  });
+  Future<List<QueryProduct>> fetchSavedListings(int userId);
   Future<QueryProduct> fetchListing(String id, int userId);
   Future<void> publishListing(Product product);
   Future<QueryProduct> favoriteListing(String id, int userId);
@@ -215,5 +220,66 @@ class ShopRepository implements IShopRepository {
     // Sort by distance
     // nearbyListings.sort((a, b) => a.distance!.compareTo(b.distance!));
     return nearbyListings;
+  }
+
+  @override
+  Future<List<QueryProduct>> fetchUserListings(int userId,
+      {String? category}) async {
+    try {
+      final productsRef = _config.db.collection(_baseUrl);
+
+      if (category != null) {
+        final filtered = await productsRef
+            .where('category', isEqualTo: category)
+            .where('sellerId', isEqualTo: userId)
+            .get();
+        return filtered.docs.map((e) {
+          return QueryProduct(id: e.id, product: Product.fromJson(e.data()));
+        }).toList();
+      }
+
+      final products =
+          await productsRef.where('sellerId', isEqualTo: userId).get();
+
+      return products.docs.map((e) {
+        return QueryProduct(id: e.id, product: Product.fromJson(e.data()));
+      }).toList();
+    } catch (e) {
+      _config.logger
+          .error('Failed to fetch listings: $e', e, StackTrace.current);
+      throw ShopException('Failed to fetch listings: $e');
+    }
+  }
+
+  @override
+  Future<List<QueryProduct>> fetchSavedListings(int userId) async {
+    try {
+      final userDoc = _config.db.collection('users').doc(userId.toString());
+      final docSnapshot = await userDoc.get();
+
+      if (!docSnapshot.exists) {
+        await userDoc.set({
+          'favoriteListings': [],
+          'createdAt': DateTime.now(),
+        });
+      }
+
+      final favoriteListings = docSnapshot.exists
+          ? (docSnapshot.data()?['favoriteListings'] as List<dynamic>? ?? [])
+          : [];
+
+      final products = await _config.db.collection(_baseUrl).get();
+
+      final savedListings =
+          products.docs.where((e) => favoriteListings.contains(e.id)).map((e) {
+        return QueryProduct(id: e.id, product: Product.fromJson(e.data()));
+      }).toList();
+
+      return savedListings;
+    } catch (e) {
+      _config.logger
+          .error('Failed to fetch saved listings: $e', e, StackTrace.current);
+      throw ShopException('Failed to fetch saved listings: $e');
+    }
   }
 }
