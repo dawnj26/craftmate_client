@@ -1,9 +1,11 @@
 import 'package:chat_repository/src/exceptions/chat_exception.dart';
 import 'package:chat_repository/src/models/chat/chat.dart';
+import 'package:chat_repository/src/models/listing_chat.dart';
 import 'package:chat_repository/src/models/message/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:shop_repository/shop_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 abstract class IChatRepository {
@@ -11,6 +13,7 @@ abstract class IChatRepository {
   Stream<List<Message>> messages(int senderId, int receiverId);
   Future<bool> hasMessages(int senderId, int receiverId);
   Stream<List<Chat>> chats(int userId);
+  Stream<List<ListingChat>> listingChats(int userId);
 }
 
 class ChatRepository implements IChatRepository {
@@ -202,5 +205,53 @@ class ChatRepository implements IChatRepository {
       _config.logger.error('Error checking document existence: $e');
       return false;
     }
+  }
+
+  @override
+  Stream<List<ListingChat>> listingChats(int userId) {
+    return _config.db.collection('shop').snapshots().asyncMap((products) async {
+      final List<ListingChat> allChats = [];
+
+      for (final product in products.docs) {
+        final query = QueryProduct(
+          id: product.id,
+          product: Product.fromJson(product.data()),
+        );
+
+        final chatsSnapshot = await _config.db
+            .collection('shop/${product.id}/chats')
+            .where('userIds', arrayContains: userId)
+            .get();
+
+        final chats = <ListingChat>[];
+
+        for (final doc in chatsSnapshot.docs) {
+          final data = doc.data();
+          final otherUserId = data['userIds'].first == userId
+              ? data['userIds'].last
+              : data['userIds'].first;
+
+          final user = await _userRepository.getUserById(otherUserId);
+
+          final chat = Chat(
+            sender: user,
+            latestMessage: Message.fromJson(data['latestMessage']),
+            readAt: data[userId.toString()] != null
+                ? DateTime.parse(data[userId.toString()])
+                : null,
+          );
+
+          final lChat = ListingChat(
+            product: query,
+            chat: chat,
+          );
+          chats.add(lChat);
+        }
+
+        allChats.addAll(chats);
+      }
+
+      return allChats;
+    });
   }
 }
