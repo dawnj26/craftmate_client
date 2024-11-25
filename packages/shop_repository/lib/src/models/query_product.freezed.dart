@@ -14,11 +14,18 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+QueryProduct _$QueryProductFromJson(Map<String, dynamic> json) {
+  return _QueryProduct.fromJson(json);
+}
+
 /// @nodoc
 mixin _$QueryProduct {
   String get id => throw _privateConstructorUsedError;
   Product get product => throw _privateConstructorUsedError;
   bool get isFavorite => throw _privateConstructorUsedError;
+
+  /// Serializes this QueryProduct to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of QueryProduct
   /// with the given fields replaced by the non-null parameter values.
@@ -133,10 +140,13 @@ class __$$QueryProductImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$QueryProductImpl implements _QueryProduct {
   const _$QueryProductImpl(
       {this.id = '', this.product = const Product(), this.isFavorite = false});
+
+  factory _$QueryProductImpl.fromJson(Map<String, dynamic> json) =>
+      _$$QueryProductImplFromJson(json);
 
   @override
   @JsonKey()
@@ -164,6 +174,7 @@ class _$QueryProductImpl implements _QueryProduct {
                 other.isFavorite == isFavorite));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, product, isFavorite);
 
@@ -174,6 +185,13 @@ class _$QueryProductImpl implements _QueryProduct {
   @pragma('vm:prefer-inline')
   _$$QueryProductImplCopyWith<_$QueryProductImpl> get copyWith =>
       __$$QueryProductImplCopyWithImpl<_$QueryProductImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$QueryProductImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _QueryProduct implements QueryProduct {
@@ -181,6 +199,9 @@ abstract class _QueryProduct implements QueryProduct {
       {final String id,
       final Product product,
       final bool isFavorite}) = _$QueryProductImpl;
+
+  factory _QueryProduct.fromJson(Map<String, dynamic> json) =
+      _$QueryProductImpl.fromJson;
 
   @override
   String get id;
