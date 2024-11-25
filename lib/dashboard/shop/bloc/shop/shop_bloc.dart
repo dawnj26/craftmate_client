@@ -34,7 +34,7 @@ class ShopBloc extends Bloc<ShopEvent, ShopState> {
       );
 
       emit(
-        Loaded(
+        Initialized(
           products: products,
           nearbyProducts: nearbyProducts,
           currentLocation: currentLocation,
