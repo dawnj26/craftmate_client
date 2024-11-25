@@ -1,6 +1,7 @@
 import 'package:craftmate_client/dashboard/shop/bloc/shop/shop_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/add_address_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/add_listing_page.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/categories_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/shop_profile_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/view_listing_page.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
@@ -270,7 +271,9 @@ class ShopBottom extends StatelessWidget implements PreferredSizeWidget {
             const SizedBox(width: 8),
             Expanded(
               child: OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(CategoriesPage.route());
+                },
                 label: const Text('Categories'),
                 icon: const Icon(Icons.category),
               ),
