@@ -10,6 +10,7 @@ import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/settings/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:map_repository/map_repository.dart';
@@ -35,10 +36,13 @@ class _MyAppState extends State<MyApp> {
   late final ChatRepository _chatRepository;
   late final ShopRepository _shopRepository;
   late final MapRepository _mapRepository;
+  late final Brightness _brightness;
 
   @override
   void initState() {
     // initialize repositories
+    _brightness =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
     config = ConfigRepository(
       apiUrl: dotenv.get('API_URL'),
       logger: logger,
@@ -90,7 +94,11 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(
             create: (context) => SettingsBloc(
               appTheme: const AppTheme(),
-            ),
+            )..add(
+                SettingsEvent.started(
+                  _brightness,
+                ),
+              ),
           ),
         ],
         child: const AppView(),

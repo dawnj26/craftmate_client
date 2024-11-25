@@ -29,6 +29,7 @@ mixin _$User {
   bool get isFollowing => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this User to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -53,7 +54,8 @@ abstract class $UserCopyWith<$Res> {
       int projectCount,
       bool isFollowing,
       String? image,
-      String? bio});
+      String? bio,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -80,6 +82,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? isFollowing = null,
     Object? image = freezed,
     Object? bio = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -118,6 +121,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
               as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -138,7 +145,8 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       int projectCount,
       bool isFollowing,
       String? image,
-      String? bio});
+      String? bio,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -162,6 +170,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? isFollowing = null,
     Object? image = freezed,
     Object? bio = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_$UserImpl(
       id: null == id
@@ -200,6 +209,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
               as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -216,7 +229,8 @@ class _$UserImpl implements _User {
       this.projectCount = 0,
       this.isFollowing = false,
       this.image,
-      this.bio});
+      this.bio,
+      this.createdAt});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -246,10 +260,12 @@ class _$UserImpl implements _User {
   final String? image;
   @override
   final String? bio;
+  @override
+  final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, followerCount: $followerCount, followingCount: $followingCount, projectCount: $projectCount, isFollowing: $isFollowing, image: $image, bio: $bio)';
+    return 'User(id: $id, name: $name, email: $email, followerCount: $followerCount, followingCount: $followingCount, projectCount: $projectCount, isFollowing: $isFollowing, image: $image, bio: $bio, createdAt: $createdAt)';
   }
 
   @override
@@ -269,13 +285,15 @@ class _$UserImpl implements _User {
             (identical(other.isFollowing, isFollowing) ||
                 other.isFollowing == isFollowing) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.bio, bio) || other.bio == bio));
+            (identical(other.bio, bio) || other.bio == bio) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, email, followerCount,
-      followingCount, projectCount, isFollowing, image, bio);
+      followingCount, projectCount, isFollowing, image, bio, createdAt);
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -303,7 +321,8 @@ abstract class _User implements User {
       final int projectCount,
       final bool isFollowing,
       final String? image,
-      final String? bio}) = _$UserImpl;
+      final String? bio,
+      final DateTime? createdAt}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -325,6 +344,8 @@ abstract class _User implements User {
   String? get image;
   @override
   String? get bio;
+  @override
+  DateTime? get createdAt;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.

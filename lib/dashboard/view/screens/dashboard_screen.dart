@@ -28,7 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       const HomePage(),
       const ShopPage(),
       const SearchPage(),
-      const ChatPage(),
+      const ChatsPage(),
       const ProfilePage(),
     ];
     super.initState();

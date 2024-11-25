@@ -1,4 +1,4 @@
-import 'package:craftmate_client/dashboard/shop/bloc/add_listing_bloc.dart';
+import 'package:craftmate_client/dashboard/shop/bloc/add_listing/add_listing_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/views/screens/add_listing_screen.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:flutter/material.dart';

@@ -745,7 +745,7 @@ $Res call({
 });
 
 
-
+$UserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -756,14 +756,23 @@ class __$$PublishedImplCopyWithImpl<$Res> extends _$AddListingEventCopyWithImpl<
 
 /// Create a copy of AddListingEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? user = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? user = null,}) {
   return _then(_$PublishedImpl(
-freezed == user ? _value.user : user // ignore: cast_nullable_to_non_nullable
+null == user ? _value.user : user // ignore: cast_nullable_to_non_nullable
 as User,
   ));
 }
 
-
+/// Create a copy of AddListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res> get user {
+  
+  return $UserCopyWith<$Res>(_value.user, (value) {
+    return _then(_value.copyWith(user: value) );
+  });
+}
 }
 
 /// @nodoc
@@ -784,12 +793,12 @@ String toString() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$PublishedImpl&&const DeepCollectionEquality().equals(other.user, user));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$PublishedImpl&&(identical(other.user, user) || other.user == user));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(user));
+int get hashCode => Object.hash(runtimeType,user);
 
 /// Create a copy of AddListingEvent
 /// with the given fields replaced by the non-null parameter values.

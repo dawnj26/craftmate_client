@@ -16,6 +16,9 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       isFollowing: json['isFollowing'] as bool? ?? false,
       image: json['image'] as String?,
       bio: json['bio'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
@@ -29,4 +32,5 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'isFollowing': instance.isFollowing,
       'image': instance.image,
       'bio': instance.bio,
+      'createdAt': instance.createdAt?.toIso8601String(),
     };

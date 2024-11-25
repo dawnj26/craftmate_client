@@ -15,6 +15,7 @@ class User with _$User {
     @Default(false) bool isFollowing,
     String? image,
     String? bio,
+    DateTime? createdAt,
   }) = _User;
 
   factory User.fromJson(Map<String, Object?> json) => _$UserFromJson(json);

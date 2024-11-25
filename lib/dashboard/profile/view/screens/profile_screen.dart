@@ -53,7 +53,10 @@ class ProfileScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                         color: theme.colorScheme.surfaceContainer,
                       ),
-                      padding: const EdgeInsets.all(24),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 24,
+                      ),
                       child: Column(
                         children: [
                           Row(
