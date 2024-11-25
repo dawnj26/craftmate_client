@@ -6,7 +6,7 @@ part 'shop_activity_state.dart';
 part 'shop_activity_bloc.freezed.dart';
 
 class ShopActivityBloc extends Bloc<ShopActivityEvent, ShopActivityState> {
-  ShopActivityBloc() : super(_Initial()) {
+  ShopActivityBloc() : super(const _Initial()) {
     on<ShopActivityEvent>((event, emit) {
       // TODO: implement event handler
     });
