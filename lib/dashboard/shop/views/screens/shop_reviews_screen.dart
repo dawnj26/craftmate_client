@@ -26,18 +26,20 @@ class ShopReviewsScreen extends StatelessWidget {
           }
 
           final ratingCount = state.reviews.length;
-          final rating = state.reviews.fold(
-                0,
-                (previousValue, element) =>
-                    previousValue + element.review.rating,
-              ) /
-              ratingCount;
+          final rating = ratingCount == 0
+              ? 0.0
+              : state.reviews.fold(
+                    0,
+                    (previousValue, element) =>
+                        previousValue + element.review.rating,
+                  ) /
+                  ratingCount;
           // percentage of each rating
           final ratings = List.generate(5, (index) {
             final rating = state.reviews.where(
               (element) => element.review.rating == index + 1,
             );
-            return rating.length / ratingCount;
+            return ratingCount == 0 ? 0.0 : rating.length / ratingCount;
           });
 
           // count of each rating
@@ -107,6 +109,7 @@ class SellerReview extends StatelessWidget {
       children: [
         Reviewer(
           user: qReview.user,
+          date: qReview.review.createdAt ?? DateTime.now(),
         ),
         const SizedBox(height: 8),
         RatingBar.builder(
@@ -163,9 +166,10 @@ class _LikeReviewButton extends StatelessWidget {
 }
 
 class Reviewer extends StatelessWidget {
-  const Reviewer({super.key, required this.user});
+  const Reviewer({super.key, required this.user, required this.date});
 
   final User user;
+  final DateTime date;
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +192,7 @@ class Reviewer extends StatelessWidget {
               style: theme.textTheme.labelLarge,
             ),
             Text(
-              _formatDate(DateTime.now()),
+              _formatDate(date),
               style: theme.textTheme.bodyMedium,
             ),
           ],
