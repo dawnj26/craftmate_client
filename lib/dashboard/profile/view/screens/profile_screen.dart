@@ -121,7 +121,7 @@ class UserProfile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ProfileCounter(
-              count: user.followerCount,
+              count: user.followingCount,
               label: 'Following',
             ),
             ProfileCounter(
