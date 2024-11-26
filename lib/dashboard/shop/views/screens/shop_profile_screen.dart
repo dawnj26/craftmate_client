@@ -1,5 +1,6 @@
 import 'package:craftmate_client/dashboard/shop/views/pages/inbox_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/saved_items_page.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/shop_reviews_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/user_listing_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/screens/add_listing_screen.dart';
 import 'package:flutter/material.dart';
@@ -243,7 +244,9 @@ class _FourRectButtons extends StatelessWidget {
               child: MenuButton(
                 icon: const Icon(Icons.star_border_rounded),
                 text: 'Reviews',
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, ShopReviewsPage.route());
+                },
               ),
             ),
             SizedBox(
