@@ -1,10 +1,10 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
-import 'package:shop_repository/src/exceptions/shop_exception.dart';
-import 'package:shop_repository/src/models/product.dart';
-import 'package:shop_repository/src/models/query_product.dart';
+import 'package:shop_repository/shop_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 abstract class IShopRepository {
   Future<List<QueryProduct>> fetchListings({
@@ -15,7 +15,7 @@ abstract class IShopRepository {
     String? category,
   });
   Future<List<QueryProduct>> fetchSavedListings(int userId);
-  Future<QueryProduct> fetchListing(String id, int userId);
+  Future<QueryProduct> fetchListing(String id, [int? userId]);
   Future<void> publishListing(Product product);
   Future<QueryProduct> favoriteListing(String id, int userId);
   List<QueryProduct> getNearbyListings(
@@ -24,13 +24,18 @@ abstract class IShopRepository {
     double userLong,
     double radiusInKm,
   );
+  Future<void> publishReview(int sellerId, Review review);
+  Future<bool> isAlreadyReviewed(int sellerId, int userId);
+  Future<List<QueryReview>> fetchReviews(int sellerId);
+  Future<void> viewListing(String id, int userId);
 }
 
 class ShopRepository implements IShopRepository {
   final ConfigRepository _config;
+  final UserRepository _userRepository;
   final String _baseUrl = '/shop';
 
-  const ShopRepository(this._config);
+  const ShopRepository(this._config, this._userRepository);
 
   Future<bool> _isFavorite(String id, int userId) async {
     final userDoc = _config.db.collection('users').doc(userId.toString());
@@ -115,11 +120,11 @@ class ShopRepository implements IShopRepository {
   }
 
   @override
-  Future<QueryProduct> fetchListing(String id, int userId) async {
+  Future<QueryProduct> fetchListing(String id, [int? userId]) async {
     try {
       final product = await _config.db.collection(_baseUrl).doc(id).get();
       final data = product.data();
-      final isFavorite = await _isFavorite(id, userId);
+      final isFavorite = userId == null ? false : await _isFavorite(id, userId);
 
       if (data == null) {
         throw ShopException('No data found');
@@ -280,6 +285,75 @@ class ShopRepository implements IShopRepository {
       _config.logger
           .error('Failed to fetch saved listings: $e', e, StackTrace.current);
       throw ShopException('Failed to fetch saved listings: $e');
+    }
+  }
+
+  @override
+  Future<void> publishReview(int sellerId, Review review) async {
+    try {
+      await _config.db
+          .collection('users/$sellerId/reviews')
+          .add(review.toJson());
+    } catch (e) {
+      _config.logger
+          .error('Failed to publish review: $e', e, StackTrace.current);
+      throw ShopException('Failed to publish review: $e');
+    }
+  }
+
+  @override
+  Future<bool> isAlreadyReviewed(int sellerId, int userId) async {
+    try {
+      final reviews =
+          await _config.db.collection('users/$sellerId/reviews').get();
+      final isAlreadyReviewed =
+          reviews.docs.any((e) => e.data()['userId'] == userId);
+      return isAlreadyReviewed;
+    } catch (e) {
+      _config.logger.error(
+          'Failed to check if already reviewed: $e', e, StackTrace.current);
+      throw ShopException('Failed to check if already reviewed: $e');
+    }
+  }
+
+  @override
+  Future<List<QueryReview>> fetchReviews(int sellerId) async {
+    try {
+      final reviews =
+          await _config.db.collection('users/$sellerId/reviews').get();
+      final q = <QueryReview>[];
+
+      for (final review in reviews.docs) {
+        final data = review.data();
+        final user = await _userRepository.getUserById(data['userId']);
+        final queryReview = QueryReview(
+          id: review.id,
+          user: user,
+          review: Review.fromJson(data),
+        );
+        q.add(queryReview);
+      }
+
+      return q;
+    } catch (e) {
+      _config.logger
+          .error('Failed to fetch reviews: $e', e, StackTrace.current);
+      throw ShopException('Failed to fetch reviews: $e');
+    }
+  }
+
+  @override
+  Future<void> viewListing(String id, int userId) async {
+    try {
+      await _config.db
+          .collection('$_baseUrl/$id/views')
+          .doc(userId.toString())
+          .set({
+        'viewedAt': DateTime.now(),
+      }, SetOptions(merge: true));
+    } catch (e) {
+      _config.logger.error('Failed to view listing: $e', e, StackTrace.current);
+      throw ShopException('Failed to view listing: $e');
     }
   }
 }
