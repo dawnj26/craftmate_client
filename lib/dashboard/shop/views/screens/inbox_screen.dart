@@ -10,6 +10,7 @@ class InboxScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final curUser = context.read<AuthBloc>().state.user;
+    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -28,6 +29,7 @@ class InboxScreen extends StatelessWidget {
             itemCount: state.listingChats.length,
             itemBuilder: (context, index) {
               final listingChat = state.listingChats[index];
+              final isRead = listingChat.chat.readAt != null;
               final ownedByCurUser =
                   listingChat.product.product.sellerId == curUser.id;
 
@@ -44,6 +46,16 @@ class InboxScreen extends StatelessWidget {
                   chatTitle,
                 ),
                 subtitle: Text(listingChat.chat.latestMessage.message),
+                titleTextStyle: isRead
+                    ? null
+                    : theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                subtitleTextStyle: isRead
+                    ? null
+                    : theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
                 onTap: () {
                   Navigator.of(context).push(
                     ChatScreen.route(
