@@ -1,3 +1,4 @@
+import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/chats/views/screens/chat_screen.dart';
 import 'package:craftmate_client/dashboard/shop/bloc/inbox/inbox_bloc.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ class InboxScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final curUser = context.read<AuthBloc>().state.user;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Inbox'),
@@ -25,6 +28,11 @@ class InboxScreen extends StatelessWidget {
             itemCount: state.listingChats.length,
             itemBuilder: (context, index) {
               final listingChat = state.listingChats[index];
+              final ownedByCurUser =
+                  listingChat.product.product.sellerId == curUser.id;
+
+              final chatTitle =
+                  '${ownedByCurUser ? listingChat.chat.sender.name : curUser.name} - ${listingChat.product.product.name}';
 
               return ListTile(
                 leading: CircleAvatar(
@@ -33,7 +41,7 @@ class InboxScreen extends StatelessWidget {
                   ),
                 ),
                 title: Text(
-                  '${listingChat.chat.sender.name} - ${listingChat.product.product.name}',
+                  chatTitle,
                 ),
                 subtitle: Text(listingChat.chat.latestMessage.message),
                 onTap: () {
@@ -41,9 +49,9 @@ class InboxScreen extends StatelessWidget {
                     ChatScreen.route(
                       listingChat.chat.sender,
                       listingId: listingChat.product.id,
-                      title:
-                          '${listingChat.chat.sender.name} - ${listingChat.product.product.name}',
+                      title: chatTitle,
                       imageUrl: listingChat.product.product.imageUrls.first,
+                      sellerId: listingChat.product.product.sellerId,
                     ),
                   );
                 },
