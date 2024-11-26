@@ -55,9 +55,13 @@ class _$AddListingEventCopyWithImpl<$Res,$Val extends AddListingEvent> implement
 /// @nodoc
 abstract class _$$StartedImplCopyWith<$Res>  {
   factory _$$StartedImplCopyWith(_$StartedImpl value, $Res Function(_$StartedImpl) then) = __$$StartedImplCopyWithImpl<$Res>;
+@useResult
+$Res call({
+ Project? project
+});
 
 
-
+$ProjectCopyWith<$Res>? get project;
 }
 
 /// @nodoc
@@ -68,36 +72,59 @@ class __$$StartedImplCopyWithImpl<$Res> extends _$AddListingEventCopyWithImpl<$R
 
 /// Create a copy of AddListingEvent
 /// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? project = freezed,}) {
+  return _then(_$StartedImpl(
+freezed == project ? _value.project : project // ignore: cast_nullable_to_non_nullable
+as Project?,
+  ));
+}
 
+/// Create a copy of AddListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ProjectCopyWith<$Res>? get project {
+    if (_value.project == null) {
+    return null;
+  }
 
-
+  return $ProjectCopyWith<$Res>(_value.project!, (value) {
+    return _then(_value.copyWith(project: value) );
+  });
+}
 }
 
 /// @nodoc
 
 
 class _$StartedImpl  implements _Started {
-  const _$StartedImpl();
+  const _$StartedImpl(this.project);
 
   
 
-
+@override final  Project? project;
 
 @override
 String toString() {
-  return 'AddListingEvent.started()';
+  return 'AddListingEvent.started(project: $project)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$StartedImpl);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$StartedImpl&&(identical(other.project, project) || other.project == project));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,project);
 
+/// Create a copy of AddListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$StartedImplCopyWith<_$StartedImpl> get copyWith => __$$StartedImplCopyWithImpl<_$StartedImpl>(this, _$identity);
 
 
 
@@ -110,12 +137,16 @@ int get hashCode => runtimeType.hashCode;
 
 
 abstract class _Started implements AddListingEvent {
-  const factory _Started() = _$StartedImpl;
+  const factory _Started(final  Project? project) = _$StartedImpl;
   
 
   
 
-
+ Project? get project;
+/// Create a copy of AddListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+_$$StartedImplCopyWith<_$StartedImpl> get copyWith => throw _privateConstructorUsedError;
 
 }
 
@@ -737,6 +768,92 @@ _$$ImageRemovedImplCopyWith<_$ImageRemovedImpl> get copyWith => throw _privateCo
 }
 
 /// @nodoc
+abstract class _$$NetworkImageRemovedImplCopyWith<$Res>  {
+  factory _$$NetworkImageRemovedImplCopyWith(_$NetworkImageRemovedImpl value, $Res Function(_$NetworkImageRemovedImpl) then) = __$$NetworkImageRemovedImplCopyWithImpl<$Res>;
+@useResult
+$Res call({
+ int index
+});
+
+
+
+}
+
+/// @nodoc
+class __$$NetworkImageRemovedImplCopyWithImpl<$Res> extends _$AddListingEventCopyWithImpl<$Res, _$NetworkImageRemovedImpl> implements _$$NetworkImageRemovedImplCopyWith<$Res> {
+  __$$NetworkImageRemovedImplCopyWithImpl(_$NetworkImageRemovedImpl _value, $Res Function(_$NetworkImageRemovedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of AddListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? index = null,}) {
+  return _then(_$NetworkImageRemovedImpl(
+null == index ? _value.index : index // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$NetworkImageRemovedImpl  implements _NetworkImageRemoved {
+  const _$NetworkImageRemovedImpl(this.index);
+
+  
+
+@override final  int index;
+
+@override
+String toString() {
+  return 'AddListingEvent.networkImageRemoved(index: $index)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$NetworkImageRemovedImpl&&(identical(other.index, index) || other.index == index));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,index);
+
+/// Create a copy of AddListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$NetworkImageRemovedImplCopyWith<_$NetworkImageRemovedImpl> get copyWith => __$$NetworkImageRemovedImplCopyWithImpl<_$NetworkImageRemovedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _NetworkImageRemoved implements AddListingEvent {
+  const factory _NetworkImageRemoved(final  int index) = _$NetworkImageRemovedImpl;
+  
+
+  
+
+ int get index;
+/// Create a copy of AddListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+_$$NetworkImageRemovedImplCopyWith<_$NetworkImageRemovedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
 abstract class _$$PublishedImplCopyWith<$Res>  {
   factory _$$PublishedImplCopyWith(_$PublishedImpl value, $Res Function(_$PublishedImpl) then) = __$$PublishedImplCopyWithImpl<$Res>;
 @useResult
@@ -834,7 +951,7 @@ _$$PublishedImplCopyWith<_$PublishedImpl> get copyWith => throw _privateConstruc
 /// @nodoc
 mixin _$AddListingState {
 
- ListingTitle get title => throw _privateConstructorUsedError; ListingPrice get price => throw _privateConstructorUsedError; String get description => throw _privateConstructorUsedError; ListingCategory get category => throw _privateConstructorUsedError; List<String> get images => throw _privateConstructorUsedError; List<ProjectCategory> get categories => throw _privateConstructorUsedError; Place? get place => throw _privateConstructorUsedError;
+ ListingTitle get title => throw _privateConstructorUsedError; ListingPrice get price => throw _privateConstructorUsedError; String get description => throw _privateConstructorUsedError; ListingCategory get category => throw _privateConstructorUsedError; List<String> get images => throw _privateConstructorUsedError; List<String> get networkImages => throw _privateConstructorUsedError; List<ProjectCategory> get categories => throw _privateConstructorUsedError; Place? get place => throw _privateConstructorUsedError;
 
 
 
@@ -854,7 +971,7 @@ abstract class $AddListingStateCopyWith<$Res>  {
   factory $AddListingStateCopyWith(AddListingState value, $Res Function(AddListingState) then) = _$AddListingStateCopyWithImpl<$Res, AddListingState>;
 @useResult
 $Res call({
- ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<ProjectCategory> categories, Place? place
+ ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<String> networkImages, List<ProjectCategory> categories, Place? place
 });
 
 
@@ -872,13 +989,14 @@ class _$AddListingStateCopyWithImpl<$Res,$Val extends AddListingState> implement
 
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? categories = null,Object? place = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? networkImages = null,Object? categories = null,Object? place = freezed,}) {
   return _then(_value.copyWith(
 title: null == title ? _value.title : title // ignore: cast_nullable_to_non_nullable
 as ListingTitle,price: null == price ? _value.price : price // ignore: cast_nullable_to_non_nullable
 as ListingPrice,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _value.category : category // ignore: cast_nullable_to_non_nullable
 as ListingCategory,images: null == images ? _value.images : images // ignore: cast_nullable_to_non_nullable
+as List<String>,networkImages: null == networkImages ? _value.networkImages : networkImages // ignore: cast_nullable_to_non_nullable
 as List<String>,categories: null == categories ? _value.categories : categories // ignore: cast_nullable_to_non_nullable
 as List<ProjectCategory>,place: freezed == place ? _value.place : place // ignore: cast_nullable_to_non_nullable
 as Place?,
@@ -905,7 +1023,7 @@ abstract class _$$InitialImplCopyWith<$Res> implements $AddListingStateCopyWith<
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<ProjectCategory> categories, Place? place
+ ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<String> networkImages, List<ProjectCategory> categories, Place? place
 });
 
 
@@ -920,13 +1038,14 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$AddListingStateCopyWithImpl<$R
 
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? categories = null,Object? place = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? networkImages = null,Object? categories = null,Object? place = freezed,}) {
   return _then(_$InitialImpl(
 title: null == title ? _value.title : title // ignore: cast_nullable_to_non_nullable
 as ListingTitle,price: null == price ? _value.price : price // ignore: cast_nullable_to_non_nullable
 as ListingPrice,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _value.category : category // ignore: cast_nullable_to_non_nullable
 as ListingCategory,images: null == images ? _value._images : images // ignore: cast_nullable_to_non_nullable
+as List<String>,networkImages: null == networkImages ? _value._networkImages : networkImages // ignore: cast_nullable_to_non_nullable
 as List<String>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
 as List<ProjectCategory>,place: freezed == place ? _value.place : place // ignore: cast_nullable_to_non_nullable
 as Place?,
@@ -940,7 +1059,7 @@ as Place?,
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl({this.title = const ListingTitle.pure(), this.price = const ListingPrice.pure(), this.description = '', this.category = const ListingCategory.pure(), final  List<String> images = const [], final  List<ProjectCategory> categories = const [], this.place}): _images = images,_categories = categories;
+  const _$InitialImpl({this.title = const ListingTitle.pure(), this.price = const ListingPrice.pure(), this.description = '', this.category = const ListingCategory.pure(''), final  List<String> images = const [], final  List<String> networkImages = const [], final  List<ProjectCategory> categories = const [], this.place}): _images = images,_networkImages = networkImages,_categories = categories;
 
   
 
@@ -955,6 +1074,13 @@ class _$InitialImpl  implements Initial {
   return EqualUnmodifiableListView(_images);
 }
 
+ final  List<String> _networkImages;
+@override@JsonKey() List<String> get networkImages {
+  if (_networkImages is EqualUnmodifiableListView) return _networkImages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_networkImages);
+}
+
  final  List<ProjectCategory> _categories;
 @override@JsonKey() List<ProjectCategory> get categories {
   if (_categories is EqualUnmodifiableListView) return _categories;
@@ -966,18 +1092,18 @@ class _$InitialImpl  implements Initial {
 
 @override
 String toString() {
-  return 'AddListingState.initial(title: $title, price: $price, description: $description, category: $category, images: $images, categories: $categories, place: $place)';
+  return 'AddListingState.initial(title: $title, price: $price, description: $description, category: $category, images: $images, networkImages: $networkImages, categories: $categories, place: $place)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.place, place) || other.place == place));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._networkImages, _networkImages)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.place, place) || other.place == place));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,price,description,category,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_categories),place);
+int get hashCode => Object.hash(runtimeType,title,price,description,category,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_networkImages),const DeepCollectionEquality().hash(_categories),place);
 
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -997,12 +1123,12 @@ _$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImp
 
 
 abstract class Initial implements AddListingState {
-  const factory Initial({final  ListingTitle title, final  ListingPrice price, final  String description, final  ListingCategory category, final  List<String> images, final  List<ProjectCategory> categories, final  Place? place}) = _$InitialImpl;
+  const factory Initial({final  ListingTitle title, final  ListingPrice price, final  String description, final  ListingCategory category, final  List<String> images, final  List<String> networkImages, final  List<ProjectCategory> categories, final  Place? place}) = _$InitialImpl;
   
 
   
 
-@override ListingTitle get title;@override ListingPrice get price;@override String get description;@override ListingCategory get category;@override List<String> get images;@override List<ProjectCategory> get categories;@override Place? get place;
+@override ListingTitle get title;@override ListingPrice get price;@override String get description;@override ListingCategory get category;@override List<String> get images;@override List<String> get networkImages;@override List<ProjectCategory> get categories;@override Place? get place;
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1015,7 +1141,7 @@ abstract class _$$LoadingImplCopyWith<$Res> implements $AddListingStateCopyWith<
   factory _$$LoadingImplCopyWith(_$LoadingImpl value, $Res Function(_$LoadingImpl) then) = __$$LoadingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<ProjectCategory> categories, Place? place
+ ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<String> networkImages, List<ProjectCategory> categories, Place? place
 });
 
 
@@ -1030,13 +1156,14 @@ class __$$LoadingImplCopyWithImpl<$Res> extends _$AddListingStateCopyWithImpl<$R
 
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? categories = null,Object? place = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? networkImages = null,Object? categories = null,Object? place = freezed,}) {
   return _then(_$LoadingImpl(
 title: null == title ? _value.title : title // ignore: cast_nullable_to_non_nullable
 as ListingTitle,price: null == price ? _value.price : price // ignore: cast_nullable_to_non_nullable
 as ListingPrice,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _value.category : category // ignore: cast_nullable_to_non_nullable
 as ListingCategory,images: null == images ? _value._images : images // ignore: cast_nullable_to_non_nullable
+as List<String>,networkImages: null == networkImages ? _value._networkImages : networkImages // ignore: cast_nullable_to_non_nullable
 as List<String>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
 as List<ProjectCategory>,place: freezed == place ? _value.place : place // ignore: cast_nullable_to_non_nullable
 as Place?,
@@ -1050,7 +1177,7 @@ as Place?,
 
 
 class _$LoadingImpl  implements Loading {
-  const _$LoadingImpl({this.title = const ListingTitle.pure(), this.price = const ListingPrice.pure(), this.description = '', this.category = const ListingCategory.pure(), final  List<String> images = const [], final  List<ProjectCategory> categories = const [], this.place}): _images = images,_categories = categories;
+  const _$LoadingImpl({this.title = const ListingTitle.pure(), this.price = const ListingPrice.pure(), this.description = '', this.category = const ListingCategory.pure(''), final  List<String> images = const [], final  List<String> networkImages = const [], final  List<ProjectCategory> categories = const [], this.place}): _images = images,_networkImages = networkImages,_categories = categories;
 
   
 
@@ -1065,6 +1192,13 @@ class _$LoadingImpl  implements Loading {
   return EqualUnmodifiableListView(_images);
 }
 
+ final  List<String> _networkImages;
+@override@JsonKey() List<String> get networkImages {
+  if (_networkImages is EqualUnmodifiableListView) return _networkImages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_networkImages);
+}
+
  final  List<ProjectCategory> _categories;
 @override@JsonKey() List<ProjectCategory> get categories {
   if (_categories is EqualUnmodifiableListView) return _categories;
@@ -1076,18 +1210,18 @@ class _$LoadingImpl  implements Loading {
 
 @override
 String toString() {
-  return 'AddListingState.loading(title: $title, price: $price, description: $description, category: $category, images: $images, categories: $categories, place: $place)';
+  return 'AddListingState.loading(title: $title, price: $price, description: $description, category: $category, images: $images, networkImages: $networkImages, categories: $categories, place: $place)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.place, place) || other.place == place));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._networkImages, _networkImages)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.place, place) || other.place == place));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,price,description,category,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_categories),place);
+int get hashCode => Object.hash(runtimeType,title,price,description,category,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_networkImages),const DeepCollectionEquality().hash(_categories),place);
 
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -1107,12 +1241,12 @@ _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => __$$LoadingImplCopyWithImp
 
 
 abstract class Loading implements AddListingState {
-  const factory Loading({final  ListingTitle title, final  ListingPrice price, final  String description, final  ListingCategory category, final  List<String> images, final  List<ProjectCategory> categories, final  Place? place}) = _$LoadingImpl;
+  const factory Loading({final  ListingTitle title, final  ListingPrice price, final  String description, final  ListingCategory category, final  List<String> images, final  List<String> networkImages, final  List<ProjectCategory> categories, final  Place? place}) = _$LoadingImpl;
   
 
   
 
-@override ListingTitle get title;@override ListingPrice get price;@override String get description;@override ListingCategory get category;@override List<String> get images;@override List<ProjectCategory> get categories;@override Place? get place;
+@override ListingTitle get title;@override ListingPrice get price;@override String get description;@override ListingCategory get category;@override List<String> get images;@override List<String> get networkImages;@override List<ProjectCategory> get categories;@override Place? get place;
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1125,7 +1259,7 @@ abstract class _$$LoadedImplCopyWith<$Res> implements $AddListingStateCopyWith<$
   factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<ProjectCategory> categories, Place? place
+ ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<String> networkImages, List<ProjectCategory> categories, Place? place
 });
 
 
@@ -1140,13 +1274,14 @@ class __$$LoadedImplCopyWithImpl<$Res> extends _$AddListingStateCopyWithImpl<$Re
 
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? categories = null,Object? place = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? networkImages = null,Object? categories = null,Object? place = freezed,}) {
   return _then(_$LoadedImpl(
 title: null == title ? _value.title : title // ignore: cast_nullable_to_non_nullable
 as ListingTitle,price: null == price ? _value.price : price // ignore: cast_nullable_to_non_nullable
 as ListingPrice,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _value.category : category // ignore: cast_nullable_to_non_nullable
 as ListingCategory,images: null == images ? _value._images : images // ignore: cast_nullable_to_non_nullable
+as List<String>,networkImages: null == networkImages ? _value._networkImages : networkImages // ignore: cast_nullable_to_non_nullable
 as List<String>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
 as List<ProjectCategory>,place: freezed == place ? _value.place : place // ignore: cast_nullable_to_non_nullable
 as Place?,
@@ -1160,7 +1295,7 @@ as Place?,
 
 
 class _$LoadedImpl  implements Loaded {
-  const _$LoadedImpl({this.title = const ListingTitle.pure(), this.price = const ListingPrice.pure(), this.description = '', this.category = const ListingCategory.pure(), final  List<String> images = const [], final  List<ProjectCategory> categories = const [], this.place}): _images = images,_categories = categories;
+  const _$LoadedImpl({this.title = const ListingTitle.pure(), this.price = const ListingPrice.pure(), this.description = '', this.category = const ListingCategory.pure(''), final  List<String> images = const [], final  List<String> networkImages = const [], final  List<ProjectCategory> categories = const [], this.place}): _images = images,_networkImages = networkImages,_categories = categories;
 
   
 
@@ -1175,6 +1310,13 @@ class _$LoadedImpl  implements Loaded {
   return EqualUnmodifiableListView(_images);
 }
 
+ final  List<String> _networkImages;
+@override@JsonKey() List<String> get networkImages {
+  if (_networkImages is EqualUnmodifiableListView) return _networkImages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_networkImages);
+}
+
  final  List<ProjectCategory> _categories;
 @override@JsonKey() List<ProjectCategory> get categories {
   if (_categories is EqualUnmodifiableListView) return _categories;
@@ -1186,18 +1328,18 @@ class _$LoadedImpl  implements Loaded {
 
 @override
 String toString() {
-  return 'AddListingState.loaded(title: $title, price: $price, description: $description, category: $category, images: $images, categories: $categories, place: $place)';
+  return 'AddListingState.loaded(title: $title, price: $price, description: $description, category: $category, images: $images, networkImages: $networkImages, categories: $categories, place: $place)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.place, place) || other.place == place));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._networkImages, _networkImages)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.place, place) || other.place == place));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,price,description,category,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_categories),place);
+int get hashCode => Object.hash(runtimeType,title,price,description,category,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_networkImages),const DeepCollectionEquality().hash(_categories),place);
 
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -1217,12 +1359,12 @@ _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_
 
 
 abstract class Loaded implements AddListingState {
-  const factory Loaded({final  ListingTitle title, final  ListingPrice price, final  String description, final  ListingCategory category, final  List<String> images, final  List<ProjectCategory> categories, final  Place? place}) = _$LoadedImpl;
+  const factory Loaded({final  ListingTitle title, final  ListingPrice price, final  String description, final  ListingCategory category, final  List<String> images, final  List<String> networkImages, final  List<ProjectCategory> categories, final  Place? place}) = _$LoadedImpl;
   
 
   
 
-@override ListingTitle get title;@override ListingPrice get price;@override String get description;@override ListingCategory get category;@override List<String> get images;@override List<ProjectCategory> get categories;@override Place? get place;
+@override ListingTitle get title;@override ListingPrice get price;@override String get description;@override ListingCategory get category;@override List<String> get images;@override List<String> get networkImages;@override List<ProjectCategory> get categories;@override Place? get place;
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1235,7 +1377,7 @@ abstract class _$$PublishingImplCopyWith<$Res> implements $AddListingStateCopyWi
   factory _$$PublishingImplCopyWith(_$PublishingImpl value, $Res Function(_$PublishingImpl) then) = __$$PublishingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<ProjectCategory> categories, Place? place
+ ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<String> networkImages, List<ProjectCategory> categories, Place? place
 });
 
 
@@ -1250,13 +1392,14 @@ class __$$PublishingImplCopyWithImpl<$Res> extends _$AddListingStateCopyWithImpl
 
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? categories = null,Object? place = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? networkImages = null,Object? categories = null,Object? place = freezed,}) {
   return _then(_$PublishingImpl(
 title: null == title ? _value.title : title // ignore: cast_nullable_to_non_nullable
 as ListingTitle,price: null == price ? _value.price : price // ignore: cast_nullable_to_non_nullable
 as ListingPrice,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _value.category : category // ignore: cast_nullable_to_non_nullable
 as ListingCategory,images: null == images ? _value._images : images // ignore: cast_nullable_to_non_nullable
+as List<String>,networkImages: null == networkImages ? _value._networkImages : networkImages // ignore: cast_nullable_to_non_nullable
 as List<String>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
 as List<ProjectCategory>,place: freezed == place ? _value.place : place // ignore: cast_nullable_to_non_nullable
 as Place?,
@@ -1270,7 +1413,7 @@ as Place?,
 
 
 class _$PublishingImpl  implements Publishing {
-  const _$PublishingImpl({this.title = const ListingTitle.pure(), this.price = const ListingPrice.pure(), this.description = '', this.category = const ListingCategory.pure(), final  List<String> images = const [], final  List<ProjectCategory> categories = const [], this.place}): _images = images,_categories = categories;
+  const _$PublishingImpl({this.title = const ListingTitle.pure(), this.price = const ListingPrice.pure(), this.description = '', this.category = const ListingCategory.pure(''), final  List<String> images = const [], final  List<String> networkImages = const [], final  List<ProjectCategory> categories = const [], this.place}): _images = images,_networkImages = networkImages,_categories = categories;
 
   
 
@@ -1285,6 +1428,13 @@ class _$PublishingImpl  implements Publishing {
   return EqualUnmodifiableListView(_images);
 }
 
+ final  List<String> _networkImages;
+@override@JsonKey() List<String> get networkImages {
+  if (_networkImages is EqualUnmodifiableListView) return _networkImages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_networkImages);
+}
+
  final  List<ProjectCategory> _categories;
 @override@JsonKey() List<ProjectCategory> get categories {
   if (_categories is EqualUnmodifiableListView) return _categories;
@@ -1296,18 +1446,18 @@ class _$PublishingImpl  implements Publishing {
 
 @override
 String toString() {
-  return 'AddListingState.publishing(title: $title, price: $price, description: $description, category: $category, images: $images, categories: $categories, place: $place)';
+  return 'AddListingState.publishing(title: $title, price: $price, description: $description, category: $category, images: $images, networkImages: $networkImages, categories: $categories, place: $place)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$PublishingImpl&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.place, place) || other.place == place));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$PublishingImpl&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._networkImages, _networkImages)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.place, place) || other.place == place));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,price,description,category,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_categories),place);
+int get hashCode => Object.hash(runtimeType,title,price,description,category,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_networkImages),const DeepCollectionEquality().hash(_categories),place);
 
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -1327,12 +1477,12 @@ _$$PublishingImplCopyWith<_$PublishingImpl> get copyWith => __$$PublishingImplCo
 
 
 abstract class Publishing implements AddListingState {
-  const factory Publishing({final  ListingTitle title, final  ListingPrice price, final  String description, final  ListingCategory category, final  List<String> images, final  List<ProjectCategory> categories, final  Place? place}) = _$PublishingImpl;
+  const factory Publishing({final  ListingTitle title, final  ListingPrice price, final  String description, final  ListingCategory category, final  List<String> images, final  List<String> networkImages, final  List<ProjectCategory> categories, final  Place? place}) = _$PublishingImpl;
   
 
   
 
-@override ListingTitle get title;@override ListingPrice get price;@override String get description;@override ListingCategory get category;@override List<String> get images;@override List<ProjectCategory> get categories;@override Place? get place;
+@override ListingTitle get title;@override ListingPrice get price;@override String get description;@override ListingCategory get category;@override List<String> get images;@override List<String> get networkImages;@override List<ProjectCategory> get categories;@override Place? get place;
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1345,7 +1495,7 @@ abstract class _$$SuccessImplCopyWith<$Res> implements $AddListingStateCopyWith<
   factory _$$SuccessImplCopyWith(_$SuccessImpl value, $Res Function(_$SuccessImpl) then) = __$$SuccessImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<ProjectCategory> categories, Place? place
+ ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<String> networkImages, List<ProjectCategory> categories, Place? place
 });
 
 
@@ -1360,13 +1510,14 @@ class __$$SuccessImplCopyWithImpl<$Res> extends _$AddListingStateCopyWithImpl<$R
 
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? categories = null,Object? place = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? networkImages = null,Object? categories = null,Object? place = freezed,}) {
   return _then(_$SuccessImpl(
 title: null == title ? _value.title : title // ignore: cast_nullable_to_non_nullable
 as ListingTitle,price: null == price ? _value.price : price // ignore: cast_nullable_to_non_nullable
 as ListingPrice,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _value.category : category // ignore: cast_nullable_to_non_nullable
 as ListingCategory,images: null == images ? _value._images : images // ignore: cast_nullable_to_non_nullable
+as List<String>,networkImages: null == networkImages ? _value._networkImages : networkImages // ignore: cast_nullable_to_non_nullable
 as List<String>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
 as List<ProjectCategory>,place: freezed == place ? _value.place : place // ignore: cast_nullable_to_non_nullable
 as Place?,
@@ -1380,7 +1531,7 @@ as Place?,
 
 
 class _$SuccessImpl  implements Success {
-  const _$SuccessImpl({this.title = const ListingTitle.pure(), this.price = const ListingPrice.pure(), this.description = '', this.category = const ListingCategory.pure(), final  List<String> images = const [], final  List<ProjectCategory> categories = const [], this.place}): _images = images,_categories = categories;
+  const _$SuccessImpl({this.title = const ListingTitle.pure(), this.price = const ListingPrice.pure(), this.description = '', this.category = const ListingCategory.pure(''), final  List<String> images = const [], final  List<String> networkImages = const [], final  List<ProjectCategory> categories = const [], this.place}): _images = images,_networkImages = networkImages,_categories = categories;
 
   
 
@@ -1395,6 +1546,13 @@ class _$SuccessImpl  implements Success {
   return EqualUnmodifiableListView(_images);
 }
 
+ final  List<String> _networkImages;
+@override@JsonKey() List<String> get networkImages {
+  if (_networkImages is EqualUnmodifiableListView) return _networkImages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_networkImages);
+}
+
  final  List<ProjectCategory> _categories;
 @override@JsonKey() List<ProjectCategory> get categories {
   if (_categories is EqualUnmodifiableListView) return _categories;
@@ -1406,18 +1564,18 @@ class _$SuccessImpl  implements Success {
 
 @override
 String toString() {
-  return 'AddListingState.success(title: $title, price: $price, description: $description, category: $category, images: $images, categories: $categories, place: $place)';
+  return 'AddListingState.success(title: $title, price: $price, description: $description, category: $category, images: $images, networkImages: $networkImages, categories: $categories, place: $place)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SuccessImpl&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.place, place) || other.place == place));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SuccessImpl&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._networkImages, _networkImages)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.place, place) || other.place == place));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,price,description,category,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_categories),place);
+int get hashCode => Object.hash(runtimeType,title,price,description,category,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_networkImages),const DeepCollectionEquality().hash(_categories),place);
 
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -1437,12 +1595,12 @@ _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith => __$$SuccessImplCopyWithImp
 
 
 abstract class Success implements AddListingState {
-  const factory Success({final  ListingTitle title, final  ListingPrice price, final  String description, final  ListingCategory category, final  List<String> images, final  List<ProjectCategory> categories, final  Place? place}) = _$SuccessImpl;
+  const factory Success({final  ListingTitle title, final  ListingPrice price, final  String description, final  ListingCategory category, final  List<String> images, final  List<String> networkImages, final  List<ProjectCategory> categories, final  Place? place}) = _$SuccessImpl;
   
 
   
 
-@override ListingTitle get title;@override ListingPrice get price;@override String get description;@override ListingCategory get category;@override List<String> get images;@override List<ProjectCategory> get categories;@override Place? get place;
+@override ListingTitle get title;@override ListingPrice get price;@override String get description;@override ListingCategory get category;@override List<String> get images;@override List<String> get networkImages;@override List<ProjectCategory> get categories;@override Place? get place;
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1455,7 +1613,7 @@ abstract class _$$ErrorImplCopyWith<$Res> implements $AddListingStateCopyWith<$R
   factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) = __$$ErrorImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<ProjectCategory> categories, Place? place, String message
+ ListingTitle title, ListingPrice price, String description, ListingCategory category, List<String> images, List<String> networkImages, List<ProjectCategory> categories, Place? place, String message
 });
 
 
@@ -1470,13 +1628,14 @@ class __$$ErrorImplCopyWithImpl<$Res> extends _$AddListingStateCopyWithImpl<$Res
 
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? categories = null,Object? place = freezed,Object? message = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? networkImages = null,Object? categories = null,Object? place = freezed,Object? message = null,}) {
   return _then(_$ErrorImpl(
 title: null == title ? _value.title : title // ignore: cast_nullable_to_non_nullable
 as ListingTitle,price: null == price ? _value.price : price // ignore: cast_nullable_to_non_nullable
 as ListingPrice,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _value.category : category // ignore: cast_nullable_to_non_nullable
 as ListingCategory,images: null == images ? _value._images : images // ignore: cast_nullable_to_non_nullable
+as List<String>,networkImages: null == networkImages ? _value._networkImages : networkImages // ignore: cast_nullable_to_non_nullable
 as List<String>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
 as List<ProjectCategory>,place: freezed == place ? _value.place : place // ignore: cast_nullable_to_non_nullable
 as Place?,message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
@@ -1491,7 +1650,7 @@ as String,
 
 
 class _$ErrorImpl  implements Error {
-  const _$ErrorImpl({this.title = const ListingTitle.pure(), this.price = const ListingPrice.pure(), this.description = '', this.category = const ListingCategory.pure(), final  List<String> images = const [], final  List<ProjectCategory> categories = const [], this.place, required this.message}): _images = images,_categories = categories;
+  const _$ErrorImpl({this.title = const ListingTitle.pure(), this.price = const ListingPrice.pure(), this.description = '', this.category = const ListingCategory.pure(''), final  List<String> images = const [], final  List<String> networkImages = const [], final  List<ProjectCategory> categories = const [], this.place, required this.message}): _images = images,_networkImages = networkImages,_categories = categories;
 
   
 
@@ -1506,6 +1665,13 @@ class _$ErrorImpl  implements Error {
   return EqualUnmodifiableListView(_images);
 }
 
+ final  List<String> _networkImages;
+@override@JsonKey() List<String> get networkImages {
+  if (_networkImages is EqualUnmodifiableListView) return _networkImages;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_networkImages);
+}
+
  final  List<ProjectCategory> _categories;
 @override@JsonKey() List<ProjectCategory> get categories {
   if (_categories is EqualUnmodifiableListView) return _categories;
@@ -1518,18 +1684,18 @@ class _$ErrorImpl  implements Error {
 
 @override
 String toString() {
-  return 'AddListingState.error(title: $title, price: $price, description: $description, category: $category, images: $images, categories: $categories, place: $place, message: $message)';
+  return 'AddListingState.error(title: $title, price: $price, description: $description, category: $category, images: $images, networkImages: $networkImages, categories: $categories, place: $place, message: $message)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.place, place) || other.place == place)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&(identical(other.title, title) || other.title == title)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images)&&const DeepCollectionEquality().equals(other._networkImages, _networkImages)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.place, place) || other.place == place)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,title,price,description,category,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_categories),place,message);
+int get hashCode => Object.hash(runtimeType,title,price,description,category,const DeepCollectionEquality().hash(_images),const DeepCollectionEquality().hash(_networkImages),const DeepCollectionEquality().hash(_categories),place,message);
 
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -1549,12 +1715,12 @@ _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => __$$ErrorImplCopyWithImpl<_$Er
 
 
 abstract class Error implements AddListingState {
-  const factory Error({final  ListingTitle title, final  ListingPrice price, final  String description, final  ListingCategory category, final  List<String> images, final  List<ProjectCategory> categories, final  Place? place, required final  String message}) = _$ErrorImpl;
+  const factory Error({final  ListingTitle title, final  ListingPrice price, final  String description, final  ListingCategory category, final  List<String> images, final  List<String> networkImages, final  List<ProjectCategory> categories, final  Place? place, required final  String message}) = _$ErrorImpl;
   
 
   
 
-@override ListingTitle get title;@override ListingPrice get price;@override String get description;@override ListingCategory get category;@override List<String> get images;@override List<ProjectCategory> get categories;@override Place? get place; String get message;
+@override ListingTitle get title;@override ListingPrice get price;@override String get description;@override ListingCategory get category;@override List<String> get images;@override List<String> get networkImages;@override List<ProjectCategory> get categories;@override Place? get place; String get message;
 /// Create a copy of AddListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
