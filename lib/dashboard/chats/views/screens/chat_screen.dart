@@ -3,7 +3,11 @@ import 'dart:io';
 import 'package:chat_repository/chat_repository.dart';
 import 'package:craftmate_client/auth/auth.dart';
 import 'package:craftmate_client/dashboard/chats/bloc/chat/chat_bloc.dart';
+import 'package:craftmate_client/dashboard/chats/bloc/review/review_bloc.dart'
+    as r;
 import 'package:craftmate_client/dashboard/chats/views/components/video_player.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/write_review_page.dart';
+import 'package:craftmate_client/dashboard/shop/views/screens/view_listing_screen.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
@@ -20,10 +24,12 @@ class ChatScreen extends StatelessWidget {
     this.listingId,
     this.title,
     this.imageUrl,
+    this.sellerId,
   });
 
   final User user;
   final String? listingId;
+  final int? sellerId;
   final String? title;
   final String? imageUrl;
 
@@ -32,6 +38,7 @@ class ChatScreen extends StatelessWidget {
     String? listingId,
     String? title,
     String? imageUrl,
+    int? sellerId,
   }) {
     return PageTransition.effect.slideFromRightToLeft(
       ChatScreen(
@@ -39,6 +46,7 @@ class ChatScreen extends StatelessWidget {
         listingId: listingId,
         title: title,
         imageUrl: imageUrl,
+        sellerId: sellerId,
       ),
       false,
     );
@@ -46,44 +54,150 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasProfileImage = imageUrl != null;
+    final curUser = context.read<AuthBloc>().state.user;
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ChatBloc(
+            chatRepository: context.read(),
+            listingId: listingId,
+          )..add(
+              ChatEvent.started(
+                curUser.id,
+                user.id,
+              ),
+            ),
+        ),
+        BlocProvider(
+          create: (context) => r.ReviewBloc(
+            context.read(),
+          )..add(
+              r.ReviewEvent.started(
+                sellerId ?? -1,
+                curUser.id,
+              ),
+            ),
+        ),
+      ],
+      child: BlocBuilder<ChatBloc, ChatState>(
+        builder: (context, state) {
+          final sellerMsgCount =
+              state.messages.where((msg) => msg.senderId != curUser.id).length;
+          final sendMsgCount =
+              state.messages.where((msg) => msg.senderId == curUser.id).length;
 
-    return BlocProvider(
-      create: (context) => ChatBloc(
-        chatRepository: context.read(),
-        listingId: listingId,
-      )..add(
-          ChatEvent.started(
-            context.read<AuthBloc>().state.user.id,
-            user.id,
-          ),
-        ),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Row(
-            children: [
-              CircleAvatar(
-                backgroundImage:
-                    hasProfileImage ? NetworkImage(imageUrl!) : null,
-                child:
-                    hasProfileImage ? null : Text(user.name[0].toUpperCase()),
-              ),
-              const SizedBox(
-                width: 12.0,
-              ),
-              Expanded(
-                child: Text(
-                  title ?? user.name,
-                  overflow: TextOverflow.ellipsis,
+          final validToReview = sellerMsgCount >= 5 &&
+              sendMsgCount >= 5 &&
+              listingId != null &&
+              sellerId != null &&
+              curUser.id != sellerId;
+
+          return BlocBuilder<r.ReviewBloc, r.ReviewState>(
+            builder: (context, state) {
+              final isReviewed = switch (state) {
+                r.Reviewed() => true,
+                _ => false,
+              };
+
+              return Scaffold(
+                appBar: ChatBar(
+                  listingId: listingId,
+                  imageUrl: imageUrl,
+                  user: user,
+                  title: title,
+                  validToReview: validToReview && !isReviewed,
+                  sellerId: sellerId,
                 ),
-              ),
-            ],
-          ),
-        ),
-        body: Messages(user: user),
+                body: Messages(user: user),
+              );
+            },
+          );
+        },
       ),
     );
   }
+}
+
+class ChatBar extends StatelessWidget implements PreferredSizeWidget {
+  const ChatBar({
+    super.key,
+    required this.imageUrl,
+    required this.user,
+    required this.title,
+    this.validToReview = false,
+    required this.listingId,
+    this.sellerId,
+  });
+
+  final String? imageUrl;
+  final User user;
+  final String? title;
+  final bool validToReview;
+  final String? listingId;
+  final int? sellerId;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasProfileImage = user.image != null;
+    final imagePath = listingId != null ? imageUrl : user.image;
+
+    return AppBar(
+      title: Row(
+        children: [
+          CircleAvatar(
+            backgroundImage: imagePath != null ? NetworkImage(imagePath) : null,
+            child: hasProfileImage ? null : Text(user.name[0].toUpperCase()),
+          ),
+          const SizedBox(
+            width: 12.0,
+          ),
+          Expanded(
+            child: Text(
+              title ?? user.name,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+      bottom: !validToReview
+          ? null
+          : PreferredSize(
+              preferredSize: const Size.fromHeight(64),
+              child: Container(
+                color: Theme.of(context).colorScheme.surfaceContainer,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12.0,
+                  vertical: 8.0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "How's the experience with ${user.name}?",
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          WriteReviewPage.route(listingId!, sellerId!),
+                        );
+                      },
+                      child: const Text('Leave a review'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+    );
+  }
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize =>
+      Size.fromHeight(validToReview ? kToolbarHeight + 64 : kToolbarHeight);
 }
 
 class Messages extends StatefulWidget {
@@ -437,21 +551,31 @@ class MessageContent extends StatelessWidget {
           return Image.file(File(message.message));
         }
 
-        return Image.network(
-          message.message,
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) {
-              return child;
-            }
-            return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes!
-                    : null,
-              ),
+        return GestureDetector(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return ZoomPhoto(imageUrl: message.message);
+              },
             );
           },
+          child: Image.network(
+            message.message,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              }
+              return Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null,
+                ),
+              );
+            },
+          ),
         );
       case MessageType.video:
         if (isSending) {
