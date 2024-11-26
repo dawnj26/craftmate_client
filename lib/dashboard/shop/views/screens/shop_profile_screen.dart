@@ -1,9 +1,14 @@
+import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
+import 'package:craftmate_client/dashboard/shop/bloc/shop_profile/shop_profile_bloc.dart'
+    as p;
+import 'package:craftmate_client/dashboard/shop/bloc/shop_reviews/shop_reviews_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/inbox_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/saved_items_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/shop_reviews_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/user_listing_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/screens/add_listing_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShopProfileScreen extends StatelessWidget {
   const ShopProfileScreen({super.key});
@@ -47,10 +52,15 @@ class ShopProfileScreen extends StatelessWidget {
                 'Overview',
                 style: theme.textTheme.titleMedium,
               ),
-              FilterChip(
-                label: const Text('Last 7 days'),
-                onSelected: (isSelected) {},
-                selected: true,
+              BlocBuilder<p.ShopProfileBloc, p.ShopProfileState>(
+                builder: (context, state) {
+                  return FilterChip(
+                    label: Text(state.period),
+                    onSelected: (onSelected) =>
+                        _onSelected(context, onSelected, state.period),
+                    selected: true,
+                  );
+                },
               ),
             ],
           ),
@@ -60,6 +70,60 @@ class ShopProfileScreen extends StatelessWidget {
           const _Overview(gap: gap),
         ],
       ),
+    );
+  }
+
+  void _onSelected(BuildContext context, bool _, String period) {
+    final curUser = context.read<AuthBloc>().state.user.id;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context1) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: Text(period == 'Weekly' ? 'Weekly (selected)' : 'Weekly'),
+              onTap: () {
+                context.read<p.ShopProfileBloc>().add(
+                      p.ShopProfileEvent.periodChanged('Weekly', curUser),
+                    );
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title:
+                  Text(period == 'Monthly' ? 'Monthly (selected)' : 'Monthly'),
+              onTap: () {
+                context.read<p.ShopProfileBloc>().add(
+                      p.ShopProfileEvent.periodChanged('Monthly', curUser),
+                    );
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(period == 'Yearly' ? 'Yearly (selected)' : 'Yearly'),
+              onTap: () {
+                context.read<p.ShopProfileBloc>().add(
+                      p.ShopProfileEvent.periodChanged('Yearly', curUser),
+                    );
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(
+                period == 'All time' ? 'All time (selected)' : 'All time',
+              ),
+              onTap: () {
+                context.read<p.ShopProfileBloc>().add(
+                      p.ShopProfileEvent.periodChanged('All time', curUser),
+                    );
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -73,54 +137,65 @@ class _Overview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
+    return BlocBuilder<p.ShopProfileBloc, p.ShopProfileState>(
+      builder: (context, state) {
+        switch (state) {
+          case p.Initial() || p.Loading():
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+        }
+
+        return Column(
           children: [
-            const Expanded(
-              child: _Activity(
-                icon: Icon(Icons.remove_red_eye_outlined),
-                title: 'Views',
-                count: 69,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: _Activity(
+                    icon: const Icon(Icons.remove_red_eye_outlined),
+                    title: 'Views',
+                    count: state.shopOverview.totalViews,
+                  ),
+                ),
+                SizedBox(
+                  width: gap,
+                ),
+                Expanded(
+                  child: _Activity(
+                    icon: const Icon(Icons.shopping_bag_outlined),
+                    title: 'Total products',
+                    count: state.shopOverview.totalProducts,
+                  ),
+                ),
+              ],
             ),
             SizedBox(
-              width: gap,
+              height: gap,
             ),
-            const Expanded(
-              child: _Activity(
-                icon: Icon(Icons.message_outlined),
-                title: 'Chats to answer',
-                count: 69,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: gap,
-        ),
-        Row(
-          children: [
-            const Expanded(
-              child: _Activity(
-                icon: Icon(Icons.star_border_rounded),
-                title: 'Seller ratings',
-                count: 4,
-              ),
-            ),
-            SizedBox(
-              width: gap,
-            ),
-            const Expanded(
-              child: _Activity(
-                icon: Icon(Icons.person_add_outlined),
-                title: 'New followers',
-                count: 69,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: _Activity(
+                    icon: const Icon(Icons.star_border_rounded),
+                    title: 'Seller ratings',
+                    count: state.shopOverview.totalRating.toInt(),
+                  ),
+                ),
+                SizedBox(
+                  width: gap,
+                ),
+                Expanded(
+                  child: _Activity(
+                    icon: const Icon(Icons.person_add_outlined),
+                    title: 'New followers',
+                    count: state.shopOverview.totalFollowers,
+                  ),
+                ),
+              ],
             ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 }
