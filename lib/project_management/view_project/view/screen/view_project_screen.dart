@@ -1,4 +1,5 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/add_listing_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/screens/view_listing_screen.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
@@ -128,6 +129,18 @@ class ViewProjectScreen extends StatelessWidget {
                           'Settings',
                         ),
                       ),
+                      if (state.project.completedAt != null)
+                        PopupMenuItem(
+                          child: const Text(
+                            'Sell',
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              AddListingPage.route(project: state.project),
+                            );
+                          },
+                        ),
                       const PopupMenuItem(
                         child: Text(
                           'Share',
