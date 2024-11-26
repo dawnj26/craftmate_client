@@ -18,6 +18,7 @@ class UserListingPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => UserListingBloc(
         shopRepository: context.read(),
+        projectRepository: context.read(),
       )..add(UserListingEvent.started(context.read<AuthBloc>().state.user.id)),
       child: const UserListingScreen(),
     );

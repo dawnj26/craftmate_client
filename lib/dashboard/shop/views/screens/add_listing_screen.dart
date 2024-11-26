@@ -7,6 +7,7 @@ import 'package:craftmate_client/dashboard/shop/models/listing_category.dart';
 import 'package:craftmate_client/dashboard/shop/models/listing_price.dart';
 import 'package:craftmate_client/dashboard/shop/models/listing_title.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/add_address_page.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,14 @@ class AddListingScreen extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
             }
 
-            return const AddListingForm();
+            return AddListingForm(
+              titleController: TextEditingController(text: state.title.value),
+              descriptionController:
+                  TextEditingController(text: state.description),
+              priceController: TextEditingController(text: state.price.value),
+              categoryController:
+                  TextEditingController(text: state.category.value),
+            );
           },
         ),
       ),
@@ -77,25 +85,32 @@ class AddListingScreen extends StatelessWidget {
 }
 
 class AddListingForm extends StatefulWidget {
-  const AddListingForm({super.key});
+  const AddListingForm({
+    super.key,
+    required this.titleController,
+    required this.descriptionController,
+    required this.priceController,
+    required this.categoryController,
+  });
+
+  final TextEditingController titleController;
+  final TextEditingController descriptionController;
+  final TextEditingController priceController;
+  final TextEditingController categoryController;
 
   @override
   State<AddListingForm> createState() => _AddListingFormState();
 }
 
 class _AddListingFormState extends State<AddListingForm> {
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _priceController = TextEditingController();
-  final _categoryController = TextEditingController();
   final _scrollController = ScrollController();
 
   @override
   void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-    _priceController.dispose();
-    _categoryController.dispose();
+    widget.titleController.dispose();
+    widget.descriptionController.dispose();
+    widget.priceController.dispose();
+    widget.categoryController.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -139,7 +154,7 @@ class _AddListingFormState extends State<AddListingForm> {
             builder: (context, state) {
               final images = state.images;
 
-              if (images.isEmpty) {
+              if (images.isEmpty && state.networkImages.isEmpty) {
                 return Center(
                   child: AddPhotoButton(
                     onPressed: _addPhoto,
@@ -162,6 +177,16 @@ class _AddListingFormState extends State<AddListingForm> {
                             onPressed: _addPhoto,
                           ),
                         ),
+                        for (var i = 0; i < state.networkImages.length; i++)
+                          ListingImage(
+                            image: state.networkImages[i],
+                            isNetworkImage: true,
+                            onRemove: () {
+                              context
+                                  .read<AddListingBloc>()
+                                  .add(AddListingEvent.networkImageRemoved(i));
+                            },
+                          ),
                         for (var i = 0; i < images.length; i++)
                           ListingImage(
                             image: images[i],
@@ -189,7 +214,7 @@ class _AddListingFormState extends State<AddListingForm> {
                     : null;
 
             return ListingField(
-              controller: _titleController,
+              controller: widget.titleController,
               labelText: 'Title',
               errorText: errorText,
               onChanged: (value) {
@@ -206,7 +231,7 @@ class _AddListingFormState extends State<AddListingForm> {
               previous.description != current.description,
           builder: (context, state) {
             return ListingField(
-              controller: _descriptionController,
+              controller: widget.descriptionController,
               labelText: 'Description',
               maxLines: 5,
               minLines: 3,
@@ -230,7 +255,7 @@ class _AddListingFormState extends State<AddListingForm> {
                     : null;
 
             return ListingField(
-              controller: _priceController,
+              controller: widget.priceController,
               labelText: 'Price',
               number: true,
               errorText: errorText,
@@ -254,7 +279,7 @@ class _AddListingFormState extends State<AddListingForm> {
             final categories = state.categories;
 
             return ListingField(
-              controller: _categoryController,
+              controller: widget.categoryController,
               hintText: 'Category',
               readOnly: true,
               suffixIcon: const Icon(Icons.arrow_drop_down_rounded),
@@ -262,7 +287,7 @@ class _AddListingFormState extends State<AddListingForm> {
                 _showCategoryModal(
                   allCategories: categories,
                   selectedCategory: ProjectCategory(
-                    name: _categoryController.text,
+                    name: widget.categoryController.text,
                   ),
                 );
               },
@@ -337,7 +362,7 @@ class _AddListingFormState extends State<AddListingForm> {
             context
                 .read<AddListingBloc>()
                 .add(AddListingEvent.categoryChanged(category.name));
-            _categoryController.text = category.name;
+            widget.categoryController.text = category.name;
           },
         );
       },
@@ -358,6 +383,8 @@ class ListingProfile extends StatelessWidget {
     final theme = Theme.of(context);
     final currentUser = context.read<AuthBloc>().state.user;
     final hasImage = currentUser.image != null;
+
+    logger.info('currentUser: $currentUser');
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -386,10 +413,12 @@ class ListingImage extends StatelessWidget {
     super.key,
     required this.image,
     this.onRemove,
+    this.isNetworkImage = false,
   });
 
   final String image;
   final void Function()? onRemove;
+  final bool isNetworkImage;
 
   @override
   Widget build(BuildContext context) {
@@ -401,10 +430,15 @@ class ListingImage extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Image.file(
-            File(image),
-            fit: BoxFit.cover,
-          ),
+          child: isNetworkImage
+              ? Image.network(
+                  image,
+                  fit: BoxFit.cover,
+                )
+              : Image.file(
+                  File(image),
+                  fit: BoxFit.cover,
+                ),
         ),
         Positioned(
           top: 8,

@@ -2,6 +2,7 @@ import 'package:craftmate_client/dashboard/profile/bloc/edit_profile/edit_profil
 import 'package:craftmate_client/dashboard/profile/view/screens/edit_bio_screen.dart';
 import 'package:craftmate_client/dashboard/profile/view/screens/edit_email_screen.dart';
 import 'package:craftmate_client/dashboard/profile/view/screens/edit_name_screen.dart';
+import 'package:craftmate_client/dashboard/shop/views/screens/view_listing_screen.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -108,10 +109,20 @@ class EditProfileScreen extends StatelessWidget {
               enabled: user.image != null,
               onTap: () {
                 Navigator.pop(context);
+                _handleView(context, user.image!);
               },
             ),
           ],
         );
+      },
+    );
+  }
+
+  void _handleView(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return ZoomPhoto(imageUrl: imageUrl);
       },
     );
   }

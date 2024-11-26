@@ -3,6 +3,7 @@ import 'package:craftmate_client/helpers/stream_helper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:search_repository/search_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'search_result_event.dart';
 part 'search_result_state.dart';
@@ -33,6 +34,7 @@ class SearchResultBloc extends Bloc<SearchResultEvent, SearchResultState> {
         const SearchResultState.loaded(
           projects: [],
           categories: [],
+          users: [],
         ),
       );
     }
@@ -40,10 +42,12 @@ class SearchResultBloc extends Bloc<SearchResultEvent, SearchResultState> {
     try {
       emit(const SearchResultState.loading());
       final projects = await _searchRepository.searchProjects(query);
+      final users = await _searchRepository.searchUsers(query);
       final categories = await _projectRepository.getProjectCategories();
 
       emit(
-        SearchResultState.loaded(projects: projects, categories: categories),
+        SearchResultState.loaded(
+            projects: projects, categories: categories, users: users),
       );
     } on SearchException catch (e) {
       emit(

@@ -28,10 +28,31 @@ class AddListingBloc extends Bloc<AddListingEvent, AddListingState> {
     on<_ImageAdded>(_onImageAdded);
     on<_ImageRemoved>(_onImageRemoved);
     on<_Published>(_onPublished);
+    on<_NetworkImageRemoved>(_onNetworkImageRemoved);
   }
 
   final ShopRepository _shopRepository;
   final ProjectRepository _projectRepository;
+
+  void _onNetworkImageRemoved(
+    _NetworkImageRemoved event,
+    Emitter<AddListingState> emit,
+  ) {
+    final networkImages = [...state.networkImages]..removeAt(event.index);
+
+    emit(
+      AddListingState.loaded(
+        title: state.title,
+        price: state.price,
+        description: state.description,
+        category: state.category,
+        images: [...state.images],
+        networkImages: networkImages,
+        place: state.place?.copyWith(),
+        categories: [...state.categories],
+      ),
+    );
+  }
 
   Future<void> _onPublished(
     _Published event,
@@ -44,6 +65,7 @@ class AddListingBloc extends Bloc<AddListingEvent, AddListingState> {
         description: state.description,
         category: state.category,
         images: state.images,
+        networkImages: state.networkImages,
         categories: state.categories,
         place: state.place?.copyWith(),
       ),
@@ -62,7 +84,7 @@ class AddListingBloc extends Bloc<AddListingEvent, AddListingState> {
         address: state.place!,
       );
 
-      await _shopRepository.publishListing(product);
+      await _shopRepository.publishListing(product, state.networkImages);
 
       emit(const AddListingState.success());
     } on ShopException catch (e) {
@@ -72,6 +94,7 @@ class AddListingBloc extends Bloc<AddListingEvent, AddListingState> {
           price: state.price,
           description: state.description,
           category: state.category,
+          networkImages: state.networkImages,
           images: state.images,
           message: e.message,
           place: state.place?.copyWith(),
@@ -93,6 +116,7 @@ class AddListingBloc extends Bloc<AddListingEvent, AddListingState> {
         description: state.description,
         category: state.category,
         images: images,
+        networkImages: state.networkImages,
         place: state.place?.copyWith(),
         categories: [...state.categories],
       ),
@@ -107,6 +131,7 @@ class AddListingBloc extends Bloc<AddListingEvent, AddListingState> {
       AddListingState.loaded(
         title: state.title,
         price: state.price,
+        networkImages: state.networkImages,
         description: state.description,
         category: state.category,
         images: [...state.images, ...event.images],
@@ -124,6 +149,22 @@ class AddListingBloc extends Bloc<AddListingEvent, AddListingState> {
 
     try {
       final categories = await _projectRepository.getProjectCategories();
+
+      if (event.project != null) {
+        final project = event.project!;
+
+        final title = ListingTitle.pure(value: project.title);
+        final category = ListingCategory.pure(project.category!.name);
+
+        return emit(
+          AddListingState.loaded(
+            title: title,
+            category: category,
+            categories: categories,
+            networkImages: project.imageUrl == null ? [] : [project.imageUrl!],
+          ),
+        );
+      }
 
       emit(
         AddListingState.loaded(
@@ -149,6 +190,7 @@ class AddListingBloc extends Bloc<AddListingEvent, AddListingState> {
         price: state.price,
         description: state.description,
         category: state.category,
+        networkImages: state.networkImages,
         images: [...state.images],
         place: event.place,
         categories: [...state.categories],
@@ -167,6 +209,7 @@ class AddListingBloc extends Bloc<AddListingEvent, AddListingState> {
         title: state.title,
         price: state.price,
         description: state.description,
+        networkImages: state.networkImages,
         category: category,
         images: [...state.images],
         place: state.place?.copyWith(),
@@ -184,6 +227,7 @@ class AddListingBloc extends Bloc<AddListingEvent, AddListingState> {
         title: state.title,
         price: state.price,
         description: event.description,
+        networkImages: state.networkImages,
         category: state.category,
         images: [...state.images],
         place: state.place?.copyWith(),
@@ -200,6 +244,7 @@ class AddListingBloc extends Bloc<AddListingEvent, AddListingState> {
         title: title,
         price: state.price,
         description: state.description,
+        networkImages: state.networkImages,
         category: state.category,
         images: [...state.images],
         place: state.place?.copyWith(),
@@ -215,6 +260,7 @@ class AddListingBloc extends Bloc<AddListingEvent, AddListingState> {
       AddListingState.loaded(
         title: state.title,
         price: price,
+        networkImages: state.networkImages,
         description: state.description,
         category: state.category,
         images: [...state.images],

@@ -17,7 +17,6 @@ final _privateConstructorUsedError = UnsupportedError('It seems like you constru
 /// @nodoc
 mixin _$UserListingEvent {
 
- int get userId => throw _privateConstructorUsedError;
 
 
 
@@ -25,20 +24,13 @@ mixin _$UserListingEvent {
 
 
 
-/// Create a copy of UserListingEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-$UserListingEventCopyWith<UserListingEvent> get copyWith => throw _privateConstructorUsedError;
+
 
 }
 
 /// @nodoc
 abstract class $UserListingEventCopyWith<$Res>  {
   factory $UserListingEventCopyWith(UserListingEvent value, $Res Function(UserListingEvent) then) = _$UserListingEventCopyWithImpl<$Res, UserListingEvent>;
-@useResult
-$Res call({
- int userId
-});
 
 
 
@@ -55,20 +47,15 @@ class _$UserListingEventCopyWithImpl<$Res,$Val extends UserListingEvent> impleme
 
 /// Create a copy of UserListingEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,}) {
-  return _then(_value.copyWith(
-userId: null == userId ? _value.userId : userId // ignore: cast_nullable_to_non_nullable
-as int,
-  )as $Val);
-}
+
 
 }
 
 
 /// @nodoc
-abstract class _$$StartedImplCopyWith<$Res> implements $UserListingEventCopyWith<$Res> {
+abstract class _$$StartedImplCopyWith<$Res>  {
   factory _$$StartedImplCopyWith(_$StartedImpl value, $Res Function(_$StartedImpl) then) = __$$StartedImplCopyWithImpl<$Res>;
-@override @useResult
+@useResult
 $Res call({
  int userId
 });
@@ -143,18 +130,113 @@ abstract class _Started implements UserListingEvent {
 
   
 
-@override int get userId;
+ int get userId;
 /// Create a copy of UserListingEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
+@JsonKey(includeFromJson: false, includeToJson: false)
 _$$StartedImplCopyWith<_$StartedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
+abstract class _$$CategorySelectedImplCopyWith<$Res>  {
+  factory _$$CategorySelectedImplCopyWith(_$CategorySelectedImpl value, $Res Function(_$CategorySelectedImpl) then) = __$$CategorySelectedImplCopyWithImpl<$Res>;
+@useResult
+$Res call({
+ ProjectCategory category
+});
+
+
+$ProjectCategoryCopyWith<$Res> get category;
+}
+
+/// @nodoc
+class __$$CategorySelectedImplCopyWithImpl<$Res> extends _$UserListingEventCopyWithImpl<$Res, _$CategorySelectedImpl> implements _$$CategorySelectedImplCopyWith<$Res> {
+  __$$CategorySelectedImplCopyWithImpl(_$CategorySelectedImpl _value, $Res Function(_$CategorySelectedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of UserListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? category = null,}) {
+  return _then(_$CategorySelectedImpl(
+null == category ? _value.category : category // ignore: cast_nullable_to_non_nullable
+as ProjectCategory,
+  ));
+}
+
+/// Create a copy of UserListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ProjectCategoryCopyWith<$Res> get category {
+  
+  return $ProjectCategoryCopyWith<$Res>(_value.category, (value) {
+    return _then(_value.copyWith(category: value) );
+  });
+}
+}
+
+/// @nodoc
+
+
+class _$CategorySelectedImpl  implements _CategorySelected {
+  const _$CategorySelectedImpl(this.category);
+
+  
+
+@override final  ProjectCategory category;
+
+@override
+String toString() {
+  return 'UserListingEvent.categorySelected(category: $category)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$CategorySelectedImpl&&(identical(other.category, category) || other.category == category));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,category);
+
+/// Create a copy of UserListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$CategorySelectedImplCopyWith<_$CategorySelectedImpl> get copyWith => __$$CategorySelectedImplCopyWithImpl<_$CategorySelectedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _CategorySelected implements UserListingEvent {
+  const factory _CategorySelected(final  ProjectCategory category) = _$CategorySelectedImpl;
+  
+
+  
+
+ ProjectCategory get category;
+/// Create a copy of UserListingEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+_$$CategorySelectedImplCopyWith<_$CategorySelectedImpl> get copyWith => throw _privateConstructorUsedError;
 
 }
 
 /// @nodoc
 mixin _$UserListingState {
 
- List<QueryProduct> get query => throw _privateConstructorUsedError;
+ List<QueryProduct> get query => throw _privateConstructorUsedError; List<QueryProduct> get filteredQuery => throw _privateConstructorUsedError; List<ProjectCategory> get categories => throw _privateConstructorUsedError; ProjectCategory get selectedCategory => throw _privateConstructorUsedError;
 
 
 
@@ -174,11 +256,11 @@ abstract class $UserListingStateCopyWith<$Res>  {
   factory $UserListingStateCopyWith(UserListingState value, $Res Function(UserListingState) then) = _$UserListingStateCopyWithImpl<$Res, UserListingState>;
 @useResult
 $Res call({
- List<QueryProduct> query
+ List<QueryProduct> query, List<QueryProduct> filteredQuery, List<ProjectCategory> categories, ProjectCategory selectedCategory
 });
 
 
-
+$ProjectCategoryCopyWith<$Res> get selectedCategory;
 }
 
 /// @nodoc
@@ -192,13 +274,25 @@ class _$UserListingStateCopyWithImpl<$Res,$Val extends UserListingState> impleme
 
 /// Create a copy of UserListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? query = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? filteredQuery = null,Object? categories = null,Object? selectedCategory = null,}) {
   return _then(_value.copyWith(
 query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
-as List<QueryProduct>,
+as List<QueryProduct>,filteredQuery: null == filteredQuery ? _value.filteredQuery : filteredQuery // ignore: cast_nullable_to_non_nullable
+as List<QueryProduct>,categories: null == categories ? _value.categories : categories // ignore: cast_nullable_to_non_nullable
+as List<ProjectCategory>,selectedCategory: null == selectedCategory ? _value.selectedCategory : selectedCategory // ignore: cast_nullable_to_non_nullable
+as ProjectCategory,
   )as $Val);
 }
-
+/// Create a copy of UserListingState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ProjectCategoryCopyWith<$Res> get selectedCategory {
+  
+  return $ProjectCategoryCopyWith<$Res>(_value.selectedCategory, (value) {
+    return _then(_value.copyWith(selectedCategory: value) as $Val);
+  });
+}
 }
 
 
@@ -207,11 +301,11 @@ abstract class _$$InitialImplCopyWith<$Res> implements $UserListingStateCopyWith
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<QueryProduct> query
+ List<QueryProduct> query, List<QueryProduct> filteredQuery, List<ProjectCategory> categories, ProjectCategory selectedCategory
 });
 
 
-
+@override $ProjectCategoryCopyWith<$Res> get selectedCategory;
 }
 
 /// @nodoc
@@ -222,10 +316,13 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$UserListingStateCopyWithImpl<$
 
 /// Create a copy of UserListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? query = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? filteredQuery = null,Object? categories = null,Object? selectedCategory = null,}) {
   return _then(_$InitialImpl(
 query: null == query ? _value._query : query // ignore: cast_nullable_to_non_nullable
-as List<QueryProduct>,
+as List<QueryProduct>,filteredQuery: null == filteredQuery ? _value._filteredQuery : filteredQuery // ignore: cast_nullable_to_non_nullable
+as List<QueryProduct>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
+as List<ProjectCategory>,selectedCategory: null == selectedCategory ? _value.selectedCategory : selectedCategory // ignore: cast_nullable_to_non_nullable
+as ProjectCategory,
   ));
 }
 
@@ -236,7 +333,7 @@ as List<QueryProduct>,
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl({final  List<QueryProduct> query = const []}): _query = query;
+  const _$InitialImpl({final  List<QueryProduct> query = const [], final  List<QueryProduct> filteredQuery = const [], final  List<ProjectCategory> categories = const [], this.selectedCategory = const ProjectCategory()}): _query = query,_filteredQuery = filteredQuery,_categories = categories;
 
   
 
@@ -247,21 +344,36 @@ class _$InitialImpl  implements Initial {
   return EqualUnmodifiableListView(_query);
 }
 
+ final  List<QueryProduct> _filteredQuery;
+@override@JsonKey() List<QueryProduct> get filteredQuery {
+  if (_filteredQuery is EqualUnmodifiableListView) return _filteredQuery;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_filteredQuery);
+}
+
+ final  List<ProjectCategory> _categories;
+@override@JsonKey() List<ProjectCategory> get categories {
+  if (_categories is EqualUnmodifiableListView) return _categories;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_categories);
+}
+
+@override@JsonKey() final  ProjectCategory selectedCategory;
 
 @override
 String toString() {
-  return 'UserListingState.initial(query: $query)';
+  return 'UserListingState.initial(query: $query, filteredQuery: $filteredQuery, categories: $categories, selectedCategory: $selectedCategory)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&const DeepCollectionEquality().equals(other._query, _query));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&const DeepCollectionEquality().equals(other._query, _query)&&const DeepCollectionEquality().equals(other._filteredQuery, _filteredQuery)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.selectedCategory, selectedCategory) || other.selectedCategory == selectedCategory));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_query));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_query),const DeepCollectionEquality().hash(_filteredQuery),const DeepCollectionEquality().hash(_categories),selectedCategory);
 
 /// Create a copy of UserListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -281,12 +393,12 @@ _$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImp
 
 
 abstract class Initial implements UserListingState {
-  const factory Initial({final  List<QueryProduct> query}) = _$InitialImpl;
+  const factory Initial({final  List<QueryProduct> query, final  List<QueryProduct> filteredQuery, final  List<ProjectCategory> categories, final  ProjectCategory selectedCategory}) = _$InitialImpl;
   
 
   
 
-@override List<QueryProduct> get query;
+@override List<QueryProduct> get query;@override List<QueryProduct> get filteredQuery;@override List<ProjectCategory> get categories;@override ProjectCategory get selectedCategory;
 /// Create a copy of UserListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -299,11 +411,11 @@ abstract class _$$LoadingImplCopyWith<$Res> implements $UserListingStateCopyWith
   factory _$$LoadingImplCopyWith(_$LoadingImpl value, $Res Function(_$LoadingImpl) then) = __$$LoadingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<QueryProduct> query
+ List<QueryProduct> query, List<QueryProduct> filteredQuery, List<ProjectCategory> categories, ProjectCategory selectedCategory
 });
 
 
-
+@override $ProjectCategoryCopyWith<$Res> get selectedCategory;
 }
 
 /// @nodoc
@@ -314,10 +426,13 @@ class __$$LoadingImplCopyWithImpl<$Res> extends _$UserListingStateCopyWithImpl<$
 
 /// Create a copy of UserListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? query = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? filteredQuery = null,Object? categories = null,Object? selectedCategory = null,}) {
   return _then(_$LoadingImpl(
 query: null == query ? _value._query : query // ignore: cast_nullable_to_non_nullable
-as List<QueryProduct>,
+as List<QueryProduct>,filteredQuery: null == filteredQuery ? _value._filteredQuery : filteredQuery // ignore: cast_nullable_to_non_nullable
+as List<QueryProduct>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
+as List<ProjectCategory>,selectedCategory: null == selectedCategory ? _value.selectedCategory : selectedCategory // ignore: cast_nullable_to_non_nullable
+as ProjectCategory,
   ));
 }
 
@@ -328,7 +443,7 @@ as List<QueryProduct>,
 
 
 class _$LoadingImpl  implements Loading {
-  const _$LoadingImpl({final  List<QueryProduct> query = const []}): _query = query;
+  const _$LoadingImpl({final  List<QueryProduct> query = const [], final  List<QueryProduct> filteredQuery = const [], final  List<ProjectCategory> categories = const [], this.selectedCategory = const ProjectCategory()}): _query = query,_filteredQuery = filteredQuery,_categories = categories;
 
   
 
@@ -339,21 +454,36 @@ class _$LoadingImpl  implements Loading {
   return EqualUnmodifiableListView(_query);
 }
 
+ final  List<QueryProduct> _filteredQuery;
+@override@JsonKey() List<QueryProduct> get filteredQuery {
+  if (_filteredQuery is EqualUnmodifiableListView) return _filteredQuery;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_filteredQuery);
+}
+
+ final  List<ProjectCategory> _categories;
+@override@JsonKey() List<ProjectCategory> get categories {
+  if (_categories is EqualUnmodifiableListView) return _categories;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_categories);
+}
+
+@override@JsonKey() final  ProjectCategory selectedCategory;
 
 @override
 String toString() {
-  return 'UserListingState.loading(query: $query)';
+  return 'UserListingState.loading(query: $query, filteredQuery: $filteredQuery, categories: $categories, selectedCategory: $selectedCategory)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&const DeepCollectionEquality().equals(other._query, _query));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&const DeepCollectionEquality().equals(other._query, _query)&&const DeepCollectionEquality().equals(other._filteredQuery, _filteredQuery)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.selectedCategory, selectedCategory) || other.selectedCategory == selectedCategory));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_query));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_query),const DeepCollectionEquality().hash(_filteredQuery),const DeepCollectionEquality().hash(_categories),selectedCategory);
 
 /// Create a copy of UserListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -373,12 +503,12 @@ _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => __$$LoadingImplCopyWithImp
 
 
 abstract class Loading implements UserListingState {
-  const factory Loading({final  List<QueryProduct> query}) = _$LoadingImpl;
+  const factory Loading({final  List<QueryProduct> query, final  List<QueryProduct> filteredQuery, final  List<ProjectCategory> categories, final  ProjectCategory selectedCategory}) = _$LoadingImpl;
   
 
   
 
-@override List<QueryProduct> get query;
+@override List<QueryProduct> get query;@override List<QueryProduct> get filteredQuery;@override List<ProjectCategory> get categories;@override ProjectCategory get selectedCategory;
 /// Create a copy of UserListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -391,11 +521,11 @@ abstract class _$$LoadedImplCopyWith<$Res> implements $UserListingStateCopyWith<
   factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<QueryProduct> query
+ List<QueryProduct> query, List<QueryProduct> filteredQuery, List<ProjectCategory> categories, ProjectCategory selectedCategory
 });
 
 
-
+@override $ProjectCategoryCopyWith<$Res> get selectedCategory;
 }
 
 /// @nodoc
@@ -406,10 +536,13 @@ class __$$LoadedImplCopyWithImpl<$Res> extends _$UserListingStateCopyWithImpl<$R
 
 /// Create a copy of UserListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? query = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? filteredQuery = null,Object? categories = null,Object? selectedCategory = null,}) {
   return _then(_$LoadedImpl(
 query: null == query ? _value._query : query // ignore: cast_nullable_to_non_nullable
-as List<QueryProduct>,
+as List<QueryProduct>,filteredQuery: null == filteredQuery ? _value._filteredQuery : filteredQuery // ignore: cast_nullable_to_non_nullable
+as List<QueryProduct>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
+as List<ProjectCategory>,selectedCategory: null == selectedCategory ? _value.selectedCategory : selectedCategory // ignore: cast_nullable_to_non_nullable
+as ProjectCategory,
   ));
 }
 
@@ -420,32 +553,47 @@ as List<QueryProduct>,
 
 
 class _$LoadedImpl  implements Loaded {
-  const _$LoadedImpl({final  List<QueryProduct> query = const []}): _query = query;
+  const _$LoadedImpl({required final  List<QueryProduct> query, required final  List<QueryProduct> filteredQuery, required final  List<ProjectCategory> categories, required this.selectedCategory}): _query = query,_filteredQuery = filteredQuery,_categories = categories;
 
   
 
  final  List<QueryProduct> _query;
-@override@JsonKey() List<QueryProduct> get query {
+@override List<QueryProduct> get query {
   if (_query is EqualUnmodifiableListView) return _query;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_query);
 }
 
+ final  List<QueryProduct> _filteredQuery;
+@override List<QueryProduct> get filteredQuery {
+  if (_filteredQuery is EqualUnmodifiableListView) return _filteredQuery;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_filteredQuery);
+}
+
+ final  List<ProjectCategory> _categories;
+@override List<ProjectCategory> get categories {
+  if (_categories is EqualUnmodifiableListView) return _categories;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_categories);
+}
+
+@override final  ProjectCategory selectedCategory;
 
 @override
 String toString() {
-  return 'UserListingState.loaded(query: $query)';
+  return 'UserListingState.loaded(query: $query, filteredQuery: $filteredQuery, categories: $categories, selectedCategory: $selectedCategory)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&const DeepCollectionEquality().equals(other._query, _query));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&const DeepCollectionEquality().equals(other._query, _query)&&const DeepCollectionEquality().equals(other._filteredQuery, _filteredQuery)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.selectedCategory, selectedCategory) || other.selectedCategory == selectedCategory));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_query));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_query),const DeepCollectionEquality().hash(_filteredQuery),const DeepCollectionEquality().hash(_categories),selectedCategory);
 
 /// Create a copy of UserListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -465,12 +613,12 @@ _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_
 
 
 abstract class Loaded implements UserListingState {
-  const factory Loaded({final  List<QueryProduct> query}) = _$LoadedImpl;
+  const factory Loaded({required final  List<QueryProduct> query, required final  List<QueryProduct> filteredQuery, required final  List<ProjectCategory> categories, required final  ProjectCategory selectedCategory}) = _$LoadedImpl;
   
 
   
 
-@override List<QueryProduct> get query;
+@override List<QueryProduct> get query;@override List<QueryProduct> get filteredQuery;@override List<ProjectCategory> get categories;@override ProjectCategory get selectedCategory;
 /// Create a copy of UserListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -483,11 +631,11 @@ abstract class _$$ErrorImplCopyWith<$Res> implements $UserListingStateCopyWith<$
   factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) = __$$ErrorImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- String message, List<QueryProduct> query
+ String message, List<QueryProduct> query, List<QueryProduct> filteredQuery, List<ProjectCategory> categories, ProjectCategory selectedCategory
 });
 
 
-
+@override $ProjectCategoryCopyWith<$Res> get selectedCategory;
 }
 
 /// @nodoc
@@ -498,11 +646,14 @@ class __$$ErrorImplCopyWithImpl<$Res> extends _$UserListingStateCopyWithImpl<$Re
 
 /// Create a copy of UserListingState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? query = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? query = null,Object? filteredQuery = null,Object? categories = null,Object? selectedCategory = null,}) {
   return _then(_$ErrorImpl(
 message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
 as String,query: null == query ? _value._query : query // ignore: cast_nullable_to_non_nullable
-as List<QueryProduct>,
+as List<QueryProduct>,filteredQuery: null == filteredQuery ? _value._filteredQuery : filteredQuery // ignore: cast_nullable_to_non_nullable
+as List<QueryProduct>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
+as List<ProjectCategory>,selectedCategory: null == selectedCategory ? _value.selectedCategory : selectedCategory // ignore: cast_nullable_to_non_nullable
+as ProjectCategory,
   ));
 }
 
@@ -513,7 +664,7 @@ as List<QueryProduct>,
 
 
 class _$ErrorImpl  implements Error {
-  const _$ErrorImpl({required this.message, final  List<QueryProduct> query = const []}): _query = query;
+  const _$ErrorImpl({required this.message, final  List<QueryProduct> query = const [], final  List<QueryProduct> filteredQuery = const [], final  List<ProjectCategory> categories = const [], this.selectedCategory = const ProjectCategory()}): _query = query,_filteredQuery = filteredQuery,_categories = categories;
 
   
 
@@ -525,21 +676,36 @@ class _$ErrorImpl  implements Error {
   return EqualUnmodifiableListView(_query);
 }
 
+ final  List<QueryProduct> _filteredQuery;
+@override@JsonKey() List<QueryProduct> get filteredQuery {
+  if (_filteredQuery is EqualUnmodifiableListView) return _filteredQuery;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_filteredQuery);
+}
+
+ final  List<ProjectCategory> _categories;
+@override@JsonKey() List<ProjectCategory> get categories {
+  if (_categories is EqualUnmodifiableListView) return _categories;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_categories);
+}
+
+@override@JsonKey() final  ProjectCategory selectedCategory;
 
 @override
 String toString() {
-  return 'UserListingState.error(message: $message, query: $query)';
+  return 'UserListingState.error(message: $message, query: $query, filteredQuery: $filteredQuery, categories: $categories, selectedCategory: $selectedCategory)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other._query, _query));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other._query, _query)&&const DeepCollectionEquality().equals(other._filteredQuery, _filteredQuery)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.selectedCategory, selectedCategory) || other.selectedCategory == selectedCategory));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message,const DeepCollectionEquality().hash(_query));
+int get hashCode => Object.hash(runtimeType,message,const DeepCollectionEquality().hash(_query),const DeepCollectionEquality().hash(_filteredQuery),const DeepCollectionEquality().hash(_categories),selectedCategory);
 
 /// Create a copy of UserListingState
 /// with the given fields replaced by the non-null parameter values.
@@ -559,12 +725,12 @@ _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => __$$ErrorImplCopyWithImpl<_$Er
 
 
 abstract class Error implements UserListingState {
-  const factory Error({required final  String message, final  List<QueryProduct> query}) = _$ErrorImpl;
+  const factory Error({required final  String message, final  List<QueryProduct> query, final  List<QueryProduct> filteredQuery, final  List<ProjectCategory> categories, final  ProjectCategory selectedCategory}) = _$ErrorImpl;
   
 
   
 
- String get message;@override List<QueryProduct> get query;
+ String get message;@override List<QueryProduct> get query;@override List<QueryProduct> get filteredQuery;@override List<ProjectCategory> get categories;@override ProjectCategory get selectedCategory;
 /// Create a copy of UserListingState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)

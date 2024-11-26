@@ -4,7 +4,7 @@ enum ListingCategoryValidationError { empty }
 
 class ListingCategory
     extends FormzInput<String, ListingCategoryValidationError> {
-  const ListingCategory.pure() : super.pure('');
+  const ListingCategory.pure(super.value) : super.pure();
   const ListingCategory.dirty([super.value = '']) : super.dirty();
 
   @override

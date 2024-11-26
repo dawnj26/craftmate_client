@@ -1,6 +1,7 @@
 import 'package:config_repository/config_repository.dart';
 import 'package:craftmate_client/dashboard/home/view/components/bottom_loader.dart';
 import 'package:craftmate_client/dashboard/home/view/components/category_filter.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/add_listing_page.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
@@ -671,8 +672,16 @@ class ProjectCard extends StatelessWidget {
       return PopupMenuButton(
         position: PopupMenuPosition.under,
         itemBuilder: (_) => [
-          const PopupMenuItem(
-            child: Text('Share'),
+          // const PopupMenuItem(
+          //   child: Text('Share'),
+          // ),
+          PopupMenuItem(
+            child: const Text('Sell'),
+            onTap: () {
+              Navigator.of(context).push(
+                AddListingPage.route(project: project),
+              );
+            },
           ),
           PopupMenuItem(
             onTap: () => _handleDelete(context, project),

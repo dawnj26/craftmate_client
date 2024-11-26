@@ -154,7 +154,7 @@ _$$StartedImplCopyWith<_$StartedImpl> get copyWith => throw _privateConstructorU
 /// @nodoc
 mixin _$SearchResultState {
 
- List<Project> get projects => throw _privateConstructorUsedError; List<ProjectCategory> get categories => throw _privateConstructorUsedError;
+ List<Project> get projects => throw _privateConstructorUsedError; List<ProjectCategory> get categories => throw _privateConstructorUsedError; List<User> get users => throw _privateConstructorUsedError;
 
 
 
@@ -174,7 +174,7 @@ abstract class $SearchResultStateCopyWith<$Res>  {
   factory $SearchResultStateCopyWith(SearchResultState value, $Res Function(SearchResultState) then) = _$SearchResultStateCopyWithImpl<$Res, SearchResultState>;
 @useResult
 $Res call({
- List<Project> projects, List<ProjectCategory> categories
+ List<Project> projects, List<ProjectCategory> categories, List<User> users
 });
 
 
@@ -192,11 +192,12 @@ class _$SearchResultStateCopyWithImpl<$Res,$Val extends SearchResultState> imple
 
 /// Create a copy of SearchResultState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? projects = null,Object? categories = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? projects = null,Object? categories = null,Object? users = null,}) {
   return _then(_value.copyWith(
 projects: null == projects ? _value.projects : projects // ignore: cast_nullable_to_non_nullable
 as List<Project>,categories: null == categories ? _value.categories : categories // ignore: cast_nullable_to_non_nullable
-as List<ProjectCategory>,
+as List<ProjectCategory>,users: null == users ? _value.users : users // ignore: cast_nullable_to_non_nullable
+as List<User>,
   )as $Val);
 }
 
@@ -208,7 +209,7 @@ abstract class _$$InitialImplCopyWith<$Res> implements $SearchResultStateCopyWit
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Project> projects, List<ProjectCategory> categories
+ List<Project> projects, List<ProjectCategory> categories, List<User> users
 });
 
 
@@ -223,11 +224,12 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$SearchResultStateCopyWithImpl<
 
 /// Create a copy of SearchResultState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? projects = null,Object? categories = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? projects = null,Object? categories = null,Object? users = null,}) {
   return _then(_$InitialImpl(
 projects: null == projects ? _value._projects : projects // ignore: cast_nullable_to_non_nullable
 as List<Project>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
-as List<ProjectCategory>,
+as List<ProjectCategory>,users: null == users ? _value._users : users // ignore: cast_nullable_to_non_nullable
+as List<User>,
   ));
 }
 
@@ -238,7 +240,7 @@ as List<ProjectCategory>,
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl({final  List<Project> projects = const [], final  List<ProjectCategory> categories = const []}): _projects = projects,_categories = categories;
+  const _$InitialImpl({final  List<Project> projects = const [], final  List<ProjectCategory> categories = const [], final  List<User> users = const []}): _projects = projects,_categories = categories,_users = users;
 
   
 
@@ -256,21 +258,28 @@ class _$InitialImpl  implements Initial {
   return EqualUnmodifiableListView(_categories);
 }
 
+ final  List<User> _users;
+@override@JsonKey() List<User> get users {
+  if (_users is EqualUnmodifiableListView) return _users;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_users);
+}
+
 
 @override
 String toString() {
-  return 'SearchResultState.initial(projects: $projects, categories: $categories)';
+  return 'SearchResultState.initial(projects: $projects, categories: $categories, users: $users)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&const DeepCollectionEquality().equals(other._projects, _projects)&&const DeepCollectionEquality().equals(other._categories, _categories));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&const DeepCollectionEquality().equals(other._projects, _projects)&&const DeepCollectionEquality().equals(other._categories, _categories)&&const DeepCollectionEquality().equals(other._users, _users));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_projects),const DeepCollectionEquality().hash(_categories));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_projects),const DeepCollectionEquality().hash(_categories),const DeepCollectionEquality().hash(_users));
 
 /// Create a copy of SearchResultState
 /// with the given fields replaced by the non-null parameter values.
@@ -290,12 +299,12 @@ _$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImp
 
 
 abstract class Initial implements SearchResultState {
-  const factory Initial({final  List<Project> projects, final  List<ProjectCategory> categories}) = _$InitialImpl;
+  const factory Initial({final  List<Project> projects, final  List<ProjectCategory> categories, final  List<User> users}) = _$InitialImpl;
   
 
   
 
-@override List<Project> get projects;@override List<ProjectCategory> get categories;
+@override List<Project> get projects;@override List<ProjectCategory> get categories;@override List<User> get users;
 /// Create a copy of SearchResultState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -308,7 +317,7 @@ abstract class _$$LoadingImplCopyWith<$Res> implements $SearchResultStateCopyWit
   factory _$$LoadingImplCopyWith(_$LoadingImpl value, $Res Function(_$LoadingImpl) then) = __$$LoadingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Project> projects, List<ProjectCategory> categories
+ List<Project> projects, List<ProjectCategory> categories, List<User> users
 });
 
 
@@ -323,11 +332,12 @@ class __$$LoadingImplCopyWithImpl<$Res> extends _$SearchResultStateCopyWithImpl<
 
 /// Create a copy of SearchResultState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? projects = null,Object? categories = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? projects = null,Object? categories = null,Object? users = null,}) {
   return _then(_$LoadingImpl(
 projects: null == projects ? _value._projects : projects // ignore: cast_nullable_to_non_nullable
 as List<Project>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
-as List<ProjectCategory>,
+as List<ProjectCategory>,users: null == users ? _value._users : users // ignore: cast_nullable_to_non_nullable
+as List<User>,
   ));
 }
 
@@ -338,7 +348,7 @@ as List<ProjectCategory>,
 
 
 class _$LoadingImpl  implements Loading {
-  const _$LoadingImpl({final  List<Project> projects = const [], final  List<ProjectCategory> categories = const []}): _projects = projects,_categories = categories;
+  const _$LoadingImpl({final  List<Project> projects = const [], final  List<ProjectCategory> categories = const [], final  List<User> users = const []}): _projects = projects,_categories = categories,_users = users;
 
   
 
@@ -356,21 +366,28 @@ class _$LoadingImpl  implements Loading {
   return EqualUnmodifiableListView(_categories);
 }
 
+ final  List<User> _users;
+@override@JsonKey() List<User> get users {
+  if (_users is EqualUnmodifiableListView) return _users;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_users);
+}
+
 
 @override
 String toString() {
-  return 'SearchResultState.loading(projects: $projects, categories: $categories)';
+  return 'SearchResultState.loading(projects: $projects, categories: $categories, users: $users)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&const DeepCollectionEquality().equals(other._projects, _projects)&&const DeepCollectionEquality().equals(other._categories, _categories));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&const DeepCollectionEquality().equals(other._projects, _projects)&&const DeepCollectionEquality().equals(other._categories, _categories)&&const DeepCollectionEquality().equals(other._users, _users));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_projects),const DeepCollectionEquality().hash(_categories));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_projects),const DeepCollectionEquality().hash(_categories),const DeepCollectionEquality().hash(_users));
 
 /// Create a copy of SearchResultState
 /// with the given fields replaced by the non-null parameter values.
@@ -390,12 +407,12 @@ _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => __$$LoadingImplCopyWithImp
 
 
 abstract class Loading implements SearchResultState {
-  const factory Loading({final  List<Project> projects, final  List<ProjectCategory> categories}) = _$LoadingImpl;
+  const factory Loading({final  List<Project> projects, final  List<ProjectCategory> categories, final  List<User> users}) = _$LoadingImpl;
   
 
   
 
-@override List<Project> get projects;@override List<ProjectCategory> get categories;
+@override List<Project> get projects;@override List<ProjectCategory> get categories;@override List<User> get users;
 /// Create a copy of SearchResultState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -408,7 +425,7 @@ abstract class _$$LoadedImplCopyWith<$Res> implements $SearchResultStateCopyWith
   factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Project> projects, List<ProjectCategory> categories
+ List<Project> projects, List<ProjectCategory> categories, List<User> users
 });
 
 
@@ -423,11 +440,12 @@ class __$$LoadedImplCopyWithImpl<$Res> extends _$SearchResultStateCopyWithImpl<$
 
 /// Create a copy of SearchResultState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? projects = null,Object? categories = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? projects = null,Object? categories = null,Object? users = null,}) {
   return _then(_$LoadedImpl(
 projects: null == projects ? _value._projects : projects // ignore: cast_nullable_to_non_nullable
 as List<Project>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
-as List<ProjectCategory>,
+as List<ProjectCategory>,users: null == users ? _value._users : users // ignore: cast_nullable_to_non_nullable
+as List<User>,
   ));
 }
 
@@ -438,7 +456,7 @@ as List<ProjectCategory>,
 
 
 class _$LoadedImpl  implements Loaded {
-  const _$LoadedImpl({required final  List<Project> projects, required final  List<ProjectCategory> categories}): _projects = projects,_categories = categories;
+  const _$LoadedImpl({required final  List<Project> projects, required final  List<ProjectCategory> categories, required final  List<User> users}): _projects = projects,_categories = categories,_users = users;
 
   
 
@@ -456,21 +474,28 @@ class _$LoadedImpl  implements Loaded {
   return EqualUnmodifiableListView(_categories);
 }
 
+ final  List<User> _users;
+@override List<User> get users {
+  if (_users is EqualUnmodifiableListView) return _users;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_users);
+}
+
 
 @override
 String toString() {
-  return 'SearchResultState.loaded(projects: $projects, categories: $categories)';
+  return 'SearchResultState.loaded(projects: $projects, categories: $categories, users: $users)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&const DeepCollectionEquality().equals(other._projects, _projects)&&const DeepCollectionEquality().equals(other._categories, _categories));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&const DeepCollectionEquality().equals(other._projects, _projects)&&const DeepCollectionEquality().equals(other._categories, _categories)&&const DeepCollectionEquality().equals(other._users, _users));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_projects),const DeepCollectionEquality().hash(_categories));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_projects),const DeepCollectionEquality().hash(_categories),const DeepCollectionEquality().hash(_users));
 
 /// Create a copy of SearchResultState
 /// with the given fields replaced by the non-null parameter values.
@@ -490,12 +515,12 @@ _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_
 
 
 abstract class Loaded implements SearchResultState {
-  const factory Loaded({required final  List<Project> projects, required final  List<ProjectCategory> categories}) = _$LoadedImpl;
+  const factory Loaded({required final  List<Project> projects, required final  List<ProjectCategory> categories, required final  List<User> users}) = _$LoadedImpl;
   
 
   
 
-@override List<Project> get projects;@override List<ProjectCategory> get categories;
+@override List<Project> get projects;@override List<ProjectCategory> get categories;@override List<User> get users;
 /// Create a copy of SearchResultState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -508,7 +533,7 @@ abstract class _$$ErrorImplCopyWith<$Res> implements $SearchResultStateCopyWith<
   factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) = __$$ErrorImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Project> projects, List<ProjectCategory> categories, String message
+ List<Project> projects, List<ProjectCategory> categories, List<User> users, String message
 });
 
 
@@ -523,11 +548,12 @@ class __$$ErrorImplCopyWithImpl<$Res> extends _$SearchResultStateCopyWithImpl<$R
 
 /// Create a copy of SearchResultState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? projects = null,Object? categories = null,Object? message = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? projects = null,Object? categories = null,Object? users = null,Object? message = null,}) {
   return _then(_$ErrorImpl(
 projects: null == projects ? _value._projects : projects // ignore: cast_nullable_to_non_nullable
 as List<Project>,categories: null == categories ? _value._categories : categories // ignore: cast_nullable_to_non_nullable
-as List<ProjectCategory>,message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
+as List<ProjectCategory>,users: null == users ? _value._users : users // ignore: cast_nullable_to_non_nullable
+as List<User>,message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -539,7 +565,7 @@ as String,
 
 
 class _$ErrorImpl  implements Error {
-  const _$ErrorImpl({final  List<Project> projects = const [], final  List<ProjectCategory> categories = const [], required this.message}): _projects = projects,_categories = categories;
+  const _$ErrorImpl({final  List<Project> projects = const [], final  List<ProjectCategory> categories = const [], final  List<User> users = const [], required this.message}): _projects = projects,_categories = categories,_users = users;
 
   
 
@@ -557,22 +583,29 @@ class _$ErrorImpl  implements Error {
   return EqualUnmodifiableListView(_categories);
 }
 
+ final  List<User> _users;
+@override@JsonKey() List<User> get users {
+  if (_users is EqualUnmodifiableListView) return _users;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_users);
+}
+
 @override final  String message;
 
 @override
 String toString() {
-  return 'SearchResultState.error(projects: $projects, categories: $categories, message: $message)';
+  return 'SearchResultState.error(projects: $projects, categories: $categories, users: $users, message: $message)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&const DeepCollectionEquality().equals(other._projects, _projects)&&const DeepCollectionEquality().equals(other._categories, _categories)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&const DeepCollectionEquality().equals(other._projects, _projects)&&const DeepCollectionEquality().equals(other._categories, _categories)&&const DeepCollectionEquality().equals(other._users, _users)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_projects),const DeepCollectionEquality().hash(_categories),message);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_projects),const DeepCollectionEquality().hash(_categories),const DeepCollectionEquality().hash(_users),message);
 
 /// Create a copy of SearchResultState
 /// with the given fields replaced by the non-null parameter values.
@@ -592,12 +625,12 @@ _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => __$$ErrorImplCopyWithImpl<_$Er
 
 
 abstract class Error implements SearchResultState {
-  const factory Error({final  List<Project> projects, final  List<ProjectCategory> categories, required final  String message}) = _$ErrorImpl;
+  const factory Error({final  List<Project> projects, final  List<ProjectCategory> categories, final  List<User> users, required final  String message}) = _$ErrorImpl;
   
 
   
 
-@override List<Project> get projects;@override List<ProjectCategory> get categories; String get message;
+@override List<Project> get projects;@override List<ProjectCategory> get categories;@override List<User> get users; String get message;
 /// Create a copy of SearchResultState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)

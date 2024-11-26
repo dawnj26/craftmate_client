@@ -134,6 +134,10 @@ class ViewListingBloc extends Bloc<ViewListingEvent, ViewListingState> {
       _curUser = await _userRepository.getUserByToken();
 
       final product = await _shopRepository.fetchListing(event.id, _curUser.id);
+      if (product.product.sellerId != _curUser.id) {
+        await _shopRepository.viewListing(event.id, _curUser.id);
+      }
+
       final seller =
           await _userRepository.getUserById(product.product.sellerId);
       emit(
