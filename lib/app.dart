@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
     _projectRepository = ProjectRepository(config: config);
     _materialRepository = MaterialRepository(config: config);
     _searchRepository = SearchRepository(configRepository: config);
-    _shopRepository = ShopRepository(config);
+    _shopRepository = ShopRepository(config, _userRepository);
     _mapRepository = MapRepository(config);
 
     super.initState();
