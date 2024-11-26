@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:map_repository/map_repository.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:shop_repository/shop_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -348,22 +349,25 @@ class _ImageCarouselState extends State<ImageCarousel> {
           carouselController: _controller,
           itemCount: widget.imageUrls.length,
           itemBuilder: (context, index, realIndex) {
-            return Image.network(
-              widget.imageUrls[index],
-              fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
-                        : null,
-                  ),
-                );
-              },
+            return GestureDetector(
+              onTap: () => _viewImage(context),
+              child: Image.network(
+                widget.imageUrls[index],
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
+              ),
             );
           },
           options: CarouselOptions(
@@ -405,6 +409,50 @@ class _ImageCarouselState extends State<ImageCarousel> {
                 ),
               ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _viewImage(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ZoomPhoto(
+          imageUrl: widget.imageUrls[_currentIndex],
+        );
+      },
+    );
+  }
+}
+
+class ZoomPhoto extends StatelessWidget {
+  const ZoomPhoto({
+    super.key,
+    required this.imageUrl,
+  });
+
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        PhotoView(
+          imageProvider: NetworkImage(imageUrl),
+          minScale: PhotoViewComputedScale.contained,
+          maxScale: PhotoViewComputedScale.covered * 2,
+          strictScale: true,
+        ),
+        Positioned(
+          top: 16,
+          right: 16,
+          child: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(Icons.close_rounded),
           ),
         ),
       ],
