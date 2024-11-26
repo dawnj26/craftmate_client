@@ -17,6 +17,7 @@ class SavedItemsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SavedListingBloc(
+        projectRepository: context.read(),
         shopRepository: context.read(),
       )..add(SavedListingEvent.started(context.read<AuthBloc>().state.user.id)),
       child: const SavedItemsScreen(),
