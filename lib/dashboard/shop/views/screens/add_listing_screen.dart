@@ -7,6 +7,7 @@ import 'package:craftmate_client/dashboard/shop/models/listing_category.dart';
 import 'package:craftmate_client/dashboard/shop/models/listing_price.dart';
 import 'package:craftmate_client/dashboard/shop/models/listing_title.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/add_address_page.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:flutter/material.dart';
@@ -358,6 +359,8 @@ class ListingProfile extends StatelessWidget {
     final theme = Theme.of(context);
     final currentUser = context.read<AuthBloc>().state.user;
     final hasImage = currentUser.image != null;
+
+    logger.info('currentUser: $currentUser');
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
