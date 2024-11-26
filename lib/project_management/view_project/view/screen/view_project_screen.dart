@@ -1,4 +1,5 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
+import 'package:craftmate_client/dashboard/shop/views/screens/view_listing_screen.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/screens/screens.dart';
@@ -170,7 +171,7 @@ class ViewProjectScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (_) {
-        return Image.network(project.imageUrl!);
+        return ZoomPhoto(imageUrl: project.imageUrl!);
       },
     );
   }
