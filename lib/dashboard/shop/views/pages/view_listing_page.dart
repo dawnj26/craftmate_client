@@ -1,3 +1,4 @@
+import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/chats/views/screens/chat_screen.dart';
 import 'package:craftmate_client/dashboard/shop/bloc/view_listing/view_listing_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/views/screens/view_listing_screen.dart';
@@ -34,8 +35,16 @@ class ViewListingPage extends StatelessWidget {
             case Sending():
               Modal.instance.showLoadingDialog(context);
             case Sent(:final seller, :final query):
+              final curUser = context.read<AuthBloc>().state.user;
+
               Navigator.of(context).pushReplacement(
-                ChatScreen.route(seller, listingId: query.id),
+                ChatScreen.route(
+                  seller,
+                  listingId: query.id,
+                  title: '${curUser.name} - ${query.product.name}',
+                  imageUrl: query.product.imageUrls.first,
+                  sellerId: seller.id,
+                ),
               );
           }
         },
