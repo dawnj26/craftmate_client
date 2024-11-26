@@ -16,7 +16,8 @@ abstract class IShopRepository {
   });
   Future<List<QueryProduct>> fetchSavedListings(int userId);
   Future<QueryProduct> fetchListing(String id, [int? userId]);
-  Future<void> publishListing(Product product);
+  Future<void> publishListing(Product product,
+      [List<String> networkImages = const []]);
   Future<QueryProduct> favoriteListing(String id, int userId);
   List<QueryProduct> getNearbyListings(
     List<QueryProduct> allListings,
@@ -28,6 +29,7 @@ abstract class IShopRepository {
   Future<bool> isAlreadyReviewed(int sellerId, int userId);
   Future<List<QueryReview>> fetchReviews(int sellerId);
   Future<void> viewListing(String id, int userId);
+  Future<ShopOverview> getSellerStats(int sellerId, {String? period});
 }
 
 class ShopRepository implements IShopRepository {
@@ -48,11 +50,12 @@ class ShopRepository implements IShopRepository {
   }
 
   @override
-  Future<void> publishListing(Product product) async {
+  Future<void> publishListing(Product product,
+      [List<String> networkImages = const []]) async {
     try {
       final List<String> imageUrls = await _uploadImages(product.imageUrls);
       final newProduct = product.copyWith(
-        imageUrls: imageUrls,
+        imageUrls: [...networkImages, ...imageUrls],
       );
 
       await _config.db.collection(_baseUrl).add(newProduct.toJson());
@@ -354,6 +357,106 @@ class ShopRepository implements IShopRepository {
     } catch (e) {
       _config.logger.error('Failed to view listing: $e', e, StackTrace.current);
       throw ShopException('Failed to view listing: $e');
+    }
+  }
+
+  DateTime _getStartDate(String? period) {
+    final now = DateTime.now();
+    switch (period) {
+      case 'weekly':
+        return now.subtract(const Duration(days: 7));
+      case 'monthly':
+        return DateTime(now.year, now.month - 1, now.day);
+      case 'yearly':
+        return DateTime(now.year - 1, now.month, now.day);
+      default:
+        return DateTime(1970); // all time
+    }
+  }
+
+  @override
+  Future<ShopOverview> getSellerStats(int sellerId, {String? period}) async {
+    try {
+      final startDate = _getStartDate(period);
+
+      // Get listings count
+      final listingsQuery = await _config.db
+          .collection(_baseUrl)
+          .where('sellerId', isEqualTo: sellerId)
+          // .where('createdAt', isGreaterThanOrEqualTo: startDate)
+          .get();
+
+      final listingsCount = listingsQuery.docs.where((e) {
+        final listingDate = DateTime.parse(e.data()['createdAt'] as String);
+        return listingDate.isAfter(startDate) ||
+            listingDate.isAtSameMomentAs(startDate);
+      }).length;
+
+      // Get total views
+      var totalViews = 0;
+      for (var listing in listingsQuery.docs) {
+        final listingData = listing.data();
+        final listingDate = DateTime.parse(listingData['createdAt'] as String);
+
+        if (listingDate.isBefore(startDate) ||
+            listingDate.isAtSameMomentAs(startDate)) {
+          continue;
+        }
+
+        final viewsQuery = await _config.db
+            .collection('$_baseUrl/${listing.id}/views')
+            .where('viewedAt', isGreaterThanOrEqualTo: startDate)
+            .get();
+        totalViews += viewsQuery.docs.length;
+      }
+
+      // Get average rating
+      final reviewsQuery = await _config.db
+          .collection('users/$sellerId/reviews')
+          // .where('createdAt', isGreaterThanOrEqualTo: startDate)
+          .get();
+
+      double averageRating = 0;
+      int reviewsCount = 0;
+      for (var review in reviewsQuery.docs) {
+        final reviewData = review.data();
+        final dateString = reviewData['createdAt'] as String?;
+        final reviewDate = dateString != null
+            ? DateTime.parse(reviewData['createdAt'] as String)
+            : DateTime.now();
+
+        if (reviewDate.isBefore(startDate)) {
+          continue;
+        }
+
+        averageRating += reviewData['rating'] as int;
+        reviewsCount++;
+      }
+
+      averageRating = reviewsCount > 0 ? averageRating / reviewsCount : 0;
+
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/user/followers/${period ?? 'all'}',
+        method: 'GET',
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ShopException('No response');
+      }
+
+      final totalFollowers = response.data!['data']['count'] as int;
+
+      return ShopOverview(
+        totalProducts: listingsCount,
+        totalViews: totalViews,
+        totalRating: averageRating,
+        totalFollowers: totalFollowers,
+      );
+    } catch (e) {
+      _config.logger
+          .error('Failed to get seller stats: $e', e, StackTrace.current);
+      throw ShopException('Failed to get seller stats: $e');
     }
   }
 }
