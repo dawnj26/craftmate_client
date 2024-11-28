@@ -19,4 +19,13 @@ class AppTheme {
       ),
     );
   }
+
+  ThemeData changeThemeColor(ThemeData theme, Color color) {
+    //generate new color scheme
+    return theme.copyWith(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: color,
+      ),
+    );
+  }
 }
