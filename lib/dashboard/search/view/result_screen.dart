@@ -1,6 +1,5 @@
 import 'package:craftmate_client/dashboard/home/view/tabs/trending_tab_page.dart';
 import 'package:craftmate_client/dashboard/search/bloc/result/search_result_bloc.dart';
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/user_profile/views/user_profile_page.dart';
 import 'package:flutter/material.dart';
