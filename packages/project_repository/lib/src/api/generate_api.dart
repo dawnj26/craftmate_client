@@ -22,8 +22,12 @@ class GenerateApi {
       if (response.data == null) {
         throw GenerateException(message: 'Response is null');
       }
+      String data = response.data!['data'] as String;
 
-      final suggestions = jsonDecode(response.data!['data'] as String) as List;
+      data = data.replaceAll('```json', '');
+      data = data.replaceAll('```', '');
+
+      final suggestions = jsonDecode(data) as List;
 
       _config.logger.info('Prompt: $prompt');
       return suggestions.map((suggestion) {
@@ -59,12 +63,18 @@ class GenerateApi {
         throw GenerateException(message: 'Response is null');
       }
 
-      final resJson = jsonDecode(response.data!['data']);
+      String data = response.data!['data'] as String;
+
+      data = data.replaceAll('```json', '');
+      data = data.replaceAll('```', '');
+
+      final resJson = jsonDecode(data);
       final res = ProjectSuggestion.fromJson(resJson);
 
       _config.prefs.setString(titleKey, jsonEncode(res.toJson()));
       return res;
     } on RequestException catch (e) {
+      _config.logger.error('RequestException: $e');
       throw GenerateException(message: e.message);
     } on TokenException catch (e) {
       throw GenerateException(message: e.message);
