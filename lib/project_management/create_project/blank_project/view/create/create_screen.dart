@@ -262,13 +262,13 @@ class _CreateProjectForm extends StatelessWidget {
             );
           },
         ),
-        const Gap(12.0),
+        const Gap(20.0),
         _CustomTextField(
           controller: tagController,
           labelText: 'Tags (optional)',
           multiline: false,
           icon: const Icon(Icons.category),
-          helperText: 'Separated by whitespaces',
+          helperText: 'Separated by commas (e.g. tag1, tag2)',
           focusNode: tagFocusNode,
         ),
       ],
