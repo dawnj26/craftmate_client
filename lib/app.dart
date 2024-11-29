@@ -93,6 +93,7 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(
             create: (context) => SettingsBloc(
+              configRepository: config,
               appTheme: const AppTheme(),
             )..add(
                 SettingsEvent.started(
