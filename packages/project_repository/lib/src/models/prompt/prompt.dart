@@ -21,14 +21,18 @@ class Prompt with _$Prompt {
     Act like a creative expert artisan and think and provide random 5 crafting project suggestions based on this information:
     I want to ba a/an $type crafting project, Difficulty: $difficulty, Materials: $materialsString, Additional Info: ${additionalInfo.isNotEmpty ? additionalInfo : 'None'}
 
-    Respond only using this JSON format and make strings is in plain text and make it in one line:
-    [
-      {
-        "title": "Title of the project",
-        "description": "Description of the project"
-      }
-    ]
+    Use this JSON schema:
+    Project = { title: string, description: string }
+    Return: list[Project]
     ''';
+
+    // Respond only using this JSON format, dont generate any md just json, and make strings is in plain text and make it in one line:
+    // [
+    //   {
+    //     "title": "Title of the project",
+    //     "description": "Description of the project"
+    //   }
+    // ]
   }
 
   String generateProjectPrompt(ProjectSuggestion suggestion) {
