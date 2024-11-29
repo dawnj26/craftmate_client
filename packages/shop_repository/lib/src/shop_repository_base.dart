@@ -30,6 +30,10 @@ abstract class IShopRepository {
   Future<List<QueryReview>> fetchReviews(int sellerId);
   Future<void> viewListing(String id, int userId);
   Future<ShopOverview> getSellerStats(int sellerId, {String? period});
+  Future<void> markAsSold(String id);
+  Future<void> deleteListing(String id);
+  Future<void> updateListing(String id, Product product,
+      [List<String> networkImages = const []]);
 }
 
 class ShopRepository implements IShopRepository {
@@ -457,6 +461,55 @@ class ShopRepository implements IShopRepository {
       _config.logger
           .error('Failed to get seller stats: $e', e, StackTrace.current);
       throw ShopException('Failed to get seller stats: $e');
+    }
+  }
+
+  @override
+  Future<void> markAsSold(String id) async {
+    try {
+      await _config.db.collection(_baseUrl).doc(id).update({
+        'soldAt': DateTime.now().toIso8601String(),
+      });
+    } catch (e) {
+      _config.logger.error('Failed to mark as sold: $e', e, StackTrace.current);
+      throw ShopException('Failed to mark as sold: $e');
+    }
+  }
+
+  @override
+  Future<void> deleteListing(String id) async {
+    try {
+      await _config.db.collection(_baseUrl).doc(id).delete();
+    } catch (e) {
+      _config.logger
+          .error('Failed to delete listing: $e', e, StackTrace.current);
+      throw ShopException('Failed to delete listing: $e');
+    }
+  }
+
+  @override
+  Future<void> updateListing(String id, Product product,
+      [List<String> networkImages = const []]) async {
+    try {
+      if (product.imageUrls.isEmpty && networkImages.isEmpty) {
+        throw ShopException('Please upload at least one image');
+      }
+
+      final List<String> imageUrls = product.imageUrls.isEmpty
+          ? []
+          : await _uploadImages(product.imageUrls);
+      final updatedProduct = product.copyWith(
+        imageUrls: [...networkImages, ...imageUrls],
+      );
+
+      await _config.db
+          .collection(_baseUrl)
+          .doc(id)
+          .update(updatedProduct.toJson());
+    } catch (e) {
+      _config.logger
+          .error('Failed to update listing: $e', e, StackTrace.current);
+      throw ShopException('Failed to update listing: $e');
     }
   }
 }
