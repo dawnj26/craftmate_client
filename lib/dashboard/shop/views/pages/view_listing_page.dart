@@ -32,8 +32,14 @@ class ViewListingPage extends StatelessWidget {
           switch (state) {
             case Error(:final errMessage):
               Alert.instance.showSnackbar(context, errMessage);
+            case Deleting():
             case Sending():
               Modal.instance.showLoadingDialog(context);
+            case Deleted():
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+              Alert.instance.showSnackbar(context, 'Listing deleted');
+
             case Sent(:final seller, :final query):
               final curUser = context.read<AuthBloc>().state.user;
 
