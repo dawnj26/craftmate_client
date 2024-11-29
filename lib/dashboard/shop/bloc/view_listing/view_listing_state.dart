@@ -32,6 +32,18 @@ class ViewListingState with _$ViewListingState {
     @Default('') String message,
   }) = Loaded;
 
+  const factory ViewListingState.deleting({
+    @Default(QueryProduct()) QueryProduct query,
+    @Default(User()) User seller,
+    @Default('') String message,
+  }) = Deleting;
+
+  const factory ViewListingState.deleted({
+    @Default(QueryProduct()) QueryProduct query,
+    @Default(User()) User seller,
+    @Default('') String message,
+  }) = Deleted;
+
   const factory ViewListingState.error({
     required String errMessage,
     @Default(QueryProduct()) QueryProduct query,

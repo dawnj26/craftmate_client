@@ -28,12 +28,80 @@ class ViewListingBloc extends Bloc<ViewListingEvent, ViewListingState> {
       transformer: debounce(const Duration(milliseconds: 300)),
     );
     on<_MessageSent>(_onMessageSent);
+    on<_MarkedAsSold>(_onMarkedAsSold);
+    on<_ListingDeleted>(_onDeleted);
   }
 
   final ShopRepository _shopRepository;
   final UserRepository _userRepository;
   final ChatRepository _chatRepository;
   late final User _curUser;
+
+  Future<void> _onDeleted(
+    _ListingDeleted event,
+    Emitter<ViewListingState> emit,
+  ) async {
+    try {
+      emit(
+        Deleting(
+          query: state.query.copyWith(),
+          seller: state.seller.copyWith(),
+          message: state.message,
+        ),
+      );
+      await _shopRepository.deleteListing(state.query.id);
+      emit(
+        Deleted(
+          query: state.query.copyWith(),
+          seller: state.seller.copyWith(),
+          message: state.message,
+        ),
+      );
+    } on ShopException catch (e) {
+      emit(
+        Error(
+          errMessage: e.message,
+          message: state.message,
+          query: state.query.copyWith(),
+          seller: state.seller.copyWith(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onMarkedAsSold(
+    _MarkedAsSold event,
+    Emitter<ViewListingState> emit,
+  ) async {
+    try {
+      emit(
+        Loading(
+          query: state.query.copyWith(),
+          seller: state.seller.copyWith(),
+          message: state.message,
+        ),
+      );
+      await _shopRepository.markAsSold(state.query.id);
+      emit(
+        Loaded(
+          query: state.query.copyWith(
+            product: state.query.product.copyWith(soldAt: DateTime.now()),
+          ),
+          seller: state.seller,
+          message: state.message,
+        ),
+      );
+    } on ShopException catch (e) {
+      emit(
+        Error(
+          errMessage: e.message,
+          message: state.message,
+          query: state.query.copyWith(),
+          seller: state.seller.copyWith(),
+        ),
+      );
+    }
+  }
 
   Future<void> _onMessageSent(
     _MessageSent event,

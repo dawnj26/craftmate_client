@@ -7,4 +7,6 @@ class ViewListingEvent with _$ViewListingEvent {
   const factory ViewListingEvent.messageChanged(String message) =
       _MessageChanged;
   const factory ViewListingEvent.messageSent() = _MessageSent;
+  const factory ViewListingEvent.markedAsSold() = _MarkedAsSold;
+  const factory ViewListingEvent.listingDeleted() = _ListingDeleted;
 }

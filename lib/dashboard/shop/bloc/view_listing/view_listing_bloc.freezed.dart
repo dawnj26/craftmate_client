@@ -359,6 +359,140 @@ abstract class _MessageSent implements ViewListingEvent {
 }
 
 /// @nodoc
+abstract class _$$MarkedAsSoldImplCopyWith<$Res>  {
+  factory _$$MarkedAsSoldImplCopyWith(_$MarkedAsSoldImpl value, $Res Function(_$MarkedAsSoldImpl) then) = __$$MarkedAsSoldImplCopyWithImpl<$Res>;
+
+
+
+}
+
+/// @nodoc
+class __$$MarkedAsSoldImplCopyWithImpl<$Res> extends _$ViewListingEventCopyWithImpl<$Res, _$MarkedAsSoldImpl> implements _$$MarkedAsSoldImplCopyWith<$Res> {
+  __$$MarkedAsSoldImplCopyWithImpl(_$MarkedAsSoldImpl _value, $Res Function(_$MarkedAsSoldImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ViewListingEvent
+/// with the given fields replaced by the non-null parameter values.
+
+
+
+}
+
+/// @nodoc
+
+
+class _$MarkedAsSoldImpl  implements _MarkedAsSold {
+  const _$MarkedAsSoldImpl();
+
+  
+
+
+
+@override
+String toString() {
+  return 'ViewListingEvent.markedAsSold()';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$MarkedAsSoldImpl);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _MarkedAsSold implements ViewListingEvent {
+  const factory _MarkedAsSold() = _$MarkedAsSoldImpl;
+  
+
+  
+
+
+
+}
+
+/// @nodoc
+abstract class _$$ListingDeletedImplCopyWith<$Res>  {
+  factory _$$ListingDeletedImplCopyWith(_$ListingDeletedImpl value, $Res Function(_$ListingDeletedImpl) then) = __$$ListingDeletedImplCopyWithImpl<$Res>;
+
+
+
+}
+
+/// @nodoc
+class __$$ListingDeletedImplCopyWithImpl<$Res> extends _$ViewListingEventCopyWithImpl<$Res, _$ListingDeletedImpl> implements _$$ListingDeletedImplCopyWith<$Res> {
+  __$$ListingDeletedImplCopyWithImpl(_$ListingDeletedImpl _value, $Res Function(_$ListingDeletedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ViewListingEvent
+/// with the given fields replaced by the non-null parameter values.
+
+
+
+}
+
+/// @nodoc
+
+
+class _$ListingDeletedImpl  implements _ListingDeleted {
+  const _$ListingDeletedImpl();
+
+  
+
+
+
+@override
+String toString() {
+  return 'ViewListingEvent.listingDeleted()';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ListingDeletedImpl);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _ListingDeleted implements ViewListingEvent {
+  const factory _ListingDeleted() = _$ListingDeletedImpl;
+  
+
+  
+
+
+
+}
+
+/// @nodoc
 mixin _$ViewListingState {
 
  QueryProduct get query => throw _privateConstructorUsedError; User get seller => throw _privateConstructorUsedError; String get message => throw _privateConstructorUsedError;
@@ -876,6 +1010,186 @@ abstract class Loaded implements ViewListingState {
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
+abstract class _$$DeletingImplCopyWith<$Res> implements $ViewListingStateCopyWith<$Res> {
+  factory _$$DeletingImplCopyWith(_$DeletingImpl value, $Res Function(_$DeletingImpl) then) = __$$DeletingImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ QueryProduct query, User seller, String message
+});
+
+
+@override $QueryProductCopyWith<$Res> get query;@override $UserCopyWith<$Res> get seller;
+}
+
+/// @nodoc
+class __$$DeletingImplCopyWithImpl<$Res> extends _$ViewListingStateCopyWithImpl<$Res, _$DeletingImpl> implements _$$DeletingImplCopyWith<$Res> {
+  __$$DeletingImplCopyWithImpl(_$DeletingImpl _value, $Res Function(_$DeletingImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? seller = null,Object? message = null,}) {
+  return _then(_$DeletingImpl(
+query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
+as QueryProduct,seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
+as User,message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$DeletingImpl  implements Deleting {
+  const _$DeletingImpl({this.query = const QueryProduct(), this.seller = const User(), this.message = ''});
+
+  
+
+@override@JsonKey() final  QueryProduct query;
+@override@JsonKey() final  User seller;
+@override@JsonKey() final  String message;
+
+@override
+String toString() {
+  return 'ViewListingState.deleting(query: $query, seller: $seller, message: $message)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$DeletingImpl&&(identical(other.query, query) || other.query == query)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,query,seller,message);
+
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$DeletingImplCopyWith<_$DeletingImpl> get copyWith => __$$DeletingImplCopyWithImpl<_$DeletingImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class Deleting implements ViewListingState {
+  const factory Deleting({final  QueryProduct query, final  User seller, final  String message}) = _$DeletingImpl;
+  
+
+  
+
+@override QueryProduct get query;@override User get seller;@override String get message;
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$DeletingImplCopyWith<_$DeletingImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
+abstract class _$$DeletedImplCopyWith<$Res> implements $ViewListingStateCopyWith<$Res> {
+  factory _$$DeletedImplCopyWith(_$DeletedImpl value, $Res Function(_$DeletedImpl) then) = __$$DeletedImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ QueryProduct query, User seller, String message
+});
+
+
+@override $QueryProductCopyWith<$Res> get query;@override $UserCopyWith<$Res> get seller;
+}
+
+/// @nodoc
+class __$$DeletedImplCopyWithImpl<$Res> extends _$ViewListingStateCopyWithImpl<$Res, _$DeletedImpl> implements _$$DeletedImplCopyWith<$Res> {
+  __$$DeletedImplCopyWithImpl(_$DeletedImpl _value, $Res Function(_$DeletedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? seller = null,Object? message = null,}) {
+  return _then(_$DeletedImpl(
+query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
+as QueryProduct,seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
+as User,message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$DeletedImpl  implements Deleted {
+  const _$DeletedImpl({this.query = const QueryProduct(), this.seller = const User(), this.message = ''});
+
+  
+
+@override@JsonKey() final  QueryProduct query;
+@override@JsonKey() final  User seller;
+@override@JsonKey() final  String message;
+
+@override
+String toString() {
+  return 'ViewListingState.deleted(query: $query, seller: $seller, message: $message)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$DeletedImpl&&(identical(other.query, query) || other.query == query)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,query,seller,message);
+
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$DeletedImplCopyWith<_$DeletedImpl> get copyWith => __$$DeletedImplCopyWithImpl<_$DeletedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class Deleted implements ViewListingState {
+  const factory Deleted({final  QueryProduct query, final  User seller, final  String message}) = _$DeletedImpl;
+  
+
+  
+
+@override QueryProduct get query;@override User get seller;@override String get message;
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$DeletedImplCopyWith<_$DeletedImpl> get copyWith => throw _privateConstructorUsedError;
 
 }
 
