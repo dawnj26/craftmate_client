@@ -17,7 +17,7 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 1,
       child: Scaffold(
         body: BlocBuilder<ViewProfileBloc, ViewProfileState>(
           builder: (context, state) {
@@ -129,9 +129,9 @@ class _ProfileView extends StatelessWidget {
               Tab(
                 text: 'Projects',
               ),
-              Tab(
-                text: 'Products',
-              ),
+              // Tab(
+              //   text: 'Products',
+              // ),
             ],
           ),
         ),
