@@ -206,6 +206,92 @@ _$$StartedImplCopyWith<_$StartedImpl> get copyWith => throw _privateConstructorU
 }
 
 /// @nodoc
+abstract class _$$ThemeColorChangedImplCopyWith<$Res>  {
+  factory _$$ThemeColorChangedImplCopyWith(_$ThemeColorChangedImpl value, $Res Function(_$ThemeColorChangedImpl) then) = __$$ThemeColorChangedImplCopyWithImpl<$Res>;
+@useResult
+$Res call({
+ Color color
+});
+
+
+
+}
+
+/// @nodoc
+class __$$ThemeColorChangedImplCopyWithImpl<$Res> extends _$SettingsEventCopyWithImpl<$Res, _$ThemeColorChangedImpl> implements _$$ThemeColorChangedImplCopyWith<$Res> {
+  __$$ThemeColorChangedImplCopyWithImpl(_$ThemeColorChangedImpl _value, $Res Function(_$ThemeColorChangedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of SettingsEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? color = null,}) {
+  return _then(_$ThemeColorChangedImpl(
+null == color ? _value.color : color // ignore: cast_nullable_to_non_nullable
+as Color,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$ThemeColorChangedImpl  implements _ThemeColorChanged {
+  const _$ThemeColorChangedImpl(this.color);
+
+  
+
+@override final  Color color;
+
+@override
+String toString() {
+  return 'SettingsEvent.themeColorChanged(color: $color)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ThemeColorChangedImpl&&(identical(other.color, color) || other.color == color));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,color);
+
+/// Create a copy of SettingsEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$ThemeColorChangedImplCopyWith<_$ThemeColorChangedImpl> get copyWith => __$$ThemeColorChangedImplCopyWithImpl<_$ThemeColorChangedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _ThemeColorChanged implements SettingsEvent {
+  const factory _ThemeColorChanged(final  Color color) = _$ThemeColorChangedImpl;
+  
+
+  
+
+ Color get color;
+/// Create a copy of SettingsEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+_$$ThemeColorChangedImplCopyWith<_$ThemeColorChangedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
 mixin _$SettingsState {
 
  ThemeData get theme => throw _privateConstructorUsedError;

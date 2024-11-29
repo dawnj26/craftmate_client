@@ -18,15 +18,27 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         ) {
     on<_ThemeModeChanged>(_onThemeModeChanged);
     on<_Started>(_onStarted);
+    on<_ThemeColorChanged>(_onThemeColorChanged);
   }
 
   final AppTheme _appTheme;
   bool _isDarkMode = false;
 
-  Future<void> _onStarted(
+  void _onThemeColorChanged(
+    _ThemeColorChanged event,
+    Emitter<SettingsState> emit,
+  ) {
+    emit(
+      SettingsState.changed(
+        theme: _appTheme.changeThemeColor(state.theme, event.color),
+      ),
+    );
+  }
+
+  void _onStarted(
     _Started event,
     Emitter<SettingsState> emit,
-  ) async {
+  ) {
     if (event.brightness == Brightness.dark) {
       _isDarkMode = true;
       emit(
