@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/bloc/view_listing/view_listing_bloc.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/edit_listing_page.dart';
 import 'package:craftmate_client/user_profile/views/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,22 +18,56 @@ class ViewListingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.sizeOf(context);
+    final curUser = context.read<AuthBloc>().state.user;
+    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
         actions: [
-          PopupMenuButton(
-            itemBuilder: (context) {
-              return [
-                const PopupMenuItem(
-                  value: 'edit',
-                  child: Text('Edit'),
-                ),
-                const PopupMenuItem(
-                  value: 'delete',
-                  child: Text('Delete'),
-                ),
-              ];
+          BlocBuilder<ViewListingBloc, ViewListingState>(
+            builder: (context, state) {
+              return PopupMenuButton(
+                itemBuilder: (context) {
+                  if (curUser.id != state.query.product.sellerId) {
+                    return [
+                      const PopupMenuItem(
+                        value: 'report',
+                        child: Text('Report'),
+                      ),
+                    ];
+                  }
+
+                  return [
+                    PopupMenuItem(
+                      value: 'edit',
+                      child: const Text('Edit'),
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(EditListingPage.route(state.query.id));
+                      },
+                    ),
+                    PopupMenuItem(
+                      value: 'delete',
+                      child: const Text('Delete'),
+                      onTap: () {
+                        context
+                            .read<ViewListingBloc>()
+                            .add(const ViewListingEvent.listingDeleted());
+                      },
+                    ),
+                    if (state.query.product.soldAt == null)
+                      PopupMenuItem(
+                        value: 'markAsSold',
+                        child: const Text('Mark as sold'),
+                        onTap: () {
+                          context
+                              .read<ViewListingBloc>()
+                              .add(const ViewListingEvent.markedAsSold());
+                        },
+                      ),
+                  ];
+                },
+              );
             },
           ),
         ],
@@ -46,7 +81,6 @@ class ViewListingScreen extends StatelessWidget {
               );
           }
           const dividerHeight = 24.0;
-          final curUser = context.read<AuthBloc>().state.user;
 
           return ListView(
             children: [
@@ -63,6 +97,24 @@ class ViewListingScreen extends StatelessWidget {
                     NameAndPrice(
                       query: state.query,
                     ),
+                    if (state.query.product.soldAt != null)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4.0,
+                          horizontal: 8.0,
+                        ),
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.secondaryContainer,
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
+                        child: Text(
+                          'Sold',
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: theme.colorScheme.onSecondaryContainer,
+                          ),
+                        ),
+                      ),
                     if (curUser.id != state.query.product.sellerId)
                       SendMessage(
                         onSend: () {
@@ -109,6 +161,11 @@ class ViewListingScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  String _formatDate(DateTime date) {
+    final formatter = DateFormat('MMM dd, yyyy');
+    return formatter.format(date);
   }
 }
 
@@ -276,6 +333,7 @@ class NameAndPrice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final curUser = context.read<AuthBloc>().state.user.id;
     final theme = Theme.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -290,18 +348,19 @@ class NameAndPrice extends StatelessWidget {
             Text(_formatPrice(query.product.price)),
           ],
         ),
-        IconButton.outlined(
-          onPressed: () {
-            context
-                .read<ViewListingBloc>()
-                .add(const ViewListingEvent.favoriteToggled());
-          },
-          icon: Icon(
-            query.isFavorite
-                ? Icons.favorite_rounded
-                : Icons.favorite_border_rounded,
+        if (query.product.sellerId != curUser)
+          IconButton.outlined(
+            onPressed: () {
+              context
+                  .read<ViewListingBloc>()
+                  .add(const ViewListingEvent.favoriteToggled());
+            },
+            icon: Icon(
+              query.isFavorite
+                  ? Icons.favorite_rounded
+                  : Icons.favorite_border_rounded,
+            ),
           ),
-        ),
       ],
     );
   }
