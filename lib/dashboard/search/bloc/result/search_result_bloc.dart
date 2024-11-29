@@ -47,7 +47,10 @@ class SearchResultBloc extends Bloc<SearchResultEvent, SearchResultState> {
 
       emit(
         SearchResultState.loaded(
-            projects: projects, categories: categories, users: users),
+          projects: projects,
+          categories: categories,
+          users: users,
+        ),
       );
     } on SearchException catch (e) {
       emit(
