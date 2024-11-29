@@ -14,6 +14,7 @@ import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -214,6 +215,7 @@ class Messages extends StatefulWidget {
 
 class _MessagesState extends State<Messages> {
   final _controller = TextEditingController();
+  Message? _selectedMessage;
 
   @override
   void dispose() {
@@ -266,43 +268,78 @@ class _MessagesState extends State<Messages> {
                 itemCount: state.messages.length,
                 itemBuilder: (context, index) {
                   final message = state.messages[index];
+                  final widgets = <Widget>[];
+
+                  // Add date divider if needed
+                  if (index < state.messages.length - 1) {
+                    final nextMessage = state.messages[index + 1];
+                    if (_shouldShowDivider(
+                      message.createdAt!,
+                      nextMessage.createdAt!,
+                    )) {
+                      widgets.add(DateDivider(dateTime: message.createdAt!));
+                    }
+                  } else if (index == state.messages.length - 1) {
+                    // Show divider for the last (oldest) message
+                    widgets.add(DateDivider(dateTime: message.createdAt!));
+                  }
 
                   if (message.senderId != widget.user.id) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        SenderMessage(
-                          message: message,
-                          isSending: isSending && index == 0,
-                        ),
-                        if (isSending && index == 0)
-                          const Padding(
-                            padding: EdgeInsets.only(right: 8),
-                            child: SizedBox(
-                              height: 16,
-                              width: 16,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
+                    widgets.add(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          SenderMessage(
+                            message: message,
+                            isSending: isSending && index == 0,
+                            isSelected: _selectedMessage == message,
+                            onTap: () => setState(() {
+                              _selectedMessage =
+                                  _selectedMessage == message ? null : message;
+                            }),
+                          ),
+                          if (isSending && index == 0)
+                            const Padding(
+                              padding: EdgeInsets.only(right: 8),
+                              child: SizedBox(
+                                height: 16,
+                                width: 16,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                            )
+                          else if (index == 0)
+                            const Padding(
+                              padding: EdgeInsets.only(right: 8),
+                              child: Icon(
+                                Icons.done,
+                                size: 16,
                               ),
                             ),
-                          )
-                        else if (index == 0)
-                          const Padding(
-                            padding: EdgeInsets.only(right: 8),
-                            child: Icon(
-                              Icons.done,
-                              size: 16,
-                            ),
-                          ),
-                      ],
+                        ],
+                      ),
+                    );
+                  } else {
+                    widgets.add(
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ReceiverMessage(
+                          receiver: widget.user,
+                          message: message,
+                          isSelected: _selectedMessage == message,
+                          onTap: () => setState(() {
+                            _selectedMessage =
+                                _selectedMessage == message ? null : message;
+                          }),
+                        ),
+                      ),
                     );
                   }
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ReceiverMessage(
-                      receiver: widget.user,
-                      message: message,
-                    ),
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: widgets,
                   );
                 },
               );
@@ -312,6 +349,63 @@ class _MessagesState extends State<Messages> {
         SendField(controller: _controller, receiver: widget.user),
       ],
     );
+  }
+
+  bool _shouldShowDivider(DateTime current, DateTime next) {
+    // Show divider if messages are more than 1 hour apart
+    return current.difference(next).inHours.abs() >= 1;
+  }
+}
+
+class DateDivider extends StatelessWidget {
+  const DateDivider({
+    super.key,
+    required this.dateTime,
+  });
+
+  final DateTime dateTime;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Row(
+        children: [
+          Expanded(child: Divider(color: theme.colorScheme.outlineVariant)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              _formatDateTime(dateTime),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.outline,
+              ),
+            ),
+          ),
+          Expanded(child: Divider(color: theme.colorScheme.outlineVariant)),
+        ],
+      ),
+    );
+  }
+
+  String _formatDateTime(DateTime dt) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+    final messageDate = DateTime(dt.year, dt.month, dt.day);
+
+    final time = DateFormat.jm().format(dt); // formats time like "10:30 AM"
+
+    if (messageDate == today) {
+      return 'Today, $time';
+    } else if (messageDate == yesterday) {
+      return 'Yesterday, $time';
+    } else if (now.year == dt.year) {
+      // Same year, show date and month
+      return DateFormat('MMM d, ').format(dt) + time;
+    }
+    // Different year, show full date
+    return DateFormat('MMM d, y, ').format(dt) + time;
   }
 }
 
@@ -494,31 +588,41 @@ class SenderMessage extends StatelessWidget {
     super.key,
     required this.message,
     this.isSending = false,
+    this.isSelected = false,
+    this.onTap,
   });
 
   final Message message;
   final bool isSending;
+  final bool isSelected;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final screenSize = MediaQuery.sizeOf(context);
 
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Container(
-        constraints: BoxConstraints(
-          maxWidth: screenSize.width * 0.7,
-          minWidth: message.type == MessageType.text ? 0 : 200,
-          minHeight: message.type == MessageType.text ? 0 : 200,
-        ),
-        margin: const EdgeInsets.all(8),
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: theme.colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: MessageContent(message: message, isSending: isSending),
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          if (isSelected) TimestampLabel(dateTime: message.createdAt!),
+          Container(
+            constraints: BoxConstraints(
+              maxWidth: screenSize.width * 0.7,
+              minWidth: message.type == MessageType.text ? 0 : 200,
+              minHeight: message.type == MessageType.text ? 0 : 200,
+            ),
+            margin: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: MessageContent(message: message, isSending: isSending),
+          ),
+        ],
       ),
     );
   }
@@ -599,10 +703,14 @@ class ReceiverMessage extends StatelessWidget {
     super.key,
     required this.message,
     required this.receiver,
+    this.isSelected = false,
+    this.onTap,
   });
 
   final Message message;
   final User receiver;
+  final bool isSelected;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -610,31 +718,105 @@ class ReceiverMessage extends StatelessWidget {
     final screenSize = MediaQuery.sizeOf(context);
     final hasProfileImage = receiver.image != null;
 
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            radius: 16,
-            backgroundImage:
-                hasProfileImage ? NetworkImage(receiver.image!) : null,
-            child:
-                hasProfileImage ? null : Text(receiver.name[0].toUpperCase()),
-          ),
-          const SizedBox(width: 8),
-          Container(
-            padding: const EdgeInsets.all(12),
-            constraints: BoxConstraints(
-              maxWidth: screenSize.width * 0.7,
-            ),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainer,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: MessageContent(message: message),
+          if (isSelected) TimestampLabel(dateTime: message.createdAt!),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              CircleAvatar(
+                radius: 16,
+                backgroundImage:
+                    hasProfileImage ? NetworkImage(receiver.image!) : null,
+                child: hasProfileImage
+                    ? null
+                    : Text(receiver.name[0].toUpperCase()),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.all(12),
+                constraints: BoxConstraints(
+                  maxWidth: screenSize.width * 0.7,
+                ),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surfaceContainer,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: MessageContent(message: message),
+              ),
+            ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class TimestampLabel extends StatefulWidget {
+  const TimestampLabel({
+    super.key,
+    required this.dateTime,
+  });
+
+  final DateTime dateTime;
+
+  @override
+  State<TimestampLabel> createState() => _TimestampLabelState();
+}
+
+class _TimestampLabelState extends State<TimestampLabel>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    );
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return SizeTransition(
+      sizeFactor: _animation,
+      axisAlignment: -1,
+      child: FadeTransition(
+        opacity: _animation,
+        child: Center(
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceVariant.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              DateFormat('MMM d, y h:mm a').format(widget.dateTime),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.outline,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
