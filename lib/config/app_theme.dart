@@ -20,11 +20,22 @@ class AppTheme {
     );
   }
 
-  ThemeData changeThemeColor(ThemeData theme, Color color) {
+  ThemeData changeThemeMode(ThemeData theme, Brightness brightness) {
+    //generate new theme mode
+    return ThemeData(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: theme.colorScheme.primary,
+        brightness: brightness,
+      ),
+    );
+  }
+
+  ThemeData changeThemeColor(Color color, Brightness brightness) {
     //generate new color scheme
-    return theme.copyWith(
+    return ThemeData(
       colorScheme: ColorScheme.fromSeed(
         seedColor: color,
+        brightness: brightness,
       ),
     );
   }
