@@ -1,12 +1,12 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/bloc/shop_profile/shop_profile_bloc.dart'
     as p;
-import 'package:craftmate_client/dashboard/shop/bloc/shop_reviews/shop_reviews_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/inbox_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/saved_items_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/shop_reviews_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/user_listing_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/screens/add_listing_screen.dart';
+import 'package:craftmate_client/user_profile/views/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,8 +29,15 @@ class ShopProfileScreen extends StatelessWidget {
             subtitle: Container(
               margin: const EdgeInsets.only(top: 4),
               child: LinkButton(
-                title: 'View shop profile',
-                onPressed: () {},
+                title: 'View profile',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    UserProfilePage.route(
+                      context.read<AuthBloc>().state.user.id,
+                    ),
+                  );
+                },
               ),
             ),
           ),
@@ -179,6 +186,9 @@ class _Overview extends StatelessWidget {
                     icon: const Icon(Icons.star_border_rounded),
                     title: 'Seller ratings',
                     count: state.shopOverview.totalRating.toInt(),
+                    onTap: () {
+                      Navigator.push(context, ShopReviewsPage.route());
+                    },
                   ),
                 ),
                 SizedBox(
@@ -205,17 +215,19 @@ class _Activity extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.count,
+    this.onTap,
   });
   final Icon icon;
   final String title;
   final int count;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return InkWell(
       borderRadius: BorderRadius.circular(12),
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
