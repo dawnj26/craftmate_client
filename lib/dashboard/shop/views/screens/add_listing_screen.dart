@@ -42,6 +42,8 @@ class AddListingScreen extends StatelessWidget {
           ],
         ),
         body: BlocBuilder<AddListingBloc, AddListingState>(
+          buildWhen: (previous, current) =>
+              previous is Initial || previous is Loading,
           builder: (context, state) {
             switch (state) {
               case Initial() || Loading():
@@ -67,7 +69,7 @@ class AddListingScreen extends StatelessWidget {
         state.price.isValid &&
         state.category.isValid &&
         state.place != null &&
-        state.images.isNotEmpty;
+        (state.images.isNotEmpty || state.networkImages.isNotEmpty);
 
     return TextButton(
       onPressed: isValid
