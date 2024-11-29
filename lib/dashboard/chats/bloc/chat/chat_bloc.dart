@@ -31,8 +31,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ) async {
     emit(const ChatState.loading());
 
-    _hasMessages =
-        await _chatRepository.hasMessages(event.senderId, event.receiverId);
+    _hasMessages = await _chatRepository
+        .hasMessages(event.senderId, event.receiverId, listingId: _listingId);
 
     if (!_hasMessages) {
       emit(const ChatState.loaded());
