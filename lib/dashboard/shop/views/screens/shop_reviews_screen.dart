@@ -140,9 +140,9 @@ class SellerReview extends StatelessWidget {
 
 class _LikeReviewButton extends StatelessWidget {
   const _LikeReviewButton({
-    this.onPressed,
     required this.count,
     required this.isLiked,
+    this.onPressed,
   });
 
   final void Function()? onPressed;
