@@ -1,3 +1,4 @@
+import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/home/view/components/category_filter.dart';
 import 'package:craftmate_client/dashboard/shop/bloc/user_listing/user_listing_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/view_listing_page.dart';
@@ -67,7 +68,16 @@ class UserListingScreen extends StatelessWidget {
                     return ListingTile(
                       product: item.product,
                       onTap: () {
-                        Navigator.of(context).push(ViewListingPage.route(item));
+                        Navigator.of(context)
+                            .push(ViewListingPage.route(item))
+                            .then((value) {
+                          if (!context.mounted) return;
+                          context.read<UserListingBloc>().add(
+                                UserListingEvent.started(
+                                  context.read<AuthBloc>().state.user.id,
+                                ),
+                              );
+                        });
                       },
                     );
                   },
