@@ -59,6 +59,7 @@ class InboxScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     ChatScreen.route(
+                      // context.read<AuthBloc>().state.user,
                       listingChat.chat.sender,
                       listingId: listingChat.product.id,
                       title: chatTitle,
