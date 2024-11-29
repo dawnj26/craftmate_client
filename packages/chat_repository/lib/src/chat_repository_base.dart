@@ -194,10 +194,14 @@ class ChatRepository implements IChatRepository {
   }
 
   @override
-  Future<bool> hasMessages(int senderId, int receiverId) async {
+  Future<bool> hasMessages(int senderId, int receiverId,
+      {String? listingId}) async {
     try {
+      final collectionPath =
+          listingId != null ? 'shop/$listingId/chats' : 'chats';
+
       final docSnapshot = await _config.db
-          .collection('chats')
+          .collection(collectionPath)
           .doc(_getConversationId(senderId, receiverId))
           .get();
       return docSnapshot.exists;
