@@ -26,6 +26,8 @@ class UserProfileScreen extends StatelessWidget {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
+              case Sharing(:final user):
+              case Shared(:final user):
               case Loaded(user: final user):
                 return _ProfileView(user: user);
               case Error(message: final message):
@@ -117,6 +119,22 @@ class _ProfileView extends StatelessWidget {
         title: Text(user.name),
         scrolledUnderElevation: 0.0,
         pinned: true,
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  child: const Text('Share'),
+                  onTap: () {
+                    context.read<ViewProfileBloc>().add(
+                          const ViewProfileEvent.shareProfile(),
+                        );
+                  },
+                ),
+              ];
+            },
+          ),
+        ],
       ),
       SliverToBoxAdapter(
         child: Profile(user: user),
