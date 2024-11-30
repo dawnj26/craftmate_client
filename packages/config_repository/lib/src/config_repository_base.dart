@@ -1,3 +1,4 @@
+import 'package:app_links/app_links.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:config_repository/src/exceptions/internet_exception.dart';
 import 'package:config_repository/src/exceptions/request_exception.dart';
@@ -17,6 +18,7 @@ class ConfigRepository {
   final ConnectionStatus connectionStatus = ConnectionStatus();
   final SharedPreferences prefs;
   final FirebaseFirestore db;
+  final AppLinks appLinks = AppLinks();
 
   ConfigRepository({
     required this.apiUrl,
