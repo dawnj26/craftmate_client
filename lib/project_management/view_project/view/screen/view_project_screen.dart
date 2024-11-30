@@ -1,6 +1,7 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/add_listing_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/screens/view_listing_screen.dart';
+import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/screens/screens.dart';
@@ -106,10 +107,15 @@ class ViewProjectScreen extends StatelessWidget {
                   itemBuilder: (_) {
                     if (currentUser.id != state.project.creator.id) {
                       return [
-                        const PopupMenuItem(
-                          child: Text(
+                        PopupMenuItem(
+                          child: const Text(
                             'Share',
                           ),
+                          onTap: () {
+                            context
+                                .read<ViewProjectBloc>()
+                                .add(const ViewProjectShared());
+                          },
                         ),
                       ];
                     }
@@ -141,10 +147,15 @@ class ViewProjectScreen extends StatelessWidget {
                             );
                           },
                         ),
-                      const PopupMenuItem(
-                        child: Text(
+                      PopupMenuItem(
+                        child: const Text(
                           'Share',
                         ),
+                        onTap: () {
+                          context
+                              .read<ViewProjectBloc>()
+                              .add(const ViewProjectShared());
+                        },
                       ),
                     ];
                   },
@@ -266,6 +277,10 @@ class ViewProjectScreen extends StatelessWidget {
         if (!context.mounted) return;
         context.read<ViewProjectBloc>().add(const ViewProjectReloaded());
       });
+    } else if (state is ViewProjectShareSuccess) {
+      Alert.instance
+          .showSnackbar(context, 'Project share link copied to clipboard.');
+      Navigator.of(context).pop();
     }
   }
 }
