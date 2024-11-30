@@ -11,6 +11,26 @@ final class ProjectApi {
 
   const ProjectApi({required ConfigRepository config}) : _config = config;
 
+  Future<String> shareProject(int projectId) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/project/$projectId/share',
+        method: 'GET',
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ProjectException(message: 'Response is null');
+      }
+
+      return response.data!['data']['share_link'];
+    } on RequestException catch (e) {
+      throw ProjectException(message: e.message);
+    } on TokenException catch (e) {
+      throw ProjectException(message: e.message);
+    }
+  }
+
   Future<Pagination<Project>> getCurrentUserInactiveProjects(
     ProjectFilter filter,
     ProjectSort sort,
