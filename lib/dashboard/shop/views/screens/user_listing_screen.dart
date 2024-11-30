@@ -69,7 +69,7 @@ class UserListingScreen extends StatelessWidget {
                       product: item.product,
                       onTap: () {
                         Navigator.of(context)
-                            .push(ViewListingPage.route(item))
+                            .push(ViewListingPage.route(item.id))
                             .then((value) {
                           if (!context.mounted) return;
                           context.read<UserListingBloc>().add(
