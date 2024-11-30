@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/stream_helper.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import 'package:project_repository/project_repository.dart';
 
 part 'view_project_event.dart';
@@ -27,10 +28,37 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     on<ViewProjectReloaded>(_onProjectReloaded);
     on<ViewProjectForked>(_onProjectForked);
     on<ViewProjectStarted>(_onProjectStarted);
+    on<ViewProjectShared>(_onProjectShared);
   }
 
   final ProjectRepository _projectRepository;
   final int _projectId;
+
+  Future<void> _onProjectShared(
+    ViewProjectShared event,
+    Emitter<ViewProjectState> emit,
+  ) async {
+    emit(ViewProjectUploading(project: state.project.copyWith()));
+
+    try {
+      final link = await _projectRepository.shareProject(state.project.id);
+      await Clipboard.setData(ClipboardData(text: link));
+
+      emit(
+        ViewProjectShareSuccess(
+          project: state.project.copyWith(),
+          link: link,
+        ),
+      );
+    } on ProjectException catch (e) {
+      emit(
+        ViewProjectFailed(
+          errMessage: e.message,
+          project: state.project.copyWith(),
+        ),
+      );
+    }
+  }
 
   Future<void> _onProjectStarted(
     ViewProjectStarted event,
