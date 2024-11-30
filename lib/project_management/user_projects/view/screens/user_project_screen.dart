@@ -604,50 +604,76 @@ class ProjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    final completedSteps =
+        project.steps?.where((s) => s.completedAt != null).length;
+    final progress = project.steps == null || project.steps!.isEmpty
+        ? 0.0
+        : completedSteps! / project.steps!.length;
+
     return Card(
       color: isSelected ? theme.colorScheme.primaryContainer : null,
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         onLongPress: onLongPress,
         onTap: onTap,
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              width: 80,
-              child: AspectRatio(
-                aspectRatio: 1 / 1,
-                child: _buildImage(),
-              ),
-            ),
-            const Gap(12.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    project.title,
-                    style: theme.textTheme.titleMedium,
+            Row(
+              children: [
+                SizedBox(
+                  width: 80,
+                  child: AspectRatio(
+                    aspectRatio: 1 / 1,
+                    child: _buildImage(),
                   ),
-                  const Gap(4.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+                const Gap(12.0),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ProjectStatus(
-                        visibility: project.visibility,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            project.title,
+                            style: theme.textTheme.titleMedium,
+                          ),
+                          if (project.steps != null)
+                            Text(
+                              '${(progress * 100).toInt()}%',
+                              style: theme.textTheme.labelMedium,
+                            ),
+                        ],
                       ),
-                      Text(
-                        'Updated ${timeago.format(
-                          project.updatedAt,
-                          allowFromNow: true,
-                        )}',
-                        style: theme.textTheme.labelMedium,
+                      const Gap(4.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ProjectStatus(
+                            visibility: project.visibility,
+                          ),
+                          Text(
+                            'Updated ${timeago.format(
+                              project.updatedAt,
+                              allowFromNow: true,
+                            )}',
+                            style: theme.textTheme.labelMedium,
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+                if (showTrailing) _buildTrailing(context) else const Gap(16.0),
+              ],
             ),
-            if (showTrailing) _buildTrailing(context) else const Gap(16.0),
+            if (project.steps != null)
+              LinearProgressIndicator(
+                value: progress,
+                backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
+              ),
           ],
         ),
       ),
