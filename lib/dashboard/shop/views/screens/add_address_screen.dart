@@ -32,7 +32,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
 
   final TextEditingController searchController = TextEditingController();
   double _radius = 5000; // Radius in meters
-  final _zoomLevel = 13.0;
+  final _zoomLevel = 12.0;
 
   @override
   void initState() {
@@ -236,15 +236,17 @@ class GoogleMapper extends StatelessWidget {
           )
         else
           Center(
-            child: Container(
-              width: circleSize,
-              height: circleSize,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: theme.colorScheme.error.withOpacity(0.1),
-                border: Border.all(
-                  color: theme.colorScheme.error,
-                  width: 2,
+            child: IgnorePointer(
+              child: Container(
+                width: circleSize,
+                height: circleSize,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: theme.colorScheme.error.withOpacity(0.1),
+                  border: Border.all(
+                    color: theme.colorScheme.error,
+                    width: 2,
+                  ),
                 ),
               ),
             ),
