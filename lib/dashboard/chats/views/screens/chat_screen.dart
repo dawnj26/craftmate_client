@@ -13,9 +13,11 @@ import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:user_repository/user_repository.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -644,11 +646,15 @@ class MessageContent extends StatelessWidget {
 
     switch (message.type) {
       case MessageType.text:
-        return Text(
-          message.message,
-          style: TextStyle(
-            color: theme.colorScheme.onPrimaryContainer,
-          ),
+        return SelectableLinkify(
+          text: message.message,
+          style: theme.textTheme.bodyMedium,
+          onOpen: (link) async {
+            final uriLink = Uri.parse(link.url);
+            if (!await launchUrl(uriLink)) {
+              logger.warning('Could not launch $uriLink');
+            }
+          },
         );
       case MessageType.image:
         if (isSending) {
@@ -806,7 +812,7 @@ class _TimestampLabelState extends State<TimestampLabel>
             margin: const EdgeInsets.symmetric(vertical: 4),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceVariant.withOpacity(0.5),
+              color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
