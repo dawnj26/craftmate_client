@@ -144,6 +144,7 @@ class _AppViewState extends State<AppView> {
   }
 
   void _handleState(BuildContext context, AuthState state) {
+    logger.info('Authenticating!!!');
     switch (state.status) {
       case AuthenticationStatus.authenticated:
         _navigator.pushAndRemoveUntil<void>(
