@@ -24,6 +24,12 @@ class ListingCategoryScreen extends StatelessWidget {
               );
           }
 
+          if (state.query.isEmpty) {
+            return const Center(
+              child: Text('No listings found'),
+            );
+          }
+
           return GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -38,7 +44,7 @@ class ListingCategoryScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    ViewListingPage.route(state.query[index]),
+                    ViewListingPage.route(state.query[index].id),
                   );
                 },
               );
