@@ -6,16 +6,15 @@ import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_repository/shop_repository.dart';
 
 class ViewListingPage extends StatelessWidget {
-  const ViewListingPage({super.key, required this.query});
+  const ViewListingPage({super.key, required this.listingId});
 
-  final QueryProduct query;
+  final String listingId;
 
-  static Route<void> route(QueryProduct query) {
+  static Route<void> route(String listingId) {
     return MaterialPageRoute<void>(
-      builder: (_) => ViewListingPage(query: query),
+      builder: (_) => ViewListingPage(listingId: listingId),
     );
   }
 
@@ -26,7 +25,7 @@ class ViewListingPage extends StatelessWidget {
         shopRepository: context.read(),
         userRepository: context.read(),
         chatRepository: context.read(),
-      )..add(ViewListingEvent.started(query.id)),
+      )..add(ViewListingEvent.started(listingId)),
       child: BlocListener<ViewListingBloc, ViewListingState>(
         listener: (context, state) {
           switch (state) {
@@ -51,6 +50,12 @@ class ViewListingPage extends StatelessWidget {
                   imageUrl: query.product.imageUrls.first,
                   sellerId: seller.id,
                 ),
+              );
+            case Shared():
+              Navigator.of(context).pop();
+              Alert.instance.showSnackbar(
+                context,
+                'Listing share link copied to clipboard',
               );
           }
         },
