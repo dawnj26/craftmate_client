@@ -1,3 +1,5 @@
+import 'package:craftmate_client/helpers/alert/alert.dart';
+import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/user_profile/bloc/view_profile/view_profile_bloc.dart';
 import 'package:craftmate_client/user_profile/views/screens/user_profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +26,23 @@ class UserProfilePage extends StatelessWidget {
       )..add(
           ViewProfileEvent.started(id),
         ),
-      child: const UserProfileScreen(),
+      child: BlocListener<ViewProfileBloc, ViewProfileState>(
+        listener: (context, state) {
+          switch (state) {
+            case Error(:final message):
+              Alert.instance.showSnackbar(context, message);
+            case Sharing():
+              Modal.instance.showLoadingDialog(context);
+            case Shared():
+              Navigator.of(context).pop();
+              Alert.instance.showSnackbar(
+                context,
+                'Profile share link copied to clipboard',
+              );
+          }
+        },
+        child: const UserProfileScreen(),
+      ),
     );
   }
 }
