@@ -88,6 +88,7 @@ abstract class IProjectRepository {
     int? categoryId,
   ]);
   Future<Project> finishProject(int id);
+  Future<String> shareProject(int id);
 }
 
 class ProjectRepository implements IProjectRepository {
@@ -331,5 +332,10 @@ class ProjectRepository implements IProjectRepository {
   @override
   Future<String> uploadVideo(String videoPath) async {
     return _uploadApi.upload(videoPath, 'video');
+  }
+
+  @override
+  Future<String> shareProject(int id) async {
+    return _projectApi.shareProject(id);
   }
 }
