@@ -3,6 +3,7 @@ import 'package:craftmate_client/dashboard/shop/views/pages/add_address_page.dar
 import 'package:craftmate_client/dashboard/shop/views/pages/add_listing_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/categories_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/shop_profile_page.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/shop_search_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/view_listing_page.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/globals.dart';
@@ -30,7 +31,9 @@ class _ShopScreenState extends State<ShopScreen>
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(ShopSearchPage.route());
+            },
           ),
           IconButton(
             onPressed: () {
@@ -62,6 +65,14 @@ class _ShopScreenState extends State<ShopScreen>
                 SliverLabel(
                   labelText: "Nearby",
                   currentLocation: state.currentLocation,
+                  onLocationChanged: (place, radius) {
+                    context.read<ShopBloc>().add(
+                          ShopEvent.currentLocationChanged(
+                            place,
+                            radius / 1000,
+                          ),
+                        );
+                  },
                 ),
                 ListingGrid(
                   query: state.nearbyProducts,
@@ -123,7 +134,8 @@ class ListingGrid extends StatelessWidget {
           return ListingTile(
             product: product,
             onTap: () {
-              Navigator.of(context).push(ViewListingPage.route(query[index]));
+              Navigator.of(context)
+                  .push(ViewListingPage.route(query[index].id));
             },
           );
         },
@@ -138,10 +150,16 @@ class SliverLabel extends StatelessWidget {
     super.key,
     required this.labelText,
     this.currentLocation,
-  });
+    this.onLocationChanged,
+  }) : assert(
+          (currentLocation == null && onLocationChanged == null) ||
+              (currentLocation != null && onLocationChanged != null),
+          'currentLocation and onLocationChanged must be null or both must be non-null',
+        );
 
   final String labelText;
   final Place? currentLocation;
+  final void Function(Place place, double radius)? onLocationChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -167,14 +185,7 @@ class SliverLabel extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(
                       AddAddressPage.route(
-                        onAddressSelected: (place, radius) {
-                          context.read<ShopBloc>().add(
-                                ShopEvent.currentLocationChanged(
-                                  place,
-                                  radius / 1000,
-                                ),
-                              );
-                        },
+                        onAddressSelected: onLocationChanged,
                         showCircle: true,
                       ),
                     );
