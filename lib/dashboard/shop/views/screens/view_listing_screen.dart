@@ -34,6 +34,15 @@ class ViewListingScreen extends StatelessWidget {
                         value: 'report',
                         child: Text('Report'),
                       ),
+                      PopupMenuItem(
+                        value: 'share',
+                        child: const Text('Share'),
+                        onTap: () {
+                          context
+                              .read<ViewListingBloc>()
+                              .add(const ViewListingEvent.listingShared());
+                        },
+                      ),
                     ];
                   }
 
@@ -338,15 +347,17 @@ class NameAndPrice extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              query.product.name,
-              style: theme.textTheme.titleLarge,
-            ),
-            Text(_formatPrice(query.product.price)),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                query.product.name,
+                style: theme.textTheme.titleLarge,
+              ),
+              Text(_formatPrice(query.product.price)),
+            ],
+          ),
         ),
         if (query.product.sellerId != curUser)
           IconButton.outlined(
