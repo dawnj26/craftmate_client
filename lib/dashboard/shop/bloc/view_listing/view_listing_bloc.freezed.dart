@@ -493,6 +493,73 @@ abstract class _ListingDeleted implements ViewListingEvent {
 }
 
 /// @nodoc
+abstract class _$$ListingSharedImplCopyWith<$Res>  {
+  factory _$$ListingSharedImplCopyWith(_$ListingSharedImpl value, $Res Function(_$ListingSharedImpl) then) = __$$ListingSharedImplCopyWithImpl<$Res>;
+
+
+
+}
+
+/// @nodoc
+class __$$ListingSharedImplCopyWithImpl<$Res> extends _$ViewListingEventCopyWithImpl<$Res, _$ListingSharedImpl> implements _$$ListingSharedImplCopyWith<$Res> {
+  __$$ListingSharedImplCopyWithImpl(_$ListingSharedImpl _value, $Res Function(_$ListingSharedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ViewListingEvent
+/// with the given fields replaced by the non-null parameter values.
+
+
+
+}
+
+/// @nodoc
+
+
+class _$ListingSharedImpl  implements _ListingShared {
+  const _$ListingSharedImpl();
+
+  
+
+
+
+@override
+String toString() {
+  return 'ViewListingEvent.listingShared()';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ListingSharedImpl);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _ListingShared implements ViewListingEvent {
+  const factory _ListingShared() = _$ListingSharedImpl;
+  
+
+  
+
+
+
+}
+
+/// @nodoc
 mixin _$ViewListingState {
 
  QueryProduct get query => throw _privateConstructorUsedError; User get seller => throw _privateConstructorUsedError; String get message => throw _privateConstructorUsedError;
@@ -920,6 +987,98 @@ abstract class Sent implements ViewListingState {
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 _$$SentImplCopyWith<_$SentImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
+abstract class _$$SharedImplCopyWith<$Res> implements $ViewListingStateCopyWith<$Res> {
+  factory _$$SharedImplCopyWith(_$SharedImpl value, $Res Function(_$SharedImpl) then) = __$$SharedImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ QueryProduct query, User seller, String link, String message
+});
+
+
+@override $QueryProductCopyWith<$Res> get query;@override $UserCopyWith<$Res> get seller;
+}
+
+/// @nodoc
+class __$$SharedImplCopyWithImpl<$Res> extends _$ViewListingStateCopyWithImpl<$Res, _$SharedImpl> implements _$$SharedImplCopyWith<$Res> {
+  __$$SharedImplCopyWithImpl(_$SharedImpl _value, $Res Function(_$SharedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? query = null,Object? seller = null,Object? link = null,Object? message = null,}) {
+  return _then(_$SharedImpl(
+query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
+as QueryProduct,seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
+as User,link: null == link ? _value.link : link // ignore: cast_nullable_to_non_nullable
+as String,message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$SharedImpl  implements Shared {
+  const _$SharedImpl({required this.query, required this.seller, required this.link, this.message = ''});
+
+  
+
+@override final  QueryProduct query;
+@override final  User seller;
+@override final  String link;
+@override@JsonKey() final  String message;
+
+@override
+String toString() {
+  return 'ViewListingState.shared(query: $query, seller: $seller, link: $link, message: $message)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SharedImpl&&(identical(other.query, query) || other.query == query)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.link, link) || other.link == link)&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,query,seller,link,message);
+
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$SharedImplCopyWith<_$SharedImpl> get copyWith => __$$SharedImplCopyWithImpl<_$SharedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class Shared implements ViewListingState {
+  const factory Shared({required final  QueryProduct query, required final  User seller, required final  String link, final  String message}) = _$SharedImpl;
+  
+
+  
+
+@override QueryProduct get query;@override User get seller; String get link;@override String get message;
+/// Create a copy of ViewListingState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$SharedImplCopyWith<_$SharedImpl> get copyWith => throw _privateConstructorUsedError;
 
 }
 

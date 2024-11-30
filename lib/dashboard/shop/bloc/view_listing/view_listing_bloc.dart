@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:chat_repository/chat_repository.dart';
 import 'package:craftmate_client/helpers/stream_helper.dart';
+import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:shop_repository/shop_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -30,12 +31,48 @@ class ViewListingBloc extends Bloc<ViewListingEvent, ViewListingState> {
     on<_MessageSent>(_onMessageSent);
     on<_MarkedAsSold>(_onMarkedAsSold);
     on<_ListingDeleted>(_onDeleted);
+    on<_ListingShared>(_onShared);
   }
 
   final ShopRepository _shopRepository;
   final UserRepository _userRepository;
   final ChatRepository _chatRepository;
   late final User _curUser;
+
+  Future<void> _onShared(
+    _ListingShared event,
+    Emitter<ViewListingState> emit,
+  ) async {
+    emit(
+      Sending(
+        query: state.query.copyWith(),
+        seller: state.seller.copyWith(),
+        message: state.message,
+      ),
+    );
+
+    try {
+      final link = await _shopRepository.shareListing(state.query.id);
+      await Clipboard.setData(ClipboardData(text: link));
+      emit(
+        Shared(
+          query: state.query.copyWith(),
+          seller: state.seller.copyWith(),
+          message: state.message,
+          link: link,
+        ),
+      );
+    } on ShopException catch (e) {
+      emit(
+        Error(
+          errMessage: e.message,
+          message: state.message,
+          query: state.query.copyWith(),
+          seller: state.seller.copyWith(),
+        ),
+      );
+    }
+  }
 
   Future<void> _onDeleted(
     _ListingDeleted event,

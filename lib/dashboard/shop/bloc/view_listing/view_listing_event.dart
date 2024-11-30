@@ -9,4 +9,5 @@ class ViewListingEvent with _$ViewListingEvent {
   const factory ViewListingEvent.messageSent() = _MessageSent;
   const factory ViewListingEvent.markedAsSold() = _MarkedAsSold;
   const factory ViewListingEvent.listingDeleted() = _ListingDeleted;
+  const factory ViewListingEvent.listingShared() = _ListingShared;
 }

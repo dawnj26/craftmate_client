@@ -26,6 +26,13 @@ class ViewListingState with _$ViewListingState {
     @Default('') String message,
   }) = Sent;
 
+  const factory ViewListingState.shared({
+    required QueryProduct query,
+    required User seller,
+    required String link,
+    @Default('') String message,
+  }) = Shared;
+
   const factory ViewListingState.loaded({
     required QueryProduct query,
     required User seller,
