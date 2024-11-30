@@ -1,7 +1,5 @@
-import 'package:craftmate_client/settings/bloc/settings_bloc.dart';
+import 'package:craftmate_client/settings/views/appearance_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -12,60 +10,17 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Settings'),
       ),
-      body: BlocBuilder<SettingsBloc, SettingsState>(
-        builder: (context, state) {
-          final isDarkMode = state.theme.brightness == Brightness.dark;
-          return ListView(
-            children: [
-              ListTile(
-                title: const Text('Dark mode'),
-                trailing: Switch(
-                  value: isDarkMode,
-                  onChanged: (value) {
-                    context.read<SettingsBloc>().add(
-                          const SettingsEvent.themeModeChanged(),
-                        );
-                  },
-                ),
-              ),
-              ListTile(
-                title: const Text('Theme color'),
-                trailing: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: state.theme.colorScheme.primary,
-                  ),
-                  width: 24,
-                  height: 24,
-                ),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        titlePadding: EdgeInsets.zero,
-                        contentPadding: EdgeInsets.zero,
-                        content: SingleChildScrollView(
-                          child: MaterialPicker(
-                            pickerColor: state.theme.colorScheme.primary,
-                            onColorChanged: (color) {
-                              context.read<SettingsBloc>().add(
-                                    SettingsEvent.themeColorChanged(color),
-                                  );
-                              Navigator.of(context).pop();
-                            },
-                            // enableLabel: _enableLabel,
-                            // portraitOnly: _portraitOnly,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ],
-          );
-        },
+      body: ListView(
+        children: [
+          ListTile(
+            leading: const Icon(Icons.brush),
+            title: const Text('Appearance'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.of(context).push(AppearanceScreen.route());
+            },
+          ),
+        ],
       ),
     );
   }
