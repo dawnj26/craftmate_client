@@ -335,7 +335,7 @@ as String,
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl({this.shopOverview = const ShopOverview(), this.period = 'Weekly'});
+  const _$InitialImpl({this.shopOverview = const ShopOverview(), this.period = 'Last 7 days'});
 
   
 
@@ -423,7 +423,7 @@ as String,
 
 
 class _$LoadingImpl  implements Loading {
-  const _$LoadingImpl({this.shopOverview = const ShopOverview(), this.period = 'Weekly'});
+  const _$LoadingImpl({this.shopOverview = const ShopOverview(), this.period = 'Last 7 days'});
 
   
 

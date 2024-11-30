@@ -4,12 +4,12 @@ part of 'shop_profile_bloc.dart';
 class ShopProfileState with _$ShopProfileState {
   const factory ShopProfileState.initial({
     @Default(ShopOverview()) ShopOverview shopOverview,
-    @Default('Weekly') String period,
+    @Default('Last 7 days') String period,
   }) = Initial;
 
   const factory ShopProfileState.loading({
     @Default(ShopOverview()) ShopOverview shopOverview,
-    @Default('Weekly') String period,
+    @Default('Last 7 days') String period,
   }) = Loading;
 
   const factory ShopProfileState.loaded({

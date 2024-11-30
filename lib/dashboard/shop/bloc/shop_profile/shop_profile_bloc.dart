@@ -26,9 +26,26 @@ class ShopProfileBloc extends Bloc<ShopProfileEvent, ShopProfileState> {
         event.sellerId,
         period: event.period.toLowerCase(),
       );
-      emit(Loaded(shopOverview: shopOverview, period: event.period));
+      final period = _getPeriodLabel(event.period);
+
+      emit(Loaded(shopOverview: shopOverview, period: period));
     } catch (e) {
       emit(Error(message: e.toString()));
+    }
+  }
+
+  String _getPeriodLabel(String period) {
+    switch (period) {
+      case 'Weekly':
+        return 'Last 7 days';
+      case 'Monthly':
+        return 'Last 30 days';
+      case 'Yearly':
+        return 'Last year';
+      case 'All time':
+        return 'All time';
+      default:
+        return 'Last 7 days';
     }
   }
 
@@ -42,7 +59,9 @@ class ShopProfileBloc extends Bloc<ShopProfileEvent, ShopProfileState> {
         event.sellerId,
         period: state.period.toLowerCase(),
       );
-      emit(Loaded(shopOverview: shopOverview));
+
+      final period = _getPeriodLabel(state.period);
+      emit(Loaded(shopOverview: shopOverview, period: period));
     } catch (e) {
       emit(Error(message: e.toString()));
     }
