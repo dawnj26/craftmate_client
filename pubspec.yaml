@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  app_links: ^6.3.2
   authentication_repository:
     path: packages/authentication_repository
   better_player: ^0.0.84
@@ -50,6 +51,7 @@ dependencies:
   flutter_colorpicker: ^1.1.0
   flutter_dotenv: ^5.1.0
   flutter_keyboard_visibility: ^6.0.0
+  flutter_linkify: ^6.0.0
   flutter_quill: 10.7.7
   flutter_quill_extensions: 10.7.7
   flutter_rating_bar: ^4.0.1
@@ -80,14 +82,17 @@ dependencies:
   photo_view: ^0.15.0
   project_repository:
     path: packages/project_repository
+  scrollable_positioned_list: ^0.3.8
   search_repository:
     path: packages/search_repository
   shared_preferences: ^2.3.2
   shop_repository:
     path: packages/shop_repository
+  showcaseview: ^3.0.0
   sticky_headers: ^0.3.0+2
   stream_transform: ^2.1.0
   timeago: ^3.7.0
+  url_launcher: ^6.3.1
   user_repository:
     path: packages/user_repository
   uuid: ^4.5.1
