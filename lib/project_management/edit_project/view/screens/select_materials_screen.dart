@@ -2,6 +2,7 @@ import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/helpers/transition/page_transition.dart';
+import 'package:craftmate_client/material_inventory/user_materials/views/screens/user_materials_screen.dart';
 import 'package:craftmate_client/project_management/edit_project/bloc/select_material_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -236,24 +237,21 @@ class MaterialList extends StatelessWidget {
         final material = materials[index];
         final isSelected = selectedMaterials[material.id] ?? false;
 
-        return Card(
-          clipBehavior: Clip.antiAlias,
-          child: ListTile(
-            title: Text(material.name),
-            trailing: Checkbox(
-              value: isSelected,
-              onChanged: (value) {
-                context.read<SelectMaterialBloc>().add(
-                      SelectMaterialEvent.materialSelected(material.id),
-                    );
-              },
-            ),
-            onTap: () {
+        return MaterialCard(
+          material: material,
+          trailing: Checkbox(
+            value: isSelected,
+            onChanged: (value) {
               context.read<SelectMaterialBloc>().add(
                     SelectMaterialEvent.materialSelected(material.id),
                   );
             },
           ),
+          onTap: () {
+            context.read<SelectMaterialBloc>().add(
+                  SelectMaterialEvent.materialSelected(material.id),
+                );
+          },
         );
       },
     );
