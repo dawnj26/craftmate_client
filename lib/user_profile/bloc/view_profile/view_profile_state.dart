@@ -8,6 +8,13 @@ class ViewProfileState with _$ViewProfileState {
   const factory ViewProfileState.loading({
     @Default(User()) User user,
   }) = Loading;
+  const factory ViewProfileState.sharing({
+    @Default(User()) User user,
+  }) = Sharing;
+  const factory ViewProfileState.shared({
+    @Default(User()) User user,
+    required String link,
+  }) = Shared;
   const factory ViewProfileState.loaded({
     @Default(User()) User user,
   }) = Loaded;

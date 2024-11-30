@@ -206,6 +206,73 @@ abstract class _FollowToggled implements ViewProfileEvent {
 }
 
 /// @nodoc
+abstract class _$$ShareProfileImplCopyWith<$Res>  {
+  factory _$$ShareProfileImplCopyWith(_$ShareProfileImpl value, $Res Function(_$ShareProfileImpl) then) = __$$ShareProfileImplCopyWithImpl<$Res>;
+
+
+
+}
+
+/// @nodoc
+class __$$ShareProfileImplCopyWithImpl<$Res> extends _$ViewProfileEventCopyWithImpl<$Res, _$ShareProfileImpl> implements _$$ShareProfileImplCopyWith<$Res> {
+  __$$ShareProfileImplCopyWithImpl(_$ShareProfileImpl _value, $Res Function(_$ShareProfileImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ViewProfileEvent
+/// with the given fields replaced by the non-null parameter values.
+
+
+
+}
+
+/// @nodoc
+
+
+class _$ShareProfileImpl  implements _ShareProfile {
+  const _$ShareProfileImpl();
+
+  
+
+
+
+@override
+String toString() {
+  return 'ViewProfileEvent.shareProfile()';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ShareProfileImpl);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _ShareProfile implements ViewProfileEvent {
+  const factory _ShareProfile() = _$ShareProfileImpl;
+  
+
+  
+
+
+
+}
+
+/// @nodoc
 mixin _$ViewProfileState {
 
  User get user => throw _privateConstructorUsedError;
@@ -434,6 +501,180 @@ abstract class Loading implements ViewProfileState {
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
+abstract class _$$SharingImplCopyWith<$Res> implements $ViewProfileStateCopyWith<$Res> {
+  factory _$$SharingImplCopyWith(_$SharingImpl value, $Res Function(_$SharingImpl) then) = __$$SharingImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ User user
+});
+
+
+@override $UserCopyWith<$Res> get user;
+}
+
+/// @nodoc
+class __$$SharingImplCopyWithImpl<$Res> extends _$ViewProfileStateCopyWithImpl<$Res, _$SharingImpl> implements _$$SharingImplCopyWith<$Res> {
+  __$$SharingImplCopyWithImpl(_$SharingImpl _value, $Res Function(_$SharingImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ViewProfileState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? user = null,}) {
+  return _then(_$SharingImpl(
+user: null == user ? _value.user : user // ignore: cast_nullable_to_non_nullable
+as User,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$SharingImpl  implements Sharing {
+  const _$SharingImpl({this.user = const User()});
+
+  
+
+@override@JsonKey() final  User user;
+
+@override
+String toString() {
+  return 'ViewProfileState.sharing(user: $user)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SharingImpl&&(identical(other.user, user) || other.user == user));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,user);
+
+/// Create a copy of ViewProfileState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$SharingImplCopyWith<_$SharingImpl> get copyWith => __$$SharingImplCopyWithImpl<_$SharingImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class Sharing implements ViewProfileState {
+  const factory Sharing({final  User user}) = _$SharingImpl;
+  
+
+  
+
+@override User get user;
+/// Create a copy of ViewProfileState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$SharingImplCopyWith<_$SharingImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
+abstract class _$$SharedImplCopyWith<$Res> implements $ViewProfileStateCopyWith<$Res> {
+  factory _$$SharedImplCopyWith(_$SharedImpl value, $Res Function(_$SharedImpl) then) = __$$SharedImplCopyWithImpl<$Res>;
+@override @useResult
+$Res call({
+ User user, String link
+});
+
+
+@override $UserCopyWith<$Res> get user;
+}
+
+/// @nodoc
+class __$$SharedImplCopyWithImpl<$Res> extends _$ViewProfileStateCopyWithImpl<$Res, _$SharedImpl> implements _$$SharedImplCopyWith<$Res> {
+  __$$SharedImplCopyWithImpl(_$SharedImpl _value, $Res Function(_$SharedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ViewProfileState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? user = null,Object? link = null,}) {
+  return _then(_$SharedImpl(
+user: null == user ? _value.user : user // ignore: cast_nullable_to_non_nullable
+as User,link: null == link ? _value.link : link // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$SharedImpl  implements Shared {
+  const _$SharedImpl({this.user = const User(), required this.link});
+
+  
+
+@override@JsonKey() final  User user;
+@override final  String link;
+
+@override
+String toString() {
+  return 'ViewProfileState.shared(user: $user, link: $link)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SharedImpl&&(identical(other.user, user) || other.user == user)&&(identical(other.link, link) || other.link == link));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,user,link);
+
+/// Create a copy of ViewProfileState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$SharedImplCopyWith<_$SharedImpl> get copyWith => __$$SharedImplCopyWithImpl<_$SharedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class Shared implements ViewProfileState {
+  const factory Shared({final  User user, required final  String link}) = _$SharedImpl;
+  
+
+  
+
+@override User get user; String get link;
+/// Create a copy of ViewProfileState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+_$$SharedImplCopyWith<_$SharedImpl> get copyWith => throw _privateConstructorUsedError;
 
 }
 
