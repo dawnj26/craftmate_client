@@ -69,7 +69,8 @@ class SavedItemsScreen extends StatelessWidget {
                     return ListingTile(
                       product: item.product,
                       onTap: () {
-                        Navigator.of(context).push(ViewListingPage.route(item));
+                        Navigator.of(context)
+                            .push(ViewListingPage.route(item.id));
                       },
                     );
                   },
