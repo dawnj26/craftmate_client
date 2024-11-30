@@ -56,7 +56,7 @@ class _BlankProjectCreateScreenState extends State<BlankProjectCreateScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const _VisibilitySwitch(),
-                const Gap(12.0),
+                const Gap(32.0),
                 _CreateProjectForm(
                   tagController: _tagController,
                   tagFocusNode: _tagFocusNode,
@@ -190,28 +190,19 @@ class _VisibilitySwitch extends StatelessWidget {
         final screenWidth = MediaQuery.of(context).size.width;
 
         return Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            const Spacer(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Visibility'),
-                const Gap(4.0),
-                VisibilityDropdown(
-                  width: screenWidth * 0.43,
-                  visibility: state.visibility,
-                  onSelected: (visibility) {
-                    if (visibility == null) {
-                      return;
-                    }
+            VisibilityDropdown(
+              width: screenWidth * 0.43,
+              visibility: state.visibility,
+              onSelected: (visibility) {
+                if (visibility == null) {
+                  return;
+                }
 
-                    bloc.add(
-                      BlankProjectToggleVisibility(visibility: visibility),
-                    );
-                  },
-                ),
-              ],
+                bloc.add(
+                  BlankProjectToggleVisibility(visibility: visibility),
+                );
+              },
             ),
           ],
         );
