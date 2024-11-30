@@ -781,7 +781,7 @@ abstract class _$$LoadedImplCopyWith<$Res> implements $StartProjectStateCopyWith
   factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- Project project, List<bool> completedSteps
+ Project project, List<bool> completedSteps, bool showTutorial
 });
 
 
@@ -796,11 +796,12 @@ class __$$LoadedImplCopyWithImpl<$Res> extends _$StartProjectStateCopyWithImpl<$
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? completedSteps = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? completedSteps = null,Object? showTutorial = null,}) {
   return _then(_$LoadedImpl(
 project: null == project ? _value.project : project // ignore: cast_nullable_to_non_nullable
 as Project,completedSteps: null == completedSteps ? _value._completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
-as List<bool>,
+as List<bool>,showTutorial: null == showTutorial ? _value.showTutorial : showTutorial // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -811,7 +812,7 @@ as List<bool>,
 
 
 class _$LoadedImpl  implements Loaded {
-  const _$LoadedImpl({required this.project, final  List<bool> completedSteps = const []}): _completedSteps = completedSteps;
+  const _$LoadedImpl({required this.project, final  List<bool> completedSteps = const [], this.showTutorial = false}): _completedSteps = completedSteps;
 
   
 
@@ -823,21 +824,22 @@ class _$LoadedImpl  implements Loaded {
   return EqualUnmodifiableListView(_completedSteps);
 }
 
+@override@JsonKey() final  bool showTutorial;
 
 @override
 String toString() {
-  return 'StartProjectState.loaded(project: $project, completedSteps: $completedSteps)';
+  return 'StartProjectState.loaded(project: $project, completedSteps: $completedSteps, showTutorial: $showTutorial)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps)&&(identical(other.showTutorial, showTutorial) || other.showTutorial == showTutorial));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(_completedSteps));
+int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(_completedSteps),showTutorial);
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
@@ -857,12 +859,12 @@ _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_
 
 
 abstract class Loaded implements StartProjectState {
-  const factory Loaded({required final  Project project, final  List<bool> completedSteps}) = _$LoadedImpl;
+  const factory Loaded({required final  Project project, final  List<bool> completedSteps, final  bool showTutorial}) = _$LoadedImpl;
   
 
   
 
-@override Project get project;@override List<bool> get completedSteps;
+@override Project get project;@override List<bool> get completedSteps; bool get showTutorial;
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)

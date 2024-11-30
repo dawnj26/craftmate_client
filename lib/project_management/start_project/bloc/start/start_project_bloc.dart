@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:craftmate_client/globals.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:project_repository/project_repository.dart';
 
@@ -129,6 +130,8 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
 
     try {
       final project = await _projectRepository.tryGetProjectById(_projectId);
+      final hasSeenTutorial =
+          config.prefs.getBool('hasSeenTrackerTutorial') ?? false;
       final List<bool> completedSteps = project.steps == null
           ? []
           : List.generate(
@@ -139,6 +142,7 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
         Loaded(
           project: project,
           completedSteps: completedSteps,
+          showTutorial: !hasSeenTutorial,
         ),
       );
     } on ProjectException catch (e) {

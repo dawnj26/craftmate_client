@@ -25,6 +25,7 @@ class StartProjectState with _$StartProjectState {
   const factory StartProjectState.loaded({
     required Project project,
     @Default([]) List<bool> completedSteps,
+    @Default(false) bool showTutorial,
   }) = Loaded;
 
   const factory StartProjectState.failed({
