@@ -1,16 +1,29 @@
 import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/screens/user_materials_screen.dart';
-import 'package:craftmate_client/project_management/create_project/generate_project/view/screens/generate_project_screen.dart';
 import 'package:craftmate_client/project_management/start_project/bloc/start/start_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/view/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:project_repository/project_repository.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:showcaseview/showcaseview.dart';
 
-class StartProjectScreen extends StatelessWidget {
-  const StartProjectScreen({super.key});
+class StartProjectScreen extends StatefulWidget {
+  const StartProjectScreen({super.key, required this.scrollController});
+
+  final ItemScrollController scrollController;
+
+  @override
+  State<StartProjectScreen> createState() => _StartProjectScreenState();
+}
+
+class _StartProjectScreenState extends State<StartProjectScreen> {
+  final _progressBarKey = GlobalKey();
+  final _descriptionKey = GlobalKey();
+  final _materialsKey = GlobalKey();
+  final _procedureKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +46,10 @@ class StartProjectScreen extends StatelessWidget {
 
               return AppBar(
                 title: Text(state.project.title),
-                bottom: ProgressBar(progress: progress),
+                bottom: _ProgressBar(
+                  progress: progress,
+                  globalKey: _progressBarKey,
+                ),
               );
             },
           ),
@@ -47,7 +63,13 @@ class StartProjectScreen extends StatelessWidget {
                 );
             }
 
-            return _Body(project: state.project);
+            return _Body(
+              controller: widget.scrollController,
+              project: state.project,
+              descriptionKey: _descriptionKey,
+              materialsKey: _materialsKey,
+              procedureKey: _procedureKey,
+            );
           },
         ),
         floatingActionButton: FloatingActionButton.extended(
@@ -65,6 +87,15 @@ class StartProjectScreen extends StatelessWidget {
 
   void _handleState(BuildContext context, StartProjectState state) {
     switch (state) {
+      case Loaded(:final showTutorial):
+        if (showTutorial) {
+          ShowCaseWidget.of(context).startShowCase([
+            _progressBarKey,
+            _descriptionKey,
+            _materialsKey,
+            _procedureKey,
+          ]);
+        }
       case Saving():
         Modal.instance.showLoadingDialog(context);
       case Finished():
@@ -102,10 +133,56 @@ class StartProjectScreen extends StatelessWidget {
   }
 }
 
-class _Body extends StatefulWidget {
-  const _Body({required this.project});
+class _ProgressBar extends StatelessWidget implements PreferredSizeWidget {
+  const _ProgressBar({
+    required this.progress,
+    required this.globalKey,
+  });
 
+  final double progress;
+  final GlobalKey globalKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return Showcase(
+      description: 'Track your progress',
+      key: globalKey,
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0, end: progress),
+        curve: Curves.ease,
+        duration: const Duration(milliseconds: 200),
+        builder: (context, value, _) {
+          return LinearProgressIndicator(
+            value: value,
+            backgroundColor: Colors.grey[300],
+            valueColor: AlwaysStoppedAnimation<Color>(
+              Theme.of(context).primaryColor,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => const Size.fromHeight(6.0);
+}
+
+class _Body extends StatefulWidget {
+  const _Body({
+    required this.controller,
+    required this.project,
+    required this.descriptionKey,
+    required this.materialsKey,
+    required this.procedureKey,
+  });
+
+  final ItemScrollController controller;
   final Project project;
+  final GlobalKey descriptionKey;
+  final GlobalKey materialsKey;
+  final GlobalKey procedureKey;
 
   @override
   State<_Body> createState() => _BodyState();
@@ -113,11 +190,32 @@ class _Body extends StatefulWidget {
 
 class _BodyState extends State<_Body> {
   late List<QuillController> _controllers;
+  late final List<Widget> _children;
 
   @override
   void initState() {
     // TODO: implement initState
     _controllers = _createController();
+    _children = [
+      Showcase(
+        key: widget.descriptionKey,
+        description: 'This is the project description',
+        child: _Description(description: widget.project.description),
+      ),
+      Showcase(
+        key: widget.materialsKey,
+        description: 'These are the materials you need',
+        child: _Materials(
+          project: widget.project,
+        ),
+      ),
+      Showcase(
+        key: widget.procedureKey,
+        description: 'These are the steps you need to follow',
+        child: _Procedures(controllers: _controllers),
+      ),
+    ];
+
     super.initState();
   }
 
@@ -132,31 +230,16 @@ class _BodyState extends State<_Body> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return ScrollablePositionedList.separated(
       padding: const EdgeInsets.all(12),
-      children: [
-        _Description(description: widget.project.description),
-        const SizedBox(height: 24),
-        const Label(title: 'Materials'),
-        const SizedBox(height: 12),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: List.generate(
-            widget.project.materials?.length ?? 0,
-            (index) {
-              final material = widget.project.materials![index];
-              return MaterialCard(
-                material: material,
-                trailing: const SizedBox(
-                  width: 12,
-                ),
-              );
-            },
-          ),
-        ),
-        const SizedBox(height: 24),
-        _Procedures(controllers: _controllers),
-      ],
+      itemScrollController: widget.controller,
+      itemCount: _children.length,
+      itemBuilder: (context, index) {
+        return _children[index];
+      },
+      separatorBuilder: (context, index) {
+        return const SizedBox(height: 24);
+      },
     );
   }
 
@@ -181,6 +264,52 @@ class _BodyState extends State<_Body> {
           readOnly: true,
         );
       },
+    );
+  }
+}
+
+class _Materials extends StatelessWidget {
+  const _Materials({
+    required this.project,
+  });
+
+  final Project project;
+
+  @override
+  Widget build(BuildContext context) {
+    final materialsLength = project.materials?.length ?? 0;
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Label(title: 'Materials'),
+        const SizedBox(height: 12),
+        if (materialsLength == 0)
+          Text(
+            'No materials',
+            style: theme.textTheme.titleLarge?.copyWith(
+              color: theme.colorScheme.onSurface.withOpacity(0.4),
+              fontWeight: FontWeight.w300,
+            ),
+          )
+        else
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: List.generate(
+              materialsLength,
+              (index) {
+                final material = project.materials![index];
+                return MaterialCard(
+                  material: material,
+                  trailing: const SizedBox(
+                    width: 12,
+                  ),
+                );
+              },
+            ),
+          ),
+      ],
     );
   }
 }
