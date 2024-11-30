@@ -90,7 +90,11 @@ class ShopProfileScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              title: Text(period == 'Weekly' ? 'Weekly (selected)' : 'Weekly'),
+              title: Text(
+                period == 'Last 7 days'
+                    ? 'Last 7 days (selected)'
+                    : 'Last 7 days',
+              ),
               onTap: () {
                 context.read<p.ShopProfileBloc>().add(
                       p.ShopProfileEvent.periodChanged('Weekly', curUser),
@@ -99,8 +103,11 @@ class ShopProfileScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              title:
-                  Text(period == 'Monthly' ? 'Monthly (selected)' : 'Monthly'),
+              title: Text(
+                period == 'Last 30 days'
+                    ? 'Last 30 days (selected)'
+                    : 'Last 30 days',
+              ),
               onTap: () {
                 context.read<p.ShopProfileBloc>().add(
                       p.ShopProfileEvent.periodChanged('Monthly', curUser),
@@ -109,7 +116,9 @@ class ShopProfileScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text(period == 'Yearly' ? 'Yearly (selected)' : 'Yearly'),
+              title: Text(
+                period == 'Last year' ? 'Last year (selected)' : 'Last year',
+              ),
               onTap: () {
                 context.read<p.ShopProfileBloc>().add(
                       p.ShopProfileEvent.periodChanged('Yearly', curUser),
