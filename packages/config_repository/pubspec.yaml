@@ -9,6 +9,7 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  app_links: ^6.3.2
   cloud_firestore: ^5.4.5
   connectivity_plus: ^6.0.5
   dio: ^5.5.0+1
