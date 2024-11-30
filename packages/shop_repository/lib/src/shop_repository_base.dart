@@ -34,6 +34,14 @@ abstract class IShopRepository {
   Future<void> deleteListing(String id);
   Future<void> updateListing(String id, Product product,
       [List<String> networkImages = const []]);
+  Future<String> shareListing(String id);
+  Future<List<QueryProduct>> searchListings(
+    String query, {
+    String? category,
+    double? lat,
+    double? lon,
+    double? radius,
+  });
 }
 
 class ShopRepository implements IShopRepository {
@@ -510,6 +518,65 @@ class ShopRepository implements IShopRepository {
       _config.logger
           .error('Failed to update listing: $e', e, StackTrace.current);
       throw ShopException('Failed to update listing: $e');
+    }
+  }
+
+  @override
+  Future<String> shareListing(String id) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/shop/$id/share',
+        method: 'GET',
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw ShopException('No response');
+      }
+
+      return response.data!['data']['share_link'];
+    } on RequestException catch (e) {
+      throw ShopException('Failed to share listing: $e');
+    }
+  }
+
+  @override
+  Future<List<QueryProduct>> searchListings(
+    String query, {
+    String? category,
+    double? lat,
+    double? lon,
+    double? radius,
+  }) async {
+    try {
+      var productsRef = category != null
+          ? _config.db
+              .collection(_baseUrl)
+              .where('category', isEqualTo: category)
+          : _config.db.collection(_baseUrl);
+
+      final products = await productsRef.get();
+      var results = products.docs
+          .map((e) =>
+              QueryProduct(id: e.id, product: Product.fromJson(e.data())))
+          .where((product) =>
+              product.product.name
+                  .toLowerCase()
+                  .contains(query.toLowerCase()) ||
+              product.product.description
+                  .toLowerCase()
+                  .contains(query.toLowerCase()))
+          .toList();
+
+      if (lat != null && lon != null && radius != null) {
+        results = getNearbyListings(results, lat, lon, radius);
+      }
+
+      return results;
+    } catch (e) {
+      _config.logger
+          .error('Failed to search listings: $e', e, StackTrace.current);
+      throw ShopException('Failed to search listings: $e');
     }
   }
 }
