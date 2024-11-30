@@ -34,7 +34,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   final AuthenticationRepository _authenticationRepository;
   final UserRepository _userRepository;
-  late StreamSubscription<AuthenticationStatus>
+  late final StreamSubscription<AuthenticationStatus>
       _authenticationStatusSubscription;
 
   /// Closes the BLoC and cancels the authentication status subscription.
