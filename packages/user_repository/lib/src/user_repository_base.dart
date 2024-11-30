@@ -15,6 +15,7 @@ abstract class IUserRepository {
   Future<User> uploadProfilePicture(String filePath);
   Future<User> toggleFollow(int id);
   Future<List<User>> getUsers();
+  Future<String> shareUser(int id);
 }
 
 class UserRepository implements IUserRepository {
@@ -231,6 +232,26 @@ class UserRepository implements IUserRepository {
       _config.prefs.setString('currentUser', jsonEncode(user.toJson()));
 
       return user;
+    } on RequestException catch (e) {
+      throw UserException(e.message);
+    } on TokenException catch (e) {
+      throw UserException(e.message);
+    }
+  }
+
+  @override
+  Future<String> shareUser(int id) async {
+    try {
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/user/$id/share',
+        withAuthorization: true,
+      );
+
+      if (response.data == null) {
+        throw const UserException('No response');
+      }
+
+      return response.data!['data']['share_link'] as String;
     } on RequestException catch (e) {
       throw UserException(e.message);
     } on TokenException catch (e) {
