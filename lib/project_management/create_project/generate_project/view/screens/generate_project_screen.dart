@@ -1,8 +1,12 @@
+import 'dart:io';
+
+import 'package:craftmate_client/dashboard/shop/views/screens/view_listing_screen.dart';
 import 'package:craftmate_client/project_management/create_project/generate_project/bloc/generate_project_bloc.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:material_repository/material_repository.dart' as m;
 
 class GenerateProjectScreen extends StatefulWidget {
@@ -75,11 +79,16 @@ class _GenerateProjectScreenState extends State<GenerateProjectScreen> {
                   controller: _additionalPromptController,
                   focusNode: _additionalPromptFocusNode,
                 ),
-                Summary(
-                  projectType: _projectTypeController.text,
-                  difficulty: _difficulty,
-                  materials: _selectedMaterials,
-                  additionalPrompt: _additionalPromptController.text,
+                BlocBuilder<GenerateProjectBloc, GenerateProjectState>(
+                  builder: (context, state) {
+                    return Summary(
+                      projectType: _projectTypeController.text,
+                      difficulty: _difficulty,
+                      materials: _selectedMaterials,
+                      additionalPrompt: _additionalPromptController.text,
+                      imagePath: state.imagePath,
+                    );
+                  },
                 ),
               ],
               onPageChanged: (index) {
@@ -213,16 +222,19 @@ class Summary extends StatelessWidget {
     required this.difficulty,
     required this.materials,
     required this.additionalPrompt,
+    this.imagePath,
   });
 
   final String projectType;
   final Difficulty difficulty;
   final List<m.Material> materials;
   final String additionalPrompt;
+  final String? imagePath;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final screenSize = MediaQuery.sizeOf(context);
 
     return Center(
       child: SingleChildScrollView(
@@ -269,16 +281,26 @@ class Summary extends StatelessWidget {
               ),
             ),
             const Gap(8),
-            Wrap(
-              spacing: 4,
-              children: materials
-                  .map(
-                    (material) => Chip(
-                      label: Text(material.name),
-                    ),
-                  )
-                  .toList(),
-            ),
+            if (imagePath != null)
+              GestureDetector(
+                onTap: () => _viewImage(context, imagePath!),
+                child: Image.file(
+                  File(imagePath!),
+                  height: screenSize.height * 0.25,
+                  fit: BoxFit.cover,
+                ),
+              )
+            else
+              Wrap(
+                spacing: 4,
+                children: materials
+                    .map(
+                      (material) => Chip(
+                        label: Text(material.name),
+                      ),
+                    )
+                    .toList(),
+              ),
             const Gap(16.0),
             Text(
               'Additional prompt: ',
@@ -300,6 +322,18 @@ class Summary extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _viewImage(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ZoomPhoto(
+          imageUrl: imageUrl,
+          isFile: true,
+        );
+      },
     );
   }
 }
@@ -338,6 +372,8 @@ class MaterialSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.sizeOf(context);
+
     final theme = Theme.of(context);
     return BlocBuilder<GenerateProjectBloc, GenerateProjectState>(
       builder: (context, state) {
@@ -370,6 +406,33 @@ class MaterialSelection extends StatelessWidget {
                         materials: state.materials,
                         onMaterialsSelected: onMaterialsSelected,
                       ),
+                      const Gap(16),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Expanded(child: Divider()),
+                          SizedBox(width: 8),
+                          Text('Or'),
+                          SizedBox(width: 8),
+                          Expanded(child: Divider()),
+                        ],
+                      ),
+                      const Gap(16),
+                      OutlinedButton.icon(
+                        onPressed: () => _selectPhoto(context),
+                        label: const Text('Add Photo'),
+                        icon: const Icon(Icons.camera_alt),
+                      ),
+                      const Gap(16),
+                      if (state.imagePath != null)
+                        GestureDetector(
+                          onTap: () => _viewImage(context, state.imagePath!),
+                          child: Image.file(
+                            File(state.imagePath!),
+                            height: screenSize.height * 0.25,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -378,6 +441,71 @@ class MaterialSelection extends StatelessWidget {
         }
       },
     );
+  }
+
+  void _viewImage(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ZoomPhoto(
+          imageUrl: imageUrl,
+          isFile: true,
+        );
+      },
+    );
+  }
+
+  void _selectPhoto(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: const Text('Take a photo'),
+              onTap: () async {
+                Navigator.pop(context);
+                final file = await _pickImage(ImageSource.gallery);
+
+                if (file == null || !context.mounted) {
+                  return;
+                }
+
+                context.read<GenerateProjectBloc>().add(
+                      GenerateProjectEvent.imageSelected(
+                        imagePath: file.path,
+                      ),
+                    );
+              },
+            ),
+            ListTile(
+              title: const Text('Choose from gallery'),
+              onTap: () async {
+                Navigator.pop(context);
+                final file = await _pickImage(ImageSource.gallery);
+
+                if (file == null || !context.mounted) {
+                  return;
+                }
+
+                context.read<GenerateProjectBloc>().add(
+                      GenerateProjectEvent.imageSelected(
+                        imagePath: file.path,
+                      ),
+                    );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<XFile?> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+    return pickedFile;
   }
 }
 
