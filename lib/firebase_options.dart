@@ -59,4 +59,5 @@ class DefaultFirebaseOptions {
     projectId: 'craftmate-b37fd',
     storageBucket: 'craftmate-b37fd.firebasestorage.app',
   );
+
 }
