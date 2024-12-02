@@ -33,7 +33,22 @@ class NotificationScreen extends StatelessWidget {
           }
 
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: FilterChip(
+                  label: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(state.filter.label),
+                      const Icon(Icons.arrow_drop_down),
+                    ],
+                  ),
+                  onSelected: (_) => _handleFilter(context, state.filter),
+                  selected: true,
+                ),
+              ),
               Expanded(
                 child: ListView.builder(
                   itemCount: state.notifications.length,
@@ -50,6 +65,37 @@ class NotificationScreen extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  void _handleFilter(
+    BuildContext context,
+    NotificationDateFilter currentFilter,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      builder: (c) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: NotificationDateFilter.values
+              .map(
+                (filter) => ListTile(
+                  leading: const Icon(Icons.filter_list),
+                  title: Text(filter.label),
+                  onTap: () {
+                    if (filter == currentFilter) return;
+
+                    context.read<NotificationBloc>().add(
+                          NotificationEvent.filterChanged(filter),
+                        );
+                    Navigator.pop(context);
+                  },
+                  selected: filter == currentFilter,
+                ),
+              )
+              .toList(),
+        );
+      },
     );
   }
 }
@@ -116,11 +162,15 @@ class NotificationTile extends StatelessWidget {
                 PopupMenuButton(
                   itemBuilder: (context) {
                     return [
-                      const PopupMenuItem(
-                        child: Text('Mark as read'),
-                      ),
-                      const PopupMenuItem(
-                        child: Text('Delete'),
+                      PopupMenuItem(
+                        onTap: () {
+                          context.read<NotificationBloc>().add(
+                                NotificationEvent.markNotificationAsRead(
+                                  notification.id,
+                                ),
+                              );
+                        },
+                        child: const Text('Mark as read'),
                       ),
                     ];
                   },
