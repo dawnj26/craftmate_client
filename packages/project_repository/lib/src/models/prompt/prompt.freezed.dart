@@ -20,6 +20,7 @@ mixin _$Prompt {
   String get difficulty => throw _privateConstructorUsedError;
   List<String> get materials => throw _privateConstructorUsedError;
   String get additionalInfo => throw _privateConstructorUsedError;
+  String? get imagePath => throw _privateConstructorUsedError;
 
   /// Create a copy of Prompt
   /// with the given fields replaced by the non-null parameter values.
@@ -36,7 +37,8 @@ abstract class $PromptCopyWith<$Res> {
       {String type,
       String difficulty,
       List<String> materials,
-      String additionalInfo});
+      String additionalInfo,
+      String? imagePath});
 }
 
 /// @nodoc
@@ -58,6 +60,7 @@ class _$PromptCopyWithImpl<$Res, $Val extends Prompt>
     Object? difficulty = null,
     Object? materials = null,
     Object? additionalInfo = null,
+    Object? imagePath = freezed,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -76,6 +79,10 @@ class _$PromptCopyWithImpl<$Res, $Val extends Prompt>
           ? _value.additionalInfo
           : additionalInfo // ignore: cast_nullable_to_non_nullable
               as String,
+      imagePath: freezed == imagePath
+          ? _value.imagePath
+          : imagePath // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -91,7 +98,8 @@ abstract class _$$PromptImplCopyWith<$Res> implements $PromptCopyWith<$Res> {
       {String type,
       String difficulty,
       List<String> materials,
-      String additionalInfo});
+      String additionalInfo,
+      String? imagePath});
 }
 
 /// @nodoc
@@ -111,6 +119,7 @@ class __$$PromptImplCopyWithImpl<$Res>
     Object? difficulty = null,
     Object? materials = null,
     Object? additionalInfo = null,
+    Object? imagePath = freezed,
   }) {
     return _then(_$PromptImpl(
       type: null == type
@@ -129,6 +138,10 @@ class __$$PromptImplCopyWithImpl<$Res>
           ? _value.additionalInfo
           : additionalInfo // ignore: cast_nullable_to_non_nullable
               as String,
+      imagePath: freezed == imagePath
+          ? _value.imagePath
+          : imagePath // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -140,7 +153,8 @@ class _$PromptImpl extends _Prompt {
       {required this.type,
       required this.difficulty,
       required final List<String> materials,
-      this.additionalInfo = ''})
+      this.additionalInfo = '',
+      this.imagePath})
       : _materials = materials,
         super._();
 
@@ -159,10 +173,12 @@ class _$PromptImpl extends _Prompt {
   @override
   @JsonKey()
   final String additionalInfo;
+  @override
+  final String? imagePath;
 
   @override
   String toString() {
-    return 'Prompt(type: $type, difficulty: $difficulty, materials: $materials, additionalInfo: $additionalInfo)';
+    return 'Prompt(type: $type, difficulty: $difficulty, materials: $materials, additionalInfo: $additionalInfo, imagePath: $imagePath)';
   }
 
   @override
@@ -176,12 +192,19 @@ class _$PromptImpl extends _Prompt {
             const DeepCollectionEquality()
                 .equals(other._materials, _materials) &&
             (identical(other.additionalInfo, additionalInfo) ||
-                other.additionalInfo == additionalInfo));
+                other.additionalInfo == additionalInfo) &&
+            (identical(other.imagePath, imagePath) ||
+                other.imagePath == imagePath));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, type, difficulty,
-      const DeepCollectionEquality().hash(_materials), additionalInfo);
+  int get hashCode => Object.hash(
+      runtimeType,
+      type,
+      difficulty,
+      const DeepCollectionEquality().hash(_materials),
+      additionalInfo,
+      imagePath);
 
   /// Create a copy of Prompt
   /// with the given fields replaced by the non-null parameter values.
@@ -197,7 +220,8 @@ abstract class _Prompt extends Prompt {
       {required final String type,
       required final String difficulty,
       required final List<String> materials,
-      final String additionalInfo}) = _$PromptImpl;
+      final String additionalInfo,
+      final String? imagePath}) = _$PromptImpl;
   const _Prompt._() : super._();
 
   @override
@@ -208,6 +232,8 @@ abstract class _Prompt extends Prompt {
   List<String> get materials;
   @override
   String get additionalInfo;
+  @override
+  String? get imagePath;
 
   /// Create a copy of Prompt
   /// with the given fields replaced by the non-null parameter values.

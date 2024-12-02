@@ -12,66 +12,47 @@ class Prompt with _$Prompt {
     required String difficulty,
     required List<String> materials,
     @Default('') String additionalInfo,
+    String? imagePath,
   }) = _Prompt;
 
   String generateSuggestionPrompt() {
-    final materialsString = materials.join(', ');
+    final materialsString = imagePath == null
+        ? materials.join(', ')
+        : 'Use the provided reference image for the materials.';
 
     return '''
-    Act like a creative expert artisan and think and provide random 5 crafting project suggestions based on this information:
-    I want to ba a/an $type crafting project, Difficulty: $difficulty, Materials: $materialsString, Additional Info: ${additionalInfo.isNotEmpty ? additionalInfo : 'None'}
+    Act as an expert artisan crafting consultant. Generate 5 unique and creative crafting project suggestions based on these requirements:
+    Project Type: $type
+    Difficulty Level: $difficulty
+    Available Materials: $materialsString
+    Additional Context: ${additionalInfo.isNotEmpty ? additionalInfo : 'None'}
 
-    Use this JSON schema:
+
+    Use this JSON schema and respond with only the JSON, no markdown or additional text:
     Project = { title: string, description: string }
     Return: list[Project]
     ''';
-
-    // Respond only using this JSON format, dont generate any md just json, and make strings is in plain text and make it in one line:
-    // [
-    //   {
-    //     "title": "Title of the project",
-    //     "description": "Description of the project"
-    //   }
-    // ]
   }
 
   String generateProjectPrompt(ProjectSuggestion suggestion) {
+    final materialsString = imagePath == null
+        ? materials.join(', ')
+        : 'Use the provided reference image for the materials.';
+
     return '''
-            Act like a creative expert artisan and think and provide a simple but detailed crafting recipe and continue this crafting project:
-            Title: ${suggestion.title}, Description: ${suggestion.description}, Difficulty: $difficulty, Include this materials and add materials if needed: ${materials.join(', ')}
-            Respond only using this JSON format in plain text, dont generate any md just json, and make strings is in plain text and make it in one line:
-            {
-                "title": "Crafting a wooden chair",
-                "description": "A simple guide on how to craft a wooden chair",
-                "steps": [
-                    "Get the wood",
-                    "Cut the wood",
-                    "Assemble the chair",
-                    "Paint the chair"
-                    ],
-                "materials": [
-                    {
-                        "name": "Wood",
-                        "quantity": 4 (integer type no other types allowed)
-                    },
-                    {
-                        "name": "Nails",
-                        "quantity": 4
-                    },
-                    {
-                        "name": "Hammer",
-                        "quantity": 1
-                    },
-                    {
-                        "name": "Saw",
-                        "quantity": 1
-                    },
-                    {
-                        "name": "Paint",
-                        "quantity": 1
-                    }
-                ]
-            }
-''';
+    Act as an expert artisan and provide a detailed crafting recipe with the following specifications:
+    Project Title: ${suggestion.title}
+    Project Description: ${suggestion.description}
+    Difficulty Level: $difficulty
+    Required Materials (include these and add more if needed): $materialsString
+
+    Respond with only the following JSON format, no markdown or additional text:
+    {
+        "title": string,
+        "description": string,
+        "steps": list[string],
+        "materials": list[{"name": string, "quantity": (single integer)}]
+    }
+    ''';
   }
 }
