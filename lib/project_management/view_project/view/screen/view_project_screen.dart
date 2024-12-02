@@ -536,6 +536,7 @@ class _ProjectCardHeader extends StatelessWidget {
             user: project.creator,
             updatedAt: project.createdAt,
             visibility: project.visibility,
+            forkable: project.forkable,
             onTap: () {
               Navigator.push(
                 context,
