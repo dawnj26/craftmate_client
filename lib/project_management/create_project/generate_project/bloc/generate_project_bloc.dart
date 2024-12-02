@@ -17,17 +17,33 @@ class GenerateProjectBloc
         super(const Initial()) {
     on<_MaterialsLoaded>(_onMaterialsLoaded);
     on<_GenerateSuggestions>(_onGenerateSuggestions);
+    on<_ImageSelected>(_onImageSelected);
   }
 
   final MaterialRepository _materialRepo;
   final ProjectRepository _projectRepo;
+
+  void _onImageSelected(
+    _ImageSelected event,
+    Emitter<GenerateProjectState> emit,
+  ) {
+    emit(
+      LoadedMaterials(
+        materials: [...state.materials],
+        imagePath: event.imagePath,
+      ),
+    );
+  }
 
   Future<void> _onGenerateSuggestions(
     _GenerateSuggestions event,
     Emitter<GenerateProjectState> emit,
   ) async {
     emit(
-      LoadingSuggestions(materials: [...state.materials]),
+      LoadingSuggestions(
+        materials: [...state.materials],
+        imagePath: state.imagePath,
+      ),
     );
     try {
       final prompt = Prompt(
@@ -35,6 +51,7 @@ class GenerateProjectBloc
         difficulty: event.difficulty,
         materials: event.materials,
         additionalInfo: event.additionalInfo,
+        imagePath: state.imagePath,
       );
 
       final suggestions =
@@ -44,6 +61,7 @@ class GenerateProjectBloc
           materials: [...state.materials],
           suggestions: suggestions,
           prompt: prompt,
+          imagePath: state.imagePath,
         ),
       );
     } on ProjectException catch (e) {
@@ -51,6 +69,7 @@ class GenerateProjectBloc
         Error(
           message: e.message,
           materials: [...state.materials],
+          imagePath: state.imagePath,
         ),
       );
     }

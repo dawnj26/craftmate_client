@@ -285,9 +285,95 @@ _$$GenerateSuggestionsImplCopyWith<_$GenerateSuggestionsImpl> get copyWith => th
 }
 
 /// @nodoc
+abstract class _$$ImageSelectedImplCopyWith<$Res>  {
+  factory _$$ImageSelectedImplCopyWith(_$ImageSelectedImpl value, $Res Function(_$ImageSelectedImpl) then) = __$$ImageSelectedImplCopyWithImpl<$Res>;
+@useResult
+$Res call({
+ String imagePath
+});
+
+
+
+}
+
+/// @nodoc
+class __$$ImageSelectedImplCopyWithImpl<$Res> extends _$GenerateProjectEventCopyWithImpl<$Res, _$ImageSelectedImpl> implements _$$ImageSelectedImplCopyWith<$Res> {
+  __$$ImageSelectedImplCopyWithImpl(_$ImageSelectedImpl _value, $Res Function(_$ImageSelectedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of GenerateProjectEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? imagePath = null,}) {
+  return _then(_$ImageSelectedImpl(
+imagePath: null == imagePath ? _value.imagePath : imagePath // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$ImageSelectedImpl  implements _ImageSelected {
+  const _$ImageSelectedImpl({required this.imagePath});
+
+  
+
+@override final  String imagePath;
+
+@override
+String toString() {
+  return 'GenerateProjectEvent.imageSelected(imagePath: $imagePath)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ImageSelectedImpl&&(identical(other.imagePath, imagePath) || other.imagePath == imagePath));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,imagePath);
+
+/// Create a copy of GenerateProjectEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$ImageSelectedImplCopyWith<_$ImageSelectedImpl> get copyWith => __$$ImageSelectedImplCopyWithImpl<_$ImageSelectedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _ImageSelected implements GenerateProjectEvent {
+  const factory _ImageSelected({required final  String imagePath}) = _$ImageSelectedImpl;
+  
+
+  
+
+ String get imagePath;
+/// Create a copy of GenerateProjectEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+_$$ImageSelectedImplCopyWith<_$ImageSelectedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
 mixin _$GenerateProjectState {
 
- List<Material> get materials => throw _privateConstructorUsedError;
+ List<Material> get materials => throw _privateConstructorUsedError; String? get imagePath => throw _privateConstructorUsedError;
 
 
 
@@ -307,7 +393,7 @@ abstract class $GenerateProjectStateCopyWith<$Res>  {
   factory $GenerateProjectStateCopyWith(GenerateProjectState value, $Res Function(GenerateProjectState) then) = _$GenerateProjectStateCopyWithImpl<$Res, GenerateProjectState>;
 @useResult
 $Res call({
- List<Material> materials
+ List<Material> materials, String? imagePath
 });
 
 
@@ -325,10 +411,11 @@ class _$GenerateProjectStateCopyWithImpl<$Res,$Val extends GenerateProjectState>
 
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,Object? imagePath = freezed,}) {
   return _then(_value.copyWith(
 materials: null == materials ? _value.materials : materials // ignore: cast_nullable_to_non_nullable
-as List<Material>,
+as List<Material>,imagePath: freezed == imagePath ? _value.imagePath : imagePath // ignore: cast_nullable_to_non_nullable
+as String?,
   )as $Val);
 }
 
@@ -340,7 +427,7 @@ abstract class _$$InitialImplCopyWith<$Res> implements $GenerateProjectStateCopy
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Material> materials
+ List<Material> materials, String? imagePath
 });
 
 
@@ -355,10 +442,11 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$GenerateProjectStateCopyWithIm
 
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,Object? imagePath = freezed,}) {
   return _then(_$InitialImpl(
 materials: null == materials ? _value._materials : materials // ignore: cast_nullable_to_non_nullable
-as List<Material>,
+as List<Material>,imagePath: freezed == imagePath ? _value.imagePath : imagePath // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -369,7 +457,7 @@ as List<Material>,
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl({final  List<Material> materials = const []}): _materials = materials;
+  const _$InitialImpl({final  List<Material> materials = const [], this.imagePath}): _materials = materials;
 
   
 
@@ -380,21 +468,22 @@ class _$InitialImpl  implements Initial {
   return EqualUnmodifiableListView(_materials);
 }
 
+@override final  String? imagePath;
 
 @override
 String toString() {
-  return 'GenerateProjectState.initial(materials: $materials)';
+  return 'GenerateProjectState.initial(materials: $materials, imagePath: $imagePath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&const DeepCollectionEquality().equals(other._materials, _materials));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&const DeepCollectionEquality().equals(other._materials, _materials)&&(identical(other.imagePath, imagePath) || other.imagePath == imagePath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials),imagePath);
 
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
@@ -414,12 +503,12 @@ _$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImp
 
 
 abstract class Initial implements GenerateProjectState {
-  const factory Initial({final  List<Material> materials}) = _$InitialImpl;
+  const factory Initial({final  List<Material> materials, final  String? imagePath}) = _$InitialImpl;
   
 
   
 
-@override List<Material> get materials;
+@override List<Material> get materials;@override String? get imagePath;
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -432,7 +521,7 @@ abstract class _$$LoadingMaterialsImplCopyWith<$Res> implements $GenerateProject
   factory _$$LoadingMaterialsImplCopyWith(_$LoadingMaterialsImpl value, $Res Function(_$LoadingMaterialsImpl) then) = __$$LoadingMaterialsImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Material> materials
+ List<Material> materials, String? imagePath
 });
 
 
@@ -447,10 +536,11 @@ class __$$LoadingMaterialsImplCopyWithImpl<$Res> extends _$GenerateProjectStateC
 
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,Object? imagePath = freezed,}) {
   return _then(_$LoadingMaterialsImpl(
 materials: null == materials ? _value._materials : materials // ignore: cast_nullable_to_non_nullable
-as List<Material>,
+as List<Material>,imagePath: freezed == imagePath ? _value.imagePath : imagePath // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -461,7 +551,7 @@ as List<Material>,
 
 
 class _$LoadingMaterialsImpl  implements LoadingMaterials {
-  const _$LoadingMaterialsImpl({final  List<Material> materials = const []}): _materials = materials;
+  const _$LoadingMaterialsImpl({final  List<Material> materials = const [], this.imagePath}): _materials = materials;
 
   
 
@@ -472,21 +562,22 @@ class _$LoadingMaterialsImpl  implements LoadingMaterials {
   return EqualUnmodifiableListView(_materials);
 }
 
+@override final  String? imagePath;
 
 @override
 String toString() {
-  return 'GenerateProjectState.loadingMaterials(materials: $materials)';
+  return 'GenerateProjectState.loadingMaterials(materials: $materials, imagePath: $imagePath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingMaterialsImpl&&const DeepCollectionEquality().equals(other._materials, _materials));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingMaterialsImpl&&const DeepCollectionEquality().equals(other._materials, _materials)&&(identical(other.imagePath, imagePath) || other.imagePath == imagePath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials),imagePath);
 
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
@@ -506,12 +597,12 @@ _$$LoadingMaterialsImplCopyWith<_$LoadingMaterialsImpl> get copyWith => __$$Load
 
 
 abstract class LoadingMaterials implements GenerateProjectState {
-  const factory LoadingMaterials({final  List<Material> materials}) = _$LoadingMaterialsImpl;
+  const factory LoadingMaterials({final  List<Material> materials, final  String? imagePath}) = _$LoadingMaterialsImpl;
   
 
   
 
-@override List<Material> get materials;
+@override List<Material> get materials;@override String? get imagePath;
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -524,7 +615,7 @@ abstract class _$$LoadedMaterialsImplCopyWith<$Res> implements $GenerateProjectS
   factory _$$LoadedMaterialsImplCopyWith(_$LoadedMaterialsImpl value, $Res Function(_$LoadedMaterialsImpl) then) = __$$LoadedMaterialsImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Material> materials
+ List<Material> materials, String? imagePath
 });
 
 
@@ -539,10 +630,11 @@ class __$$LoadedMaterialsImplCopyWithImpl<$Res> extends _$GenerateProjectStateCo
 
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,Object? imagePath = freezed,}) {
   return _then(_$LoadedMaterialsImpl(
 materials: null == materials ? _value._materials : materials // ignore: cast_nullable_to_non_nullable
-as List<Material>,
+as List<Material>,imagePath: freezed == imagePath ? _value.imagePath : imagePath // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -553,7 +645,7 @@ as List<Material>,
 
 
 class _$LoadedMaterialsImpl  implements LoadedMaterials {
-  const _$LoadedMaterialsImpl({final  List<Material> materials = const []}): _materials = materials;
+  const _$LoadedMaterialsImpl({final  List<Material> materials = const [], this.imagePath}): _materials = materials;
 
   
 
@@ -564,21 +656,22 @@ class _$LoadedMaterialsImpl  implements LoadedMaterials {
   return EqualUnmodifiableListView(_materials);
 }
 
+@override final  String? imagePath;
 
 @override
 String toString() {
-  return 'GenerateProjectState.loadedMaterials(materials: $materials)';
+  return 'GenerateProjectState.loadedMaterials(materials: $materials, imagePath: $imagePath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedMaterialsImpl&&const DeepCollectionEquality().equals(other._materials, _materials));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedMaterialsImpl&&const DeepCollectionEquality().equals(other._materials, _materials)&&(identical(other.imagePath, imagePath) || other.imagePath == imagePath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials),imagePath);
 
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
@@ -598,12 +691,12 @@ _$$LoadedMaterialsImplCopyWith<_$LoadedMaterialsImpl> get copyWith => __$$Loaded
 
 
 abstract class LoadedMaterials implements GenerateProjectState {
-  const factory LoadedMaterials({final  List<Material> materials}) = _$LoadedMaterialsImpl;
+  const factory LoadedMaterials({final  List<Material> materials, final  String? imagePath}) = _$LoadedMaterialsImpl;
   
 
   
 
-@override List<Material> get materials;
+@override List<Material> get materials;@override String? get imagePath;
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -616,7 +709,7 @@ abstract class _$$LoadingSuggestionsImplCopyWith<$Res> implements $GenerateProje
   factory _$$LoadingSuggestionsImplCopyWith(_$LoadingSuggestionsImpl value, $Res Function(_$LoadingSuggestionsImpl) then) = __$$LoadingSuggestionsImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Material> materials
+ List<Material> materials, String? imagePath
 });
 
 
@@ -631,10 +724,11 @@ class __$$LoadingSuggestionsImplCopyWithImpl<$Res> extends _$GenerateProjectStat
 
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,Object? imagePath = freezed,}) {
   return _then(_$LoadingSuggestionsImpl(
 materials: null == materials ? _value._materials : materials // ignore: cast_nullable_to_non_nullable
-as List<Material>,
+as List<Material>,imagePath: freezed == imagePath ? _value.imagePath : imagePath // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -645,7 +739,7 @@ as List<Material>,
 
 
 class _$LoadingSuggestionsImpl  implements LoadingSuggestions {
-  const _$LoadingSuggestionsImpl({final  List<Material> materials = const []}): _materials = materials;
+  const _$LoadingSuggestionsImpl({final  List<Material> materials = const [], this.imagePath}): _materials = materials;
 
   
 
@@ -656,21 +750,22 @@ class _$LoadingSuggestionsImpl  implements LoadingSuggestions {
   return EqualUnmodifiableListView(_materials);
 }
 
+@override final  String? imagePath;
 
 @override
 String toString() {
-  return 'GenerateProjectState.loadingSuggestions(materials: $materials)';
+  return 'GenerateProjectState.loadingSuggestions(materials: $materials, imagePath: $imagePath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingSuggestionsImpl&&const DeepCollectionEquality().equals(other._materials, _materials));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingSuggestionsImpl&&const DeepCollectionEquality().equals(other._materials, _materials)&&(identical(other.imagePath, imagePath) || other.imagePath == imagePath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials),imagePath);
 
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
@@ -690,12 +785,12 @@ _$$LoadingSuggestionsImplCopyWith<_$LoadingSuggestionsImpl> get copyWith => __$$
 
 
 abstract class LoadingSuggestions implements GenerateProjectState {
-  const factory LoadingSuggestions({final  List<Material> materials}) = _$LoadingSuggestionsImpl;
+  const factory LoadingSuggestions({final  List<Material> materials, final  String? imagePath}) = _$LoadingSuggestionsImpl;
   
 
   
 
-@override List<Material> get materials;
+@override List<Material> get materials;@override String? get imagePath;
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -708,7 +803,7 @@ abstract class _$$LoadedSuggestionsImplCopyWith<$Res> implements $GenerateProjec
   factory _$$LoadedSuggestionsImplCopyWith(_$LoadedSuggestionsImpl value, $Res Function(_$LoadedSuggestionsImpl) then) = __$$LoadedSuggestionsImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Material> materials, List<ProjectSuggestion> suggestions, Prompt prompt
+ List<Material> materials, String? imagePath, List<ProjectSuggestion> suggestions, Prompt prompt
 });
 
 
@@ -723,10 +818,11 @@ class __$$LoadedSuggestionsImplCopyWithImpl<$Res> extends _$GenerateProjectState
 
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,Object? suggestions = null,Object? prompt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,Object? imagePath = freezed,Object? suggestions = null,Object? prompt = null,}) {
   return _then(_$LoadedSuggestionsImpl(
 materials: null == materials ? _value._materials : materials // ignore: cast_nullable_to_non_nullable
-as List<Material>,suggestions: null == suggestions ? _value._suggestions : suggestions // ignore: cast_nullable_to_non_nullable
+as List<Material>,imagePath: freezed == imagePath ? _value.imagePath : imagePath // ignore: cast_nullable_to_non_nullable
+as String?,suggestions: null == suggestions ? _value._suggestions : suggestions // ignore: cast_nullable_to_non_nullable
 as List<ProjectSuggestion>,prompt: null == prompt ? _value.prompt : prompt // ignore: cast_nullable_to_non_nullable
 as Prompt,
   ));
@@ -748,7 +844,7 @@ $PromptCopyWith<$Res> get prompt {
 
 
 class _$LoadedSuggestionsImpl  implements LoadedSuggestions {
-  const _$LoadedSuggestionsImpl({final  List<Material> materials = const [], required final  List<ProjectSuggestion> suggestions, required this.prompt}): _materials = materials,_suggestions = suggestions;
+  const _$LoadedSuggestionsImpl({final  List<Material> materials = const [], this.imagePath, required final  List<ProjectSuggestion> suggestions, required this.prompt}): _materials = materials,_suggestions = suggestions;
 
   
 
@@ -759,6 +855,7 @@ class _$LoadedSuggestionsImpl  implements LoadedSuggestions {
   return EqualUnmodifiableListView(_materials);
 }
 
+@override final  String? imagePath;
  final  List<ProjectSuggestion> _suggestions;
 @override List<ProjectSuggestion> get suggestions {
   if (_suggestions is EqualUnmodifiableListView) return _suggestions;
@@ -770,18 +867,18 @@ class _$LoadedSuggestionsImpl  implements LoadedSuggestions {
 
 @override
 String toString() {
-  return 'GenerateProjectState.loadedSuggestions(materials: $materials, suggestions: $suggestions, prompt: $prompt)';
+  return 'GenerateProjectState.loadedSuggestions(materials: $materials, imagePath: $imagePath, suggestions: $suggestions, prompt: $prompt)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedSuggestionsImpl&&const DeepCollectionEquality().equals(other._materials, _materials)&&const DeepCollectionEquality().equals(other._suggestions, _suggestions)&&(identical(other.prompt, prompt) || other.prompt == prompt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedSuggestionsImpl&&const DeepCollectionEquality().equals(other._materials, _materials)&&(identical(other.imagePath, imagePath) || other.imagePath == imagePath)&&const DeepCollectionEquality().equals(other._suggestions, _suggestions)&&(identical(other.prompt, prompt) || other.prompt == prompt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials),const DeepCollectionEquality().hash(_suggestions),prompt);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials),imagePath,const DeepCollectionEquality().hash(_suggestions),prompt);
 
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
@@ -801,12 +898,12 @@ _$$LoadedSuggestionsImplCopyWith<_$LoadedSuggestionsImpl> get copyWith => __$$Lo
 
 
 abstract class LoadedSuggestions implements GenerateProjectState {
-  const factory LoadedSuggestions({final  List<Material> materials, required final  List<ProjectSuggestion> suggestions, required final  Prompt prompt}) = _$LoadedSuggestionsImpl;
+  const factory LoadedSuggestions({final  List<Material> materials, final  String? imagePath, required final  List<ProjectSuggestion> suggestions, required final  Prompt prompt}) = _$LoadedSuggestionsImpl;
   
 
   
 
-@override List<Material> get materials; List<ProjectSuggestion> get suggestions; Prompt get prompt;
+@override List<Material> get materials;@override String? get imagePath; List<ProjectSuggestion> get suggestions; Prompt get prompt;
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -819,7 +916,7 @@ abstract class _$$ErrorImplCopyWith<$Res> implements $GenerateProjectStateCopyWi
   factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) = __$$ErrorImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Material> materials, String message
+ List<Material> materials, String? imagePath, String message
 });
 
 
@@ -834,10 +931,11 @@ class __$$ErrorImplCopyWithImpl<$Res> extends _$GenerateProjectStateCopyWithImpl
 
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,Object? message = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? materials = null,Object? imagePath = freezed,Object? message = null,}) {
   return _then(_$ErrorImpl(
 materials: null == materials ? _value._materials : materials // ignore: cast_nullable_to_non_nullable
-as List<Material>,message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
+as List<Material>,imagePath: freezed == imagePath ? _value.imagePath : imagePath // ignore: cast_nullable_to_non_nullable
+as String?,message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -849,7 +947,7 @@ as String,
 
 
 class _$ErrorImpl  implements Error {
-  const _$ErrorImpl({final  List<Material> materials = const [], required this.message}): _materials = materials;
+  const _$ErrorImpl({final  List<Material> materials = const [], this.imagePath, required this.message}): _materials = materials;
 
   
 
@@ -860,22 +958,23 @@ class _$ErrorImpl  implements Error {
   return EqualUnmodifiableListView(_materials);
 }
 
+@override final  String? imagePath;
 @override final  String message;
 
 @override
 String toString() {
-  return 'GenerateProjectState.error(materials: $materials, message: $message)';
+  return 'GenerateProjectState.error(materials: $materials, imagePath: $imagePath, message: $message)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&const DeepCollectionEquality().equals(other._materials, _materials)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&const DeepCollectionEquality().equals(other._materials, _materials)&&(identical(other.imagePath, imagePath) || other.imagePath == imagePath)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials),message);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_materials),imagePath,message);
 
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
@@ -895,12 +994,12 @@ _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => __$$ErrorImplCopyWithImpl<_$Er
 
 
 abstract class Error implements GenerateProjectState {
-  const factory Error({final  List<Material> materials, required final  String message}) = _$ErrorImpl;
+  const factory Error({final  List<Material> materials, final  String? imagePath, required final  String message}) = _$ErrorImpl;
   
 
   
 
-@override List<Material> get materials; String get message;
+@override List<Material> get materials;@override String? get imagePath; String get message;
 /// Create a copy of GenerateProjectState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)

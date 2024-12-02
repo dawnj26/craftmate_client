@@ -10,4 +10,7 @@ class GenerateProjectEvent with _$GenerateProjectEvent {
     required List<String> materials,
     @Default('') String additionalInfo,
   }) = _GenerateSuggestions;
+  const factory GenerateProjectEvent.imageSelected({
+    required String imagePath,
+  }) = _ImageSelected;
 }
