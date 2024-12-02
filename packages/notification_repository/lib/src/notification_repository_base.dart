@@ -49,7 +49,7 @@ class NotificationRepository implements INotificationRepository {
   @override
   Stream<List<CNotification>> getNotifications(
     int userId, {
-    NotificationDateFilter filter = NotificationDateFilter.all,
+    NotificationDateFilter filter = NotificationDateFilter.today,
   }) {
     try {
       var query = _config.db
