@@ -134,7 +134,6 @@ class ChatRepository implements IChatRepository {
           'senderId': message.senderId,
           'messageType': message.type.toString(),
           'listingId': listingId,
-          'read': false,
         },
       );
     } catch (e) {
