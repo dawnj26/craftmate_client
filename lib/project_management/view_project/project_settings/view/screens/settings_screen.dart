@@ -174,8 +174,28 @@ class _GeneralSettingsState extends State<GeneralSettings> {
           controller: _tagsController,
           decoration: const InputDecoration(
             filled: true,
-            helperText: 'Separated by whitespaces',
+            helperText: 'Separated by commas (e.g. tag1,tag2)',
           ),
+        ),
+        const Gap(12.0),
+        BlocBuilder<ProjectSettingsBloc, ProjectSettingsState>(
+          builder: (context, state) {
+            logger.info('Forkable: ${state.forkable}');
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Template', style: textTheme.labelLarge),
+                Switch(
+                  value: state.forkable,
+                  onChanged: (value) {
+                    context
+                        .read<ProjectSettingsBloc>()
+                        .add(ProjectSettingsForkableChanged(value));
+                  },
+                ),
+              ],
+            );
+          },
         ),
         const Gap(12.0),
         Text(
@@ -201,7 +221,7 @@ class _GeneralSettingsState extends State<GeneralSettings> {
             );
           },
         ),
-        const Gap(12.0),
+        const Gap(24.0),
         FilledButton(
           onPressed: () {
             final tags =
