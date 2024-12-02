@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 
 import 'package:config_repository/config_repository.dart';
 import 'package:project_repository/project_repository.dart';
@@ -12,10 +13,16 @@ class GenerateApi {
     required Prompt prompt,
   }) async {
     try {
+      final formData = FormData.fromMap({
+        'prompt': prompt.generateSuggestionPrompt(),
+        if (prompt.imagePath != null)
+          'image': await MultipartFile.fromFile(prompt.imagePath!),
+      });
+
       final response = await _config.makeRequest<Map<String, dynamic>>(
         '/project/suggest',
         method: 'POST',
-        data: {'prompt': prompt.generateSuggestionPrompt()},
+        data: formData,
         withAuthorization: true,
       );
 
@@ -41,7 +48,9 @@ class GenerateApi {
   }
 
   Future<ProjectSuggestion> generateProject(
-      Prompt prompt, ProjectSuggestion suggestion) async {
+    Prompt prompt,
+    ProjectSuggestion suggestion,
+  ) async {
     final titleKey = suggestion.title.replaceAll(' ', '_');
     final cache = _config.prefs.getString(titleKey);
 
@@ -52,10 +61,17 @@ class GenerateApi {
     try {
       final textPrompt = prompt.generateProjectPrompt(suggestion);
       _config.logger.info('Prompt: $textPrompt');
+
+      final formData = FormData.fromMap({
+        'prompt': textPrompt,
+        if (prompt.imagePath != null)
+          'image': await MultipartFile.fromFile(prompt.imagePath!),
+      });
+
       final response = await _config.makeRequest<Map<String, dynamic>>(
         '/project/generate',
         method: 'POST',
-        data: {'prompt': textPrompt},
+        data: formData,
         withAuthorization: true,
       );
 
