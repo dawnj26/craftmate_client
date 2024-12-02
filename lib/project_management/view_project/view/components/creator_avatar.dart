@@ -1,3 +1,4 @@
+import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/bloc/view_project_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +46,10 @@ class CreatorAvatar extends StatelessWidget {
           TextButton.icon(
             onPressed: () {
               context.read<ViewProjectBloc>().add(
-                    const ViewProjectForked(),
+                    ViewProjectForked(
+                      context.read<AuthBloc>().state.user,
+                      user.id,
+                    ),
                   );
             },
             label: const Text('Template'),

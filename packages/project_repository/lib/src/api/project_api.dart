@@ -3,13 +3,20 @@ import 'dart:convert';
 import 'dart:isolate';
 
 import 'package:config_repository/config_repository.dart';
+import 'package:notification_repository/notification_repository.dart';
 import 'package:project_repository/src/exceptions/project_exception.dart';
 import 'package:project_repository/src/models/models.dart';
+import 'package:user_repository/user_repository.dart';
 
 final class ProjectApi {
   final ConfigRepository _config;
+  final NotificationRepository _notificationRepository;
 
-  const ProjectApi({required ConfigRepository config}) : _config = config;
+  const ProjectApi({
+    required ConfigRepository config,
+    required NotificationRepository notif,
+  })  : _config = config,
+        _notificationRepository = notif;
 
   Future<String> shareProject(int projectId) async {
     try {
@@ -385,7 +392,7 @@ final class ProjectApi {
     }
   }
 
-  Future<int> forkProject(int materialId) async {
+  Future<int> forkProject(int materialId, User user, int ownerId) async {
     try {
       final response = await _config.makeRequest<Map<String, dynamic>>(
         '/project/$materialId/fork',
@@ -396,6 +403,18 @@ final class ProjectApi {
       if (response.data == null) {
         throw ProjectException(message: 'Response is null');
       }
+
+      final projectTitle = response.data!['data']['title'] as String;
+
+      await _notificationRepository.saveNotification(
+        ownerId,
+        '${user.name} forked your project.',
+        projectTitle,
+        {
+          'type': 'project',
+          'id': response.data!['data']['projectId'],
+        },
+      );
 
       return response.data!['data']['projectId'];
     } on RequestException catch (e) {

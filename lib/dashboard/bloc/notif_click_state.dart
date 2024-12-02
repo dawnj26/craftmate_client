@@ -8,12 +8,13 @@ class NotifClickState with _$NotifClickState {
     required String uuid,
     required CNotification notification,
     required User user,
+    QueryProduct? queryProduct,
   }) = ChatClicked;
 
   const factory NotifClickState.projectClicked({
     required String uuid,
     required CNotification notification,
-    required Project project,
+    required int projectId,
   }) = ProjectClicked;
 
   const factory NotifClickState.error({

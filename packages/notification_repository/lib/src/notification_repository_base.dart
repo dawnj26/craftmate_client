@@ -38,7 +38,7 @@ class NotificationRepository implements INotificationRepository {
         'body': body,
         'data': data,
         'created_at': FieldValue.serverTimestamp(),
-        // 'read': false,
+        'read': false,
       });
     } catch (e) {
       _config.logger.error('Failed to save notification', e);
@@ -72,7 +72,7 @@ class NotificationRepository implements INotificationRepository {
             body: data['body'] ?? '',
             type: data['data']['type'] ?? '',
             data: data['data'] as Map<String, dynamic>? ?? {},
-            read: data['data']['read'] ?? false,
+            read: data['read'] ?? false,
             createdAt: (data['created_at'] as Timestamp).toDate(),
           );
         }).toList();

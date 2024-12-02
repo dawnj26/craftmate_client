@@ -1,3 +1,4 @@
+import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/bloc/notif_click_bloc.dart' as n;
 import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
@@ -5,12 +6,15 @@ import 'package:craftmate_client/notifications/bloc/notification_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notification_repository/notification_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final curUser = context.read<AuthBloc>().state.user;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifications'),
@@ -35,7 +39,10 @@ class NotificationScreen extends StatelessWidget {
                   itemCount: state.notifications.length,
                   itemBuilder: (context, index) {
                     final notification = state.notifications[index];
-                    return NotificationTile(notification: notification);
+                    return NotificationTile(
+                      notification: notification,
+                      curUser: curUser,
+                    );
                   },
                 ),
               ),
@@ -48,9 +55,14 @@ class NotificationScreen extends StatelessWidget {
 }
 
 class NotificationTile extends StatelessWidget {
-  const NotificationTile({super.key, required this.notification});
+  const NotificationTile({
+    super.key,
+    required this.notification,
+    required this.curUser,
+  });
 
   final CNotification notification;
+  final User curUser;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +71,10 @@ class NotificationTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         context.read<n.NotifClickBloc>().add(
-              n.NotifClickEvent.notificationClicked(notification: notification),
+              n.NotifClickEvent.notificationClicked(
+                notification: notification,
+                userId: curUser.id,
+              ),
             );
       },
       child: Padding(
@@ -124,7 +139,7 @@ class NotificationTile extends StatelessWidget {
       case 'chat':
         return const Icon(Icons.chat_outlined);
       case 'project':
-        return const Icon(Icons.work_outlined);
+        return const Icon(Icons.folder_outlined);
       case 'shop':
         return const Icon(Icons.shopping_cart_outlined);
       case 'user':

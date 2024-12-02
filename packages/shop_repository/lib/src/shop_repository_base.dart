@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:notification_repository/notification_repository.dart';
 import 'package:shop_repository/shop_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -47,9 +48,11 @@ abstract class IShopRepository {
 class ShopRepository implements IShopRepository {
   final ConfigRepository _config;
   final UserRepository _userRepository;
+  final NotificationRepository _notificationRepository;
   final String _baseUrl = '/shop';
 
-  const ShopRepository(this._config, this._userRepository);
+  const ShopRepository(
+      this._config, this._userRepository, this._notificationRepository);
 
   Future<bool> _isFavorite(String id, int userId) async {
     final userDoc = _config.db.collection('users').doc(userId.toString());

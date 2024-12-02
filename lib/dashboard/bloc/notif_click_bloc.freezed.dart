@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError('It seems like you constru
 /// @nodoc
 mixin _$NotifClickEvent {
 
- CNotification get notification => throw _privateConstructorUsedError;
+ CNotification get notification => throw _privateConstructorUsedError; int get userId => throw _privateConstructorUsedError;
 
 
 
@@ -37,7 +37,7 @@ abstract class $NotifClickEventCopyWith<$Res>  {
   factory $NotifClickEventCopyWith(NotifClickEvent value, $Res Function(NotifClickEvent) then) = _$NotifClickEventCopyWithImpl<$Res, NotifClickEvent>;
 @useResult
 $Res call({
- CNotification notification
+ CNotification notification, int userId
 });
 
 
@@ -55,10 +55,11 @@ class _$NotifClickEventCopyWithImpl<$Res,$Val extends NotifClickEvent> implement
 
 /// Create a copy of NotifClickEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? notification = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? notification = null,Object? userId = null,}) {
   return _then(_value.copyWith(
 notification: null == notification ? _value.notification : notification // ignore: cast_nullable_to_non_nullable
-as CNotification,
+as CNotification,userId: null == userId ? _value.userId : userId // ignore: cast_nullable_to_non_nullable
+as int,
   )as $Val);
 }
 /// Create a copy of NotifClickEvent
@@ -79,7 +80,7 @@ abstract class _$$NotificationClickedImplCopyWith<$Res> implements $NotifClickEv
   factory _$$NotificationClickedImplCopyWith(_$NotificationClickedImpl value, $Res Function(_$NotificationClickedImpl) then) = __$$NotificationClickedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- CNotification notification
+ CNotification notification, int userId
 });
 
 
@@ -94,10 +95,11 @@ class __$$NotificationClickedImplCopyWithImpl<$Res> extends _$NotifClickEventCop
 
 /// Create a copy of NotifClickEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? notification = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? notification = null,Object? userId = null,}) {
   return _then(_$NotificationClickedImpl(
 notification: null == notification ? _value.notification : notification // ignore: cast_nullable_to_non_nullable
-as CNotification,
+as CNotification,userId: null == userId ? _value.userId : userId // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -108,26 +110,27 @@ as CNotification,
 
 
 class _$NotificationClickedImpl  implements _NotificationClicked {
-  const _$NotificationClickedImpl({required this.notification});
+  const _$NotificationClickedImpl({required this.notification, required this.userId});
 
   
 
 @override final  CNotification notification;
+@override final  int userId;
 
 @override
 String toString() {
-  return 'NotifClickEvent.notificationClicked(notification: $notification)';
+  return 'NotifClickEvent.notificationClicked(notification: $notification, userId: $userId)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$NotificationClickedImpl&&(identical(other.notification, notification) || other.notification == notification));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$NotificationClickedImpl&&(identical(other.notification, notification) || other.notification == notification)&&(identical(other.userId, userId) || other.userId == userId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,notification);
+int get hashCode => Object.hash(runtimeType,notification,userId);
 
 /// Create a copy of NotifClickEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -147,12 +150,12 @@ _$$NotificationClickedImplCopyWith<_$NotificationClickedImpl> get copyWith => __
 
 
 abstract class _NotificationClicked implements NotifClickEvent {
-  const factory _NotificationClicked({required final  CNotification notification}) = _$NotificationClickedImpl;
+  const factory _NotificationClicked({required final  CNotification notification, required final  int userId}) = _$NotificationClickedImpl;
   
 
   
 
-@override CNotification get notification;
+@override CNotification get notification;@override int get userId;
 /// Create a copy of NotifClickEvent
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -337,11 +340,11 @@ abstract class _$$ChatClickedImplCopyWith<$Res>  {
   factory _$$ChatClickedImplCopyWith(_$ChatClickedImpl value, $Res Function(_$ChatClickedImpl) then) = __$$ChatClickedImplCopyWithImpl<$Res>;
 @useResult
 $Res call({
- String uuid, CNotification notification, User user
+ String uuid, CNotification notification, User user, QueryProduct? queryProduct
 });
 
 
-$CNotificationCopyWith<$Res> get notification;$UserCopyWith<$Res> get user;
+$CNotificationCopyWith<$Res> get notification;$UserCopyWith<$Res> get user;$QueryProductCopyWith<$Res>? get queryProduct;
 }
 
 /// @nodoc
@@ -352,12 +355,13 @@ class __$$ChatClickedImplCopyWithImpl<$Res> extends _$NotifClickStateCopyWithImp
 
 /// Create a copy of NotifClickState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? notification = null,Object? user = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? notification = null,Object? user = null,Object? queryProduct = freezed,}) {
   return _then(_$ChatClickedImpl(
 uuid: null == uuid ? _value.uuid : uuid // ignore: cast_nullable_to_non_nullable
 as String,notification: null == notification ? _value.notification : notification // ignore: cast_nullable_to_non_nullable
 as CNotification,user: null == user ? _value.user : user // ignore: cast_nullable_to_non_nullable
-as User,
+as User,queryProduct: freezed == queryProduct ? _value.queryProduct : queryProduct // ignore: cast_nullable_to_non_nullable
+as QueryProduct?,
   ));
 }
 
@@ -379,6 +383,18 @@ $UserCopyWith<$Res> get user {
   return $UserCopyWith<$Res>(_value.user, (value) {
     return _then(_value.copyWith(user: value) );
   });
+}/// Create a copy of NotifClickState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$QueryProductCopyWith<$Res>? get queryProduct {
+    if (_value.queryProduct == null) {
+    return null;
+  }
+
+  return $QueryProductCopyWith<$Res>(_value.queryProduct!, (value) {
+    return _then(_value.copyWith(queryProduct: value) );
+  });
 }
 }
 
@@ -386,28 +402,29 @@ $UserCopyWith<$Res> get user {
 
 
 class _$ChatClickedImpl  implements ChatClicked {
-  const _$ChatClickedImpl({required this.uuid, required this.notification, required this.user});
+  const _$ChatClickedImpl({required this.uuid, required this.notification, required this.user, this.queryProduct});
 
   
 
 @override final  String uuid;
 @override final  CNotification notification;
 @override final  User user;
+@override final  QueryProduct? queryProduct;
 
 @override
 String toString() {
-  return 'NotifClickState.chatClicked(uuid: $uuid, notification: $notification, user: $user)';
+  return 'NotifClickState.chatClicked(uuid: $uuid, notification: $notification, user: $user, queryProduct: $queryProduct)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ChatClickedImpl&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.notification, notification) || other.notification == notification)&&(identical(other.user, user) || other.user == user));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ChatClickedImpl&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.notification, notification) || other.notification == notification)&&(identical(other.user, user) || other.user == user)&&(identical(other.queryProduct, queryProduct) || other.queryProduct == queryProduct));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,uuid,notification,user);
+int get hashCode => Object.hash(runtimeType,uuid,notification,user,queryProduct);
 
 /// Create a copy of NotifClickState
 /// with the given fields replaced by the non-null parameter values.
@@ -427,12 +444,12 @@ _$$ChatClickedImplCopyWith<_$ChatClickedImpl> get copyWith => __$$ChatClickedImp
 
 
 abstract class ChatClicked implements NotifClickState {
-  const factory ChatClicked({required final  String uuid, required final  CNotification notification, required final  User user}) = _$ChatClickedImpl;
+  const factory ChatClicked({required final  String uuid, required final  CNotification notification, required final  User user, final  QueryProduct? queryProduct}) = _$ChatClickedImpl;
   
 
   
 
- String get uuid; CNotification get notification; User get user;
+ String get uuid; CNotification get notification; User get user; QueryProduct? get queryProduct;
 /// Create a copy of NotifClickState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -445,11 +462,11 @@ abstract class _$$ProjectClickedImplCopyWith<$Res>  {
   factory _$$ProjectClickedImplCopyWith(_$ProjectClickedImpl value, $Res Function(_$ProjectClickedImpl) then) = __$$ProjectClickedImplCopyWithImpl<$Res>;
 @useResult
 $Res call({
- String uuid, CNotification notification, Project project
+ String uuid, CNotification notification, int projectId
 });
 
 
-$CNotificationCopyWith<$Res> get notification;$ProjectCopyWith<$Res> get project;
+$CNotificationCopyWith<$Res> get notification;
 }
 
 /// @nodoc
@@ -460,12 +477,12 @@ class __$$ProjectClickedImplCopyWithImpl<$Res> extends _$NotifClickStateCopyWith
 
 /// Create a copy of NotifClickState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? notification = null,Object? project = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uuid = null,Object? notification = null,Object? projectId = null,}) {
   return _then(_$ProjectClickedImpl(
 uuid: null == uuid ? _value.uuid : uuid // ignore: cast_nullable_to_non_nullable
 as String,notification: null == notification ? _value.notification : notification // ignore: cast_nullable_to_non_nullable
-as CNotification,project: null == project ? _value.project : project // ignore: cast_nullable_to_non_nullable
-as Project,
+as CNotification,projectId: null == projectId ? _value.projectId : projectId // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -478,15 +495,6 @@ $CNotificationCopyWith<$Res> get notification {
   return $CNotificationCopyWith<$Res>(_value.notification, (value) {
     return _then(_value.copyWith(notification: value) );
   });
-}/// Create a copy of NotifClickState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$ProjectCopyWith<$Res> get project {
-  
-  return $ProjectCopyWith<$Res>(_value.project, (value) {
-    return _then(_value.copyWith(project: value) );
-  });
 }
 }
 
@@ -494,28 +502,28 @@ $ProjectCopyWith<$Res> get project {
 
 
 class _$ProjectClickedImpl  implements ProjectClicked {
-  const _$ProjectClickedImpl({required this.uuid, required this.notification, required this.project});
+  const _$ProjectClickedImpl({required this.uuid, required this.notification, required this.projectId});
 
   
 
 @override final  String uuid;
 @override final  CNotification notification;
-@override final  Project project;
+@override final  int projectId;
 
 @override
 String toString() {
-  return 'NotifClickState.projectClicked(uuid: $uuid, notification: $notification, project: $project)';
+  return 'NotifClickState.projectClicked(uuid: $uuid, notification: $notification, projectId: $projectId)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ProjectClickedImpl&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.notification, notification) || other.notification == notification)&&(identical(other.project, project) || other.project == project));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ProjectClickedImpl&&(identical(other.uuid, uuid) || other.uuid == uuid)&&(identical(other.notification, notification) || other.notification == notification)&&(identical(other.projectId, projectId) || other.projectId == projectId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,uuid,notification,project);
+int get hashCode => Object.hash(runtimeType,uuid,notification,projectId);
 
 /// Create a copy of NotifClickState
 /// with the given fields replaced by the non-null parameter values.
@@ -535,12 +543,12 @@ _$$ProjectClickedImplCopyWith<_$ProjectClickedImpl> get copyWith => __$$ProjectC
 
 
 abstract class ProjectClicked implements NotifClickState {
-  const factory ProjectClicked({required final  String uuid, required final  CNotification notification, required final  Project project}) = _$ProjectClickedImpl;
+  const factory ProjectClicked({required final  String uuid, required final  CNotification notification, required final  int projectId}) = _$ProjectClickedImpl;
   
 
   
 
- String get uuid; CNotification get notification; Project get project;
+ String get uuid; CNotification get notification; int get projectId;
 /// Create a copy of NotifClickState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)

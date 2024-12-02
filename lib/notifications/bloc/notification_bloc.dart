@@ -40,23 +40,14 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       ),
     );
 
-    final latestNotification = event.notifications.first;
-
-    flutterLocalNotificationsPlugin.show(
-      1,
-      latestNotification.title,
-      latestNotification.body,
-      NotificationDetails(
-        android: AndroidNotificationDetails(
-          channel.id,
-          channel.name,
-          channelDescription: channel.description,
-          importance: Importance.high,
-          icon: '@mipmap/ic_launcher',
-        ),
-      ),
-      payload: 'Open from Local Notification',
-    );
+    for (int i = 0; i < event.notifications.length; i++) {
+      final notification = event.notifications[i];
+      if (!notification.read) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          _showLocalNotification(notification, i);
+        });
+      }
+    }
   }
 
   Future<void> _onFetchNotifications(
@@ -82,6 +73,24 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       (notifications) {
         add(NotificationEvent.notificationChanged(notifications));
       },
+    );
+  }
+
+  void _showLocalNotification(CNotification notification, int id) {
+    flutterLocalNotificationsPlugin.show(
+      id,
+      notification.title,
+      notification.body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channelDescription: channel.description,
+          importance: Importance.high,
+          icon: '@mipmap/ic_launcher',
+        ),
+      ),
+      payload: 'Open from Local Notification',
     );
   }
 }

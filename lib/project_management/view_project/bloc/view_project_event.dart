@@ -42,7 +42,14 @@ final class ViewProjectViewed extends ViewProjectEvent {
 }
 
 final class ViewProjectForked extends ViewProjectEvent {
-  const ViewProjectForked();
+  const ViewProjectForked(this.user, this.ownerId);
+
+  final User user;
+  final int ownerId;
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [user, ownerId];
 }
 
 final class ViewProjectStarted extends ViewProjectEvent {
