@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/bloc/view_listing/view_listing_bloc.dart';
@@ -172,10 +174,10 @@ class ViewListingScreen extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime date) {
-    final formatter = DateFormat('MMM dd, yyyy');
-    return formatter.format(date);
-  }
+  // String _formatDate(DateTime date) {
+  //   final formatter = DateFormat('MMM dd, yyyy');
+  //   return formatter.format(date);
+  // }
 }
 
 class ListingLocation extends StatelessWidget {
@@ -501,16 +503,19 @@ class ZoomPhoto extends StatelessWidget {
   const ZoomPhoto({
     super.key,
     required this.imageUrl,
+    this.isFile = false,
   });
 
   final String imageUrl;
+  final bool isFile;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         PhotoView(
-          imageProvider: NetworkImage(imageUrl),
+          imageProvider:
+              isFile ? FileImage(File(imageUrl)) : NetworkImage(imageUrl),
           minScale: PhotoViewComputedScale.contained,
           maxScale: PhotoViewComputedScale.covered * 2,
           strictScale: true,
