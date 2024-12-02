@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:config_repository/config_repository.dart';
+import 'package:notification_repository/notification_repository.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:project_repository/src/api/comment_api.dart';
 import 'package:project_repository/src/api/generate_api.dart';
 import 'package:project_repository/src/api/project_api.dart';
 import 'package:project_repository/src/api/upload_api.dart';
 import 'package:project_repository/src/models/models.dart';
+import 'package:user_repository/user_repository.dart';
 
 abstract class IProjectRepository {
   Future<Project> tryCreateProject(
@@ -52,7 +54,7 @@ abstract class IProjectRepository {
   ]);
   Future<void> deleteProjects(List<int> projectIds);
   Future<void> viewProjectById(int id);
-  Future<int> forkProject(int projectId);
+  Future<int> forkProject(int projectId, User user, int ownerId);
   Future<List<ProjectSuggestion>> generateProjectSuggestion({
     required Prompt prompt,
   });
@@ -99,7 +101,8 @@ class ProjectRepository implements IProjectRepository {
 
   ProjectRepository({
     required ConfigRepository config,
-  })  : _projectApi = ProjectApi(config: config),
+    required NotificationRepository notificationRepository,
+  })  : _projectApi = ProjectApi(config: config, notif: notificationRepository),
         _uploadApi = UploadApi(config: config),
         _commentApi = CommentApi(config: config),
         _generateApi = GenerateApi(config: config);
@@ -197,8 +200,8 @@ class ProjectRepository implements IProjectRepository {
   }
 
   @override
-  Future<int> forkProject(int projectId) {
-    return _projectApi.forkProject(projectId);
+  Future<int> forkProject(int projectId, User user, int ownerId) {
+    return _projectApi.forkProject(projectId, user, ownerId);
   }
 
   @override
