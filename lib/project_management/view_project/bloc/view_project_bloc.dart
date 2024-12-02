@@ -87,7 +87,10 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     emit(ViewProjectUploading(project: state.project.copyWith()));
     try {
       final forkedProjectId = await _projectRepository.forkProject(
-          _projectId, event.user, event.ownerId);
+        _projectId,
+        event.user,
+        event.ownerId,
+      );
       emit(
         ViewProjectForkSuccess(
           project: state.project.copyWith(),
