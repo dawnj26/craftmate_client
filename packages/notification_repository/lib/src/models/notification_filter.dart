@@ -4,6 +4,19 @@ enum NotificationDateFilter {
   lastWeek,
   lastMonth;
 
+  String get label {
+    switch (this) {
+      case NotificationDateFilter.all:
+        return 'All';
+      case NotificationDateFilter.today:
+        return 'Today';
+      case NotificationDateFilter.lastWeek:
+        return 'Last 7 days';
+      case NotificationDateFilter.lastMonth:
+        return 'Last 30 days';
+    }
+  }
+
   DateTime? get startDate {
     final now = DateTime.now();
     switch (this) {
