@@ -622,7 +622,11 @@ class SenderMessage extends StatelessWidget {
               color: theme.colorScheme.primaryContainer,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: MessageContent(message: message, isSending: isSending),
+            child: MessageContent(
+              message: message,
+              isSending: isSending,
+              onTap: onTap,
+            ),
           ),
         ],
       ),
@@ -635,10 +639,12 @@ class MessageContent extends StatelessWidget {
     super.key,
     required this.message,
     this.isSending = false,
+    this.onTap,
   });
 
   final Message message;
   final bool isSending;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -655,6 +661,7 @@ class MessageContent extends StatelessWidget {
               logger.warning('Could not launch $uriLink');
             }
           },
+          onTap: onTap,
         );
       case MessageType.image:
         if (isSending) {
@@ -751,7 +758,10 @@ class ReceiverMessage extends StatelessWidget {
                   color: theme.colorScheme.surfaceContainer,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: MessageContent(message: message),
+                child: MessageContent(
+                  message: message,
+                  onTap: onTap,
+                ),
               ),
             ],
           ),
