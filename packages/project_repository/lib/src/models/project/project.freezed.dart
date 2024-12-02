@@ -29,6 +29,7 @@ mixin _$Project {
   int get commentCount => throw _privateConstructorUsedError;
   int get forkCount => throw _privateConstructorUsedError;
   int get viewCount => throw _privateConstructorUsedError;
+  bool get forkable => throw _privateConstructorUsedError;
   @JsonKey(fromJson: DateTime.parse)
   DateTime get createdAt => throw _privateConstructorUsedError;
   @JsonKey(fromJson: DateTime.parse)
@@ -73,6 +74,7 @@ abstract class $ProjectCopyWith<$Res> {
       int commentCount,
       int forkCount,
       int viewCount,
+      bool forkable,
       @JsonKey(fromJson: DateTime.parse) DateTime createdAt,
       @JsonKey(fromJson: DateTime.parse) DateTime updatedAt,
       @JsonKey(fromJson: _parseDateTime) DateTime? deletedAt,
@@ -116,6 +118,7 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
     Object? commentCount = null,
     Object? forkCount = null,
     Object? viewCount = null,
+    Object? forkable = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? deletedAt = freezed,
@@ -167,6 +170,10 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
           ? _value.viewCount
           : viewCount // ignore: cast_nullable_to_non_nullable
               as int,
+      forkable: null == forkable
+          ? _value.forkable
+          : forkable // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -278,6 +285,7 @@ abstract class _$$ProjectImplCopyWith<$Res> implements $ProjectCopyWith<$Res> {
       int commentCount,
       int forkCount,
       int viewCount,
+      bool forkable,
       @JsonKey(fromJson: DateTime.parse) DateTime createdAt,
       @JsonKey(fromJson: DateTime.parse) DateTime updatedAt,
       @JsonKey(fromJson: _parseDateTime) DateTime? deletedAt,
@@ -322,6 +330,7 @@ class __$$ProjectImplCopyWithImpl<$Res>
     Object? commentCount = null,
     Object? forkCount = null,
     Object? viewCount = null,
+    Object? forkable = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? deletedAt = freezed,
@@ -373,6 +382,10 @@ class __$$ProjectImplCopyWithImpl<$Res>
           ? _value.viewCount
           : viewCount // ignore: cast_nullable_to_non_nullable
               as int,
+      forkable: null == forkable
+          ? _value.forkable
+          : forkable // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -442,6 +455,7 @@ class _$ProjectImpl implements _Project {
       this.commentCount = 0,
       this.forkCount = 0,
       this.viewCount = 0,
+      this.forkable = true,
       @JsonKey(fromJson: DateTime.parse) required this.createdAt,
       @JsonKey(fromJson: DateTime.parse) required this.updatedAt,
       @JsonKey(fromJson: _parseDateTime) this.deletedAt,
@@ -490,6 +504,9 @@ class _$ProjectImpl implements _Project {
   @override
   @JsonKey()
   final int viewCount;
+  @override
+  @JsonKey()
+  final bool forkable;
   @override
   @JsonKey(fromJson: DateTime.parse)
   final DateTime createdAt;
@@ -557,7 +574,7 @@ class _$ProjectImpl implements _Project {
 
   @override
   String toString() {
-    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, viewCount: $viewCount, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, startedAt: $startedAt, expectedCompletionAt: $expectedCompletionAt, completedAt: $completedAt, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl, fork: $fork, materials: $materials, category: $category)';
+    return 'Project(creator: $creator, id: $id, title: $title, visibility: $visibility, isLiked: $isLiked, likeCount: $likeCount, commentCount: $commentCount, forkCount: $forkCount, viewCount: $viewCount, forkable: $forkable, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, startedAt: $startedAt, expectedCompletionAt: $expectedCompletionAt, completedAt: $completedAt, description: $description, tags: $tags, steps: $steps, imageUrl: $imageUrl, fork: $fork, materials: $materials, category: $category)';
   }
 
   @override
@@ -579,6 +596,8 @@ class _$ProjectImpl implements _Project {
                 other.forkCount == forkCount) &&
             (identical(other.viewCount, viewCount) ||
                 other.viewCount == viewCount) &&
+            (identical(other.forkable, forkable) ||
+                other.forkable == forkable) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -617,6 +636,7 @@ class _$ProjectImpl implements _Project {
         commentCount,
         forkCount,
         viewCount,
+        forkable,
         createdAt,
         updatedAt,
         deletedAt,
@@ -659,6 +679,7 @@ abstract class _Project implements Project {
       final int commentCount,
       final int forkCount,
       final int viewCount,
+      final bool forkable,
       @JsonKey(fromJson: DateTime.parse) required final DateTime createdAt,
       @JsonKey(fromJson: DateTime.parse) required final DateTime updatedAt,
       @JsonKey(fromJson: _parseDateTime) final DateTime? deletedAt,
@@ -693,6 +714,8 @@ abstract class _Project implements Project {
   int get forkCount;
   @override
   int get viewCount;
+  @override
+  bool get forkable;
   @override
   @JsonKey(fromJson: DateTime.parse)
   DateTime get createdAt;
