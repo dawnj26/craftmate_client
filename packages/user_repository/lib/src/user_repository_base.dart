@@ -251,6 +251,7 @@ class UserRepository implements IUserRepository {
         throw const UserException('No response');
       }
 
+      // ignore: avoid_dynamic_calls
       return response.data!['data']['share_link'] as String;
     } on RequestException catch (e) {
       throw UserException(e.message);
