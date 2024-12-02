@@ -81,12 +81,11 @@ final class ViewProjectStartSuccess extends ViewProjectState {
 }
 
 final class ViewProjectShareSuccess extends ViewProjectState {
-  final String link;
-
   const ViewProjectShareSuccess({
     required super.project,
     required this.link,
   });
+  final String link;
 
   @override
   // TODO: implement props
