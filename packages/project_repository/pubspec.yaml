@@ -19,6 +19,8 @@ dependencies:
   freezed_annotation: ^2.4.4
   material_repository:
     path: ../material_repository
+  notification_repository:
+    path: ../notification_repository
   json_annotation: ^4.9.0
   shared_preferences: ^2.3.2
   user_repository:
