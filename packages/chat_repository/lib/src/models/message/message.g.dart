@@ -41,6 +41,4 @@ const _$MessageTypeEnumMap = {
   MessageType.text: 'text',
   MessageType.image: 'image',
   MessageType.video: 'video',
-  MessageType.audio: 'audio',
-  MessageType.file: 'file',
 };
