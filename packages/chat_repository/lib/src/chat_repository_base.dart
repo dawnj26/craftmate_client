@@ -5,6 +5,7 @@ import 'package:chat_repository/src/models/message/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:notification_repository/notification_repository.dart';
 import 'package:shop_repository/shop_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -19,12 +20,15 @@ abstract class IChatRepository {
 class ChatRepository implements IChatRepository {
   final ConfigRepository _config;
   final UserRepository _userRepository;
+  final NotificationRepository _notificationRepository;
 
   ChatRepository({
     required ConfigRepository config,
     required UserRepository userRepository,
+    required NotificationRepository notificationRepository,
   })  : _config = config,
-        _userRepository = userRepository;
+        _userRepository = userRepository,
+        _notificationRepository = notificationRepository;
 
   String _baseCollection = 'chats';
 
@@ -33,7 +37,8 @@ class ChatRepository implements IChatRepository {
     return '${sortedIds[0]}_${sortedIds[1]}';
   }
 
-  Future<void> _sendVideoMessage(Message message, String conversationId) async {
+  Future<void> _sendVideoMessage(Message message, String conversationId,
+      {String? listingId}) async {
     try {
       final path = message.message;
       final filename = path.split('/').last;
@@ -58,12 +63,14 @@ class ChatRepository implements IChatRepository {
       _config.logger.info(newMessage.toString());
       await _setLatestMessage(newMessage, conversationId);
       await _addMessage(newMessage, conversationId);
+      await _sendNotification(newMessage, listingId: listingId);
     } on RequestException catch (e) {
       throw ChatException(e.message);
     }
   }
 
-  Future<void> _sendImageMessage(Message message, String conversationId) async {
+  Future<void> _sendImageMessage(Message message, String conversationId,
+      {String? listingId}) async {
     try {
       final path = message.message;
       final filename = path.split('/').last;
@@ -88,14 +95,52 @@ class ChatRepository implements IChatRepository {
       _config.logger.info(newMessage.toString());
       await _setLatestMessage(newMessage, conversationId);
       await _addMessage(newMessage, conversationId);
+      await _sendNotification(newMessage, listingId: listingId);
     } on RequestException catch (e) {
       throw ChatException(e.message);
     }
   }
 
-  Future<void> _sendTextMessage(Message message, String conversationId) async {
+  Future<void> _sendTextMessage(Message message, String conversationId,
+      {String? listingId}) async {
     await _setLatestMessage(message, conversationId);
     await _addMessage(message, conversationId);
+    await _sendNotification(message, listingId: listingId);
+  }
+
+  Future<void> _sendNotification(Message message, {String? listingId}) async {
+    try {
+      final sender = await _userRepository.getUserById(message.senderId);
+
+      String messageContent = '';
+      switch (message.type) {
+        case MessageType.text:
+          messageContent = message.message;
+          break;
+        case MessageType.image:
+          messageContent = 'Sent an image';
+          break;
+        case MessageType.video:
+          messageContent = 'Sent a video';
+          break;
+      }
+
+      await _notificationRepository.saveNotification(
+        message.receiverId,
+        sender.name,
+        messageContent,
+        {
+          'type': 'chat',
+          'senderId': message.senderId,
+          'messageType': message.type.toString(),
+          'listingId': listingId,
+          'read': false,
+        },
+      );
+    } catch (e) {
+      _config.logger.error('Failed to send notification', e);
+      // Don't throw here to prevent message sending failure
+    }
   }
 
   @override
@@ -113,12 +158,11 @@ class ChatRepository implements IChatRepository {
 
     switch (message.type) {
       case MessageType.text:
-        return _sendTextMessage(message, conversationId);
+        return _sendTextMessage(message, conversationId, listingId: listingId);
       case MessageType.image:
-        return _sendImageMessage(message, conversationId);
+        return _sendImageMessage(message, conversationId, listingId: listingId);
       case MessageType.video:
-        return _sendVideoMessage(message, conversationId);
-      default:
+        return _sendVideoMessage(message, conversationId, listingId: listingId);
     }
   }
 
