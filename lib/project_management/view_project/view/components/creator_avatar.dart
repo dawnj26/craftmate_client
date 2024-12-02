@@ -12,6 +12,7 @@ class CreatorAvatar extends StatelessWidget {
     required this.user,
     required this.updatedAt,
     required this.visibility,
+    required this.forkable,
     this.onTap,
   });
 
@@ -19,6 +20,7 @@ class CreatorAvatar extends StatelessWidget {
   final DateTime updatedAt;
   final ProjectVisibility visibility;
   final void Function()? onTap;
+  final bool forkable;
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +43,7 @@ class CreatorAvatar extends StatelessWidget {
             ),
           ],
         ),
-        if (visibility == ProjectVisibility.public ||
-            visibility == ProjectVisibility.followers)
+        if (forkable)
           TextButton.icon(
             onPressed: () {
               context.read<ViewProjectBloc>().add(

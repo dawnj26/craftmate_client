@@ -8,6 +8,7 @@ sealed class ProjectSettingsState extends Equatable {
     this.visibility = ProjectVisibility.public,
     this.categories = const [],
     this.selectedCategory = const ProjectCategory(),
+    this.forkable = false,
   });
 
   final ProjectTitle projectTitle;
@@ -16,6 +17,7 @@ sealed class ProjectSettingsState extends Equatable {
   final ProjectVisibility visibility;
   final List<ProjectCategory> categories;
   final ProjectCategory selectedCategory;
+  final bool forkable;
 
   @override
   List<Object> get props => [
@@ -25,6 +27,7 @@ sealed class ProjectSettingsState extends Equatable {
         visibility,
         categories,
         selectedCategory,
+        forkable,
       ];
 }
 
@@ -35,6 +38,7 @@ final class ProjectSettingsInitial extends ProjectSettingsState {
     super.isValid,
     super.visibility,
     super.selectedCategory,
+    super.forkable,
   });
 }
 
@@ -46,6 +50,7 @@ final class ProjectSettingsLoading extends ProjectSettingsState {
     super.visibility,
     super.categories,
     super.selectedCategory,
+    super.forkable,
   });
 }
 
@@ -57,6 +62,7 @@ final class ProjectSettingsChanged extends ProjectSettingsState {
     super.visibility,
     super.categories,
     super.selectedCategory,
+    super.forkable,
   });
 }
 
@@ -68,6 +74,7 @@ final class ProjectSettingsSaving extends ProjectSettingsState {
     super.visibility,
     super.categories,
     super.selectedCategory,
+    super.forkable,
   });
 }
 
@@ -79,6 +86,7 @@ final class SettingsSavedSuccess extends ProjectSettingsState {
     super.visibility,
     super.categories,
     super.selectedCategory,
+    super.forkable,
   });
 }
 
@@ -90,6 +98,7 @@ final class SettingsDeleteSuccess extends ProjectSettingsState {
     super.visibility,
     super.categories,
     super.selectedCategory,
+    super.forkable,
   });
 }
 
@@ -102,6 +111,7 @@ final class SettingsFailed extends ProjectSettingsState {
     super.visibility,
     super.categories,
     super.selectedCategory,
+    super.forkable,
   });
   final String errMessage;
 

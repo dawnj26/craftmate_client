@@ -6,25 +6,60 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:notification_repository/notification_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'notification_event.dart';
 part 'notification_state.dart';
 part 'notification_bloc.freezed.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
-  NotificationBloc(this._notificationRepository) : super(const Initial()) {
+  NotificationBloc(this._notificationRepository, this._curUser)
+      : super(const Initial()) {
     on<_Started>(_onStarted);
     on<_FetchNotifications>(_onFetchNotifications);
     on<_NotificationChanged>(_onNotificationChanged);
+    on<_MarkNotificationAsRead>(_onMarkNotificationAsRead);
+    on<_FilterChanged>(_onFilterChanged);
   }
 
   final NotificationRepository _notificationRepository;
-  late final StreamSubscription<List<CNotification>> _notificationSubscription;
+  final User _curUser;
+  StreamSubscription<List<CNotification>>? _notificationSubscription;
+  bool _initialNotificationsShown = false; // Add this flag
+
+  Future<void> _onFilterChanged(
+    _FilterChanged event,
+    Emitter<NotificationState> emit,
+  ) async {
+    if (_notificationSubscription != null) {
+      await _notificationSubscription?.cancel();
+      _notificationSubscription = null;
+    }
+
+    _notificationSubscription = _notificationRepository
+        .getNotifications(_curUser.id, filter: event.filter)
+        .listen(
+      (notifications) {
+        add(NotificationEvent.notificationChanged(notifications));
+      },
+    );
+    emit(Loaded(notifications: state.notifications, filter: event.filter));
+  }
+
+  Future<void> _onMarkNotificationAsRead(
+    _MarkNotificationAsRead event,
+    Emitter<NotificationState> emit,
+  ) async {
+    await _notificationRepository.markNotificationAsRead(
+      _curUser.id,
+      event.notificationId,
+    );
+  }
 
   @override
   Future<void> close() {
     // TODO: implement close
-    _notificationSubscription.cancel();
+    _notificationSubscription?.cancel();
     return super.close();
   }
 
@@ -40,12 +75,21 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       ),
     );
 
-    for (int i = 0; i < event.notifications.length; i++) {
-      final notification = event.notifications[i];
-      if (!notification.read) {
-        Future.delayed(const Duration(milliseconds: 500), () {
-          _showLocalNotification(notification, i);
-        });
+    if (!_initialNotificationsShown) {
+      // Show all unread notifications on first load
+      _showMultipleNotifications(
+        event.notifications.where((n) => !n.read).toList(),
+      );
+      _initialNotificationsShown = true;
+    } else {
+      // Show only new unread notifications
+      final newUnreadNotifications = event.notifications
+          .where((n) => !n.read)
+          .take(1) // Only take the most recent unread notification
+          .toList();
+
+      if (newUnreadNotifications.isNotEmpty) {
+        _showMultipleNotifications(newUnreadNotifications);
       }
     }
   }
@@ -66,10 +110,9 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         false;
 
     emit(Initialized(hasPermission: hasPermission));
-    logger.info('NotificationBloc: _onStarted: ${event.userId}');
 
     _notificationSubscription =
-        _notificationRepository.getNotifications(event.userId).listen(
+        _notificationRepository.getNotifications(_curUser.id).listen(
       (notifications) {
         add(NotificationEvent.notificationChanged(notifications));
       },
@@ -92,5 +135,14 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       ),
       payload: 'Open from Local Notification',
     );
+  }
+
+  void _showMultipleNotifications(List<CNotification> notifications) {
+    for (int i = 0; i < notifications.length; i++) {
+      final notification = notifications[i];
+      Future.delayed(Duration(milliseconds: 500 * i), () {
+        _showLocalNotification(notification, i);
+      });
+    }
   }
 }

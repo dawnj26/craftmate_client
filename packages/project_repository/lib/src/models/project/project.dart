@@ -29,6 +29,7 @@ class Project with _$Project {
     @Default(0) int commentCount,
     @Default(0) int forkCount,
     @Default(0) int viewCount,
+    @Default(true) bool forkable,
     @JsonKey(fromJson: DateTime.parse) required DateTime createdAt,
     @JsonKey(fromJson: DateTime.parse) required DateTime updatedAt,
     @JsonKey(fromJson: _parseDateTime) DateTime? deletedAt,

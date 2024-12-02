@@ -39,10 +39,9 @@ class DashboardPage extends StatelessWidget {
         BlocProvider(
           create: (context) => NotificationBloc(
             context.read(),
+            context.read<AuthBloc>().state.user,
           )..add(
-              NotificationEvent.started(
-                context.read<AuthBloc>().state.user.id,
-              ),
+              const NotificationEvent.started(),
             ),
         ),
       ],

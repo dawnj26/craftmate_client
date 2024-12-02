@@ -689,12 +689,13 @@ final class ProjectApi {
   }
 
   Future<Project> updateProject(
-      String title, Project project, ProjectCategory category,
+      String title, Project project, ProjectCategory category, bool forkable,
       [String? tags]) async {
     try {
       var data = <String, dynamic>{
         'title': title,
         'category': category.id,
+        'forkable': forkable,
       };
 
       if (tags != null) {

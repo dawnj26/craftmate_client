@@ -20,6 +20,7 @@ class ProjectSettingsBloc
             isValid: true,
             visibility: project.visibility,
             selectedCategory: project.category!,
+            forkable: project.forkable,
           ),
         ) {
     on<ProjectSettingsSaved>(_onSaved);
@@ -31,9 +32,27 @@ class ProjectSettingsBloc
     on<ProjectSettingsProjectDeleted>(_onProjectDeleted);
     on<ProjectSettingsCategoryLoaded>(_onCategoryLoaded);
     on<ProjectSettingsCategoryChanged>(_onCategoryChanged);
+    on<ProjectSettingsForkableChanged>(_onForkableChanged);
   }
 
   final ProjectRepository _projectRepo;
+
+  void _onForkableChanged(
+    ProjectSettingsForkableChanged event,
+    Emitter<ProjectSettingsState> emit,
+  ) {
+    emit(
+      ProjectSettingsChanged(
+        project: state.project.copyWith(),
+        projectTitle: ProjectTitle.dirty(state.projectTitle.value),
+        isValid: state.isValid,
+        visibility: state.visibility,
+        categories: [...state.categories],
+        selectedCategory: state.selectedCategory,
+        forkable: event.forkable,
+      ),
+    );
+  }
 
   void _onCategoryChanged(
     ProjectSettingsCategoryChanged event,
@@ -47,6 +66,7 @@ class ProjectSettingsBloc
         visibility: state.visibility,
         categories: [...state.categories],
         selectedCategory: event.category,
+        forkable: state.forkable,
       ),
     );
   }
@@ -63,6 +83,7 @@ class ProjectSettingsBloc
         visibility: state.visibility,
         categories: [...state.categories],
         selectedCategory: state.selectedCategory,
+        forkable: state.forkable,
       ),
     );
 
@@ -76,6 +97,7 @@ class ProjectSettingsBloc
           visibility: state.visibility,
           categories: categories,
           selectedCategory: state.selectedCategory,
+          forkable: state.forkable,
         ),
       );
     } on ProjectException catch (e) {
@@ -88,6 +110,7 @@ class ProjectSettingsBloc
           visibility: state.visibility,
           categories: [...state.categories],
           selectedCategory: state.selectedCategory,
+          forkable: state.forkable,
         ),
       );
     }
@@ -105,6 +128,7 @@ class ProjectSettingsBloc
         visibility: event.visibility,
         categories: [...state.categories],
         selectedCategory: state.selectedCategory,
+        forkable: state.forkable,
       ),
     );
   }
@@ -121,6 +145,7 @@ class ProjectSettingsBloc
         visibility: state.visibility,
         categories: [...state.categories],
         selectedCategory: state.selectedCategory,
+        forkable: state.forkable,
       ),
     );
 
@@ -134,6 +159,7 @@ class ProjectSettingsBloc
           visibility: state.visibility,
           categories: [...state.categories],
           selectedCategory: state.selectedCategory,
+          forkable: state.forkable,
         ),
       );
     } on ProjectException catch (e) {
@@ -146,6 +172,7 @@ class ProjectSettingsBloc
           isValid: state.isValid,
           categories: [...state.categories],
           selectedCategory: state.selectedCategory,
+          forkable: state.forkable,
         ),
       );
     }
@@ -163,6 +190,7 @@ class ProjectSettingsBloc
         visibility: state.visibility,
         categories: [...state.categories],
         selectedCategory: state.selectedCategory,
+        forkable: state.forkable,
       ),
     );
 
@@ -178,6 +206,7 @@ class ProjectSettingsBloc
           visibility: state.visibility,
           categories: [...state.categories],
           selectedCategory: state.selectedCategory,
+          forkable: state.forkable,
         ),
       );
     } on ProjectException catch (e) {
@@ -190,6 +219,7 @@ class ProjectSettingsBloc
           visibility: state.visibility,
           categories: [...state.categories],
           selectedCategory: state.selectedCategory,
+          forkable: state.forkable,
         ),
       );
     }
@@ -209,6 +239,7 @@ class ProjectSettingsBloc
         visibility: state.visibility,
         categories: [...state.categories],
         selectedCategory: state.selectedCategory,
+        forkable: state.forkable,
       ),
     );
   }
@@ -227,6 +258,7 @@ class ProjectSettingsBloc
         visibility: state.visibility,
         categories: [...state.categories],
         selectedCategory: state.selectedCategory,
+        forkable: state.forkable,
       ),
     );
 
@@ -236,6 +268,7 @@ class ProjectSettingsBloc
           state.projectTitle.value,
           project,
           state.selectedCategory,
+          state.forkable,
           event.tags,
         );
 
@@ -247,6 +280,7 @@ class ProjectSettingsBloc
             visibility: state.visibility,
             categories: [...state.categories],
             selectedCategory: state.selectedCategory,
+            forkable: state.forkable,
           ),
         );
       } on ProjectException catch (e) {
@@ -259,6 +293,7 @@ class ProjectSettingsBloc
             visibility: state.visibility,
             categories: [...state.categories],
             selectedCategory: state.selectedCategory,
+            forkable: state.forkable,
           ),
         );
       }
@@ -271,6 +306,7 @@ class ProjectSettingsBloc
           visibility: state.visibility,
           categories: [...state.categories],
           selectedCategory: state.selectedCategory,
+          forkable: state.forkable,
         ),
       );
     }

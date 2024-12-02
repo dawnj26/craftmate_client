@@ -31,7 +31,7 @@ abstract class IProjectRepository {
   Future<Comment> addComment(Project project, String comment);
   Future<void> likeComment(Comment comment, int projectId);
   Future<Project> updateProject(
-      String title, Project project, ProjectCategory category,
+      String title, Project project, ProjectCategory category, bool forkable,
       [String? tags]);
   Future<Project> changeVisibilty(
       Project project, ProjectVisibility visibility);
@@ -267,9 +267,9 @@ class ProjectRepository implements IProjectRepository {
 
   @override
   Future<Project> updateProject(
-      String title, Project project, ProjectCategory category,
+      String title, Project project, ProjectCategory category, bool forkable,
       [String? tags]) async {
-    return _projectApi.updateProject(title, project, category, tags);
+    return _projectApi.updateProject(title, project, category, forkable, tags);
   }
 
   @override

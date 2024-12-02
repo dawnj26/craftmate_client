@@ -259,7 +259,7 @@ class _CreateProjectForm extends StatelessWidget {
           labelText: 'Tags (optional)',
           multiline: false,
           icon: const Icon(Icons.category),
-          helperText: 'Separated by commas (e.g. tag1, tag2)',
+          helperText: 'Separated by commas (e.g. tag1,tag2)',
           focusNode: tagFocusNode,
         ),
       ],
