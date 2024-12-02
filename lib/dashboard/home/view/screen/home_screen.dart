@@ -5,6 +5,7 @@ import 'package:craftmate_client/dashboard/home/view/tabs/for_you_tab.dart';
 import 'package:craftmate_client/dashboard/home/view/tabs/trending_tab_page.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
+import 'package:craftmate_client/notifications/bloc/notification_bloc.dart';
 import 'package:craftmate_client/project_management/view/create_project_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,7 +77,19 @@ class _HomeScreenState extends State<HomeScreen>
                     NotificationPage.route(context.read()),
                   );
                 },
-                icon: const Icon(Icons.notifications_outlined),
+                icon: BlocBuilder<NotificationBloc, NotificationState>(
+                  builder: (context, state) {
+                    final unreadCount = state.notifications
+                        .where((element) => !element.read)
+                        .length;
+
+                    return Badge(
+                      label: unreadCount == 0 ? null : Text('$unreadCount'),
+                      isLabelVisible: unreadCount != 0,
+                      child: const Icon(Icons.notifications_outlined),
+                    );
+                  },
+                ),
               ),
             ],
             bottom: TabBar(
