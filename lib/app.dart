@@ -48,7 +48,6 @@ class _MyAppState extends State<MyApp> {
         SchedulerBinding.instance.platformDispatcher.platformBrightness;
     config = ConfigRepository(
       apiUrl: dotenv.get('API_URL'),
-      fcmAuthKey: dotenv.get('FCM_AUTH_KEY'),
       logger: logger,
       prefs: prefs,
       db: FirebaseFirestore.instance,
