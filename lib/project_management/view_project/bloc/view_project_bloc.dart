@@ -6,6 +6,7 @@ import 'package:craftmate_client/helpers/stream_helper.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:project_repository/project_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'view_project_event.dart';
 part 'view_project_state.dart';
@@ -85,7 +86,8 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
   ) async {
     emit(ViewProjectUploading(project: state.project.copyWith()));
     try {
-      final forkedProjectId = await _projectRepository.forkProject(_projectId);
+      final forkedProjectId = await _projectRepository.forkProject(
+          _projectId, event.user, event.ownerId);
       emit(
         ViewProjectForkSuccess(
           project: state.project.copyWith(),
