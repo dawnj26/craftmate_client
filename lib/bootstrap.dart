@@ -8,6 +8,7 @@ import 'package:craftmate_client/globals.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:log_collector/log_collector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -46,6 +47,35 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
+  );
+
+  channel = const AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description:
+        'This channel is used for important notifications.', // description
+    importance: Importance.high,
+  );
+
+  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  const initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+  );
+
+  flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onDidReceiveNotificationResponse: (response) {
+      logger.info('onDidReceiveNotificationResponse: ${response.payload}');
+    },
   );
 
   logger.info('Starting the app');
