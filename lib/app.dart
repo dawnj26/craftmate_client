@@ -9,12 +9,14 @@ import 'package:craftmate_client/dashboard/view/dashboard_page.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/settings/bloc/settings_bloc.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:map_repository/map_repository.dart';
 import 'package:material_repository/material_repository.dart';
+import 'package:notification_repository/notification_repository.dart';
 import 'package:project_repository/project_repository.dart';
 import 'package:search_repository/search_repository.dart';
 import 'package:shop_repository/shop_repository.dart';
@@ -36,6 +38,7 @@ class _MyAppState extends State<MyApp> {
   late final ChatRepository _chatRepository;
   late final ShopRepository _shopRepository;
   late final MapRepository _mapRepository;
+  late final NotificationRepository _notificationRepository;
   late final Brightness _brightness;
 
   @override
@@ -45,6 +48,7 @@ class _MyAppState extends State<MyApp> {
         SchedulerBinding.instance.platformDispatcher.platformBrightness;
     config = ConfigRepository(
       apiUrl: dotenv.get('API_URL'),
+      fcmAuthKey: dotenv.get('FCM_AUTH_KEY'),
       logger: logger,
       prefs: prefs,
       db: FirebaseFirestore.instance,
@@ -53,8 +57,12 @@ class _MyAppState extends State<MyApp> {
 
     _authenticationRepository = AuthenticationRepository(config: config);
     _userRepository = UserRepository(config: config);
-    _chatRepository =
-        ChatRepository(config: config, userRepository: _userRepository);
+    _notificationRepository = NotificationRepository(config);
+    _chatRepository = ChatRepository(
+      config: config,
+      userRepository: _userRepository,
+      notificationRepository: _notificationRepository,
+    );
     _projectRepository = ProjectRepository(config: config);
     _materialRepository = MaterialRepository(config: config);
     _searchRepository = SearchRepository(configRepository: config);
@@ -82,6 +90,7 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider.value(value: _chatRepository),
         RepositoryProvider.value(value: _shopRepository),
         RepositoryProvider.value(value: _mapRepository),
+        RepositoryProvider.value(value: _notificationRepository),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -119,6 +128,13 @@ class _AppViewState extends State<AppView> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
