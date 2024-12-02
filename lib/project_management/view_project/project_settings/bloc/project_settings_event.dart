@@ -58,3 +58,13 @@ final class ProjectSettingsVisibilitySelectionChanged
   // TODO: implement props
   List<Object> get props => [visibility];
 }
+
+final class ProjectSettingsForkableChanged extends ProjectSettingsEvent {
+  const ProjectSettingsForkableChanged(this.forkable);
+
+  final bool forkable;
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [forkable];
+}
