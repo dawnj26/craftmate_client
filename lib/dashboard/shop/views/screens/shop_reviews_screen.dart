@@ -138,32 +138,32 @@ class SellerReview extends StatelessWidget {
   }
 }
 
-class _LikeReviewButton extends StatelessWidget {
-  const _LikeReviewButton({
-    required this.count,
-    required this.isLiked,
-    this.onPressed,
-  });
+// class _LikeReviewButton extends StatelessWidget {
+//   const _LikeReviewButton({
+//     required this.count,
+//     required this.isLiked,
+//     this.onPressed,
+//   });
 
-  final void Function()? onPressed;
-  final int count;
-  final bool isLiked;
+//   final void Function()? onPressed;
+//   final int count;
+//   final bool isLiked;
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        IconButton(
-          onPressed: onPressed,
-          icon:
-              Icon(isLiked ? Icons.thumb_up_rounded : Icons.thumb_up_outlined),
-        ),
-        Text('$count'),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.end,
+//       children: [
+//         IconButton(
+//           onPressed: onPressed,
+//           icon:
+//               Icon(isLiked ? Icons.thumb_up_rounded : Icons.thumb_up_outlined),
+//         ),
+//         Text('$count'),
+//       ],
+//     );
+//   }
+// }
 
 class Reviewer extends StatelessWidget {
   const Reviewer({super.key, required this.user, required this.date});
