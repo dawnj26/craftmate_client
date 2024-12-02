@@ -54,18 +54,22 @@ class _MyAppState extends State<MyApp> {
       placesApiKey: dotenv.get('GEOAPIFY_API_KEY'),
     );
 
+    _notificationRepository = NotificationRepository(config);
     _authenticationRepository = AuthenticationRepository(config: config);
     _userRepository = UserRepository(config: config);
-    _notificationRepository = NotificationRepository(config);
     _chatRepository = ChatRepository(
       config: config,
       userRepository: _userRepository,
       notificationRepository: _notificationRepository,
     );
-    _projectRepository = ProjectRepository(config: config);
+    _projectRepository = ProjectRepository(
+      config: config,
+      notificationRepository: _notificationRepository,
+    );
     _materialRepository = MaterialRepository(config: config);
     _searchRepository = SearchRepository(configRepository: config);
-    _shopRepository = ShopRepository(config, _userRepository);
+    _shopRepository =
+        ShopRepository(config, _userRepository, _notificationRepository);
     _mapRepository = MapRepository(config);
 
     super.initState();
