@@ -90,46 +90,6 @@ class UserListingScreen extends StatelessWidget {
     );
   }
 
-  void _handleCategory(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              title: const Text('All'),
-              onTap: () {
-                // context.read<UserListingBloc>().add(
-                //       UserListingEvent.filterByCategory(null),
-                //     );
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Category 1'),
-              onTap: () {
-                // context.read<UserListingBloc>().add(
-                //       UserListingEvent.filterByCategory('Category 1'),
-                //     );
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: const Text('Category 2'),
-              onTap: () {
-                // context.read<UserListingBloc>().add(
-                //       UserListingEvent.filterByCategory('Category 2'),
-                //     );
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void _handleSort(BuildContext context) {
     showModalBottomSheet(
       context: context,
