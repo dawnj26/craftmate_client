@@ -55,10 +55,6 @@ class _$NotificationEventCopyWithImpl<$Res,$Val extends NotificationEvent> imple
 /// @nodoc
 abstract class _$$StartedImplCopyWith<$Res>  {
   factory _$$StartedImplCopyWith(_$StartedImpl value, $Res Function(_$StartedImpl) then) = __$$StartedImplCopyWithImpl<$Res>;
-@useResult
-$Res call({
- int userId
-});
 
 
 
@@ -72,12 +68,7 @@ class __$$StartedImplCopyWithImpl<$Res> extends _$NotificationEventCopyWithImpl<
 
 /// Create a copy of NotificationEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,}) {
-  return _then(_$StartedImpl(
-null == userId ? _value.userId : userId // ignore: cast_nullable_to_non_nullable
-as int,
-  ));
-}
+
 
 
 }
@@ -86,33 +77,27 @@ as int,
 
 
 class _$StartedImpl  implements _Started {
-  const _$StartedImpl(this.userId);
+  const _$StartedImpl();
 
   
 
-@override final  int userId;
+
 
 @override
 String toString() {
-  return 'NotificationEvent.started(userId: $userId)';
+  return 'NotificationEvent.started()';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$StartedImpl&&(identical(other.userId, userId) || other.userId == userId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$StartedImpl);
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userId);
+int get hashCode => runtimeType.hashCode;
 
-/// Create a copy of NotificationEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-@pragma('vm:prefer-inline')
-_$$StartedImplCopyWith<_$StartedImpl> get copyWith => __$$StartedImplCopyWithImpl<_$StartedImpl>(this, _$identity);
 
 
 
@@ -125,26 +110,18 @@ _$$StartedImplCopyWith<_$StartedImpl> get copyWith => __$$StartedImplCopyWithImp
 
 
 abstract class _Started implements NotificationEvent {
-  const factory _Started(final  int userId) = _$StartedImpl;
+  const factory _Started() = _$StartedImpl;
   
 
   
 
- int get userId;
-/// Create a copy of NotificationEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-_$$StartedImplCopyWith<_$StartedImpl> get copyWith => throw _privateConstructorUsedError;
+
 
 }
 
 /// @nodoc
 abstract class _$$FetchNotificationsImplCopyWith<$Res>  {
   factory _$$FetchNotificationsImplCopyWith(_$FetchNotificationsImpl value, $Res Function(_$FetchNotificationsImpl) then) = __$$FetchNotificationsImplCopyWithImpl<$Res>;
-@useResult
-$Res call({
- int userId
-});
 
 
 
@@ -158,12 +135,7 @@ class __$$FetchNotificationsImplCopyWithImpl<$Res> extends _$NotificationEventCo
 
 /// Create a copy of NotificationEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? userId = null,}) {
-  return _then(_$FetchNotificationsImpl(
-null == userId ? _value.userId : userId // ignore: cast_nullable_to_non_nullable
-as int,
-  ));
-}
+
 
 
 }
@@ -172,33 +144,27 @@ as int,
 
 
 class _$FetchNotificationsImpl  implements _FetchNotifications {
-  const _$FetchNotificationsImpl(this.userId);
+  const _$FetchNotificationsImpl();
 
   
 
-@override final  int userId;
+
 
 @override
 String toString() {
-  return 'NotificationEvent.fetchNotifications(userId: $userId)';
+  return 'NotificationEvent.fetchNotifications()';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$FetchNotificationsImpl&&(identical(other.userId, userId) || other.userId == userId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$FetchNotificationsImpl);
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,userId);
+int get hashCode => runtimeType.hashCode;
 
-/// Create a copy of NotificationEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-@pragma('vm:prefer-inline')
-_$$FetchNotificationsImplCopyWith<_$FetchNotificationsImpl> get copyWith => __$$FetchNotificationsImplCopyWithImpl<_$FetchNotificationsImpl>(this, _$identity);
 
 
 
@@ -211,16 +177,12 @@ _$$FetchNotificationsImplCopyWith<_$FetchNotificationsImpl> get copyWith => __$$
 
 
 abstract class _FetchNotifications implements NotificationEvent {
-  const factory _FetchNotifications(final  int userId) = _$FetchNotificationsImpl;
+  const factory _FetchNotifications() = _$FetchNotificationsImpl;
   
 
   
 
- int get userId;
-/// Create a copy of NotificationEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-_$$FetchNotificationsImplCopyWith<_$FetchNotificationsImpl> get copyWith => throw _privateConstructorUsedError;
+
 
 }
 
@@ -403,6 +365,92 @@ _$$MarkNotificationAsReadImplCopyWith<_$MarkNotificationAsReadImpl> get copyWith
 }
 
 /// @nodoc
+abstract class _$$FilterChangedImplCopyWith<$Res>  {
+  factory _$$FilterChangedImplCopyWith(_$FilterChangedImpl value, $Res Function(_$FilterChangedImpl) then) = __$$FilterChangedImplCopyWithImpl<$Res>;
+@useResult
+$Res call({
+ NotificationDateFilter filter
+});
+
+
+
+}
+
+/// @nodoc
+class __$$FilterChangedImplCopyWithImpl<$Res> extends _$NotificationEventCopyWithImpl<$Res, _$FilterChangedImpl> implements _$$FilterChangedImplCopyWith<$Res> {
+  __$$FilterChangedImplCopyWithImpl(_$FilterChangedImpl _value, $Res Function(_$FilterChangedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of NotificationEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? filter = null,}) {
+  return _then(_$FilterChangedImpl(
+null == filter ? _value.filter : filter // ignore: cast_nullable_to_non_nullable
+as NotificationDateFilter,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$FilterChangedImpl  implements _FilterChanged {
+  const _$FilterChangedImpl(this.filter);
+
+  
+
+@override final  NotificationDateFilter filter;
+
+@override
+String toString() {
+  return 'NotificationEvent.filterChanged(filter: $filter)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$FilterChangedImpl&&(identical(other.filter, filter) || other.filter == filter));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,filter);
+
+/// Create a copy of NotificationEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$FilterChangedImplCopyWith<_$FilterChangedImpl> get copyWith => __$$FilterChangedImplCopyWithImpl<_$FilterChangedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _FilterChanged implements NotificationEvent {
+  const factory _FilterChanged(final  NotificationDateFilter filter) = _$FilterChangedImpl;
+  
+
+  
+
+ NotificationDateFilter get filter;
+/// Create a copy of NotificationEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+_$$FilterChangedImplCopyWith<_$FilterChangedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
 mixin _$NotificationState {
 
  List<CNotification> get notifications => throw _privateConstructorUsedError; NotificationDateFilter get filter => throw _privateConstructorUsedError; bool get hasPermission => throw _privateConstructorUsedError;
@@ -491,7 +539,7 @@ as bool,
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl({final  List<CNotification> notifications = const [], this.filter = NotificationDateFilter.all, this.hasPermission = false}): _notifications = notifications;
+  const _$InitialImpl({final  List<CNotification> notifications = const [], this.filter = NotificationDateFilter.today, this.hasPermission = false}): _notifications = notifications;
 
   
 
@@ -587,7 +635,7 @@ as bool,
 
 
 class _$InitializedImpl  implements Initialized {
-  const _$InitializedImpl({final  List<CNotification> notifications = const [], this.filter = NotificationDateFilter.all, required this.hasPermission}): _notifications = notifications;
+  const _$InitializedImpl({final  List<CNotification> notifications = const [], this.filter = NotificationDateFilter.today, required this.hasPermission}): _notifications = notifications;
 
   
 
@@ -683,7 +731,7 @@ as bool,
 
 
 class _$LoadingImpl  implements Loading {
-  const _$LoadingImpl({final  List<CNotification> notifications = const [], this.filter = NotificationDateFilter.all, this.hasPermission = false}): _notifications = notifications;
+  const _$LoadingImpl({final  List<CNotification> notifications = const [], this.filter = NotificationDateFilter.today, this.hasPermission = false}): _notifications = notifications;
 
   
 
@@ -779,7 +827,7 @@ as bool,
 
 
 class _$LoadedImpl  implements Loaded {
-  const _$LoadedImpl({required final  List<CNotification> notifications, this.filter = NotificationDateFilter.all, this.hasPermission = false}): _notifications = notifications;
+  const _$LoadedImpl({required final  List<CNotification> notifications, this.filter = NotificationDateFilter.today, this.hasPermission = false}): _notifications = notifications;
 
   
 
@@ -876,7 +924,7 @@ as bool,
 
 
 class _$ErrorImpl  implements Error {
-  const _$ErrorImpl({required this.message, final  List<CNotification> notifications = const [], this.filter = NotificationDateFilter.all, this.hasPermission = false}): _notifications = notifications;
+  const _$ErrorImpl({required this.message, final  List<CNotification> notifications = const [], this.filter = NotificationDateFilter.today, this.hasPermission = false}): _notifications = notifications;
 
   
 
