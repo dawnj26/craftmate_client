@@ -18,7 +18,6 @@ dependencies:
   log_collector:
     path: ../log_collector
   shared_preferences: ^2.3.2
-
   # path: ^1.8.0
 
 dev_dependencies:
