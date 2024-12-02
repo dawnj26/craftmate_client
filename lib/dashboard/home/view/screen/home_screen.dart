@@ -1,4 +1,5 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
+import 'package:craftmate_client/dashboard/home/view/notification_page.dart';
 import 'package:craftmate_client/dashboard/home/view/tabs/following_tab_page.dart';
 import 'package:craftmate_client/dashboard/home/view/tabs/for_you_tab.dart';
 import 'package:craftmate_client/dashboard/home/view/tabs/trending_tab_page.dart';
@@ -51,11 +52,7 @@ class _HomeScreenState extends State<HomeScreen>
         child: Scaffold(
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
-              Navigator.of(context).push(CreateProjectPage.route()).then(
-                (value) {
-                  setState(() {});
-                },
-              );
+              Navigator.of(context).push(CreateProjectPage.route());
             },
             label: const Text('New Project'),
             icon: const Icon(Icons.add),
@@ -73,7 +70,12 @@ class _HomeScreenState extends State<HomeScreen>
             centerTitle: true,
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    NotificationPage.route(context.read()),
+                  );
+                },
                 icon: const Icon(Icons.notifications_outlined),
               ),
             ],
