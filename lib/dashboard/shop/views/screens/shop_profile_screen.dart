@@ -35,6 +35,7 @@ class ShopProfileScreen extends StatelessWidget {
                     context,
                     UserProfilePage.route(
                       context.read<AuthBloc>().state.user.id,
+                      true,
                     ),
                   );
                 },
@@ -196,7 +197,12 @@ class _Overview extends StatelessWidget {
                     title: 'Seller ratings',
                     count: state.shopOverview.totalRating.toInt(),
                     onTap: () {
-                      Navigator.push(context, ShopReviewsPage.route());
+                      Navigator.push(
+                        context,
+                        ShopReviewsPage.route(
+                          context.read<AuthBloc>().state.user.id,
+                        ),
+                      );
                     },
                   ),
                 ),
@@ -325,7 +331,12 @@ class _FourRectButtons extends StatelessWidget {
                 icon: const Icon(Icons.inbox_outlined),
                 text: 'Inbox',
                 onTap: () {
-                  Navigator.push(context, InboxPage.route());
+                  Navigator.push(
+                    context,
+                    InboxPage.route(
+                      context.read<AuthBloc>().state.user.id,
+                    ),
+                  );
                 },
               ),
             ),
@@ -341,7 +352,12 @@ class _FourRectButtons extends StatelessWidget {
                 icon: const Icon(Icons.star_border_rounded),
                 text: 'Reviews',
                 onTap: () {
-                  Navigator.push(context, ShopReviewsPage.route());
+                  Navigator.push(
+                    context,
+                    ShopReviewsPage.route(
+                      context.read<AuthBloc>().state.user.id,
+                    ),
+                  );
                 },
               ),
             ),
