@@ -214,7 +214,7 @@ _$$ChatsReceivedImplCopyWith<_$ChatsReceivedImpl> get copyWith => throw _private
 /// @nodoc
 mixin _$InboxState {
 
- List<ListingChat> get listingChats => throw _privateConstructorUsedError;
+ List<ListingChat> get listingChats => throw _privateConstructorUsedError; User get curUser => throw _privateConstructorUsedError;
 
 
 
@@ -234,11 +234,11 @@ abstract class $InboxStateCopyWith<$Res>  {
   factory $InboxStateCopyWith(InboxState value, $Res Function(InboxState) then) = _$InboxStateCopyWithImpl<$Res, InboxState>;
 @useResult
 $Res call({
- List<ListingChat> listingChats
+ List<ListingChat> listingChats, User curUser
 });
 
 
-
+$UserCopyWith<$Res> get curUser;
 }
 
 /// @nodoc
@@ -252,13 +252,23 @@ class _$InboxStateCopyWithImpl<$Res,$Val extends InboxState> implements $InboxSt
 
 /// Create a copy of InboxState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? listingChats = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? listingChats = null,Object? curUser = null,}) {
   return _then(_value.copyWith(
 listingChats: null == listingChats ? _value.listingChats : listingChats // ignore: cast_nullable_to_non_nullable
-as List<ListingChat>,
+as List<ListingChat>,curUser: null == curUser ? _value.curUser : curUser // ignore: cast_nullable_to_non_nullable
+as User,
   )as $Val);
 }
-
+/// Create a copy of InboxState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserCopyWith<$Res> get curUser {
+  
+  return $UserCopyWith<$Res>(_value.curUser, (value) {
+    return _then(_value.copyWith(curUser: value) as $Val);
+  });
+}
 }
 
 
@@ -267,11 +277,11 @@ abstract class _$$InitialImplCopyWith<$Res> implements $InboxStateCopyWith<$Res>
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<ListingChat> listingChats
+ List<ListingChat> listingChats, User curUser
 });
 
 
-
+@override $UserCopyWith<$Res> get curUser;
 }
 
 /// @nodoc
@@ -282,10 +292,11 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$InboxStateCopyWithImpl<$Res, _
 
 /// Create a copy of InboxState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? listingChats = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? listingChats = null,Object? curUser = null,}) {
   return _then(_$InitialImpl(
 listingChats: null == listingChats ? _value._listingChats : listingChats // ignore: cast_nullable_to_non_nullable
-as List<ListingChat>,
+as List<ListingChat>,curUser: null == curUser ? _value.curUser : curUser // ignore: cast_nullable_to_non_nullable
+as User,
   ));
 }
 
@@ -296,7 +307,7 @@ as List<ListingChat>,
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl({final  List<ListingChat> listingChats = const []}): _listingChats = listingChats;
+  const _$InitialImpl({final  List<ListingChat> listingChats = const [], this.curUser = const User()}): _listingChats = listingChats;
 
   
 
@@ -307,21 +318,22 @@ class _$InitialImpl  implements Initial {
   return EqualUnmodifiableListView(_listingChats);
 }
 
+@override@JsonKey() final  User curUser;
 
 @override
 String toString() {
-  return 'InboxState.initial(listingChats: $listingChats)';
+  return 'InboxState.initial(listingChats: $listingChats, curUser: $curUser)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&const DeepCollectionEquality().equals(other._listingChats, _listingChats));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&const DeepCollectionEquality().equals(other._listingChats, _listingChats)&&(identical(other.curUser, curUser) || other.curUser == curUser));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_listingChats));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_listingChats),curUser);
 
 /// Create a copy of InboxState
 /// with the given fields replaced by the non-null parameter values.
@@ -341,12 +353,12 @@ _$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImp
 
 
 abstract class Initial implements InboxState {
-  const factory Initial({final  List<ListingChat> listingChats}) = _$InitialImpl;
+  const factory Initial({final  List<ListingChat> listingChats, final  User curUser}) = _$InitialImpl;
   
 
   
 
-@override List<ListingChat> get listingChats;
+@override List<ListingChat> get listingChats;@override User get curUser;
 /// Create a copy of InboxState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -359,11 +371,11 @@ abstract class _$$LoadingImplCopyWith<$Res> implements $InboxStateCopyWith<$Res>
   factory _$$LoadingImplCopyWith(_$LoadingImpl value, $Res Function(_$LoadingImpl) then) = __$$LoadingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<ListingChat> listingChats
+ List<ListingChat> listingChats, User curUser
 });
 
 
-
+@override $UserCopyWith<$Res> get curUser;
 }
 
 /// @nodoc
@@ -374,10 +386,11 @@ class __$$LoadingImplCopyWithImpl<$Res> extends _$InboxStateCopyWithImpl<$Res, _
 
 /// Create a copy of InboxState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? listingChats = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? listingChats = null,Object? curUser = null,}) {
   return _then(_$LoadingImpl(
 listingChats: null == listingChats ? _value._listingChats : listingChats // ignore: cast_nullable_to_non_nullable
-as List<ListingChat>,
+as List<ListingChat>,curUser: null == curUser ? _value.curUser : curUser // ignore: cast_nullable_to_non_nullable
+as User,
   ));
 }
 
@@ -388,7 +401,7 @@ as List<ListingChat>,
 
 
 class _$LoadingImpl  implements Loading {
-  const _$LoadingImpl({final  List<ListingChat> listingChats = const []}): _listingChats = listingChats;
+  const _$LoadingImpl({final  List<ListingChat> listingChats = const [], this.curUser = const User()}): _listingChats = listingChats;
 
   
 
@@ -399,21 +412,22 @@ class _$LoadingImpl  implements Loading {
   return EqualUnmodifiableListView(_listingChats);
 }
 
+@override@JsonKey() final  User curUser;
 
 @override
 String toString() {
-  return 'InboxState.loading(listingChats: $listingChats)';
+  return 'InboxState.loading(listingChats: $listingChats, curUser: $curUser)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&const DeepCollectionEquality().equals(other._listingChats, _listingChats));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&const DeepCollectionEquality().equals(other._listingChats, _listingChats)&&(identical(other.curUser, curUser) || other.curUser == curUser));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_listingChats));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_listingChats),curUser);
 
 /// Create a copy of InboxState
 /// with the given fields replaced by the non-null parameter values.
@@ -433,12 +447,12 @@ _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => __$$LoadingImplCopyWithImp
 
 
 abstract class Loading implements InboxState {
-  const factory Loading({final  List<ListingChat> listingChats}) = _$LoadingImpl;
+  const factory Loading({final  List<ListingChat> listingChats, final  User curUser}) = _$LoadingImpl;
   
 
   
 
-@override List<ListingChat> get listingChats;
+@override List<ListingChat> get listingChats;@override User get curUser;
 /// Create a copy of InboxState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -451,11 +465,11 @@ abstract class _$$LoadedImplCopyWith<$Res> implements $InboxStateCopyWith<$Res> 
   factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<ListingChat> listingChats
+ List<ListingChat> listingChats, User curUser
 });
 
 
-
+@override $UserCopyWith<$Res> get curUser;
 }
 
 /// @nodoc
@@ -466,10 +480,11 @@ class __$$LoadedImplCopyWithImpl<$Res> extends _$InboxStateCopyWithImpl<$Res, _$
 
 /// Create a copy of InboxState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? listingChats = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? listingChats = null,Object? curUser = null,}) {
   return _then(_$LoadedImpl(
 listingChats: null == listingChats ? _value._listingChats : listingChats // ignore: cast_nullable_to_non_nullable
-as List<ListingChat>,
+as List<ListingChat>,curUser: null == curUser ? _value.curUser : curUser // ignore: cast_nullable_to_non_nullable
+as User,
   ));
 }
 
@@ -480,7 +495,7 @@ as List<ListingChat>,
 
 
 class _$LoadedImpl  implements Loaded {
-  const _$LoadedImpl({final  List<ListingChat> listingChats = const []}): _listingChats = listingChats;
+  const _$LoadedImpl({final  List<ListingChat> listingChats = const [], this.curUser = const User()}): _listingChats = listingChats;
 
   
 
@@ -491,21 +506,22 @@ class _$LoadedImpl  implements Loaded {
   return EqualUnmodifiableListView(_listingChats);
 }
 
+@override@JsonKey() final  User curUser;
 
 @override
 String toString() {
-  return 'InboxState.loaded(listingChats: $listingChats)';
+  return 'InboxState.loaded(listingChats: $listingChats, curUser: $curUser)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&const DeepCollectionEquality().equals(other._listingChats, _listingChats));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&const DeepCollectionEquality().equals(other._listingChats, _listingChats)&&(identical(other.curUser, curUser) || other.curUser == curUser));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_listingChats));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_listingChats),curUser);
 
 /// Create a copy of InboxState
 /// with the given fields replaced by the non-null parameter values.
@@ -525,12 +541,12 @@ _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_
 
 
 abstract class Loaded implements InboxState {
-  const factory Loaded({final  List<ListingChat> listingChats}) = _$LoadedImpl;
+  const factory Loaded({final  List<ListingChat> listingChats, final  User curUser}) = _$LoadedImpl;
   
 
   
 
-@override List<ListingChat> get listingChats;
+@override List<ListingChat> get listingChats;@override User get curUser;
 /// Create a copy of InboxState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -543,11 +559,11 @@ abstract class _$$ErrorImplCopyWith<$Res> implements $InboxStateCopyWith<$Res> {
   factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) = __$$ErrorImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<ListingChat> listingChats
+ List<ListingChat> listingChats, User curUser
 });
 
 
-
+@override $UserCopyWith<$Res> get curUser;
 }
 
 /// @nodoc
@@ -558,10 +574,11 @@ class __$$ErrorImplCopyWithImpl<$Res> extends _$InboxStateCopyWithImpl<$Res, _$E
 
 /// Create a copy of InboxState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? listingChats = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? listingChats = null,Object? curUser = null,}) {
   return _then(_$ErrorImpl(
 listingChats: null == listingChats ? _value._listingChats : listingChats // ignore: cast_nullable_to_non_nullable
-as List<ListingChat>,
+as List<ListingChat>,curUser: null == curUser ? _value.curUser : curUser // ignore: cast_nullable_to_non_nullable
+as User,
   ));
 }
 
@@ -572,7 +589,7 @@ as List<ListingChat>,
 
 
 class _$ErrorImpl  implements Error {
-  const _$ErrorImpl({final  List<ListingChat> listingChats = const []}): _listingChats = listingChats;
+  const _$ErrorImpl({final  List<ListingChat> listingChats = const [], this.curUser = const User()}): _listingChats = listingChats;
 
   
 
@@ -583,21 +600,22 @@ class _$ErrorImpl  implements Error {
   return EqualUnmodifiableListView(_listingChats);
 }
 
+@override@JsonKey() final  User curUser;
 
 @override
 String toString() {
-  return 'InboxState.error(listingChats: $listingChats)';
+  return 'InboxState.error(listingChats: $listingChats, curUser: $curUser)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&const DeepCollectionEquality().equals(other._listingChats, _listingChats));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&const DeepCollectionEquality().equals(other._listingChats, _listingChats)&&(identical(other.curUser, curUser) || other.curUser == curUser));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_listingChats));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_listingChats),curUser);
 
 /// Create a copy of InboxState
 /// with the given fields replaced by the non-null parameter values.
@@ -617,12 +635,12 @@ _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => __$$ErrorImplCopyWithImpl<_$Er
 
 
 abstract class Error implements InboxState {
-  const factory Error({final  List<ListingChat> listingChats}) = _$ErrorImpl;
+  const factory Error({final  List<ListingChat> listingChats, final  User curUser}) = _$ErrorImpl;
   
 
   
 
-@override List<ListingChat> get listingChats;
+@override List<ListingChat> get listingChats;@override User get curUser;
 /// Create a copy of InboxState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
