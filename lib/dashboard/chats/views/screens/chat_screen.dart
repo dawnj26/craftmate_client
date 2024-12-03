@@ -23,33 +23,41 @@ import 'package:user_repository/user_repository.dart';
 class ChatScreen extends StatelessWidget {
   const ChatScreen({
     super.key,
-    required this.user,
+    required this.receiver,
     this.listingId,
     this.title,
     this.imageUrl,
     this.sellerId,
+    this.showSendField = true,
+    required this.curUser,
   });
 
-  final User user;
+  final User receiver;
+  final User curUser;
   final String? listingId;
   final int? sellerId;
   final String? title;
   final String? imageUrl;
+  final bool showSendField;
 
   static Route<void> route(
-    User user, {
+    User receiver,
+    User curUser, {
     String? listingId,
     String? title,
     String? imageUrl,
     int? sellerId,
+    bool showSendField = true,
   }) {
     return PageTransition.effect.slideFromRightToLeft(
       ChatScreen(
-        user: user,
+        receiver: receiver,
         listingId: listingId,
         title: title,
         imageUrl: imageUrl,
         sellerId: sellerId,
+        curUser: curUser,
+        showSendField: showSendField,
       ),
       false,
     );
@@ -57,7 +65,6 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final curUser = context.read<AuthBloc>().state.user;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -67,7 +74,7 @@ class ChatScreen extends StatelessWidget {
           )..add(
               ChatEvent.started(
                 curUser.id,
-                user.id,
+                receiver.id,
               ),
             ),
         ),
@@ -106,12 +113,16 @@ class ChatScreen extends StatelessWidget {
                 appBar: ChatBar(
                   listingId: listingId,
                   imageUrl: imageUrl,
-                  user: user,
+                  user: receiver,
                   title: title,
                   validToReview: validToReview && !isReviewed,
                   sellerId: sellerId,
                 ),
-                body: Messages(user: user),
+                body: Messages(
+                  user: receiver,
+                  showSendField: showSendField,
+                  user2: curUser,
+                ),
               );
             },
           );
@@ -207,9 +218,13 @@ class Messages extends StatefulWidget {
   const Messages({
     super.key,
     required this.user,
+    required this.showSendField,
+    required this.user2,
   });
 
   final User user;
+  final User user2;
+  final bool showSendField;
 
   @override
   State<Messages> createState() => _MessagesState();
@@ -229,6 +244,7 @@ class _MessagesState extends State<Messages> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final curUser = context.read<AuthBloc>().state.user;
 
     return Column(
       children: [
@@ -291,15 +307,32 @@ class _MessagesState extends State<Messages> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          SenderMessage(
-                            message: message,
-                            isSending: isSending && index == 0,
-                            isSelected: _selectedMessage == message,
-                            onTap: () => setState(() {
-                              _selectedMessage =
-                                  _selectedMessage == message ? null : message;
-                            }),
-                          ),
+                          if (curUser.role != 'admin')
+                            SenderMessage(
+                              message: message,
+                              isSending: isSending && index == 0,
+                              isSelected: _selectedMessage == message,
+                              onTap: () => setState(() {
+                                _selectedMessage = _selectedMessage == message
+                                    ? null
+                                    : message;
+                              }),
+                            )
+                          else
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ReceiverMessage(
+                                showName: curUser.role == 'admin',
+                                receiver: widget.user2,
+                                message: message,
+                                isSelected: _selectedMessage == message,
+                                onTap: () => setState(() {
+                                  _selectedMessage = _selectedMessage == message
+                                      ? null
+                                      : message;
+                                }),
+                              ),
+                            ),
                           if (isSending && index == 0)
                             const Padding(
                               padding: EdgeInsets.only(right: 8),
@@ -327,6 +360,7 @@ class _MessagesState extends State<Messages> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ReceiverMessage(
+                          showName: curUser.role == 'admin',
                           receiver: widget.user,
                           message: message,
                           isSelected: _selectedMessage == message,
@@ -348,7 +382,8 @@ class _MessagesState extends State<Messages> {
             },
           ),
         ),
-        SendField(controller: _controller, receiver: widget.user),
+        if (widget.showSendField)
+          SendField(controller: _controller, receiver: widget.user),
       ],
     );
   }
@@ -718,12 +753,14 @@ class ReceiverMessage extends StatelessWidget {
     required this.receiver,
     this.isSelected = false,
     this.onTap,
+    this.showName = false,
   });
 
   final Message message;
   final User receiver;
   final bool isSelected;
   final VoidCallback? onTap;
+  final bool showName;
 
   @override
   Widget build(BuildContext context) {
@@ -749,19 +786,29 @@ class ReceiverMessage extends StatelessWidget {
                     : Text(receiver.name[0].toUpperCase()),
               ),
               const SizedBox(width: 8),
-              Container(
-                padding: const EdgeInsets.all(12),
-                constraints: BoxConstraints(
-                  maxWidth: screenSize.width * 0.7,
-                ),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.surfaceContainer,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: MessageContent(
-                  message: message,
-                  onTap: onTap,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (showName)
+                    Text(
+                      receiver.name,
+                      style: theme.textTheme.labelLarge,
+                    ),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    constraints: BoxConstraints(
+                      maxWidth: screenSize.width * 0.7,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surfaceContainer,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: MessageContent(
+                      message: message,
+                      onTap: onTap,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
