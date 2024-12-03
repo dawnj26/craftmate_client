@@ -16,6 +16,8 @@ abstract class IUserRepository {
   Future<User> toggleFollow(int id);
   Future<List<User>> getUsers();
   Future<String> shareUser(int id);
+  Future<void> banUser(int id);
+  Future<void> unbanUser(int id);
 }
 
 class UserRepository implements IUserRepository {
@@ -253,6 +255,36 @@ class UserRepository implements IUserRepository {
 
       // ignore: avoid_dynamic_calls
       return response.data!['data']['share_link'] as String;
+    } on RequestException catch (e) {
+      throw UserException(e.message);
+    } on TokenException catch (e) {
+      throw UserException(e.message);
+    }
+  }
+
+  @override
+  Future<void> banUser(int id) async {
+    try {
+      await _config.makeRequest<Map<String, dynamic>>(
+        '/user/$id/ban',
+        method: 'DELETE',
+        withAuthorization: true,
+      );
+    } on RequestException catch (e) {
+      throw UserException(e.message);
+    } on TokenException catch (e) {
+      throw UserException(e.message);
+    }
+  }
+
+  @override
+  Future<void> unbanUser(int id) async {
+    try {
+      await _config.makeRequest<Map<String, dynamic>>(
+        '/user/$id/unban',
+        method: 'POST',
+        withAuthorization: true,
+      );
     } on RequestException catch (e) {
       throw UserException(e.message);
     } on TokenException catch (e) {
