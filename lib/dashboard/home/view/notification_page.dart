@@ -36,7 +36,6 @@ class NotificationPage extends StatelessWidget {
             context.read(),
             context.read(),
             context.read(),
-            context.read(),
           ),
         ),
       ],
@@ -56,6 +55,7 @@ class NotificationPage extends StatelessWidget {
                 Navigator.of(context).pushReplacement(
                   ChatScreen.route(
                     user,
+                    curUser,
                     listingId: queryProduct.id,
                     title: chatTitle,
                     sellerId: queryProduct.product.sellerId,
@@ -65,6 +65,7 @@ class NotificationPage extends StatelessWidget {
                 Navigator.of(context).pushReplacement(
                   ChatScreen.route(
                     user,
+                    curUser,
                   ),
                 );
               }
