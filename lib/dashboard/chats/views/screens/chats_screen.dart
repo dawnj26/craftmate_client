@@ -1,6 +1,8 @@
 import 'package:chat_repository/chat_repository.dart';
+import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/chats/bloc/chats/chats_bloc.dart';
 import 'package:craftmate_client/dashboard/chats/views/screens/chat_screen.dart';
+import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,6 +30,10 @@ class _ChatsScreenState extends State<ChatsScreen>
                 child: CircularProgressIndicator(),
               );
             case Loaded(chats: final chats):
+              if (chats.isEmpty) {
+                return const EmptyMessage(emptyMessage: 'No chats found');
+              }
+
               return ListView.builder(
                 itemCount: state.chats.length,
                 itemBuilder: (context, index) {
@@ -89,7 +95,11 @@ class ChatTile extends StatelessWidget {
       subtitle: Text(messageText),
       onTap: () {
         Navigator.of(context).push(
-          ChatScreen.route(chat.sender, imageUrl: chat.sender.image),
+          ChatScreen.route(
+            chat.sender,
+            context.read<AuthBloc>().state.user,
+            imageUrl: chat.sender.image,
+          ),
         );
       },
     );
