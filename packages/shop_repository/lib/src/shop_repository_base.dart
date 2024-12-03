@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:config_repository/config_repository.dart';
 import 'package:dio/dio.dart';
-import 'package:notification_repository/notification_repository.dart';
 import 'package:shop_repository/shop_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -43,16 +42,16 @@ abstract class IShopRepository {
     double? lon,
     double? radius,
   });
+  Future<void> deleteAllUserListings(int userId);
+  Future<void> restoreAllUserListings(int userId);
 }
 
 class ShopRepository implements IShopRepository {
   final ConfigRepository _config;
   final UserRepository _userRepository;
-  final NotificationRepository _notificationRepository;
   final String _baseUrl = '/shop';
 
-  const ShopRepository(
-      this._config, this._userRepository, this._notificationRepository);
+  const ShopRepository(this._config, this._userRepository);
 
   Future<bool> _isFavorite(String id, int userId) async {
     final userDoc = _config.db.collection('users').doc(userId.toString());
@@ -116,19 +115,17 @@ class ShopRepository implements IShopRepository {
   }) async {
     try {
       final productsRef = _config.db.collection(_baseUrl);
+      Query query = productsRef.where('deletedAt', isNull: true);
 
       if (category != null) {
-        final filtered =
-            await productsRef.where('category', isEqualTo: category).get();
-        return filtered.docs.map((e) {
-          return QueryProduct(id: e.id, product: Product.fromJson(e.data()));
-        }).toList();
+        query = query.where('category', isEqualTo: category);
       }
 
-      final products = await productsRef.get();
-
+      final products = await query.get();
       return products.docs.map((e) {
-        return QueryProduct(id: e.id, product: Product.fromJson(e.data()));
+        return QueryProduct(
+            id: e.id,
+            product: Product.fromJson(e.data() as Map<String, dynamic>));
       }).toList();
     } catch (e) {
       _config.logger
@@ -144,8 +141,8 @@ class ShopRepository implements IShopRepository {
       final data = product.data();
       final isFavorite = userId == null ? false : await _isFavorite(id, userId);
 
-      if (data == null) {
-        throw ShopException('No data found');
+      if (data == null || data['deletedAt'] != null) {
+        throw ShopException('Listing not found or has been deleted');
       }
 
       return QueryProduct(
@@ -250,22 +247,19 @@ class ShopRepository implements IShopRepository {
       {String? category}) async {
     try {
       final productsRef = _config.db.collection(_baseUrl);
+      Query query = productsRef
+          .where('sellerId', isEqualTo: userId)
+          .where('deletedAt', isNull: true);
 
       if (category != null) {
-        final filtered = await productsRef
-            .where('category', isEqualTo: category)
-            .where('sellerId', isEqualTo: userId)
-            .get();
-        return filtered.docs.map((e) {
-          return QueryProduct(id: e.id, product: Product.fromJson(e.data()));
-        }).toList();
+        query = query.where('category', isEqualTo: category);
       }
 
-      final products =
-          await productsRef.where('sellerId', isEqualTo: userId).get();
-
+      final products = await query.get();
       return products.docs.map((e) {
-        return QueryProduct(id: e.id, product: Product.fromJson(e.data()));
+        return QueryProduct(
+            id: e.id,
+            product: Product.fromJson(e.data() as Map<String, dynamic>));
       }).toList();
     } catch (e) {
       _config.logger
@@ -490,7 +484,9 @@ class ShopRepository implements IShopRepository {
   @override
   Future<void> deleteListing(String id) async {
     try {
-      await _config.db.collection(_baseUrl).doc(id).delete();
+      await _config.db.collection(_baseUrl).doc(id).update({
+        'deletedAt': DateTime.now().toIso8601String(),
+      });
     } catch (e) {
       _config.logger
           .error('Failed to delete listing: $e', e, StackTrace.current);
@@ -552,11 +548,12 @@ class ShopRepository implements IShopRepository {
     double? radius,
   }) async {
     try {
-      var productsRef = category != null
-          ? _config.db
-              .collection(_baseUrl)
-              .where('category', isEqualTo: category)
-          : _config.db.collection(_baseUrl);
+      var productsRef =
+          _config.db.collection(_baseUrl).where('deletedAt', isNull: true);
+
+      if (category != null) {
+        productsRef = productsRef.where('category', isEqualTo: category);
+      }
 
       final products = await productsRef.get();
       var results = products.docs
@@ -580,6 +577,54 @@ class ShopRepository implements IShopRepository {
       _config.logger
           .error('Failed to search listings: $e', e, StackTrace.current);
       throw ShopException('Failed to search listings: $e');
+    }
+  }
+
+  @override
+  Future<void> deleteAllUserListings(int userId) async {
+    try {
+      final batch = _config.db.batch();
+      final listings = await _config.db
+          .collection(_baseUrl)
+          .where('sellerId', isEqualTo: userId)
+          .where('deletedAt', isNull: true)
+          .get();
+
+      for (var doc in listings.docs) {
+        batch.update(doc.reference, {
+          'deletedAt': DateTime.now().toIso8601String(),
+        });
+      }
+
+      await batch.commit();
+    } catch (e) {
+      _config.logger.error(
+          'Failed to delete all user listings: $e', e, StackTrace.current);
+      throw ShopException('Failed to delete all user listings: $e');
+    }
+  }
+
+  @override
+  Future<void> restoreAllUserListings(int userId) async {
+    try {
+      final batch = _config.db.batch();
+      final listings = await _config.db
+          .collection(_baseUrl)
+          .where('sellerId', isEqualTo: userId)
+          .where('deletedAt', isNotEqualTo: null)
+          .get();
+
+      for (var doc in listings.docs) {
+        batch.update(doc.reference, {
+          'deletedAt': null,
+        });
+      }
+
+      await batch.commit();
+    } catch (e) {
+      _config.logger.error(
+          'Failed to restore all user listings: $e', e, StackTrace.current);
+      throw ShopException('Failed to restore all user listings: $e');
     }
   }
 }
