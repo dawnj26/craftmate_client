@@ -9,7 +9,6 @@ class InboxScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final curUser = context.read<AuthBloc>().state.user;
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -31,10 +30,10 @@ class InboxScreen extends StatelessWidget {
               final listingChat = state.listingChats[index];
               final isRead = listingChat.chat.readAt != null;
               final ownedByCurUser =
-                  listingChat.product.product.sellerId == curUser.id;
+                  listingChat.product.product.sellerId == state.curUser.id;
 
               final chatTitle =
-                  '${ownedByCurUser ? listingChat.chat.sender.name : curUser.name} - ${listingChat.product.product.name}';
+                  '${ownedByCurUser ? listingChat.chat.sender.name : state.curUser.name} - ${listingChat.product.product.name}';
 
               return ListTile(
                 leading: CircleAvatar(
@@ -59,12 +58,14 @@ class InboxScreen extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     ChatScreen.route(
-                      // context.read<AuthBloc>().state.user,
                       listingChat.chat.sender,
+                      state.curUser,
                       listingId: listingChat.product.id,
                       title: chatTitle,
                       imageUrl: listingChat.product.product.imageUrls.first,
                       sellerId: listingChat.product.product.sellerId,
+                      showSendField:
+                          context.read<AuthBloc>().state.user.role != 'admin',
                     ),
                   );
                 },
