@@ -3,7 +3,10 @@ import 'package:craftmate_client/dashboard/chats/views/screens/chat_screen.dart'
 import 'package:craftmate_client/dashboard/home/view/components/category_filter.dart';
 import 'package:craftmate_client/dashboard/home/view/tabs/for_you_tab.dart';
 import 'package:craftmate_client/dashboard/profile/view/screens/profile_screen.dart';
+import 'package:craftmate_client/dashboard/shop/components/user_listing_grid.dart';
+import 'package:craftmate_client/dashboard/shop/views/pages/shop_reviews_page.dart';
 import 'package:craftmate_client/helpers/components/empty_message.dart';
+import 'package:craftmate_client/report/views/report_modal.dart';
 import 'package:craftmate_client/user_profile/bloc/profile_projects/profile_project_bloc.dart'
     as p;
 import 'package:craftmate_client/user_profile/bloc/view_profile/view_profile_bloc.dart';
@@ -12,7 +15,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
 class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({super.key});
+  const UserProfileScreen({super.key, required this.showShop});
+
+  final bool showShop;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +34,10 @@ class UserProfileScreen extends StatelessWidget {
               case Sharing(:final user):
               case Shared(:final user):
               case Loaded(user: final user):
-                return _ProfileView(user: user);
+                return _ProfileView(
+                  user: user,
+                  showShop: showShop,
+                );
               case Error(message: final message):
                 return Center(
                   child: Text(message),
@@ -47,9 +55,10 @@ class UserProfileScreen extends StatelessWidget {
 }
 
 class _ProfileView extends StatelessWidget {
-  const _ProfileView({required this.user});
+  const _ProfileView({required this.user, required this.showShop});
 
   final User user;
+  final bool showShop;
 
   @override
   Widget build(BuildContext context) {
@@ -70,30 +79,33 @@ class _ProfileView extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BlocBuilder<p.ProfileProjectBloc, p.ProfileProjectState>(
-                      builder: (context, state) {
-                        switch (state) {
-                          case p.Initial() || p.Loading():
-                            return const SizedBox.shrink();
-                        }
+                    if (!showShop)
+                      BlocBuilder<p.ProfileProjectBloc, p.ProfileProjectState>(
+                        builder: (context, state) {
+                          switch (state) {
+                            case p.Initial() || p.Loading():
+                              return const SizedBox.shrink();
+                          }
 
-                        return Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: CategoryFilter(
-                            selectedCategory: state.selectedCategory,
-                            categories: state.categories,
-                            onSelected: (value) {
-                              context.read<p.ProfileProjectBloc>().add(
-                                    p.ProfileProjectEvent.categoryChanged(
-                                      value,
-                                    ),
-                                  );
-                            },
-                          ),
-                        );
-                      },
+                          return Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: CategoryFilter(
+                              selectedCategory: state.selectedCategory,
+                              categories: state.categories,
+                              onSelected: (value) {
+                                context.read<p.ProfileProjectBloc>().add(
+                                      p.ProfileProjectEvent.categoryChanged(
+                                        value,
+                                      ),
+                                    );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    Expanded(
+                      child: _CustomListView(controller, user, showShop),
                     ),
-                    Expanded(child: _CustomListView(controller)),
                   ],
                 );
               },
@@ -131,25 +143,32 @@ class _ProfileView extends StatelessWidget {
                         );
                   },
                 ),
+                if (showShop)
+                  PopupMenuItem(
+                    child: const Text('Report'),
+                    onTap: () {
+                      ReportModal.show(context, user.id);
+                    },
+                  ),
               ];
             },
           ),
         ],
       ),
       SliverToBoxAdapter(
-        child: Profile(user: user),
+        child: Profile(
+          user: user,
+          showShop: showShop,
+        ),
       ),
       SliverPersistentHeader(
         pinned: true,
         delegate: TabBarPersistentHeader(
-          tabBar: const TabBar(
+          tabBar: TabBar(
             tabs: [
               Tab(
-                text: 'Projects',
+                text: showShop ? 'Listings' : 'Projects',
               ),
-              // Tab(
-              //   text: 'Products',
-              // ),
             ],
           ),
         ),
@@ -162,13 +181,15 @@ class Profile extends StatelessWidget {
   const Profile({
     super.key,
     required this.user,
+    required this.showShop,
   });
 
   final User user;
+  final bool showShop;
 
   @override
   Widget build(BuildContext context) {
-    final curUser = context.select((AuthBloc bloc) => bloc.state.user);
+    final curUser = context.read<AuthBloc>().state.user;
 
     final theme = Theme.of(context);
     final hasImage = user.image != null;
@@ -234,11 +255,19 @@ class Profile extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).push(
-                      ChatScreen.route(user),
+                      ChatScreen.route(user, curUser),
                     );
                   },
                   child: const Text('Message'),
                 ),
+                if (showShop)
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(ShopReviewsPage.route(user.id));
+                    },
+                    child: const Text('Reviews'),
+                  ),
               ],
             ),
         ],
@@ -257,9 +286,11 @@ class Profile extends StatelessWidget {
 }
 
 class _CustomListView extends StatefulWidget {
-  const _CustomListView(this.controller);
+  const _CustomListView(this.controller, this.user, this.showShop);
 
   final ScrollController controller;
+  final User user;
+  final bool showShop;
 
   @override
   State<_CustomListView> createState() => _CustomListViewState();
@@ -268,20 +299,27 @@ class _CustomListView extends StatefulWidget {
 class _CustomListViewState extends State<_CustomListView> {
   @override
   void initState() {
-    // TODO: implement initState
-    widget.controller.addListener(_onScroll);
+    if (!widget.showShop) {
+      widget.controller.addListener(_onScroll);
+    }
+
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    widget.controller.removeListener(_onScroll);
+    if (!widget.showShop) {
+      widget.controller.removeListener(_onScroll);
+    }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.showShop) {
+      return UserListingGrid(userId: widget.user.id);
+    }
+
     return BlocBuilder<p.ProfileProjectBloc, p.ProfileProjectState>(
       builder: (context, state) {
         switch (state) {
