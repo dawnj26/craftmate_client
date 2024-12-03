@@ -45,6 +45,7 @@ class ViewListingPage extends StatelessWidget {
               Navigator.of(context).pushReplacement(
                 ChatScreen.route(
                   seller,
+                  curUser,
                   listingId: query.id,
                   title: '${curUser.name} - ${query.product.name}',
                   imageUrl: query.product.imageUrls.first,
