@@ -56,6 +56,66 @@ class Modal {
       },
     );
   }
+
+  void showSuccessDialog(
+    BuildContext context, {
+    required String message,
+    void Function()? onPressed,
+  }) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        final theme = Theme.of(context);
+        return AlertDialog(
+          icon: Icon(
+            Icons.check_circle,
+            color: theme.colorScheme.primary,
+            size: 48,
+          ),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                onPressed?.call();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showErrorDialog(
+    BuildContext context, {
+    required String message,
+    void Function()? onPressed,
+  }) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        final theme = Theme.of(context);
+        return AlertDialog(
+          icon: Icon(
+            Icons.error,
+            color: theme.colorScheme.error,
+            size: 48,
+          ),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                onPressed?.call();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class _NonDismissibleDialog extends StatelessWidget {
