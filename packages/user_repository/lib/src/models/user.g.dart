@@ -14,11 +14,15 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       followingCount: (json['followingCount'] as num?)?.toInt() ?? 0,
       projectCount: (json['projectCount'] as num?)?.toInt() ?? 0,
       isFollowing: json['isFollowing'] as bool? ?? false,
+      role: json['role'] as String? ?? 'user',
       image: json['image'] as String?,
       bio: json['bio'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
+      deletedAt: json['deletedAt'] == null
+          ? null
+          : DateTime.parse(json['deletedAt'] as String),
     );
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
@@ -30,7 +34,9 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'followingCount': instance.followingCount,
       'projectCount': instance.projectCount,
       'isFollowing': instance.isFollowing,
+      'role': instance.role,
       'image': instance.image,
       'bio': instance.bio,
       'createdAt': instance.createdAt?.toIso8601String(),
+      'deletedAt': instance.deletedAt?.toIso8601String(),
     };
