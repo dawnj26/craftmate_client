@@ -121,7 +121,8 @@ class SearchRepository implements ISearchRepository {
   @override
   Future<List<SearchSuggestion>> searchShopSuggestions(String query) async {
     try {
-      final productsRef = _config.db.collection('/shop');
+      final productsRef =
+          _config.db.collection('/shop').where('deletedAt', isNull: true);
       final products = await productsRef.get();
 
       final suggestions = products.docs
