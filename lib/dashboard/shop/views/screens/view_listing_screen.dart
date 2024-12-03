@@ -243,7 +243,8 @@ class SellerProfile extends StatelessWidget {
           const Spacer(),
           TextButton(
             onPressed: () {
-              Navigator.of(context).push(UserProfilePage.route(seller.id));
+              Navigator.of(context)
+                  .push(UserProfilePage.route(seller.id, true));
             },
             child: const Text('View profile'),
           ),

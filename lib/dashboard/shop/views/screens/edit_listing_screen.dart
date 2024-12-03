@@ -7,7 +7,6 @@ import 'package:craftmate_client/dashboard/shop/models/listing_category.dart';
 import 'package:craftmate_client/dashboard/shop/models/listing_price.dart';
 import 'package:craftmate_client/dashboard/shop/models/listing_title.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/add_address_page.dart';
-import 'package:craftmate_client/globals.dart';
 import 'package:craftmate_client/helpers/alert/alert.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project_repository/project_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 class EditListingScreen extends StatelessWidget {
   const EditListingScreen({super.key});
@@ -145,6 +145,7 @@ class _EditListingFormState extends State<EditListingForm> {
       padding: const EdgeInsets.all(12),
       children: [
         ListingProfile(
+          user: context.read<AuthBloc>().state.user,
           subtitle: Row(
             children: [
               Text(
@@ -381,32 +382,33 @@ class ListingProfile extends StatelessWidget {
   const ListingProfile({
     super.key,
     required this.subtitle,
+    required this.user,
   });
 
   final Widget subtitle;
+  final User user;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final currentUser = context.read<AuthBloc>().state.user;
-    final hasImage = currentUser.image != null;
 
-    logger.info('currentUser: $currentUser');
+    final hasImage = user.image != null;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         CircleAvatar(
           radius: 24,
-          backgroundImage: hasImage ? NetworkImage(currentUser.image!) : null,
-          child: hasImage ? null : Text(currentUser.name[0].toUpperCase()),
+          backgroundImage: hasImage ? NetworkImage(user.image!) : null,
+          child: hasImage ? null : Text(user.name[0].toUpperCase()),
         ),
         const SizedBox(width: 8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(currentUser.name, style: theme.textTheme.labelLarge),
+            Text(user.name, style: theme.textTheme.labelLarge),
             subtitle,
           ],
         ),

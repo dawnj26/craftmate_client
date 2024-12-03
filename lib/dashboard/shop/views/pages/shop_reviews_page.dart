@@ -1,15 +1,18 @@
-import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/bloc/shop_reviews/shop_reviews_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/views/screens/shop_reviews_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShopReviewsPage extends StatelessWidget {
-  const ShopReviewsPage({super.key});
+  const ShopReviewsPage({super.key, required this.userId});
 
-  static Route<void> route() {
+  final int userId;
+
+  static Route<void> route(int userId) {
     return MaterialPageRoute<void>(
-      builder: (_) => const ShopReviewsPage(),
+      builder: (_) => ShopReviewsPage(
+        userId: userId,
+      ),
     );
   }
 
@@ -18,7 +21,7 @@ class ShopReviewsPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ShopReviewsBloc(
         shopRepository: RepositoryProvider.of(context),
-      )..add(ShopReviewsEvent.started(context.read<AuthBloc>().state.user.id)),
+      )..add(ShopReviewsEvent.started(userId)),
       child: const ShopReviewsScreen(),
     );
   }

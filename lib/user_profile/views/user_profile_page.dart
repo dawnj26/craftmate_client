@@ -6,14 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserProfilePage extends StatelessWidget {
-  const UserProfilePage({super.key, required this.id});
+  const UserProfilePage({super.key, required this.id, this.showShop = false});
 
   final int id;
+  final bool showShop;
 
-  static Route<void> route(int userId) {
+  static Route<void> route(int userId, [bool showShop = false]) {
     return MaterialPageRoute(
       builder: (context) => UserProfilePage(
         id: userId,
+        showShop: showShop,
       ),
     );
   }
@@ -41,7 +43,9 @@ class UserProfilePage extends StatelessWidget {
               );
           }
         },
-        child: const UserProfileScreen(),
+        child: UserProfileScreen(
+          showShop: showShop,
+        ),
       ),
     );
   }

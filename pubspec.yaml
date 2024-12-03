@@ -85,6 +85,8 @@ dependencies:
   photo_view: ^0.15.0
   project_repository:
     path: packages/project_repository
+  report_repository:
+    path: packages/report_repository
   scrollable_positioned_list: ^0.3.8
   search_repository:
     path: packages/search_repository

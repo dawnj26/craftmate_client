@@ -13,9 +13,11 @@ class User with _$User {
     @Default(0) int followingCount,
     @Default(0) int projectCount,
     @Default(false) bool isFollowing,
+    @Default('user') String role,
     String? image,
     String? bio,
     DateTime? createdAt,
+    DateTime? deletedAt,
   }) = _User;
 
   factory User.fromJson(Map<String, Object?> json) => _$UserFromJson(json);

@@ -18,6 +18,7 @@ import 'package:map_repository/map_repository.dart';
 import 'package:material_repository/material_repository.dart';
 import 'package:notification_repository/notification_repository.dart';
 import 'package:project_repository/project_repository.dart';
+import 'package:report_repository/report_repository.dart';
 import 'package:search_repository/search_repository.dart';
 import 'package:shop_repository/shop_repository.dart';
 import 'package:user_repository/user_repository.dart';
@@ -39,6 +40,7 @@ class _MyAppState extends State<MyApp> {
   late final ShopRepository _shopRepository;
   late final MapRepository _mapRepository;
   late final NotificationRepository _notificationRepository;
+  late final ReportRepository _reportRepository;
   late final Brightness _brightness;
 
   @override
@@ -68,9 +70,9 @@ class _MyAppState extends State<MyApp> {
     );
     _materialRepository = MaterialRepository(config: config);
     _searchRepository = SearchRepository(configRepository: config);
-    _shopRepository =
-        ShopRepository(config, _userRepository, _notificationRepository);
+    _shopRepository = ShopRepository(config, _userRepository);
     _mapRepository = MapRepository(config);
+    _reportRepository = ReportRepository(config, _userRepository);
 
     super.initState();
   }
@@ -94,6 +96,7 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider.value(value: _shopRepository),
         RepositoryProvider.value(value: _mapRepository),
         RepositoryProvider.value(value: _notificationRepository),
+        RepositoryProvider.value(value: _reportRepository),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -134,8 +137,6 @@ class _AppViewState extends State<AppView> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
   }
 

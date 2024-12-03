@@ -1,3 +1,4 @@
+import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/chats/views/chats_page.dart';
 import 'package:craftmate_client/dashboard/home/view/home_page.dart';
 import 'package:craftmate_client/dashboard/profile/view/profile_page.dart';
@@ -5,7 +6,9 @@ import 'package:craftmate_client/dashboard/search/search_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/pages/shop_page.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/user_materials_page.dart';
 import 'package:craftmate_client/project_management/user_projects/view/user_projects_page.dart';
+import 'package:craftmate_client/report/views/reports_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -86,6 +89,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Navigator.of(context).push(UserMaterialsPage.route());
               },
             ),
+            if (context.read<AuthBloc>().state.user.role == 'admin')
+              ListTile(
+                title: const Text('Reports'),
+                leading: const Icon(Icons.report_outlined),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context, ReportsPage.route());
+                },
+              ),
           ],
         ),
       ),

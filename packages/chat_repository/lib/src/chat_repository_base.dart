@@ -15,6 +15,9 @@ abstract class IChatRepository {
   Future<bool> hasMessages(int senderId, int receiverId);
   Stream<List<Chat>> chats(int userId);
   Stream<List<ListingChat>> listingChats(int userId);
+  Future<void> migrateChatsAddDeletedAt();
+  Future<void> deleteAllChats(int userId);
+  Future<void> restoreAllChats(int userId);
 }
 
 class ChatRepository implements IChatRepository {
@@ -195,6 +198,7 @@ class ChatRepository implements IChatRepository {
     return _config.db
         .collection(collection)
         .where('userIds', arrayContains: userId)
+        .where('deletedAt', isNull: true)
         .snapshots()
         .asyncMap((snapshot) async {
       final chats = <Chat>[];
@@ -227,6 +231,7 @@ class ChatRepository implements IChatRepository {
       '${message.senderId}': DateTime.now().toIso8601String(),
       '${message.receiverId}': null,
       'latestMessage': message.toJson(),
+      'deletedAt': null,
     }, SetOptions(merge: true));
   }
 
@@ -268,6 +273,7 @@ class ChatRepository implements IChatRepository {
         final chatsSnapshot = await _config.db
             .collection('shop/${product.id}/chats')
             .where('userIds', arrayContains: userId)
+            .where('deletedAt', isNull: true)
             .get();
 
         final chats = <ListingChat>[];
@@ -300,5 +306,97 @@ class ChatRepository implements IChatRepository {
 
       return allChats;
     });
+  }
+
+  @override
+  Future<void> migrateChatsAddDeletedAt() async {
+    // Update main chats collection
+    final mainChatsSnapshot = await _config.db.collection('chats').get();
+    for (final doc in mainChatsSnapshot.docs) {
+      await doc.reference.update({'deletedAt': null});
+    }
+
+    // Update chats in shop listings
+    final productsSnapshot = await _config.db.collection('shop').get();
+    for (final product in productsSnapshot.docs) {
+      final chatsSnapshot =
+          await _config.db.collection('shop/${product.id}/chats').get();
+
+      for (final chat in chatsSnapshot.docs) {
+        await chat.reference.update({'deletedAt': null});
+      }
+    }
+  }
+
+  @override
+  Future<void> deleteAllChats(int userId) async {
+    try {
+      // Update main chats collection
+      final mainChatsSnapshot = await _config.db
+          .collection('chats')
+          .where('userIds', arrayContains: userId)
+          .get();
+
+      for (final doc in mainChatsSnapshot.docs) {
+        await doc.reference.update({
+          'deletedAt': DateTime.now().toIso8601String(),
+        });
+      }
+
+      // Update chats in shop listings
+      final productsSnapshot = await _config.db.collection('shop').get();
+      for (final product in productsSnapshot.docs) {
+        final chatsSnapshot = await _config.db
+            .collection('shop/${product.id}/chats')
+            .where('userIds', arrayContains: userId)
+            .get();
+
+        for (final chat in chatsSnapshot.docs) {
+          await chat.reference.update({
+            'deletedAt': DateTime.now().toIso8601String(),
+          });
+        }
+      }
+    } catch (e) {
+      _config.logger.error('Error deleting chats for user $userId: $e');
+      throw ChatException('Failed to delete chats');
+    }
+  }
+
+  @override
+  Future<void> restoreAllChats(int userId) async {
+    try {
+      // Restore main chats collection
+      final mainChatsSnapshot = await _config.db
+          .collection('chats')
+          .where('userIds', arrayContains: userId)
+          .where('deletedAt', isNull: false)
+          .get();
+
+      for (final doc in mainChatsSnapshot.docs) {
+        await doc.reference.update({
+          'deletedAt': null,
+        });
+      }
+
+      // Restore chats in shop listings
+      final productsSnapshot = await _config.db.collection('shop').get();
+      for (final product in productsSnapshot.docs) {
+        final chatsSnapshot = await _config.db
+            .collection('shop/${product.id}/chats')
+            .where('userIds', arrayContains: userId)
+            .where('deletedAt', isNull: false)
+            .get();
+
+        for (final chat in chatsSnapshot.docs) {
+          await chat.reference.update({
+            'deletedAt': null,
+          });
+        }
+      }
+    } catch (e) {
+      _config.logger.error('Error restoring chats for user $userId: $e');
+      throw ChatException('Failed to restore chats');
+    }
   }
 }
