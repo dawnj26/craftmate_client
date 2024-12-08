@@ -86,7 +86,9 @@ class ReportReviewScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () => _showBanModal(
-                      context, state.query.reported.deletedAt != null),
+                    context,
+                    state.query.reported.deletedAt != null,
+                  ),
                   child: Text(
                     '${state.query.reported.deletedAt != null ? 'Unban' : 'Ban'} ${state.query.reported.name}',
                   ),
