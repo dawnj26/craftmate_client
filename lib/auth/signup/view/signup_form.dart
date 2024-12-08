@@ -1,6 +1,7 @@
 import 'package:craftmate_client/auth/components/components.dart';
 import 'package:craftmate_client/auth/signup/bloc/sign_up_bloc.dart';
 import 'package:craftmate_client/auth/signup/view/components/components.dart';
+import 'package:craftmate_client/auth/signup/view/privacy_policy_screen.dart';
 import 'package:craftmate_client/auth/signup/view/terms_and_conditions_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +120,7 @@ class _Form extends StatelessWidget {
                           ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          // Open Terms of Service
+                          PrivacyPolicyScreen.route();
                         },
                     ),
                   ],
