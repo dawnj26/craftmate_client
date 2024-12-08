@@ -466,7 +466,7 @@ class MaterialSelection extends StatelessWidget {
               title: const Text('Take a photo'),
               onTap: () async {
                 Navigator.pop(context);
-                final file = await _pickImage(ImageSource.gallery);
+                final file = await _pickImage(ImageSource.camera);
 
                 if (file == null || !context.mounted) {
                   return;
