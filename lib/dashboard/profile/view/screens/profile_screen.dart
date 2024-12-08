@@ -1,6 +1,7 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/profile/bloc/user_profile/user_profile_bloc.dart';
 import 'package:craftmate_client/dashboard/profile/view/screens/edit_profile_screen.dart';
+import 'package:craftmate_client/dashboard/profile/view/screens/faqs_screen.dart';
 import 'package:craftmate_client/settings/views/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,12 @@ class ProfileScreen extends StatelessWidget {
                   child: const Text('Settings'),
                   onTap: () {
                     Navigator.push(context, SettingsPage.route());
+                  },
+                ),
+                PopupMenuItem(
+                  child: const Text('FAQs'),
+                  onTap: () {
+                    Navigator.push(context, FaqsScreen.route());
                   },
                 ),
                 PopupMenuItem(
