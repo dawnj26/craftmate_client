@@ -9,6 +9,7 @@ sealed class SignUpState extends Equatable {
     this.password = const Password.pure(),
     this.confirmPassword = const ConfirmPassword.pure(),
     this.isValid = false,
+    this.isAcceptedTerms = false,
   });
 
   final FormzSubmissionStatus status;
@@ -17,9 +18,18 @@ sealed class SignUpState extends Equatable {
   final Password password;
   final ConfirmPassword confirmPassword;
   final bool isValid;
+  final bool isAcceptedTerms;
 
   @override
-  List<Object> get props => [status, email, password, confirmPassword, name];
+  List<Object> get props => [
+        status,
+        email,
+        password,
+        confirmPassword,
+        name,
+        isValid,
+        isAcceptedTerms,
+      ];
 }
 
 final class SignUpInitial extends SignUpState {
@@ -29,6 +39,7 @@ final class SignUpInitial extends SignUpState {
     super.password,
     super.isValid,
     super.confirmPassword,
+    super.isAcceptedTerms,
   }) : super(status: FormzSubmissionStatus.initial);
 }
 
@@ -39,6 +50,7 @@ final class SignUpSuccess extends SignUpState {
     super.password,
     super.isValid,
     super.confirmPassword,
+    super.isAcceptedTerms,
   }) : super(status: FormzSubmissionStatus.success);
 }
 
@@ -50,6 +62,7 @@ final class SignUpFailed extends SignUpState {
     super.password,
     super.isValid,
     super.confirmPassword,
+    super.isAcceptedTerms,
   }) : super(status: FormzSubmissionStatus.failure);
   final String message;
 }
@@ -61,5 +74,6 @@ final class SignUpInProgress extends SignUpState {
     super.password,
     super.isValid,
     super.confirmPassword,
+    super.isAcceptedTerms,
   }) : super(status: FormzSubmissionStatus.inProgress);
 }

@@ -62,3 +62,12 @@ final class SignUpSocialClick extends SignUpEvent {
   const SignUpSocialClick({required this.type});
   final AuthenticationType type;
 }
+
+final class SignUpTermsChanged extends SignUpEvent {
+  const SignUpTermsChanged({required this.isAcceptedTerms});
+  final bool isAcceptedTerms;
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [isAcceptedTerms];
+}
