@@ -22,9 +22,23 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     on<SignUpSubmitted>(_onSubmit);
     on<SignUpConfirmPasswordChanged>(_onConfirmPasswordChange);
     on<SignUpSocialClick>(_onSocialAuthClick);
+    on<SignUpTermsChanged>(_onTermsChanged);
   }
 
   final AuthenticationRepository _authRepo;
+
+  void _onTermsChanged(SignUpTermsChanged event, Emitter<SignUpState> emit) {
+    emit(
+      SignUpInitial(
+        name: state.name,
+        email: state.email,
+        password: state.password,
+        confirmPassword: state.confirmPassword,
+        isValid: state.isValid,
+        isAcceptedTerms: event.isAcceptedTerms,
+      ),
+    );
+  }
 
   void _onNameChanged(SignUpNameChanged event, Emitter<SignUpState> emit) {
     final name = Name.dirty(event.name);
@@ -107,7 +121,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     SignUpSubmitted event,
     Emitter<SignUpState> emit,
   ) async {
-    if (state.isValid) {
+    if (state.isValid && state.isAcceptedTerms) {
       emit(
         SignUpInProgress(
           isValid: state.isValid,
