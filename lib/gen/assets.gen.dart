@@ -28,6 +28,24 @@ class $AssetsImagesGen {
   AssetGenImage get noDataTransparent =>
       const AssetGenImage('assets/images/no_data_transparent.png');
 
+  /// File path: assets/images/page_1.png
+  AssetGenImage get page1 => const AssetGenImage('assets/images/page_1.png');
+
+  /// File path: assets/images/page_2.png
+  AssetGenImage get page2 => const AssetGenImage('assets/images/page_2.png');
+
+  /// File path: assets/images/page_3.png
+  AssetGenImage get page3 => const AssetGenImage('assets/images/page_3.png');
+
+  /// File path: assets/images/page_4.png
+  AssetGenImage get page4 => const AssetGenImage('assets/images/page_4.png');
+
+  /// File path: assets/images/page_5.png
+  AssetGenImage get page5 => const AssetGenImage('assets/images/page_5.png');
+
+  /// File path: assets/images/page_6.png
+  AssetGenImage get page6 => const AssetGenImage('assets/images/page_6.png');
+
   /// File path: assets/images/placeholder.png
   AssetGenImage get placeholder =>
       const AssetGenImage('assets/images/placeholder.png');
@@ -50,6 +68,12 @@ class $AssetsImagesGen {
         logoWithLabel,
         logoWithoutLabel,
         noDataTransparent,
+        page1,
+        page2,
+        page3,
+        page4,
+        page5,
+        page6,
         placeholder,
         placeholder1,
         placeholderWithLogo,
