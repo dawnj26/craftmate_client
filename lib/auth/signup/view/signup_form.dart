@@ -1,6 +1,8 @@
 import 'package:craftmate_client/auth/components/components.dart';
 import 'package:craftmate_client/auth/signup/bloc/sign_up_bloc.dart';
 import 'package:craftmate_client/auth/signup/view/components/components.dart';
+import 'package:craftmate_client/auth/signup/view/terms_and_conditions_screen.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -57,6 +59,7 @@ class SignUpForm extends StatelessWidget {
               ),
               Gap(32.0),
               _Form(),
+              Gap(12),
               Spacer(),
               LoginButton(),
             ],
@@ -85,6 +88,51 @@ class _Form extends StatelessWidget {
         PasswordInput(unfocusFields),
         const Gap(8.0),
         ConfirmPasswordInput(unfocusFields),
+        const Gap(12),
+        BlocBuilder<SignUpBloc, SignUpState>(
+          builder: (context, state) {
+            return CheckboxListTile(
+              value: state.isAcceptedTerms,
+              title: RichText(
+                text: TextSpan(
+                  text: 'I agree to the ',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  children: [
+                    TextSpan(
+                      text: 'Terms of Service',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Navigator.push(
+                            context,
+                            TermsAndConditionsScreen.route(),
+                          );
+                        },
+                    ),
+                    const TextSpan(text: ' and '),
+                    TextSpan(
+                      text: 'Privacy Policy',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          // Open Terms of Service
+                        },
+                    ),
+                  ],
+                ),
+              ),
+              onChanged: (value) {
+                context
+                    .read<SignUpBloc>()
+                    .add(SignUpTermsChanged(isAcceptedTerms: value ?? false));
+              },
+            );
+          },
+        ),
         const Gap(32.0),
         const SignUpButton(),
       ],
