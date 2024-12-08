@@ -8,6 +8,7 @@ import 'package:craftmate_client/config/app_theme.dart';
 import 'package:craftmate_client/dashboard/view/dashboard_page.dart';
 import 'package:craftmate_client/gen/assets.gen.dart';
 import 'package:craftmate_client/globals.dart';
+import 'package:craftmate_client/onboarding_screen.dart';
 import 'package:craftmate_client/settings/bloc/settings_bloc.dart';
 
 import 'package:flutter/material.dart';
@@ -173,10 +174,18 @@ class _AppViewState extends State<AppView> {
         );
 
       case AuthenticationStatus.unauthenticated:
-        _navigator.pushAndRemoveUntil<void>(
-          LoginPage.route(),
-          (route) => false,
-        );
+        if (config.prefs.getBool('onboarding') == true) {
+          _navigator.pushAndRemoveUntil<void>(
+            LoginPage.route(),
+            (route) => false,
+          );
+        } else {
+          _navigator.pushAndRemoveUntil<void>(
+            OnboardingScreen.route(),
+            (route) => false,
+          );
+        }
+
       case AuthenticationStatus.unknown:
         _navigator.pushAndRemoveUntil<void>(
           StatusScreen.route('unknown'),
