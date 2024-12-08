@@ -32,10 +32,6 @@ class ViewListingScreen extends StatelessWidget {
                 itemBuilder: (context) {
                   if (curUser.id != state.query.product.sellerId) {
                     return [
-                      const PopupMenuItem(
-                        value: 'report',
-                        child: Text('Report'),
-                      ),
                       PopupMenuItem(
                         value: 'share',
                         child: const Text('Share'),
