@@ -24,6 +24,7 @@ mixin _$Review {
   String get listingId => throw _privateConstructorUsedError;
   String get review => throw _privateConstructorUsedError;
   int get rating => throw _privateConstructorUsedError;
+  List<String> get imagesPath => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this Review to a JSON map.
@@ -45,6 +46,7 @@ abstract class $ReviewCopyWith<$Res> {
       String listingId,
       String review,
       int rating,
+      List<String> imagesPath,
       DateTime? createdAt});
 }
 
@@ -67,6 +69,7 @@ class _$ReviewCopyWithImpl<$Res, $Val extends Review>
     Object? listingId = null,
     Object? review = null,
     Object? rating = null,
+    Object? imagesPath = null,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
@@ -86,6 +89,10 @@ class _$ReviewCopyWithImpl<$Res, $Val extends Review>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as int,
+      imagesPath: null == imagesPath
+          ? _value.imagesPath
+          : imagesPath // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -106,6 +113,7 @@ abstract class _$$ReviewImplCopyWith<$Res> implements $ReviewCopyWith<$Res> {
       String listingId,
       String review,
       int rating,
+      List<String> imagesPath,
       DateTime? createdAt});
 }
 
@@ -126,6 +134,7 @@ class __$$ReviewImplCopyWithImpl<$Res>
     Object? listingId = null,
     Object? review = null,
     Object? rating = null,
+    Object? imagesPath = null,
     Object? createdAt = freezed,
   }) {
     return _then(_$ReviewImpl(
@@ -145,6 +154,10 @@ class __$$ReviewImplCopyWithImpl<$Res>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as int,
+      imagesPath: null == imagesPath
+          ? _value._imagesPath
+          : imagesPath // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -161,7 +174,9 @@ class _$ReviewImpl implements _Review {
       this.listingId = '',
       this.review = '',
       this.rating = 5,
-      this.createdAt});
+      final List<String> imagesPath = const [],
+      this.createdAt})
+      : _imagesPath = imagesPath;
 
   factory _$ReviewImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReviewImplFromJson(json);
@@ -178,12 +193,21 @@ class _$ReviewImpl implements _Review {
   @override
   @JsonKey()
   final int rating;
+  final List<String> _imagesPath;
+  @override
+  @JsonKey()
+  List<String> get imagesPath {
+    if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_imagesPath);
+  }
+
   @override
   final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'Review(userId: $userId, listingId: $listingId, review: $review, rating: $rating, createdAt: $createdAt)';
+    return 'Review(userId: $userId, listingId: $listingId, review: $review, rating: $rating, imagesPath: $imagesPath, createdAt: $createdAt)';
   }
 
   @override
@@ -196,14 +220,16 @@ class _$ReviewImpl implements _Review {
                 other.listingId == listingId) &&
             (identical(other.review, review) || other.review == review) &&
             (identical(other.rating, rating) || other.rating == rating) &&
+            const DeepCollectionEquality()
+                .equals(other._imagesPath, _imagesPath) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, userId, listingId, review, rating, createdAt);
+  int get hashCode => Object.hash(runtimeType, userId, listingId, review,
+      rating, const DeepCollectionEquality().hash(_imagesPath), createdAt);
 
   /// Create a copy of Review
   /// with the given fields replaced by the non-null parameter values.
@@ -227,6 +253,7 @@ abstract class _Review implements Review {
       final String listingId,
       final String review,
       final int rating,
+      final List<String> imagesPath,
       final DateTime? createdAt}) = _$ReviewImpl;
 
   factory _Review.fromJson(Map<String, dynamic> json) = _$ReviewImpl.fromJson;
@@ -239,6 +266,8 @@ abstract class _Review implements Review {
   String get review;
   @override
   int get rating;
+  @override
+  List<String> get imagesPath;
   @override
   DateTime? get createdAt;
 

@@ -10,6 +10,7 @@ class Review with _$Review {
     @Default('') String listingId,
     @Default('') String review,
     @Default(5) int rating,
+    @Default([]) List<String> imagesPath,
     DateTime? createdAt,
   }) = _Review;
 

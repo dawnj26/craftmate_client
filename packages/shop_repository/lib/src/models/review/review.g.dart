@@ -11,6 +11,10 @@ _$ReviewImpl _$$ReviewImplFromJson(Map<String, dynamic> json) => _$ReviewImpl(
       listingId: json['listingId'] as String? ?? '',
       review: json['review'] as String? ?? '',
       rating: (json['rating'] as num?)?.toInt() ?? 5,
+      imagesPath: (json['imagesPath'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -22,5 +26,6 @@ Map<String, dynamic> _$$ReviewImplToJson(_$ReviewImpl instance) =>
       'listingId': instance.listingId,
       'review': instance.review,
       'rating': instance.rating,
+      'imagesPath': instance.imagesPath,
       'createdAt': instance.createdAt?.toIso8601String(),
     };
