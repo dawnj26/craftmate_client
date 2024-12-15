@@ -289,7 +289,7 @@ class _Materials extends StatelessWidget {
           Text(
             'No materials',
             style: theme.textTheme.titleLarge?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.4),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
               fontWeight: FontWeight.w300,
             ),
           )

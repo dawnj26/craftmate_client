@@ -672,7 +672,8 @@ class ProjectCard extends StatelessWidget {
             if (project.steps != null)
               LinearProgressIndicator(
                 value: progress,
-                backgroundColor: theme.colorScheme.primary.withOpacity(0.2),
+                backgroundColor:
+                    theme.colorScheme.primary.withValues(alpha: 0.2),
               ),
           ],
         ),
