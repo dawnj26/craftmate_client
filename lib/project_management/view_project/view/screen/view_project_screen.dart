@@ -14,6 +14,7 @@ import 'package:craftmate_client/project_management/view_project/comment/view/co
 import 'package:craftmate_client/project_management/view_project/project_settings/view/settings_page.dart';
 import 'package:craftmate_client/project_management/view_project/view/components/components.dart';
 import 'package:craftmate_client/project_management/view_project/view/components/fork_link.dart';
+import 'package:craftmate_client/project_management/view_project/view/screen/compare_screen.dart';
 import 'package:craftmate_client/project_management/view_project/view/view_project_page.dart';
 import 'package:craftmate_client/user_profile/views/user_profile_page.dart';
 import 'package:flutter/material.dart';
@@ -69,29 +70,44 @@ class ViewProjectScreen extends StatelessWidget {
             await newState;
           },
           child: Scaffold(
-            floatingActionButton: !ownedByCurrentUser
-                ? null
-                : FloatingActionButton.extended(
-                    onPressed: () async {
-                      if (isStarted || isFinished) {
-                        await Navigator.push(
-                          context,
-                          StartProjectPage.route(state.project.id),
-                        );
-                        if (!context.mounted) return;
-                        context
-                            .read<ViewProjectBloc>()
-                            .add(const ViewProjectReloaded());
-                        return;
-                      }
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: () async {
+                if ((isStarted || isFinished) && ownedByCurrentUser) {
+                  await Navigator.push(
+                    context,
+                    StartProjectPage.route(state.project.id),
+                  );
+                  if (!context.mounted) return;
+                  context
+                      .read<ViewProjectBloc>()
+                      .add(const ViewProjectReloaded());
+                  return;
+                }
 
+                if (state.project.materials == null ||
+                    state.project.materials!.isEmpty ||
+                    ownedByCurrentUser) {
+                  context
+                      .read<ViewProjectBloc>()
+                      .add(ViewProjectStarted(currentUser));
+                  return;
+                }
+
+                Navigator.push(
+                  context,
+                  CompareScreen.route(
+                    materials: state.project.materials ?? [],
+                    onStarted: () {
                       context
                           .read<ViewProjectBloc>()
-                          .add(const ViewProjectStarted());
+                          .add(ViewProjectStarted(currentUser));
                     },
-                    label: Text(fabLabel),
-                    icon: const Icon(Icons.play_arrow_rounded),
                   ),
+                );
+              },
+              label: Text(ownedByCurrentUser ? fabLabel : 'Start project'),
+              icon: const Icon(Icons.play_arrow_rounded),
+            ),
             appBar: AppBar(
               automaticallyImplyLeading: false,
               leading: IconButton(
@@ -272,11 +288,19 @@ class ViewProjectScreen extends StatelessWidget {
       Navigator.push(context, ViewProjectPage.route(state.projectId));
     } else if (state is ViewProjectStartSuccess) {
       Navigator.of(context).pop();
-      Navigator.push(context, StartProjectPage.route(state.project.id))
-          .then((_) {
-        if (!context.mounted) return;
-        context.read<ViewProjectBloc>().add(const ViewProjectReloaded());
-      });
+      if (state.ownedByCurrentUser) {
+        Navigator.push(context, StartProjectPage.route(state.project.id))
+            .then((_) {
+          if (!context.mounted) return;
+          context.read<ViewProjectBloc>().add(const ViewProjectReloaded());
+        });
+      } else {
+        Navigator.pushReplacement(
+          context,
+          ViewProjectPage.route(state.project.id),
+        );
+        Navigator.push(context, StartProjectPage.route(state.project.id));
+      }
     } else if (state is ViewProjectShareSuccess) {
       Alert.instance
           .showSnackbar(context, 'Project share link copied to clipboard.');
