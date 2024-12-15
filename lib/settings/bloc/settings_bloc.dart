@@ -38,7 +38,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     );
 
     _configRepository.prefs
-        .setInt('themeColor', state.theme.colorScheme.primary.value);
+        .setInt('themeColor', _colorToInt(state.theme.colorScheme.primary));
     _configRepository.prefs.setInt(
       'themeBrightness',
       Brightness.values.indexOf(state.theme.brightness),
@@ -78,7 +78,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
 
     _configRepository.prefs
-        .setInt('themeColor', state.theme.colorScheme.primary.value);
+        .setInt('themeColor', _colorToInt(state.theme.colorScheme.primary));
     _configRepository.prefs.setInt(
       'themeBrightness',
       Brightness.values.indexOf(state.theme.brightness),
@@ -104,10 +104,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
 
     _configRepository.prefs
-        .setInt('themeColor', state.theme.colorScheme.primary.value);
+        .setInt('themeColor', _colorToInt(state.theme.colorScheme.primary));
     _configRepository.prefs.setInt(
       'themeBrightness',
       Brightness.values.indexOf(state.theme.brightness),
     );
+  }
+
+  int _colorToInt(Color color) {
+    return color.a.toInt() << 24 |
+        color.r.toInt() << 16 |
+        color.g.toInt() << 8 |
+        color.b.toInt() << 0;
   }
 }
