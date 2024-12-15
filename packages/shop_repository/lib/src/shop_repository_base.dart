@@ -25,7 +25,7 @@ abstract class IShopRepository {
     double userLong,
     double radiusInKm,
   );
-  Future<void> publishReview(int sellerId, Review review);
+  Future<void> publishReview(int sellerId, Review review, List<String> images);
   Future<bool> isAlreadyReviewed(int sellerId, int userId);
   Future<List<QueryReview>> fetchReviews(int sellerId);
   Future<void> viewListing(String id, int userId);
@@ -81,6 +81,7 @@ class ShopRepository implements IShopRepository {
   }
 
   Future<List<String>> _uploadImages(List<String> images) async {
+    if (images.isEmpty) return [];
     try {
       final formData = FormData.fromMap({
         'images[]': images.map((e) {
@@ -301,11 +302,17 @@ class ShopRepository implements IShopRepository {
   }
 
   @override
-  Future<void> publishReview(int sellerId, Review review) async {
+  Future<void> publishReview(
+    int sellerId,
+    Review review,
+    List<String> images,
+  ) async {
     try {
+      final imageUrls = await _uploadImages(images);
+
       await _config.db
           .collection('users/$sellerId/reviews')
-          .add(review.toJson());
+          .add(review.copyWith(imagesPath: imageUrls).toJson());
     } catch (e) {
       _config.logger
           .error('Failed to publish review: $e', e, StackTrace.current);
