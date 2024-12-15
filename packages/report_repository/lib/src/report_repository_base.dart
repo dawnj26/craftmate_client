@@ -1,9 +1,10 @@
 import 'package:config_repository/config_repository.dart';
+import 'package:dio/dio.dart';
 import 'package:report_repository/report_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 abstract class IReportRepository {
-  Future<void> report(Report report);
+  Future<void> report(Report report, List<String> imagesPath);
   Future<List<QueryReport>> getReports();
   Future<QueryReport> getReportById(String id); // Add new method
   Future<void> dismiss(String id);
@@ -17,11 +18,12 @@ class ReportRepository implements IReportRepository {
   const ReportRepository(this._config, this._userRepository);
 
   @override
-  Future<void> report(Report report) async {
+  Future<void> report(Report report, List<String> imagesPath) async {
     try {
       final reportsRef = _config.db.collection(_collection);
+      final uploadedImages = await _uploadImages(imagesPath);
 
-      await reportsRef.add(report.toJson());
+      await reportsRef.add(report.copyWith(images: uploadedImages).toJson());
     } catch (e) {
       throw ReportException(
         'Failed to submit report: ${e.toString()}',
@@ -42,6 +44,8 @@ class ReportRepository implements IReportRepository {
         final report = Report.fromJson(data);
         final reporter = await _userRepository.getUserById(data['reporterId']);
         final reported = await _userRepository.getUserById(data['reportedId']);
+
+        // _config.logger.warning('Report: $report');
 
         reports.add(QueryReport(
           id: doc.id,
@@ -100,6 +104,37 @@ class ReportRepository implements IReportRepository {
       throw ReportException(
         'Failed to dismiss report: ${e.toString()}',
       );
+    }
+  }
+
+  Future<List<String>> _uploadImages(List<String> images) async {
+    if (images.isEmpty) return [];
+
+    try {
+      final formData = FormData.fromMap({
+        'images[]': images.map((e) {
+          final filename = e.split('/').last;
+          return MultipartFile.fromFileSync(e, filename: filename);
+        }).toList(),
+      });
+
+      final response = await _config.makeRequest<Map<String, dynamic>>(
+        '/shop/images',
+        method: 'POST',
+        data: formData,
+      );
+
+      if (response.data == null) {
+        throw ReportException('No response');
+      }
+
+      final imageUrls = response.data!['data']['images']
+          .map<String>((e) => e as String)
+          .toList();
+
+      return imageUrls;
+    } on RequestException catch (e) {
+      throw ReportException('Failed to upload images: $e');
     }
   }
 }
