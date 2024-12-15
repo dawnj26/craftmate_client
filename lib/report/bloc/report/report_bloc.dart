@@ -12,9 +12,17 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   })  : _reportRepository = reportRepository,
         super(const Initial()) {
     on<_Started>(_onStarted);
+    on<_FilterChanged>(_onFilterChanged);
   }
 
   final ReportRepository _reportRepository;
+
+  void _onFilterChanged(
+    _FilterChanged event,
+    Emitter<ReportState> emit,
+  ) {
+    emit(Loaded(reports: state.reports, filter: event.filter));
+  }
 
   Future<void> _onStarted(
     _Started event,
@@ -24,6 +32,9 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
 
     try {
       final reports = await _reportRepository.getReports();
+      // sort by date
+      reports
+          .sort((a, b) => b.report.createdAt!.compareTo(a.report.createdAt!));
 
       emit(Loaded(reports: reports));
     } on ReportException catch (e) {

@@ -120,9 +120,95 @@ abstract class _Started implements ReportEvent {
 }
 
 /// @nodoc
+abstract class _$$FilterChangedImplCopyWith<$Res>  {
+  factory _$$FilterChangedImplCopyWith(_$FilterChangedImpl value, $Res Function(_$FilterChangedImpl) then) = __$$FilterChangedImplCopyWithImpl<$Res>;
+@useResult
+$Res call({
+ ReportFilter filter
+});
+
+
+
+}
+
+/// @nodoc
+class __$$FilterChangedImplCopyWithImpl<$Res> extends _$ReportEventCopyWithImpl<$Res, _$FilterChangedImpl> implements _$$FilterChangedImplCopyWith<$Res> {
+  __$$FilterChangedImplCopyWithImpl(_$FilterChangedImpl _value, $Res Function(_$FilterChangedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ReportEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? filter = null,}) {
+  return _then(_$FilterChangedImpl(
+null == filter ? _value.filter : filter // ignore: cast_nullable_to_non_nullable
+as ReportFilter,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$FilterChangedImpl  implements _FilterChanged {
+  const _$FilterChangedImpl(this.filter);
+
+  
+
+@override final  ReportFilter filter;
+
+@override
+String toString() {
+  return 'ReportEvent.filterChanged(filter: $filter)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$FilterChangedImpl&&(identical(other.filter, filter) || other.filter == filter));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,filter);
+
+/// Create a copy of ReportEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$FilterChangedImplCopyWith<_$FilterChangedImpl> get copyWith => __$$FilterChangedImplCopyWithImpl<_$FilterChangedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _FilterChanged implements ReportEvent {
+  const factory _FilterChanged(final  ReportFilter filter) = _$FilterChangedImpl;
+  
+
+  
+
+ ReportFilter get filter;
+/// Create a copy of ReportEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+_$$FilterChangedImplCopyWith<_$FilterChangedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
 mixin _$ReportState {
 
- List<QueryReport> get reports => throw _privateConstructorUsedError;
+ List<QueryReport> get reports => throw _privateConstructorUsedError; ReportFilter get filter => throw _privateConstructorUsedError;
 
 
 
@@ -142,7 +228,7 @@ abstract class $ReportStateCopyWith<$Res>  {
   factory $ReportStateCopyWith(ReportState value, $Res Function(ReportState) then) = _$ReportStateCopyWithImpl<$Res, ReportState>;
 @useResult
 $Res call({
- List<QueryReport> reports
+ List<QueryReport> reports, ReportFilter filter
 });
 
 
@@ -160,10 +246,11 @@ class _$ReportStateCopyWithImpl<$Res,$Val extends ReportState> implements $Repor
 
 /// Create a copy of ReportState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? reports = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? reports = null,Object? filter = null,}) {
   return _then(_value.copyWith(
 reports: null == reports ? _value.reports : reports // ignore: cast_nullable_to_non_nullable
-as List<QueryReport>,
+as List<QueryReport>,filter: null == filter ? _value.filter : filter // ignore: cast_nullable_to_non_nullable
+as ReportFilter,
   )as $Val);
 }
 
@@ -175,7 +262,7 @@ abstract class _$$InitialImplCopyWith<$Res> implements $ReportStateCopyWith<$Res
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<QueryReport> reports
+ List<QueryReport> reports, ReportFilter filter
 });
 
 
@@ -190,10 +277,11 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$ReportStateCopyWithImpl<$Res, 
 
 /// Create a copy of ReportState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? reports = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? reports = null,Object? filter = null,}) {
   return _then(_$InitialImpl(
 reports: null == reports ? _value._reports : reports // ignore: cast_nullable_to_non_nullable
-as List<QueryReport>,
+as List<QueryReport>,filter: null == filter ? _value.filter : filter // ignore: cast_nullable_to_non_nullable
+as ReportFilter,
   ));
 }
 
@@ -204,7 +292,7 @@ as List<QueryReport>,
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl({final  List<QueryReport> reports = const <QueryReport>[]}): _reports = reports;
+  const _$InitialImpl({final  List<QueryReport> reports = const <QueryReport>[], this.filter = ReportFilter.all}): _reports = reports;
 
   
 
@@ -215,21 +303,22 @@ class _$InitialImpl  implements Initial {
   return EqualUnmodifiableListView(_reports);
 }
 
+@override@JsonKey() final  ReportFilter filter;
 
 @override
 String toString() {
-  return 'ReportState.initial(reports: $reports)';
+  return 'ReportState.initial(reports: $reports, filter: $filter)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&const DeepCollectionEquality().equals(other._reports, _reports));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&const DeepCollectionEquality().equals(other._reports, _reports)&&(identical(other.filter, filter) || other.filter == filter));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_reports));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_reports),filter);
 
 /// Create a copy of ReportState
 /// with the given fields replaced by the non-null parameter values.
@@ -249,12 +338,12 @@ _$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImp
 
 
 abstract class Initial implements ReportState {
-  const factory Initial({final  List<QueryReport> reports}) = _$InitialImpl;
+  const factory Initial({final  List<QueryReport> reports, final  ReportFilter filter}) = _$InitialImpl;
   
 
   
 
-@override List<QueryReport> get reports;
+@override List<QueryReport> get reports;@override ReportFilter get filter;
 /// Create a copy of ReportState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -267,7 +356,7 @@ abstract class _$$LoadingImplCopyWith<$Res> implements $ReportStateCopyWith<$Res
   factory _$$LoadingImplCopyWith(_$LoadingImpl value, $Res Function(_$LoadingImpl) then) = __$$LoadingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<QueryReport> reports
+ List<QueryReport> reports, ReportFilter filter
 });
 
 
@@ -282,10 +371,11 @@ class __$$LoadingImplCopyWithImpl<$Res> extends _$ReportStateCopyWithImpl<$Res, 
 
 /// Create a copy of ReportState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? reports = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? reports = null,Object? filter = null,}) {
   return _then(_$LoadingImpl(
 reports: null == reports ? _value._reports : reports // ignore: cast_nullable_to_non_nullable
-as List<QueryReport>,
+as List<QueryReport>,filter: null == filter ? _value.filter : filter // ignore: cast_nullable_to_non_nullable
+as ReportFilter,
   ));
 }
 
@@ -296,7 +386,7 @@ as List<QueryReport>,
 
 
 class _$LoadingImpl  implements Loading {
-  const _$LoadingImpl({final  List<QueryReport> reports = const <QueryReport>[]}): _reports = reports;
+  const _$LoadingImpl({final  List<QueryReport> reports = const <QueryReport>[], this.filter = ReportFilter.all}): _reports = reports;
 
   
 
@@ -307,21 +397,22 @@ class _$LoadingImpl  implements Loading {
   return EqualUnmodifiableListView(_reports);
 }
 
+@override@JsonKey() final  ReportFilter filter;
 
 @override
 String toString() {
-  return 'ReportState.loading(reports: $reports)';
+  return 'ReportState.loading(reports: $reports, filter: $filter)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&const DeepCollectionEquality().equals(other._reports, _reports));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&const DeepCollectionEquality().equals(other._reports, _reports)&&(identical(other.filter, filter) || other.filter == filter));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_reports));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_reports),filter);
 
 /// Create a copy of ReportState
 /// with the given fields replaced by the non-null parameter values.
@@ -341,12 +432,12 @@ _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => __$$LoadingImplCopyWithImp
 
 
 abstract class Loading implements ReportState {
-  const factory Loading({final  List<QueryReport> reports}) = _$LoadingImpl;
+  const factory Loading({final  List<QueryReport> reports, final  ReportFilter filter}) = _$LoadingImpl;
   
 
   
 
-@override List<QueryReport> get reports;
+@override List<QueryReport> get reports;@override ReportFilter get filter;
 /// Create a copy of ReportState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -359,7 +450,7 @@ abstract class _$$LoadedImplCopyWith<$Res> implements $ReportStateCopyWith<$Res>
   factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<QueryReport> reports
+ List<QueryReport> reports, ReportFilter filter
 });
 
 
@@ -374,10 +465,11 @@ class __$$LoadedImplCopyWithImpl<$Res> extends _$ReportStateCopyWithImpl<$Res, _
 
 /// Create a copy of ReportState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? reports = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? reports = null,Object? filter = null,}) {
   return _then(_$LoadedImpl(
 reports: null == reports ? _value._reports : reports // ignore: cast_nullable_to_non_nullable
-as List<QueryReport>,
+as List<QueryReport>,filter: null == filter ? _value.filter : filter // ignore: cast_nullable_to_non_nullable
+as ReportFilter,
   ));
 }
 
@@ -388,7 +480,7 @@ as List<QueryReport>,
 
 
 class _$LoadedImpl  implements Loaded {
-  const _$LoadedImpl({final  List<QueryReport> reports = const <QueryReport>[]}): _reports = reports;
+  const _$LoadedImpl({final  List<QueryReport> reports = const <QueryReport>[], this.filter = ReportFilter.all}): _reports = reports;
 
   
 
@@ -399,21 +491,22 @@ class _$LoadedImpl  implements Loaded {
   return EqualUnmodifiableListView(_reports);
 }
 
+@override@JsonKey() final  ReportFilter filter;
 
 @override
 String toString() {
-  return 'ReportState.loaded(reports: $reports)';
+  return 'ReportState.loaded(reports: $reports, filter: $filter)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&const DeepCollectionEquality().equals(other._reports, _reports));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&const DeepCollectionEquality().equals(other._reports, _reports)&&(identical(other.filter, filter) || other.filter == filter));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_reports));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_reports),filter);
 
 /// Create a copy of ReportState
 /// with the given fields replaced by the non-null parameter values.
@@ -433,12 +526,12 @@ _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_
 
 
 abstract class Loaded implements ReportState {
-  const factory Loaded({final  List<QueryReport> reports}) = _$LoadedImpl;
+  const factory Loaded({final  List<QueryReport> reports, final  ReportFilter filter}) = _$LoadedImpl;
   
 
   
 
-@override List<QueryReport> get reports;
+@override List<QueryReport> get reports;@override ReportFilter get filter;
 /// Create a copy of ReportState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -451,7 +544,7 @@ abstract class _$$ErrorImplCopyWith<$Res> implements $ReportStateCopyWith<$Res> 
   factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) = __$$ErrorImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- String message, List<QueryReport> reports
+ String message, List<QueryReport> reports, ReportFilter filter
 });
 
 
@@ -466,11 +559,12 @@ class __$$ErrorImplCopyWithImpl<$Res> extends _$ReportStateCopyWithImpl<$Res, _$
 
 /// Create a copy of ReportState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? reports = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? reports = null,Object? filter = null,}) {
   return _then(_$ErrorImpl(
 message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
 as String,reports: null == reports ? _value._reports : reports // ignore: cast_nullable_to_non_nullable
-as List<QueryReport>,
+as List<QueryReport>,filter: null == filter ? _value.filter : filter // ignore: cast_nullable_to_non_nullable
+as ReportFilter,
   ));
 }
 
@@ -481,7 +575,7 @@ as List<QueryReport>,
 
 
 class _$ErrorImpl  implements Error {
-  const _$ErrorImpl({required this.message, final  List<QueryReport> reports = const <QueryReport>[]}): _reports = reports;
+  const _$ErrorImpl({required this.message, final  List<QueryReport> reports = const <QueryReport>[], this.filter = ReportFilter.all}): _reports = reports;
 
   
 
@@ -493,21 +587,22 @@ class _$ErrorImpl  implements Error {
   return EqualUnmodifiableListView(_reports);
 }
 
+@override@JsonKey() final  ReportFilter filter;
 
 @override
 String toString() {
-  return 'ReportState.error(message: $message, reports: $reports)';
+  return 'ReportState.error(message: $message, reports: $reports, filter: $filter)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other._reports, _reports));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other._reports, _reports)&&(identical(other.filter, filter) || other.filter == filter));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message,const DeepCollectionEquality().hash(_reports));
+int get hashCode => Object.hash(runtimeType,message,const DeepCollectionEquality().hash(_reports),filter);
 
 /// Create a copy of ReportState
 /// with the given fields replaced by the non-null parameter values.
@@ -527,12 +622,12 @@ _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => __$$ErrorImplCopyWithImpl<_$Er
 
 
 abstract class Error implements ReportState {
-  const factory Error({required final  String message, final  List<QueryReport> reports}) = _$ErrorImpl;
+  const factory Error({required final  String message, final  List<QueryReport> reports, final  ReportFilter filter}) = _$ErrorImpl;
   
 
   
 
- String get message;@override List<QueryReport> get reports;
+ String get message;@override List<QueryReport> get reports;@override ReportFilter get filter;
 /// Create a copy of ReportState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
