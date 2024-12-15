@@ -120,7 +120,7 @@ class _Form extends StatelessWidget {
                           ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          PrivacyPolicyScreen.route();
+                          Navigator.push(context, PrivacyPolicyScreen.route());
                         },
                     ),
                   ],
