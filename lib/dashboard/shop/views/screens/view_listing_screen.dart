@@ -459,7 +459,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 padding: const EdgeInsets.all(4.0),
@@ -550,7 +550,7 @@ class PageIndicator extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 2),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: isSelected ? Colors.white : Colors.white.withOpacity(0.5),
+        color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.5),
       ),
     );
   }
