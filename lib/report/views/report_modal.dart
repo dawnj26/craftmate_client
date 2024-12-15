@@ -1,8 +1,10 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
+import 'package:craftmate_client/dashboard/shop/views/screens/add_listing_screen.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/report/bloc/modal/report_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:report_repository/report_repository.dart';
 
 class ReportModal extends StatelessWidget {
@@ -67,7 +69,7 @@ class ReportModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.8,
+      initialChildSize: 1,
       snap: true,
       expand: false,
       builder: (_, scrollController) {
@@ -89,16 +91,31 @@ class _ReportForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final screenSize = MediaQuery.sizeOf(context);
 
     return ListView(
       controller: scrollController,
       children: [
         Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Text(
-            'Report',
-            style: theme.textTheme.labelLarge,
-            textAlign: TextAlign.center,
+          padding: const EdgeInsets.all(16.0),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Text(
+                'Report',
+                style: theme.textTheme.labelLarge,
+                textAlign: TextAlign.center,
+              ),
+              Positioned(
+                right: 0,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.close),
+                ),
+              ),
+            ],
           ),
         ),
         BlocBuilder<ReportModalBloc, ReportModalState>(
@@ -121,6 +138,9 @@ class _ReportForm extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         BlocBuilder<ReportModalBloc, ReportModalState>(
+          buildWhen: (previous, current) =>
+              previous.selectedReason != current.selectedReason ||
+              previous.description != current.description,
           builder: (context, state) {
             return state.selectedReason != null
                 ? Padding(
@@ -128,6 +148,27 @@ class _ReportForm extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        SizedBox(
+                          height: screenSize.height * 0.15,
+                          child: BlocBuilder<ReportModalBloc, ReportModalState>(
+                            builder: (context, state) {
+                              return AddPhotos(
+                                scrollController: ScrollController(),
+                                images: state.imagesPath,
+                                networkImages: const [],
+                                onPhotoAdded: () => _addPhoto(context),
+                                onFileImageRemoved: (index) {
+                                  context.read<ReportModalBloc>().add(
+                                        ReportModalEvent.photoRemoved(index),
+                                      );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 12.0,
+                        ),
                         TextField(
                           maxLines: 3,
                           decoration: const InputDecoration(
@@ -166,6 +207,20 @@ class _ReportForm extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<void> _addPhoto(BuildContext context) async {
+    final picker = ImagePicker();
+
+    final image = await picker.pickMultiImage();
+
+    if (image.isEmpty || !context.mounted) {
+      return;
+    }
+
+    final images = image.map((e) => e.path).toList();
+
+    context.read<ReportModalBloc>().add(ReportModalEvent.photoAdded(images));
   }
 
   String capitalize(String s) {
