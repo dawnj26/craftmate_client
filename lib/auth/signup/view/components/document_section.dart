@@ -13,6 +13,7 @@ class DocumentSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         LabelDivide(labelText: labelText),
         const SizedBox(height: 12.0),
