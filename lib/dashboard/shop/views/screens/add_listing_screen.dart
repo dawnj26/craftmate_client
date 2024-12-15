@@ -156,52 +156,21 @@ class _AddListingFormState extends State<AddListingForm> {
             builder: (context, state) {
               final images = state.images;
 
-              if (images.isEmpty && state.networkImages.isEmpty) {
-                return Center(
-                  child: AddPhotoButton(
-                    onPressed: _addPhoto,
-                  ),
-                );
-              }
-
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Scrollbar(
-                  controller: _scrollController,
-                  child: SingleChildScrollView(
-                    controller: _scrollController,
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: AddPhotoButton(
-                            onPressed: _addPhoto,
-                          ),
-                        ),
-                        for (var i = 0; i < state.networkImages.length; i++)
-                          ListingImage(
-                            image: state.networkImages[i],
-                            isNetworkImage: true,
-                            onRemove: () {
-                              context
-                                  .read<AddListingBloc>()
-                                  .add(AddListingEvent.networkImageRemoved(i));
-                            },
-                          ),
-                        for (var i = 0; i < images.length; i++)
-                          ListingImage(
-                            image: images[i],
-                            onRemove: () {
-                              context
-                                  .read<AddListingBloc>()
-                                  .add(AddListingEvent.imageRemoved(i));
-                            },
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
+              return AddPhotos(
+                scrollController: _scrollController,
+                images: images,
+                networkImages: state.networkImages,
+                onFileImageRemoved: (index) {
+                  context
+                      .read<AddListingBloc>()
+                      .add(AddListingEvent.imageRemoved(index));
+                },
+                onNetworkImageRemoved: (index) {
+                  context
+                      .read<AddListingBloc>()
+                      .add(AddListingEvent.networkImageRemoved(index));
+                },
+                onPhotoAdded: _addPhoto,
               );
             },
           ),
@@ -372,6 +341,76 @@ class _AddListingFormState extends State<AddListingForm> {
   }
 }
 
+class AddPhotos extends StatelessWidget {
+  const AddPhotos({
+    super.key,
+    required this.scrollController,
+    required this.images,
+    required this.networkImages,
+    this.onFileImageRemoved,
+    this.onPhotoAdded,
+    this.onNetworkImageRemoved,
+  });
+
+  final ScrollController scrollController;
+  final List<String> images;
+  final List<String> networkImages;
+  final void Function(int index)? onFileImageRemoved;
+  final void Function(int index)? onNetworkImageRemoved;
+  final void Function()? onPhotoAdded;
+
+  @override
+  Widget build(BuildContext context) {
+    if (images.isEmpty && networkImages.isEmpty) {
+      return Center(
+        child: AddPhotoButton(
+          onPressed: () {
+            onPhotoAdded?.call();
+          },
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Scrollbar(
+        controller: scrollController,
+        child: SingleChildScrollView(
+          controller: scrollController,
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: AddPhotoButton(
+                  onPressed: () {
+                    onPhotoAdded?.call();
+                  },
+                ),
+              ),
+              for (var i = 0; i < networkImages.length; i++)
+                ListingImage(
+                  image: networkImages[i],
+                  isNetworkImage: true,
+                  onRemove: () {
+                    onNetworkImageRemoved?.call(i);
+                  },
+                ),
+              for (var i = 0; i < images.length; i++)
+                ListingImage(
+                  image: images[i],
+                  onRemove: () {
+                    onFileImageRemoved?.call(i);
+                  },
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class ListingProfile extends StatelessWidget {
   const ListingProfile({
     super.key,
@@ -450,7 +489,7 @@ class ListingImage extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 0.5),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
