@@ -104,10 +104,9 @@ packages:
   better_player_enhanced:
     dependency: "direct main"
     description:
-      name: better_player_enhanced
-      sha256: "0b5ca4a639094bf13ea78fb2f9df22fbfc2610eb2390fbd0c7bc06e11859a923"
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/betterplayer"
+      relative: true
+    source: path
     version: "0.0.4"
   bloc:
     dependency: "direct main"
