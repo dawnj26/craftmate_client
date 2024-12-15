@@ -17,7 +17,7 @@ class ForkLink extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: RichText(
         text: TextSpan(
-          text: 'Forked from ',
+          text: 'Templated from ',
           style: DefaultTextStyle.of(context).style,
           children: [
             TextSpan(
