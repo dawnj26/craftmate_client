@@ -153,8 +153,6 @@ class ConfigRepository {
         return "Internal Server Error";
       case DioExceptionType.connectionError:
         return "Connection Error";
-      default:
-        return "Unknown Error";
     }
     return "Unknown Error";
   }
