@@ -32,7 +32,7 @@ dependencies:
   app_links: ^6.3.2
   authentication_repository:
     path: packages/authentication_repository
-  better_player: ^0.0.84
+  better_player_enhanced: ^0.0.4
   bloc: ^8.1.4
   bloc_concurrency: ^0.2.5
   carousel_slider: ^5.0.0
