@@ -285,7 +285,7 @@ class _ProfilePicture extends StatelessWidget {
               Container(
                 height: profileSize * 2,
                 width: profileSize * 2,
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
                 child: Icon(
                   Icons.camera_alt_outlined,
                   color: theme.colorScheme.onPrimary,
