@@ -408,7 +408,7 @@ final class ProjectApi {
 
       await _notificationRepository.saveNotification(
         ownerId,
-        '${user.name} forked your project.',
+        '${user.name} used your project as a template.',
         projectTitle,
         {
           'type': 'project',
