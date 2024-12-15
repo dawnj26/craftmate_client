@@ -3,6 +3,7 @@ import 'package:craftmate_client/report/bloc/report/report_bloc.dart';
 import 'package:craftmate_client/report/views/report_review/report_review_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:report_repository/report_repository.dart';
 
@@ -30,26 +31,95 @@ class ReportsScreen extends StatelessWidget {
             return const EmptyMessage(emptyMessage: 'No reports found');
           }
 
-          return ListView.builder(
-            itemCount: state.reports.length,
-            itemBuilder: (context, index) {
-              final query = state.reports[index];
+          final reports = state.filter.filterReports(state.reports);
 
-              return InkWell(
-                onTap: () async {
-                  await Navigator.push(
-                    context,
-                    ReportReviewPage.route(query.id),
-                  );
-                  if (!context.mounted) return;
-                  context.read<ReportBloc>().add(const ReportEvent.started());
-                },
-                child: ReportTile(query: query),
-              );
-            },
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: FilterChip(
+                      label: Row(
+                        children: [
+                          Text(state.filter.value),
+                          const Gap(4.0),
+                          const Icon(
+                            Icons.arrow_drop_down,
+                            size: 16,
+                          ),
+                        ],
+                      ),
+                      selected: true,
+                      onSelected: (_) =>
+                          _showFilterOptions(context, state.filter),
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: reports.length,
+                  itemBuilder: (context, index) {
+                    final query = reports[index];
+
+                    return InkWell(
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          ReportReviewPage.route(query.id),
+                        );
+                        if (!context.mounted) return;
+                        context
+                            .read<ReportBloc>()
+                            .add(const ReportEvent.started());
+                      },
+                      child: ReportTile(query: query),
+                    );
+                  },
+                ),
+              ),
+            ],
           );
         },
       ),
+    );
+  }
+
+  void _showFilterOptions(
+    BuildContext context,
+    ReportFilter selected,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      builder: (c) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                'Filter by',
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+            ),
+            ...ReportFilter.values.map(
+              (filter) => ListTile(
+                selected: filter == selected,
+                title: Text(filter.value),
+                onTap: () {
+                  context
+                      .read<ReportBloc>()
+                      .add(ReportEvent.filterChanged(filter));
+                  Navigator.pop(context);
+                },
+                trailing:
+                    filter == selected ? const Icon(Icons.check_rounded) : null,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -62,6 +132,7 @@ class ReportTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
@@ -69,9 +140,13 @@ class ReportTile extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Icon(Icons.report),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Icon(
+                  query.report.isReviewed
+                      ? Icons.check_circle_rounded
+                      : Icons.error_rounded,
+                ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +159,7 @@ class ReportTile extends StatelessWidget {
                       ),
                       if (query.reported.createdAt != null)
                         Text(
-                          ' • ${_formatDate(query.reported.createdAt!)}',
+                          ' • ${_formatDate(query.report.createdAt!)}',
                           style: theme.textTheme.labelSmall,
                         ),
                     ],
