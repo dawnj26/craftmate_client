@@ -21,9 +21,33 @@ class ReportModalBloc extends Bloc<ReportModalEvent, ReportModalState> {
       emit(state.copyWith(description: event.description));
     });
     on<_Submitted>(_onSubmitted);
+    on<_PhotoAdded>(_onPhotoAdded);
+    on<_PhotoRemoved>(_onPhotoRemoved);
   }
 
   final ReportRepository _reportRepository;
+
+  void _onPhotoAdded(_PhotoAdded event, Emitter<ReportModalState> emit) {
+    emit(
+      Initial(
+        selectedReason: state.selectedReason,
+        description: state.description,
+        imagesPath: [...state.imagesPath, ...event.imagesPath],
+      ),
+    );
+  }
+
+  void _onPhotoRemoved(_PhotoRemoved event, Emitter<ReportModalState> emit) {
+    final newImages = [...state.imagesPath]..removeAt(event.index);
+
+    emit(
+      Initial(
+        selectedReason: state.selectedReason,
+        description: state.description,
+        imagesPath: newImages,
+      ),
+    );
+  }
 
   Future<void> _onSubmitted(
     _Submitted event,
@@ -33,6 +57,7 @@ class ReportModalBloc extends Bloc<ReportModalEvent, ReportModalState> {
       ReportModalState.loading(
         selectedReason: state.selectedReason,
         description: state.description,
+        imagesPath: state.imagesPath,
       ),
     );
     try {
@@ -44,11 +69,13 @@ class ReportModalBloc extends Bloc<ReportModalEvent, ReportModalState> {
           reportedId: event.reportedId,
           createdAt: DateTime.now(),
         ),
+        state.imagesPath,
       );
       emit(
         ReportModalState.success(
           selectedReason: state.selectedReason,
           description: state.description,
+          imagesPath: state.imagesPath,
         ),
       );
     } on ReportException catch (e) {

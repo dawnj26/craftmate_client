@@ -380,9 +380,187 @@ _$$SubmittedImplCopyWith<_$SubmittedImpl> get copyWith => throw _privateConstruc
 }
 
 /// @nodoc
+abstract class _$$PhotoAddedImplCopyWith<$Res>  {
+  factory _$$PhotoAddedImplCopyWith(_$PhotoAddedImpl value, $Res Function(_$PhotoAddedImpl) then) = __$$PhotoAddedImplCopyWithImpl<$Res>;
+@useResult
+$Res call({
+ List<String> imagesPath
+});
+
+
+
+}
+
+/// @nodoc
+class __$$PhotoAddedImplCopyWithImpl<$Res> extends _$ReportModalEventCopyWithImpl<$Res, _$PhotoAddedImpl> implements _$$PhotoAddedImplCopyWith<$Res> {
+  __$$PhotoAddedImplCopyWithImpl(_$PhotoAddedImpl _value, $Res Function(_$PhotoAddedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ReportModalEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? imagesPath = null,}) {
+  return _then(_$PhotoAddedImpl(
+null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$PhotoAddedImpl  implements _PhotoAdded {
+  const _$PhotoAddedImpl(final  List<String> imagesPath): _imagesPath = imagesPath;
+
+  
+
+ final  List<String> _imagesPath;
+@override List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
+
+@override
+String toString() {
+  return 'ReportModalEvent.photoAdded(imagesPath: $imagesPath)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$PhotoAddedImpl&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_imagesPath));
+
+/// Create a copy of ReportModalEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$PhotoAddedImplCopyWith<_$PhotoAddedImpl> get copyWith => __$$PhotoAddedImplCopyWithImpl<_$PhotoAddedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _PhotoAdded implements ReportModalEvent {
+  const factory _PhotoAdded(final  List<String> imagesPath) = _$PhotoAddedImpl;
+  
+
+  
+
+ List<String> get imagesPath;
+/// Create a copy of ReportModalEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+_$$PhotoAddedImplCopyWith<_$PhotoAddedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
+abstract class _$$PhotoRemovedImplCopyWith<$Res>  {
+  factory _$$PhotoRemovedImplCopyWith(_$PhotoRemovedImpl value, $Res Function(_$PhotoRemovedImpl) then) = __$$PhotoRemovedImplCopyWithImpl<$Res>;
+@useResult
+$Res call({
+ int index
+});
+
+
+
+}
+
+/// @nodoc
+class __$$PhotoRemovedImplCopyWithImpl<$Res> extends _$ReportModalEventCopyWithImpl<$Res, _$PhotoRemovedImpl> implements _$$PhotoRemovedImplCopyWith<$Res> {
+  __$$PhotoRemovedImplCopyWithImpl(_$PhotoRemovedImpl _value, $Res Function(_$PhotoRemovedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of ReportModalEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? index = null,}) {
+  return _then(_$PhotoRemovedImpl(
+null == index ? _value.index : index // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$PhotoRemovedImpl  implements _PhotoRemoved {
+  const _$PhotoRemovedImpl(this.index);
+
+  
+
+@override final  int index;
+
+@override
+String toString() {
+  return 'ReportModalEvent.photoRemoved(index: $index)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$PhotoRemovedImpl&&(identical(other.index, index) || other.index == index));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,index);
+
+/// Create a copy of ReportModalEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$PhotoRemovedImplCopyWith<_$PhotoRemovedImpl> get copyWith => __$$PhotoRemovedImplCopyWithImpl<_$PhotoRemovedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _PhotoRemoved implements ReportModalEvent {
+  const factory _PhotoRemoved(final  int index) = _$PhotoRemovedImpl;
+  
+
+  
+
+ int get index;
+/// Create a copy of ReportModalEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+_$$PhotoRemovedImplCopyWith<_$PhotoRemovedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
 mixin _$ReportModalState {
 
- ReportReason? get selectedReason => throw _privateConstructorUsedError; String get description => throw _privateConstructorUsedError;
+ ReportReason? get selectedReason => throw _privateConstructorUsedError; String get description => throw _privateConstructorUsedError; List<String> get imagesPath => throw _privateConstructorUsedError;
 
 
 
@@ -402,7 +580,7 @@ abstract class $ReportModalStateCopyWith<$Res>  {
   factory $ReportModalStateCopyWith(ReportModalState value, $Res Function(ReportModalState) then) = _$ReportModalStateCopyWithImpl<$Res, ReportModalState>;
 @useResult
 $Res call({
- ReportReason? selectedReason, String description
+ ReportReason? selectedReason, String description, List<String> imagesPath
 });
 
 
@@ -420,11 +598,12 @@ class _$ReportModalStateCopyWithImpl<$Res,$Val extends ReportModalState> impleme
 
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? selectedReason = freezed,Object? description = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? selectedReason = freezed,Object? description = null,Object? imagesPath = null,}) {
   return _then(_value.copyWith(
 selectedReason: freezed == selectedReason ? _value.selectedReason : selectedReason // ignore: cast_nullable_to_non_nullable
 as ReportReason?,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
-as String,
+as String,imagesPath: null == imagesPath ? _value.imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
   )as $Val);
 }
 
@@ -436,7 +615,7 @@ abstract class _$$ReportStateImplCopyWith<$Res> implements $ReportModalStateCopy
   factory _$$ReportStateImplCopyWith(_$ReportStateImpl value, $Res Function(_$ReportStateImpl) then) = __$$ReportStateImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- ReportReason? selectedReason, String description
+ ReportReason? selectedReason, String description, List<String> imagesPath
 });
 
 
@@ -451,11 +630,12 @@ class __$$ReportStateImplCopyWithImpl<$Res> extends _$ReportModalStateCopyWithIm
 
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? selectedReason = freezed,Object? description = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? selectedReason = freezed,Object? description = null,Object? imagesPath = null,}) {
   return _then(_$ReportStateImpl(
 selectedReason: freezed == selectedReason ? _value.selectedReason : selectedReason // ignore: cast_nullable_to_non_nullable
 as ReportReason?,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
-as String,
+as String,imagesPath: null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -466,27 +646,34 @@ as String,
 
 
 class _$ReportStateImpl  implements _ReportState {
-  const _$ReportStateImpl({this.selectedReason, this.description = ''});
+  const _$ReportStateImpl({this.selectedReason, this.description = '', final  List<String> imagesPath = const []}): _imagesPath = imagesPath;
 
   
 
 @override final  ReportReason? selectedReason;
 @override@JsonKey() final  String description;
+ final  List<String> _imagesPath;
+@override@JsonKey() List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
 
 @override
 String toString() {
-  return 'ReportModalState(selectedReason: $selectedReason, description: $description)';
+  return 'ReportModalState(selectedReason: $selectedReason, description: $description, imagesPath: $imagesPath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ReportStateImpl&&(identical(other.selectedReason, selectedReason) || other.selectedReason == selectedReason)&&(identical(other.description, description) || other.description == description));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ReportStateImpl&&(identical(other.selectedReason, selectedReason) || other.selectedReason == selectedReason)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedReason,description);
+int get hashCode => Object.hash(runtimeType,selectedReason,description,const DeepCollectionEquality().hash(_imagesPath));
 
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
@@ -506,12 +693,12 @@ _$$ReportStateImplCopyWith<_$ReportStateImpl> get copyWith => __$$ReportStateImp
 
 
 abstract class _ReportState implements ReportModalState {
-  const factory _ReportState({final  ReportReason? selectedReason, final  String description}) = _$ReportStateImpl;
+  const factory _ReportState({final  ReportReason? selectedReason, final  String description, final  List<String> imagesPath}) = _$ReportStateImpl;
   
 
   
 
-@override ReportReason? get selectedReason;@override String get description;
+@override ReportReason? get selectedReason;@override String get description;@override List<String> get imagesPath;
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -524,7 +711,7 @@ abstract class _$$InitialImplCopyWith<$Res> implements $ReportModalStateCopyWith
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- ReportReason? selectedReason, String description
+ ReportReason? selectedReason, String description, List<String> imagesPath
 });
 
 
@@ -539,11 +726,12 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$ReportModalStateCopyWithImpl<$
 
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? selectedReason = freezed,Object? description = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? selectedReason = freezed,Object? description = null,Object? imagesPath = null,}) {
   return _then(_$InitialImpl(
 selectedReason: freezed == selectedReason ? _value.selectedReason : selectedReason // ignore: cast_nullable_to_non_nullable
 as ReportReason?,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
-as String,
+as String,imagesPath: null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -553,28 +741,35 @@ as String,
 /// @nodoc
 
 
-class _$InitialImpl  implements _Initial {
-  const _$InitialImpl({this.selectedReason, this.description = ''});
+class _$InitialImpl  implements Initial {
+  const _$InitialImpl({this.selectedReason, this.description = '', final  List<String> imagesPath = const []}): _imagesPath = imagesPath;
 
   
 
 @override final  ReportReason? selectedReason;
 @override@JsonKey() final  String description;
+ final  List<String> _imagesPath;
+@override@JsonKey() List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
 
 @override
 String toString() {
-  return 'ReportModalState.initial(selectedReason: $selectedReason, description: $description)';
+  return 'ReportModalState.initial(selectedReason: $selectedReason, description: $description, imagesPath: $imagesPath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&(identical(other.selectedReason, selectedReason) || other.selectedReason == selectedReason)&&(identical(other.description, description) || other.description == description));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&(identical(other.selectedReason, selectedReason) || other.selectedReason == selectedReason)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedReason,description);
+int get hashCode => Object.hash(runtimeType,selectedReason,description,const DeepCollectionEquality().hash(_imagesPath));
 
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
@@ -593,13 +788,13 @@ _$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImp
 }
 
 
-abstract class _Initial implements ReportModalState {
-  const factory _Initial({final  ReportReason? selectedReason, final  String description}) = _$InitialImpl;
+abstract class Initial implements ReportModalState {
+  const factory Initial({final  ReportReason? selectedReason, final  String description, final  List<String> imagesPath}) = _$InitialImpl;
   
 
   
 
-@override ReportReason? get selectedReason;@override String get description;
+@override ReportReason? get selectedReason;@override String get description;@override List<String> get imagesPath;
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -612,7 +807,7 @@ abstract class _$$LoadingImplCopyWith<$Res> implements $ReportModalStateCopyWith
   factory _$$LoadingImplCopyWith(_$LoadingImpl value, $Res Function(_$LoadingImpl) then) = __$$LoadingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- ReportReason? selectedReason, String description
+ ReportReason? selectedReason, String description, List<String> imagesPath
 });
 
 
@@ -627,11 +822,12 @@ class __$$LoadingImplCopyWithImpl<$Res> extends _$ReportModalStateCopyWithImpl<$
 
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? selectedReason = freezed,Object? description = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? selectedReason = freezed,Object? description = null,Object? imagesPath = null,}) {
   return _then(_$LoadingImpl(
 selectedReason: freezed == selectedReason ? _value.selectedReason : selectedReason // ignore: cast_nullable_to_non_nullable
 as ReportReason?,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
-as String,
+as String,imagesPath: null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -642,27 +838,34 @@ as String,
 
 
 class _$LoadingImpl  implements Loading {
-  const _$LoadingImpl({this.selectedReason, this.description = ''});
+  const _$LoadingImpl({this.selectedReason, this.description = '', final  List<String> imagesPath = const []}): _imagesPath = imagesPath;
 
   
 
 @override final  ReportReason? selectedReason;
 @override@JsonKey() final  String description;
+ final  List<String> _imagesPath;
+@override@JsonKey() List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
 
 @override
 String toString() {
-  return 'ReportModalState.loading(selectedReason: $selectedReason, description: $description)';
+  return 'ReportModalState.loading(selectedReason: $selectedReason, description: $description, imagesPath: $imagesPath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&(identical(other.selectedReason, selectedReason) || other.selectedReason == selectedReason)&&(identical(other.description, description) || other.description == description));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&(identical(other.selectedReason, selectedReason) || other.selectedReason == selectedReason)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedReason,description);
+int get hashCode => Object.hash(runtimeType,selectedReason,description,const DeepCollectionEquality().hash(_imagesPath));
 
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
@@ -682,12 +885,12 @@ _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => __$$LoadingImplCopyWithImp
 
 
 abstract class Loading implements ReportModalState {
-  const factory Loading({final  ReportReason? selectedReason, final  String description}) = _$LoadingImpl;
+  const factory Loading({final  ReportReason? selectedReason, final  String description, final  List<String> imagesPath}) = _$LoadingImpl;
   
 
   
 
-@override ReportReason? get selectedReason;@override String get description;
+@override ReportReason? get selectedReason;@override String get description;@override List<String> get imagesPath;
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -700,7 +903,7 @@ abstract class _$$SuccessImplCopyWith<$Res> implements $ReportModalStateCopyWith
   factory _$$SuccessImplCopyWith(_$SuccessImpl value, $Res Function(_$SuccessImpl) then) = __$$SuccessImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- ReportReason? selectedReason, String description
+ ReportReason? selectedReason, String description, List<String> imagesPath
 });
 
 
@@ -715,11 +918,12 @@ class __$$SuccessImplCopyWithImpl<$Res> extends _$ReportModalStateCopyWithImpl<$
 
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? selectedReason = freezed,Object? description = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? selectedReason = freezed,Object? description = null,Object? imagesPath = null,}) {
   return _then(_$SuccessImpl(
 selectedReason: freezed == selectedReason ? _value.selectedReason : selectedReason // ignore: cast_nullable_to_non_nullable
 as ReportReason?,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
-as String,
+as String,imagesPath: null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -730,27 +934,34 @@ as String,
 
 
 class _$SuccessImpl  implements Success {
-  const _$SuccessImpl({this.selectedReason, this.description = ''});
+  const _$SuccessImpl({this.selectedReason, this.description = '', final  List<String> imagesPath = const []}): _imagesPath = imagesPath;
 
   
 
 @override final  ReportReason? selectedReason;
 @override@JsonKey() final  String description;
+ final  List<String> _imagesPath;
+@override@JsonKey() List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
 
 @override
 String toString() {
-  return 'ReportModalState.success(selectedReason: $selectedReason, description: $description)';
+  return 'ReportModalState.success(selectedReason: $selectedReason, description: $description, imagesPath: $imagesPath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SuccessImpl&&(identical(other.selectedReason, selectedReason) || other.selectedReason == selectedReason)&&(identical(other.description, description) || other.description == description));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SuccessImpl&&(identical(other.selectedReason, selectedReason) || other.selectedReason == selectedReason)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedReason,description);
+int get hashCode => Object.hash(runtimeType,selectedReason,description,const DeepCollectionEquality().hash(_imagesPath));
 
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
@@ -770,12 +981,12 @@ _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith => __$$SuccessImplCopyWithImp
 
 
 abstract class Success implements ReportModalState {
-  const factory Success({final  ReportReason? selectedReason, final  String description}) = _$SuccessImpl;
+  const factory Success({final  ReportReason? selectedReason, final  String description, final  List<String> imagesPath}) = _$SuccessImpl;
   
 
   
 
-@override ReportReason? get selectedReason;@override String get description;
+@override ReportReason? get selectedReason;@override String get description;@override List<String> get imagesPath;
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -788,7 +999,7 @@ abstract class _$$FailureImplCopyWith<$Res> implements $ReportModalStateCopyWith
   factory _$$FailureImplCopyWith(_$FailureImpl value, $Res Function(_$FailureImpl) then) = __$$FailureImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- ReportReason? selectedReason, String description, String message
+ ReportReason? selectedReason, String description, List<String> imagesPath, String message
 });
 
 
@@ -803,11 +1014,12 @@ class __$$FailureImplCopyWithImpl<$Res> extends _$ReportModalStateCopyWithImpl<$
 
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? selectedReason = freezed,Object? description = null,Object? message = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? selectedReason = freezed,Object? description = null,Object? imagesPath = null,Object? message = null,}) {
   return _then(_$FailureImpl(
 selectedReason: freezed == selectedReason ? _value.selectedReason : selectedReason // ignore: cast_nullable_to_non_nullable
 as ReportReason?,description: null == description ? _value.description : description // ignore: cast_nullable_to_non_nullable
-as String,message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
+as String,imagesPath: null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -819,28 +1031,35 @@ as String,
 
 
 class _$FailureImpl  implements Failure {
-  const _$FailureImpl({this.selectedReason, this.description = '', required this.message});
+  const _$FailureImpl({this.selectedReason, this.description = '', final  List<String> imagesPath = const [], required this.message}): _imagesPath = imagesPath;
 
   
 
 @override final  ReportReason? selectedReason;
 @override@JsonKey() final  String description;
+ final  List<String> _imagesPath;
+@override@JsonKey() List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
 @override final  String message;
 
 @override
 String toString() {
-  return 'ReportModalState.failure(selectedReason: $selectedReason, description: $description, message: $message)';
+  return 'ReportModalState.failure(selectedReason: $selectedReason, description: $description, imagesPath: $imagesPath, message: $message)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$FailureImpl&&(identical(other.selectedReason, selectedReason) || other.selectedReason == selectedReason)&&(identical(other.description, description) || other.description == description)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$FailureImpl&&(identical(other.selectedReason, selectedReason) || other.selectedReason == selectedReason)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedReason,description,message);
+int get hashCode => Object.hash(runtimeType,selectedReason,description,const DeepCollectionEquality().hash(_imagesPath),message);
 
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
@@ -860,12 +1079,12 @@ _$$FailureImplCopyWith<_$FailureImpl> get copyWith => __$$FailureImplCopyWithImp
 
 
 abstract class Failure implements ReportModalState {
-  const factory Failure({final  ReportReason? selectedReason, final  String description, required final  String message}) = _$FailureImpl;
+  const factory Failure({final  ReportReason? selectedReason, final  String description, final  List<String> imagesPath, required final  String message}) = _$FailureImpl;
   
 
   
 
-@override ReportReason? get selectedReason;@override String get description; String get message;
+@override ReportReason? get selectedReason;@override String get description;@override List<String> get imagesPath; String get message;
 /// Create a copy of ReportModalState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
