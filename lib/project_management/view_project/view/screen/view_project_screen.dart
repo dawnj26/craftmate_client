@@ -84,9 +84,7 @@ class ViewProjectScreen extends StatelessWidget {
                   return;
                 }
 
-                if (state.project.materials == null ||
-                    state.project.materials!.isEmpty ||
-                    ownedByCurrentUser) {
+                if (ownedByCurrentUser) {
                   context
                       .read<ViewProjectBloc>()
                       .add(ViewProjectStarted(currentUser));
