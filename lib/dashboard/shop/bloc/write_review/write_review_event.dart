@@ -10,4 +10,7 @@ class WriteReviewEvent with _$WriteReviewEvent {
   const factory WriteReviewEvent.ratingChanged(int rating) = _RatingChanged;
   const factory WriteReviewEvent.ratingSubmitted(int userId) = _RatingSubmitted;
   const factory WriteReviewEvent.reviewChanged(String review) = _ReviewChanged;
+  const factory WriteReviewEvent.photoAdded(List<String> imagesPath) =
+      _PhotoAdded;
+  const factory WriteReviewEvent.photoRemoved(int index) = _PhotoRemoved;
 }

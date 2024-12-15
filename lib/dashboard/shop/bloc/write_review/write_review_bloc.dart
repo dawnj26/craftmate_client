@@ -18,10 +18,38 @@ class WriteReviewBloc extends Bloc<WriteReviewEvent, WriteReviewState> {
     on<_RatingChanged>(_onRatingChanged);
     on<_ReviewChanged>(_onReviewChanged);
     on<_RatingSubmitted>(_onRatingSubmitted);
+    on<_PhotoAdded>(_onPhotoAdded);
+    on<_PhotoRemoved>(_onPhotoRemoved);
   }
 
   final ShopRepository _shopRepository;
   final UserRepository _userRepository;
+
+  void _onPhotoAdded(_PhotoAdded event, Emitter<WriteReviewState> emit) {
+    emit(
+      Loaded(
+        seller: state.seller,
+        query: state.query,
+        rating: state.rating,
+        review: state.review,
+        imagesPath: [...state.imagesPath, ...event.imagesPath],
+      ),
+    );
+  }
+
+  void _onPhotoRemoved(_PhotoRemoved event, Emitter<WriteReviewState> emit) {
+    final newImages = [...state.imagesPath]..removeAt(event.index);
+
+    emit(
+      Loaded(
+        seller: state.seller,
+        query: state.query,
+        rating: state.rating,
+        review: state.review,
+        imagesPath: newImages,
+      ),
+    );
+  }
 
   Future<void> _onRatingSubmitted(
     _RatingSubmitted event,
@@ -34,6 +62,7 @@ class WriteReviewBloc extends Bloc<WriteReviewEvent, WriteReviewState> {
           query: state.query,
           rating: state.rating,
           review: state.review,
+          imagesPath: state.imagesPath,
         ),
       );
     }
@@ -44,6 +73,7 @@ class WriteReviewBloc extends Bloc<WriteReviewEvent, WriteReviewState> {
         query: state.query,
         rating: state.rating,
         review: state.review,
+        imagesPath: state.imagesPath,
       ),
     );
 
@@ -57,6 +87,7 @@ class WriteReviewBloc extends Bloc<WriteReviewEvent, WriteReviewState> {
           rating: state.rating,
           createdAt: DateTime.now(),
         ),
+        state.imagesPath,
       );
 
       emit(
@@ -65,6 +96,7 @@ class WriteReviewBloc extends Bloc<WriteReviewEvent, WriteReviewState> {
           query: state.query,
           rating: state.rating,
           review: state.review,
+          imagesPath: state.imagesPath,
         ),
       );
     } catch (e) {
@@ -75,6 +107,7 @@ class WriteReviewBloc extends Bloc<WriteReviewEvent, WriteReviewState> {
           query: state.query,
           rating: state.rating,
           review: state.review,
+          imagesPath: state.imagesPath,
         ),
       );
     }
@@ -88,6 +121,7 @@ class WriteReviewBloc extends Bloc<WriteReviewEvent, WriteReviewState> {
           query: state.query,
           rating: state.rating,
           review: event.review,
+          imagesPath: state.imagesPath,
         ),
       );
     }
@@ -98,6 +132,7 @@ class WriteReviewBloc extends Bloc<WriteReviewEvent, WriteReviewState> {
         query: state.query,
         rating: state.rating,
         review: event.review,
+        imagesPath: state.imagesPath,
       ),
     );
   }
@@ -107,7 +142,13 @@ class WriteReviewBloc extends Bloc<WriteReviewEvent, WriteReviewState> {
     Emitter<WriteReviewState> emit,
   ) {
     emit(
-      Loaded(seller: state.seller, query: state.query, rating: event.rating),
+      Loaded(
+        seller: state.seller,
+        query: state.query,
+        rating: event.rating,
+        review: state.review,
+        imagesPath: state.imagesPath,
+      ),
     );
   }
 

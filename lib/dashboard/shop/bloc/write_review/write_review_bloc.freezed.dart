@@ -399,9 +399,187 @@ _$$ReviewChangedImplCopyWith<_$ReviewChangedImpl> get copyWith => throw _private
 }
 
 /// @nodoc
+abstract class _$$PhotoAddedImplCopyWith<$Res>  {
+  factory _$$PhotoAddedImplCopyWith(_$PhotoAddedImpl value, $Res Function(_$PhotoAddedImpl) then) = __$$PhotoAddedImplCopyWithImpl<$Res>;
+@useResult
+$Res call({
+ List<String> imagesPath
+});
+
+
+
+}
+
+/// @nodoc
+class __$$PhotoAddedImplCopyWithImpl<$Res> extends _$WriteReviewEventCopyWithImpl<$Res, _$PhotoAddedImpl> implements _$$PhotoAddedImplCopyWith<$Res> {
+  __$$PhotoAddedImplCopyWithImpl(_$PhotoAddedImpl _value, $Res Function(_$PhotoAddedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of WriteReviewEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? imagesPath = null,}) {
+  return _then(_$PhotoAddedImpl(
+null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$PhotoAddedImpl  implements _PhotoAdded {
+  const _$PhotoAddedImpl(final  List<String> imagesPath): _imagesPath = imagesPath;
+
+  
+
+ final  List<String> _imagesPath;
+@override List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
+
+@override
+String toString() {
+  return 'WriteReviewEvent.photoAdded(imagesPath: $imagesPath)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$PhotoAddedImpl&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_imagesPath));
+
+/// Create a copy of WriteReviewEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$PhotoAddedImplCopyWith<_$PhotoAddedImpl> get copyWith => __$$PhotoAddedImplCopyWithImpl<_$PhotoAddedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _PhotoAdded implements WriteReviewEvent {
+  const factory _PhotoAdded(final  List<String> imagesPath) = _$PhotoAddedImpl;
+  
+
+  
+
+ List<String> get imagesPath;
+/// Create a copy of WriteReviewEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+_$$PhotoAddedImplCopyWith<_$PhotoAddedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
+abstract class _$$PhotoRemovedImplCopyWith<$Res>  {
+  factory _$$PhotoRemovedImplCopyWith(_$PhotoRemovedImpl value, $Res Function(_$PhotoRemovedImpl) then) = __$$PhotoRemovedImplCopyWithImpl<$Res>;
+@useResult
+$Res call({
+ int index
+});
+
+
+
+}
+
+/// @nodoc
+class __$$PhotoRemovedImplCopyWithImpl<$Res> extends _$WriteReviewEventCopyWithImpl<$Res, _$PhotoRemovedImpl> implements _$$PhotoRemovedImplCopyWith<$Res> {
+  __$$PhotoRemovedImplCopyWithImpl(_$PhotoRemovedImpl _value, $Res Function(_$PhotoRemovedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of WriteReviewEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? index = null,}) {
+  return _then(_$PhotoRemovedImpl(
+null == index ? _value.index : index // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _$PhotoRemovedImpl  implements _PhotoRemoved {
+  const _$PhotoRemovedImpl(this.index);
+
+  
+
+@override final  int index;
+
+@override
+String toString() {
+  return 'WriteReviewEvent.photoRemoved(index: $index)';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$PhotoRemovedImpl&&(identical(other.index, index) || other.index == index));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,index);
+
+/// Create a copy of WriteReviewEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+@pragma('vm:prefer-inline')
+_$$PhotoRemovedImplCopyWith<_$PhotoRemovedImpl> get copyWith => __$$PhotoRemovedImplCopyWithImpl<_$PhotoRemovedImpl>(this, _$identity);
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _PhotoRemoved implements WriteReviewEvent {
+  const factory _PhotoRemoved(final  int index) = _$PhotoRemovedImpl;
+  
+
+  
+
+ int get index;
+/// Create a copy of WriteReviewEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+_$$PhotoRemovedImplCopyWith<_$PhotoRemovedImpl> get copyWith => throw _privateConstructorUsedError;
+
+}
+
+/// @nodoc
 mixin _$WriteReviewState {
 
- User get seller => throw _privateConstructorUsedError; QueryProduct get query => throw _privateConstructorUsedError; int get rating => throw _privateConstructorUsedError; String get review => throw _privateConstructorUsedError;
+ User get seller => throw _privateConstructorUsedError; QueryProduct get query => throw _privateConstructorUsedError; int get rating => throw _privateConstructorUsedError; String get review => throw _privateConstructorUsedError; List<String> get imagesPath => throw _privateConstructorUsedError;
 
 
 
@@ -421,7 +599,7 @@ abstract class $WriteReviewStateCopyWith<$Res>  {
   factory $WriteReviewStateCopyWith(WriteReviewState value, $Res Function(WriteReviewState) then) = _$WriteReviewStateCopyWithImpl<$Res, WriteReviewState>;
 @useResult
 $Res call({
- User seller, QueryProduct query, int rating, String review
+ User seller, QueryProduct query, int rating, String review, List<String> imagesPath
 });
 
 
@@ -439,13 +617,14 @@ class _$WriteReviewStateCopyWithImpl<$Res,$Val extends WriteReviewState> impleme
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,Object? imagesPath = null,}) {
   return _then(_value.copyWith(
 seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
 as User,query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
 as QueryProduct,rating: null == rating ? _value.rating : rating // ignore: cast_nullable_to_non_nullable
 as int,review: null == review ? _value.review : review // ignore: cast_nullable_to_non_nullable
-as String,
+as String,imagesPath: null == imagesPath ? _value.imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
   )as $Val);
 }
 /// Create a copy of WriteReviewState
@@ -475,7 +654,7 @@ abstract class _$$InitialImplCopyWith<$Res> implements $WriteReviewStateCopyWith
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- User seller, QueryProduct query, int rating, String review
+ User seller, QueryProduct query, int rating, String review, List<String> imagesPath
 });
 
 
@@ -490,13 +669,14 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$WriteReviewStateCopyWithImpl<$
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,Object? imagesPath = null,}) {
   return _then(_$InitialImpl(
 seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
 as User,query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
 as QueryProduct,rating: null == rating ? _value.rating : rating // ignore: cast_nullable_to_non_nullable
 as int,review: null == review ? _value.review : review // ignore: cast_nullable_to_non_nullable
-as String,
+as String,imagesPath: null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -507,7 +687,7 @@ as String,
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl({this.seller = const User(), this.query = const QueryProduct(), this.rating = 0, this.review = ''});
+  const _$InitialImpl({this.seller = const User(), this.query = const QueryProduct(), this.rating = 0, this.review = '', final  List<String> imagesPath = const []}): _imagesPath = imagesPath;
 
   
 
@@ -515,21 +695,28 @@ class _$InitialImpl  implements Initial {
 @override@JsonKey() final  QueryProduct query;
 @override@JsonKey() final  int rating;
 @override@JsonKey() final  String review;
+ final  List<String> _imagesPath;
+@override@JsonKey() List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
 
 @override
 String toString() {
-  return 'WriteReviewState.initial(seller: $seller, query: $query, rating: $rating, review: $review)';
+  return 'WriteReviewState.initial(seller: $seller, query: $query, rating: $rating, review: $review, imagesPath: $imagesPath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review)&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,seller,query,rating,review);
+int get hashCode => Object.hash(runtimeType,seller,query,rating,review,const DeepCollectionEquality().hash(_imagesPath));
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
@@ -549,12 +736,12 @@ _$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImp
 
 
 abstract class Initial implements WriteReviewState {
-  const factory Initial({final  User seller, final  QueryProduct query, final  int rating, final  String review}) = _$InitialImpl;
+  const factory Initial({final  User seller, final  QueryProduct query, final  int rating, final  String review, final  List<String> imagesPath}) = _$InitialImpl;
   
 
   
 
-@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;
+@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;@override List<String> get imagesPath;
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -567,7 +754,7 @@ abstract class _$$LoadingImplCopyWith<$Res> implements $WriteReviewStateCopyWith
   factory _$$LoadingImplCopyWith(_$LoadingImpl value, $Res Function(_$LoadingImpl) then) = __$$LoadingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- User seller, QueryProduct query, int rating, String review
+ User seller, QueryProduct query, int rating, String review, List<String> imagesPath
 });
 
 
@@ -582,13 +769,14 @@ class __$$LoadingImplCopyWithImpl<$Res> extends _$WriteReviewStateCopyWithImpl<$
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,Object? imagesPath = null,}) {
   return _then(_$LoadingImpl(
 seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
 as User,query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
 as QueryProduct,rating: null == rating ? _value.rating : rating // ignore: cast_nullable_to_non_nullable
 as int,review: null == review ? _value.review : review // ignore: cast_nullable_to_non_nullable
-as String,
+as String,imagesPath: null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -599,7 +787,7 @@ as String,
 
 
 class _$LoadingImpl  implements Loading {
-  const _$LoadingImpl({this.seller = const User(), this.query = const QueryProduct(), this.rating = 0, this.review = ''});
+  const _$LoadingImpl({this.seller = const User(), this.query = const QueryProduct(), this.rating = 0, this.review = '', final  List<String> imagesPath = const []}): _imagesPath = imagesPath;
 
   
 
@@ -607,21 +795,28 @@ class _$LoadingImpl  implements Loading {
 @override@JsonKey() final  QueryProduct query;
 @override@JsonKey() final  int rating;
 @override@JsonKey() final  String review;
+ final  List<String> _imagesPath;
+@override@JsonKey() List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
 
 @override
 String toString() {
-  return 'WriteReviewState.loading(seller: $seller, query: $query, rating: $rating, review: $review)';
+  return 'WriteReviewState.loading(seller: $seller, query: $query, rating: $rating, review: $review, imagesPath: $imagesPath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review)&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,seller,query,rating,review);
+int get hashCode => Object.hash(runtimeType,seller,query,rating,review,const DeepCollectionEquality().hash(_imagesPath));
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
@@ -641,12 +836,12 @@ _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => __$$LoadingImplCopyWithImp
 
 
 abstract class Loading implements WriteReviewState {
-  const factory Loading({final  User seller, final  QueryProduct query, final  int rating, final  String review}) = _$LoadingImpl;
+  const factory Loading({final  User seller, final  QueryProduct query, final  int rating, final  String review, final  List<String> imagesPath}) = _$LoadingImpl;
   
 
   
 
-@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;
+@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;@override List<String> get imagesPath;
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -659,7 +854,7 @@ abstract class _$$LoadedImplCopyWith<$Res> implements $WriteReviewStateCopyWith<
   factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- User seller, QueryProduct query, int rating, String review
+ User seller, QueryProduct query, int rating, String review, List<String> imagesPath
 });
 
 
@@ -674,13 +869,14 @@ class __$$LoadedImplCopyWithImpl<$Res> extends _$WriteReviewStateCopyWithImpl<$R
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,Object? imagesPath = null,}) {
   return _then(_$LoadedImpl(
 seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
 as User,query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
 as QueryProduct,rating: null == rating ? _value.rating : rating // ignore: cast_nullable_to_non_nullable
 as int,review: null == review ? _value.review : review // ignore: cast_nullable_to_non_nullable
-as String,
+as String,imagesPath: null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -691,7 +887,7 @@ as String,
 
 
 class _$LoadedImpl  implements Loaded {
-  const _$LoadedImpl({required this.seller, required this.query, required this.rating, this.review = ''});
+  const _$LoadedImpl({required this.seller, required this.query, required this.rating, this.review = '', final  List<String> imagesPath = const []}): _imagesPath = imagesPath;
 
   
 
@@ -699,21 +895,28 @@ class _$LoadedImpl  implements Loaded {
 @override final  QueryProduct query;
 @override final  int rating;
 @override@JsonKey() final  String review;
+ final  List<String> _imagesPath;
+@override@JsonKey() List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
 
 @override
 String toString() {
-  return 'WriteReviewState.loaded(seller: $seller, query: $query, rating: $rating, review: $review)';
+  return 'WriteReviewState.loaded(seller: $seller, query: $query, rating: $rating, review: $review, imagesPath: $imagesPath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review)&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,seller,query,rating,review);
+int get hashCode => Object.hash(runtimeType,seller,query,rating,review,const DeepCollectionEquality().hash(_imagesPath));
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
@@ -733,12 +936,12 @@ _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_
 
 
 abstract class Loaded implements WriteReviewState {
-  const factory Loaded({required final  User seller, required final  QueryProduct query, required final  int rating, final  String review}) = _$LoadedImpl;
+  const factory Loaded({required final  User seller, required final  QueryProduct query, required final  int rating, final  String review, final  List<String> imagesPath}) = _$LoadedImpl;
   
 
   
 
-@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;
+@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;@override List<String> get imagesPath;
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -751,7 +954,7 @@ abstract class _$$SubmittingImplCopyWith<$Res> implements $WriteReviewStateCopyW
   factory _$$SubmittingImplCopyWith(_$SubmittingImpl value, $Res Function(_$SubmittingImpl) then) = __$$SubmittingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- User seller, QueryProduct query, int rating, String review
+ User seller, QueryProduct query, int rating, String review, List<String> imagesPath
 });
 
 
@@ -766,13 +969,14 @@ class __$$SubmittingImplCopyWithImpl<$Res> extends _$WriteReviewStateCopyWithImp
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,Object? imagesPath = null,}) {
   return _then(_$SubmittingImpl(
 seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
 as User,query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
 as QueryProduct,rating: null == rating ? _value.rating : rating // ignore: cast_nullable_to_non_nullable
 as int,review: null == review ? _value.review : review // ignore: cast_nullable_to_non_nullable
-as String,
+as String,imagesPath: null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -783,7 +987,7 @@ as String,
 
 
 class _$SubmittingImpl  implements Submitting {
-  const _$SubmittingImpl({required this.seller, required this.query, required this.rating, this.review = ''});
+  const _$SubmittingImpl({required this.seller, required this.query, required this.rating, this.review = '', final  List<String> imagesPath = const []}): _imagesPath = imagesPath;
 
   
 
@@ -791,21 +995,28 @@ class _$SubmittingImpl  implements Submitting {
 @override final  QueryProduct query;
 @override final  int rating;
 @override@JsonKey() final  String review;
+ final  List<String> _imagesPath;
+@override@JsonKey() List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
 
 @override
 String toString() {
-  return 'WriteReviewState.submitting(seller: $seller, query: $query, rating: $rating, review: $review)';
+  return 'WriteReviewState.submitting(seller: $seller, query: $query, rating: $rating, review: $review, imagesPath: $imagesPath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SubmittingImpl&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SubmittingImpl&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review)&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,seller,query,rating,review);
+int get hashCode => Object.hash(runtimeType,seller,query,rating,review,const DeepCollectionEquality().hash(_imagesPath));
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
@@ -825,12 +1036,12 @@ _$$SubmittingImplCopyWith<_$SubmittingImpl> get copyWith => __$$SubmittingImplCo
 
 
 abstract class Submitting implements WriteReviewState {
-  const factory Submitting({required final  User seller, required final  QueryProduct query, required final  int rating, final  String review}) = _$SubmittingImpl;
+  const factory Submitting({required final  User seller, required final  QueryProduct query, required final  int rating, final  String review, final  List<String> imagesPath}) = _$SubmittingImpl;
   
 
   
 
-@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;
+@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;@override List<String> get imagesPath;
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -843,7 +1054,7 @@ abstract class _$$SuccessImplCopyWith<$Res> implements $WriteReviewStateCopyWith
   factory _$$SuccessImplCopyWith(_$SuccessImpl value, $Res Function(_$SuccessImpl) then) = __$$SuccessImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- User seller, QueryProduct query, int rating, String review
+ User seller, QueryProduct query, int rating, String review, List<String> imagesPath
 });
 
 
@@ -858,13 +1069,14 @@ class __$$SuccessImplCopyWithImpl<$Res> extends _$WriteReviewStateCopyWithImpl<$
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,Object? imagesPath = null,}) {
   return _then(_$SuccessImpl(
 seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
 as User,query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
 as QueryProduct,rating: null == rating ? _value.rating : rating // ignore: cast_nullable_to_non_nullable
 as int,review: null == review ? _value.review : review // ignore: cast_nullable_to_non_nullable
-as String,
+as String,imagesPath: null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -875,7 +1087,7 @@ as String,
 
 
 class _$SuccessImpl  implements Success {
-  const _$SuccessImpl({required this.seller, required this.query, required this.rating, this.review = ''});
+  const _$SuccessImpl({required this.seller, required this.query, required this.rating, this.review = '', final  List<String> imagesPath = const []}): _imagesPath = imagesPath;
 
   
 
@@ -883,21 +1095,28 @@ class _$SuccessImpl  implements Success {
 @override final  QueryProduct query;
 @override final  int rating;
 @override@JsonKey() final  String review;
+ final  List<String> _imagesPath;
+@override@JsonKey() List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
 
 @override
 String toString() {
-  return 'WriteReviewState.success(seller: $seller, query: $query, rating: $rating, review: $review)';
+  return 'WriteReviewState.success(seller: $seller, query: $query, rating: $rating, review: $review, imagesPath: $imagesPath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SuccessImpl&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SuccessImpl&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review)&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,seller,query,rating,review);
+int get hashCode => Object.hash(runtimeType,seller,query,rating,review,const DeepCollectionEquality().hash(_imagesPath));
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
@@ -917,12 +1136,12 @@ _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith => __$$SuccessImplCopyWithImp
 
 
 abstract class Success implements WriteReviewState {
-  const factory Success({required final  User seller, required final  QueryProduct query, required final  int rating, final  String review}) = _$SuccessImpl;
+  const factory Success({required final  User seller, required final  QueryProduct query, required final  int rating, final  String review, final  List<String> imagesPath}) = _$SuccessImpl;
   
 
   
 
-@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;
+@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;@override List<String> get imagesPath;
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -935,7 +1154,7 @@ abstract class _$$InvalidImplCopyWith<$Res> implements $WriteReviewStateCopyWith
   factory _$$InvalidImplCopyWith(_$InvalidImpl value, $Res Function(_$InvalidImpl) then) = __$$InvalidImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- User seller, QueryProduct query, int rating, String review
+ User seller, QueryProduct query, int rating, String review, List<String> imagesPath
 });
 
 
@@ -950,13 +1169,14 @@ class __$$InvalidImplCopyWithImpl<$Res> extends _$WriteReviewStateCopyWithImpl<$
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,Object? imagesPath = null,}) {
   return _then(_$InvalidImpl(
 seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
 as User,query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
 as QueryProduct,rating: null == rating ? _value.rating : rating // ignore: cast_nullable_to_non_nullable
 as int,review: null == review ? _value.review : review // ignore: cast_nullable_to_non_nullable
-as String,
+as String,imagesPath: null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -967,7 +1187,7 @@ as String,
 
 
 class _$InvalidImpl  implements Invalid {
-  const _$InvalidImpl({required this.seller, required this.query, required this.rating, this.review = ''});
+  const _$InvalidImpl({required this.seller, required this.query, required this.rating, this.review = '', final  List<String> imagesPath = const []}): _imagesPath = imagesPath;
 
   
 
@@ -975,21 +1195,28 @@ class _$InvalidImpl  implements Invalid {
 @override final  QueryProduct query;
 @override final  int rating;
 @override@JsonKey() final  String review;
+ final  List<String> _imagesPath;
+@override@JsonKey() List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
 
 @override
 String toString() {
-  return 'WriteReviewState.invalid(seller: $seller, query: $query, rating: $rating, review: $review)';
+  return 'WriteReviewState.invalid(seller: $seller, query: $query, rating: $rating, review: $review, imagesPath: $imagesPath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InvalidImpl&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InvalidImpl&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review)&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,seller,query,rating,review);
+int get hashCode => Object.hash(runtimeType,seller,query,rating,review,const DeepCollectionEquality().hash(_imagesPath));
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
@@ -1009,12 +1236,12 @@ _$$InvalidImplCopyWith<_$InvalidImpl> get copyWith => __$$InvalidImplCopyWithImp
 
 
 abstract class Invalid implements WriteReviewState {
-  const factory Invalid({required final  User seller, required final  QueryProduct query, required final  int rating, final  String review}) = _$InvalidImpl;
+  const factory Invalid({required final  User seller, required final  QueryProduct query, required final  int rating, final  String review, final  List<String> imagesPath}) = _$InvalidImpl;
   
 
   
 
-@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;
+@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;@override List<String> get imagesPath;
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1027,7 +1254,7 @@ abstract class _$$ErrorImplCopyWith<$Res> implements $WriteReviewStateCopyWith<$
   factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) = __$$ErrorImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- String message, User seller, QueryProduct query, int rating, String review
+ String message, User seller, QueryProduct query, int rating, String review, List<String> imagesPath
 });
 
 
@@ -1042,14 +1269,15 @@ class __$$ErrorImplCopyWithImpl<$Res> extends _$WriteReviewStateCopyWithImpl<$Re
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? seller = null,Object? query = null,Object? rating = null,Object? review = null,Object? imagesPath = null,}) {
   return _then(_$ErrorImpl(
 message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
 as String,seller: null == seller ? _value.seller : seller // ignore: cast_nullable_to_non_nullable
 as User,query: null == query ? _value.query : query // ignore: cast_nullable_to_non_nullable
 as QueryProduct,rating: null == rating ? _value.rating : rating // ignore: cast_nullable_to_non_nullable
 as int,review: null == review ? _value.review : review // ignore: cast_nullable_to_non_nullable
-as String,
+as String,imagesPath: null == imagesPath ? _value._imagesPath : imagesPath // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -1060,7 +1288,7 @@ as String,
 
 
 class _$ErrorImpl  implements Error {
-  const _$ErrorImpl({required this.message, this.seller = const User(), this.query = const QueryProduct(), this.rating = 0, this.review = ''});
+  const _$ErrorImpl({required this.message, this.seller = const User(), this.query = const QueryProduct(), this.rating = 0, this.review = '', final  List<String> imagesPath = const []}): _imagesPath = imagesPath;
 
   
 
@@ -1069,21 +1297,28 @@ class _$ErrorImpl  implements Error {
 @override@JsonKey() final  QueryProduct query;
 @override@JsonKey() final  int rating;
 @override@JsonKey() final  String review;
+ final  List<String> _imagesPath;
+@override@JsonKey() List<String> get imagesPath {
+  if (_imagesPath is EqualUnmodifiableListView) return _imagesPath;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_imagesPath);
+}
+
 
 @override
 String toString() {
-  return 'WriteReviewState.error(message: $message, seller: $seller, query: $query, rating: $rating, review: $review)';
+  return 'WriteReviewState.error(message: $message, seller: $seller, query: $query, rating: $rating, review: $review, imagesPath: $imagesPath)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&(identical(other.message, message) || other.message == message)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$ErrorImpl&&(identical(other.message, message) || other.message == message)&&(identical(other.seller, seller) || other.seller == seller)&&(identical(other.query, query) || other.query == query)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.review, review) || other.review == review)&&const DeepCollectionEquality().equals(other._imagesPath, _imagesPath));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,message,seller,query,rating,review);
+int get hashCode => Object.hash(runtimeType,message,seller,query,rating,review,const DeepCollectionEquality().hash(_imagesPath));
 
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
@@ -1103,12 +1338,12 @@ _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => __$$ErrorImplCopyWithImpl<_$Er
 
 
 abstract class Error implements WriteReviewState {
-  const factory Error({required final  String message, final  User seller, final  QueryProduct query, final  int rating, final  String review}) = _$ErrorImpl;
+  const factory Error({required final  String message, final  User seller, final  QueryProduct query, final  int rating, final  String review, final  List<String> imagesPath}) = _$ErrorImpl;
   
 
   
 
- String get message;@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;
+ String get message;@override User get seller;@override QueryProduct get query;@override int get rating;@override String get review;@override List<String> get imagesPath;
 /// Create a copy of WriteReviewState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)

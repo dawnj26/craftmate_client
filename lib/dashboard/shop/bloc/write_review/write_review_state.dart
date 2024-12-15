@@ -7,6 +7,7 @@ class WriteReviewState with _$WriteReviewState {
     @Default(QueryProduct()) QueryProduct query,
     @Default(0) int rating,
     @Default('') String review,
+    @Default([]) List<String> imagesPath,
   }) = Initial;
 
   const factory WriteReviewState.loading({
@@ -14,6 +15,7 @@ class WriteReviewState with _$WriteReviewState {
     @Default(QueryProduct()) QueryProduct query,
     @Default(0) int rating,
     @Default('') String review,
+    @Default([]) List<String> imagesPath,
   }) = Loading;
 
   const factory WriteReviewState.loaded({
@@ -21,6 +23,7 @@ class WriteReviewState with _$WriteReviewState {
     required QueryProduct query,
     required int rating,
     @Default('') String review,
+    @Default([]) List<String> imagesPath,
   }) = Loaded;
 
   const factory WriteReviewState.submitting({
@@ -28,6 +31,7 @@ class WriteReviewState with _$WriteReviewState {
     required QueryProduct query,
     required int rating,
     @Default('') String review,
+    @Default([]) List<String> imagesPath,
   }) = Submitting;
 
   const factory WriteReviewState.success({
@@ -35,6 +39,7 @@ class WriteReviewState with _$WriteReviewState {
     required QueryProduct query,
     required int rating,
     @Default('') String review,
+    @Default([]) List<String> imagesPath,
   }) = Success;
 
   const factory WriteReviewState.invalid({
@@ -42,6 +47,7 @@ class WriteReviewState with _$WriteReviewState {
     required QueryProduct query,
     required int rating,
     @Default('') String review,
+    @Default([]) List<String> imagesPath,
   }) = Invalid;
 
   const factory WriteReviewState.error({
@@ -50,5 +56,6 @@ class WriteReviewState with _$WriteReviewState {
     @Default(QueryProduct()) QueryProduct query,
     @Default(0) int rating,
     @Default('') String review,
+    @Default([]) List<String> imagesPath,
   }) = Error;
 }
