@@ -1,4 +1,5 @@
 import 'package:craftmate_client/dashboard/shop/bloc/shop_reviews/shop_reviews_bloc.dart';
+import 'package:craftmate_client/dashboard/shop/views/screens/view_listing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -80,8 +81,11 @@ class ShopReviewsScreen extends StatelessWidget {
               Column(
                 children: state.reviews
                     .map(
-                      (review) => SellerReview(
-                        qReview: review,
+                      (review) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: SellerReview(
+                          qReview: review,
+                        ),
                       ),
                     )
                     .toList(),
@@ -128,42 +132,57 @@ class SellerReview extends StatelessWidget {
         Text(
           qReview.review.review,
         ),
-        // _LikeReviewButton(
-        //   onPressed: () {},
-        //   count: qReview.likes,
-        //   isLiked: qReview.isLiked,
-        // ),
+        if (qReview.review.imagesPath.isNotEmpty) ...[
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 100,
+            child: Builder(
+              builder: (context) {
+                final scrollController = ScrollController();
+
+                return Scrollbar(
+                  controller: scrollController,
+                  child: ListView.separated(
+                    controller: scrollController,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: qReview.review.imagesPath.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 8),
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () => _viewImage(context, index),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            qReview.review.imagesPath[index],
+                            height: 100,
+                            width: 100,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ],
     );
   }
+
+  void _viewImage(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ZoomPhoto(
+          imageUrl: qReview.review.imagesPath[index],
+        );
+      },
+    );
+  }
 }
-
-// class _LikeReviewButton extends StatelessWidget {
-//   const _LikeReviewButton({
-//     required this.count,
-//     required this.isLiked,
-//     this.onPressed,
-//   });
-
-//   final void Function()? onPressed;
-//   final int count;
-//   final bool isLiked;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.end,
-//       children: [
-//         IconButton(
-//           onPressed: onPressed,
-//           icon:
-//               Icon(isLiked ? Icons.thumb_up_rounded : Icons.thumb_up_outlined),
-//         ),
-//         Text('$count'),
-//       ],
-//     );
-//   }
-// }
 
 class Reviewer extends StatelessWidget {
   const Reviewer({super.key, required this.user, required this.date});
