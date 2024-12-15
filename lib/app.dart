@@ -191,12 +191,6 @@ class _AppViewState extends State<AppView> {
           StatusScreen.route('unknown'),
           (route) => false,
         );
-      default:
-        _navigator.pushAndRemoveUntil<void>(
-          StatusScreen.route('nothing is working'),
-          (route) => false,
-        );
-        break;
     }
   }
 }
