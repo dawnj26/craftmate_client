@@ -33,6 +33,7 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
   }
 
   final ProjectRepository _projectRepository;
+
   final int _projectId;
 
   Future<void> _onProjectShared(
@@ -68,8 +69,25 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
     emit(ViewProjectUploading(project: state.project.copyWith()));
 
     try {
-      final project = await _projectRepository.startProject(_projectId);
-      emit(ViewProjectStartSuccess(project: project));
+      final ownedByCurrentUser = event.user.id == state.project.creator.id;
+
+      logger.warning('Owned by current user: $ownedByCurrentUser');
+
+      final projectId = ownedByCurrentUser
+          ? state.project.id
+          : await _projectRepository.forkProject(
+              state.project.id,
+              event.user,
+              state.project.creator.id,
+            );
+
+      final project = await _projectRepository.startProject(projectId);
+      emit(
+        ViewProjectStartSuccess(
+          project: project,
+          ownedByCurrentUser: ownedByCurrentUser,
+        ),
+      );
     } on ProjectException catch (e) {
       emit(
         ViewProjectFailed(

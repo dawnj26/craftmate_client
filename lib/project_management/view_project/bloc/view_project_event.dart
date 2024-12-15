@@ -53,7 +53,15 @@ final class ViewProjectForked extends ViewProjectEvent {
 }
 
 final class ViewProjectStarted extends ViewProjectEvent {
-  const ViewProjectStarted();
+  const ViewProjectStarted(
+    this.user,
+  );
+
+  final User user;
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [user];
 }
 
 final class ViewProjectShared extends ViewProjectEvent {

@@ -77,7 +77,14 @@ final class ViewProjectForkSuccess extends ViewProjectState {
 final class ViewProjectStartSuccess extends ViewProjectState {
   const ViewProjectStartSuccess({
     required super.project,
+    required this.ownedByCurrentUser,
   });
+
+  final bool ownedByCurrentUser;
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [ownedByCurrentUser];
 }
 
 final class ViewProjectShareSuccess extends ViewProjectState {
