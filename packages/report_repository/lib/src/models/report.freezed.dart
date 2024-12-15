@@ -25,6 +25,7 @@ mixin _$Report {
   int get reporterId => throw _privateConstructorUsedError;
   int get reportedId => throw _privateConstructorUsedError;
   bool get isReviewed => throw _privateConstructorUsedError;
+  List<String> get images => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this Report to a JSON map.
@@ -47,6 +48,7 @@ abstract class $ReportCopyWith<$Res> {
       int reporterId,
       int reportedId,
       bool isReviewed,
+      List<String> images,
       DateTime? createdAt});
 }
 
@@ -70,6 +72,7 @@ class _$ReportCopyWithImpl<$Res, $Val extends Report>
     Object? reporterId = null,
     Object? reportedId = null,
     Object? isReviewed = null,
+    Object? images = null,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
@@ -93,6 +96,10 @@ class _$ReportCopyWithImpl<$Res, $Val extends Report>
           ? _value.isReviewed
           : isReviewed // ignore: cast_nullable_to_non_nullable
               as bool,
+      images: null == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -114,6 +121,7 @@ abstract class _$$ReportImplCopyWith<$Res> implements $ReportCopyWith<$Res> {
       int reporterId,
       int reportedId,
       bool isReviewed,
+      List<String> images,
       DateTime? createdAt});
 }
 
@@ -135,6 +143,7 @@ class __$$ReportImplCopyWithImpl<$Res>
     Object? reporterId = null,
     Object? reportedId = null,
     Object? isReviewed = null,
+    Object? images = null,
     Object? createdAt = freezed,
   }) {
     return _then(_$ReportImpl(
@@ -158,6 +167,10 @@ class __$$ReportImplCopyWithImpl<$Res>
           ? _value.isReviewed
           : isReviewed // ignore: cast_nullable_to_non_nullable
               as bool,
+      images: null == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -175,7 +188,9 @@ class _$ReportImpl implements _Report {
       this.reporterId = -1,
       this.reportedId = -1,
       this.isReviewed = false,
-      this.createdAt});
+      final List<String> images = const [],
+      this.createdAt})
+      : _images = images;
 
   factory _$ReportImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReportImplFromJson(json);
@@ -195,12 +210,21 @@ class _$ReportImpl implements _Report {
   @override
   @JsonKey()
   final bool isReviewed;
+  final List<String> _images;
+  @override
+  @JsonKey()
+  List<String> get images {
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_images);
+  }
+
   @override
   final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'Report(reason: $reason, description: $description, reporterId: $reporterId, reportedId: $reportedId, isReviewed: $isReviewed, createdAt: $createdAt)';
+    return 'Report(reason: $reason, description: $description, reporterId: $reporterId, reportedId: $reportedId, isReviewed: $isReviewed, images: $images, createdAt: $createdAt)';
   }
 
   @override
@@ -217,14 +241,22 @@ class _$ReportImpl implements _Report {
                 other.reportedId == reportedId) &&
             (identical(other.isReviewed, isReviewed) ||
                 other.isReviewed == isReviewed) &&
+            const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, reason, description, reporterId,
-      reportedId, isReviewed, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      reason,
+      description,
+      reporterId,
+      reportedId,
+      isReviewed,
+      const DeepCollectionEquality().hash(_images),
+      createdAt);
 
   /// Create a copy of Report
   /// with the given fields replaced by the non-null parameter values.
@@ -249,6 +281,7 @@ abstract class _Report implements Report {
       final int reporterId,
       final int reportedId,
       final bool isReviewed,
+      final List<String> images,
       final DateTime? createdAt}) = _$ReportImpl;
 
   factory _Report.fromJson(Map<String, dynamic> json) = _$ReportImpl.fromJson;
@@ -263,6 +296,8 @@ abstract class _Report implements Report {
   int get reportedId;
   @override
   bool get isReviewed;
+  @override
+  List<String> get images;
   @override
   DateTime? get createdAt;
 

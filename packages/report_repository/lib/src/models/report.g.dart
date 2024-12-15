@@ -13,6 +13,10 @@ _$ReportImpl _$$ReportImplFromJson(Map<String, dynamic> json) => _$ReportImpl(
       reporterId: (json['reporterId'] as num?)?.toInt() ?? -1,
       reportedId: (json['reportedId'] as num?)?.toInt() ?? -1,
       isReviewed: json['isReviewed'] as bool? ?? false,
+      images: (json['images'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -25,6 +29,7 @@ Map<String, dynamic> _$$ReportImplToJson(_$ReportImpl instance) =>
       'reporterId': instance.reporterId,
       'reportedId': instance.reportedId,
       'isReviewed': instance.isReviewed,
+      'images': instance.images,
       'createdAt': instance.createdAt?.toIso8601String(),
     };
 

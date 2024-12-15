@@ -11,6 +11,7 @@ class Report with _$Report {
     @Default(-1) int reporterId,
     @Default(-1) int reportedId,
     @Default(false) bool isReviewed,
+    @Default([]) List<String> images,
     DateTime? createdAt,
   }) = _Report;
 
