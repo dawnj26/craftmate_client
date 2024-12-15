@@ -739,10 +739,7 @@ class MessageContent extends StatelessWidget {
         return VideoPlayer(
           url: message.message,
         );
-      default:
     }
-
-    return const Placeholder();
   }
 }
 
@@ -869,7 +866,9 @@ class _TimestampLabelState extends State<TimestampLabel>
             margin: const EdgeInsets.symmetric(vertical: 4),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.5),
+              color: theme.colorScheme.surfaceContainerHighest.withValues(
+                alpha: 0.5,
+              ),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
