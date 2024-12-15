@@ -10,11 +10,25 @@ import 'package:gap/gap.dart';
 import 'package:material_repository/material_repository.dart' as m;
 
 class SearchMaterialScreen extends StatelessWidget {
-  const SearchMaterialScreen({super.key});
+  const SearchMaterialScreen({
+    super.key,
+    this.isComparing = false,
+    this.query = '',
+  });
 
-  static Route<void> route() {
-    return PageTransition.effect
-        .slideFromBottomToTop(const SearchMaterialScreen());
+  final bool isComparing;
+  final String query;
+
+  static Route<bool?> route({
+    bool isComparing = false,
+    String query = '',
+  }) {
+    return PageTransition.effect.slideFromBottomToTop(
+      SearchMaterialScreen(
+        isComparing: isComparing,
+        query: query,
+      ),
+    );
   }
 
   @override
@@ -22,22 +36,32 @@ class SearchMaterialScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => MaterialSearchBloc(
         materialRepo: context.read<m.MaterialRepository>(),
-      ),
-      child: const _SearchBody(),
+      )..add(MaterialSearchEvent.searchMaterial(query)),
+      child: _SearchBody(isComparing, query),
     );
   }
 }
 
 class _SearchBody extends StatefulWidget {
-  const _SearchBody();
+  const _SearchBody(this.isComparing, this.query);
+
+  final bool isComparing;
+  final String query;
 
   @override
   State<_SearchBody> createState() => _SearchBodyState();
 }
 
 class _SearchBodyState extends State<_SearchBody> {
-  final _searchController = TextEditingController();
+  late final TextEditingController _searchController;
   final _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _searchController = TextEditingController(text: widget.query);
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -52,6 +76,15 @@ class _SearchBodyState extends State<_SearchBody> {
     final theme = Theme.of(context);
 
     return Scaffold(
+      floatingActionButton: widget.isComparing
+          ? FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+              label: const Text('I have it'),
+              icon: const Icon(Icons.check),
+            )
+          : null,
       appBar: AppBar(
         title: TextField(
           controller: _searchController,
