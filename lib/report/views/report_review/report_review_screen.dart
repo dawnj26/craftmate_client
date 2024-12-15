@@ -1,6 +1,7 @@
 import 'package:craftmate_client/dashboard/shop/views/pages/inbox_page.dart';
 import 'package:craftmate_client/dashboard/shop/views/screens/edit_listing_screen.dart';
 import 'package:craftmate_client/dashboard/shop/views/screens/shop_profile_screen.dart';
+import 'package:craftmate_client/dashboard/shop/views/screens/view_listing_screen.dart';
 import 'package:craftmate_client/report/bloc/review/report_review_bloc.dart';
 import 'package:craftmate_client/user_profile/views/user_profile_page.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class ReportReviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final screenSize = MediaQuery.sizeOf(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -52,6 +54,13 @@ class ReportReviewScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                if (state.query.report.images.isNotEmpty) ...[
+                  const SizedBox(height: 16),
+                  ImageCarousel(
+                    imageUrls: state.query.report.images,
+                    height: screenSize.height * 0.3,
+                  ),
+                ],
                 const SizedBox(height: 24),
                 ProfileWithLabel(
                   labelText: 'Reported user',
