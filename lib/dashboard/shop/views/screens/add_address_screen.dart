@@ -242,7 +242,7 @@ class GoogleMapper extends StatelessWidget {
                 height: circleSize,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: theme.colorScheme.error.withOpacity(0.1),
+                  color: theme.colorScheme.error.withValues(alpha: 0.1),
                   border: Border.all(
                     color: theme.colorScheme.error,
                     width: 2,
@@ -277,7 +277,7 @@ class Crosshair extends StatelessWidget {
             height: 20,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: theme.colorScheme.error.withOpacity(0.9),
+              color: theme.colorScheme.error.withValues(alpha: 0.9),
               border: Border.all(
                 color: theme.colorScheme.onError,
                 width: 2,
