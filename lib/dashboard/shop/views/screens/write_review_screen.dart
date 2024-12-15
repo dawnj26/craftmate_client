@@ -1,7 +1,9 @@
 import 'package:craftmate_client/auth/bloc/auth_bloc.dart';
 import 'package:craftmate_client/dashboard/shop/bloc/write_review/write_review_bloc.dart';
+import 'package:craftmate_client/dashboard/shop/views/screens/add_listing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:user_repository/user_repository.dart';
 
 class WriteReviewScreen extends StatelessWidget {
@@ -10,6 +12,7 @@ class WriteReviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final screenSize = MediaQuery.sizeOf(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -29,6 +32,24 @@ class WriteReviewScreen extends StatelessWidget {
             children: [
               _Header(user: state.seller),
               const SizedBox(height: 12),
+              SizedBox(
+                height: screenSize.height * 0.15,
+                child: BlocBuilder<WriteReviewBloc, WriteReviewState>(
+                  builder: (context, state) {
+                    return AddPhotos(
+                      scrollController: ScrollController(),
+                      images: state.imagesPath,
+                      networkImages: const [],
+                      onPhotoAdded: () => _addPhoto(context),
+                      onFileImageRemoved: (index) {
+                        context.read<WriteReviewBloc>().add(
+                              WriteReviewEvent.photoRemoved(index),
+                            );
+                      },
+                    );
+                  },
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -88,6 +109,20 @@ class WriteReviewScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future<void> _addPhoto(BuildContext context) async {
+    final picker = ImagePicker();
+
+    final image = await picker.pickMultiImage();
+
+    if (image.isEmpty || !context.mounted) {
+      return;
+    }
+
+    final images = image.map((e) => e.path).toList();
+
+    context.read<WriteReviewBloc>().add(WriteReviewEvent.photoAdded(images));
   }
 }
 
