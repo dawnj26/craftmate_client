@@ -180,6 +180,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 24.0),
             const DocumentSection(
               labelText: '5. Data Retention',
               children: [
@@ -188,6 +189,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 24.0),
             DocumentSection(
               labelText: '6. Your Rights',
               children: [
