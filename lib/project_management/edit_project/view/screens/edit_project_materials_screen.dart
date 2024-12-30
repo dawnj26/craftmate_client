@@ -115,6 +115,7 @@ class EditProjectMaterialsScreen extends StatelessWidget {
                 itemCount: state.materials.length,
                 itemBuilder: (context, index) {
                   final material = state.materials[index];
+
                   return BlocBuilder<s.MaterialSelectionBloc,
                       s.MaterialSelectionState>(
                     builder: (context, state) {
@@ -125,6 +126,7 @@ class EditProjectMaterialsScreen extends StatelessWidget {
                           return MaterialCard(
                             isSelected: isSelected,
                             material: material,
+                            materialQuantity: material.materialQuantity,
                             trailing: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
@@ -153,6 +155,7 @@ class EditProjectMaterialsScreen extends StatelessWidget {
                         default:
                           return MaterialCard(
                             material: material,
+                            materialQuantity: material.materialQuantity,
                             trailing: IconButton.outlined(
                               onPressed: () {
                                 Modal.instance.showConfirmationModal(
