@@ -302,6 +302,7 @@ class _Materials extends StatelessWidget {
                 final material = project.materials![index];
                 return MaterialCard(
                   material: material,
+                  materialQuantity: material.materialQuantity,
                   trailing: const SizedBox(
                     width: 12,
                   ),
