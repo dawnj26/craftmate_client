@@ -26,6 +26,17 @@ abstract class IMaterialRepository {
   Future<List<Material>> deleteProjectMaterials(int projectId, List<int> ids);
   Future<void> saveProjectMaterials(
       int projectId, List<int> ids, List<int> quantities);
+  Future<List<Material>> addUsedMaterials(int projectId, List<int> ids);
+  Future<List<Material>> deleteProjectUsedMaterials(
+      int projectId, List<int> ids);
+  Future<void> saveProjectUsedMaterials(
+      int projectId, List<int> ids, List<int> quantities);
+  Future<List<Material>> getProjectUsedMaterials(
+    int projectId, [
+    int? categoryId,
+    MaterialSort sort = MaterialSort.lastModified,
+    SortOrder order = SortOrder.desc,
+  ]);
 }
 
 class MaterialRepository implements IMaterialRepository {
@@ -34,12 +45,11 @@ class MaterialRepository implements IMaterialRepository {
 
   final ConfigRepository _config;
 
-  @override
-  Future<void> saveProjectMaterials(
-      int projectId, List<int> ids, List<int> quantities) async {
+  Future<void> _saveProjectMaterials(int projectId, List<int> ids,
+      List<int> quantities, String apiPath) async {
     try {
       await _config.makeRequest<void>(
-        '/project/$projectId/materials/save',
+        apiPath,
         method: 'POST',
         data: {'materials': ids, 'quantities': quantities},
         withAuthorization: true,
@@ -50,11 +60,17 @@ class MaterialRepository implements IMaterialRepository {
   }
 
   @override
-  Future<List<Material>> deleteProjectMaterials(
-      int projectId, List<int> ids) async {
+  Future<void> saveProjectMaterials(
+      int projectId, List<int> ids, List<int> quantities) async {
+    return _saveProjectMaterials(
+        projectId, ids, quantities, '/project/$projectId/materials/save');
+  }
+
+  Future<List<Material>> _deleteProjectMaterials(
+      int projectId, List<int> ids, String apiPath) async {
     try {
       final response = await _config.makeRequest<Map<String, dynamic>>(
-        '/project/$projectId/materials/delete',
+        apiPath,
         method: 'DELETE',
         data: {'materials': ids},
         withAuthorization: true,
@@ -76,10 +92,17 @@ class MaterialRepository implements IMaterialRepository {
   }
 
   @override
-  Future<List<Material>> addMaterials(int projectId, List<int> ids) async {
+  Future<List<Material>> deleteProjectMaterials(
+      int projectId, List<int> ids) async {
+    return _deleteProjectMaterials(
+        projectId, ids, '/project/$projectId/materials/delete');
+  }
+
+  Future<List<Material>> _addMaterials(
+      int projectId, List<int> ids, String apiPath) async {
     try {
       final response = await _config.makeRequest<Map<String, dynamic>>(
-        '/project/$projectId/materials/add',
+        apiPath,
         method: 'POST',
         data: {'materials': ids},
         withAuthorization: true,
@@ -101,15 +124,20 @@ class MaterialRepository implements IMaterialRepository {
   }
 
   @override
-  Future<List<Material>> getProjectMaterials(
-    int projectId, [
+  Future<List<Material>> addMaterials(int projectId, List<int> ids) async {
+    return _addMaterials(projectId, ids, '/project/$projectId/materials/add');
+  }
+
+  Future<List<Material>> _getProjectMaterials(
+    int projectId,
+    String apiPath, [
     int? categoryId,
     MaterialSort sort = MaterialSort.lastModified,
     SortOrder order = SortOrder.desc,
   ]) async {
     try {
       final response = await _config.makeRequest<Map<String, dynamic>>(
-        '/materials/project/$projectId',
+        apiPath,
         method: 'GET',
       );
 
@@ -125,6 +153,17 @@ class MaterialRepository implements IMaterialRepository {
     } on RequestException catch (e) {
       throw MaterialException(message: e.message);
     }
+  }
+
+  @override
+  Future<List<Material>> getProjectMaterials(
+    int projectId, [
+    int? categoryId,
+    MaterialSort sort = MaterialSort.lastModified,
+    SortOrder order = SortOrder.desc,
+  ]) async {
+    return _getProjectMaterials(
+        projectId, '/materials/project/$projectId', categoryId, sort, order);
   }
 
   @override
@@ -348,5 +387,34 @@ class MaterialRepository implements IMaterialRepository {
       _config.logger.error('Unsupported file');
       throw MaterialException(message: 'Unsupported file');
     }
+  }
+
+  @override
+  Future<List<Material>> addUsedMaterials(int projectId, List<int> ids) {
+    return _addMaterials(
+        projectId, ids, '/project/$projectId/materials/used/add');
+  }
+
+  @override
+  Future<List<Material>> deleteProjectUsedMaterials(
+      int projectId, List<int> ids) {
+    return _deleteProjectMaterials(
+        projectId, ids, '/project/$projectId/materials/used/delete');
+  }
+
+  @override
+  Future<List<Material>> getProjectUsedMaterials(int projectId,
+      [int? categoryId,
+      MaterialSort sort = MaterialSort.lastModified,
+      SortOrder order = SortOrder.desc]) {
+    return _getProjectMaterials(projectId, '/materials/project/$projectId/used',
+        categoryId, sort, order);
+  }
+
+  @override
+  Future<void> saveProjectUsedMaterials(
+      int projectId, List<int> ids, List<int> quantities) {
+    return _saveProjectMaterials(
+        projectId, ids, quantities, '/project/$projectId/materials/used/save');
   }
 }
