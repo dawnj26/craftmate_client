@@ -94,7 +94,7 @@ class EditProjectMaterialsPage extends StatelessWidget {
           create: (context) => EditProjectMaterialsBloc(
             materialRepo: context.read<m.MaterialRepository>(),
             projectId: projectId,
-          )..add(EditProjectMaterialsEvent.started(materials: materials)),
+          )..add(EditProjectMaterialsEvent.started(materials: [...materials])),
         ),
         BlocProvider(
           create: (context) => MaterialSelectionBloc(),
