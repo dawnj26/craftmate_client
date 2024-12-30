@@ -43,13 +43,15 @@ class Modal {
     required String title,
     List<Widget>? actions,
     Widget? icon,
+    Key? key,
   }) async {
     return await showDialog<bool>(
       context: context,
       builder: (_) {
-        return AlertDialog(
+        return _AlertDialog(
+          key: key,
           icon: icon,
-          title: Text(title),
+          title: title,
           content: content,
           actions: actions,
         );
@@ -144,6 +146,32 @@ class LoadingAnimation extends StatelessWidget {
     return LoadingAnimationWidget.stretchedDots(
       color: color,
       size: 48,
+    );
+  }
+}
+
+class _AlertDialog extends StatelessWidget {
+  const _AlertDialog({
+    super.key,
+    this.icon,
+    required this.title,
+    required this.content,
+    required this.actions,
+  });
+
+  final Widget? icon;
+  final String title;
+  final Widget content;
+  final List<Widget>? actions;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      key: key,
+      icon: icon,
+      title: Text(title),
+      content: content,
+      actions: actions,
     );
   }
 }
