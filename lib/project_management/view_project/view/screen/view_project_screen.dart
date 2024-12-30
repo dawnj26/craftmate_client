@@ -464,6 +464,7 @@ class ProjectMaterials extends StatelessWidget {
           return MaterialCard(
             material: material,
             trailing: const SizedBox.shrink(),
+            materialQuantity: material.materialQuantity,
             onTap: () {
               Navigator.push(
                 context,
