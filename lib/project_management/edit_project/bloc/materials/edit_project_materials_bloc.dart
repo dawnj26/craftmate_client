@@ -33,6 +33,7 @@ class EditProjectMaterialsBloc
 
     try {
       final materials = await _materialRepo.getProjectMaterials(_projectId);
+
       emit(EditProjectMaterialsState.loaded(materials: materials));
     } on MaterialException catch (e) {
       emit(
