@@ -12,11 +12,12 @@ class Material with _$Material {
     @Default(User()) User user,
     @Default('') String name,
     @Default('') String description,
-    String? imageUrl,
     @Default(0) int quantity,
     @Default(MaterialCategory()) MaterialCategory materialCategory,
+    String? imageUrl,
     DateTime? createdAt,
     DateTime? updatedAt,
+    int? materialQuantity,
   }) = _Material;
 
   factory Material.fromJson(Map<String, dynamic> json) =>

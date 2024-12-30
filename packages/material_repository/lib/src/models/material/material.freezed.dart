@@ -24,11 +24,12 @@ mixin _$Material {
   User get user => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  String? get imageUrl => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
   MaterialCategory get materialCategory => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  int? get materialQuantity => throw _privateConstructorUsedError;
 
   /// Serializes this Material to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -50,11 +51,12 @@ abstract class $MaterialCopyWith<$Res> {
       User user,
       String name,
       String description,
-      String? imageUrl,
       int quantity,
       MaterialCategory materialCategory,
+      String? imageUrl,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      int? materialQuantity});
 
   $UserCopyWith<$Res> get user;
   $MaterialCategoryCopyWith<$Res> get materialCategory;
@@ -79,11 +81,12 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
     Object? user = null,
     Object? name = null,
     Object? description = null,
-    Object? imageUrl = freezed,
     Object? quantity = null,
     Object? materialCategory = null,
+    Object? imageUrl = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? materialQuantity = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -102,10 +105,6 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: freezed == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
       quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -114,6 +113,10 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
           ? _value.materialCategory
           : materialCategory // ignore: cast_nullable_to_non_nullable
               as MaterialCategory,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -122,6 +125,10 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      materialQuantity: freezed == materialQuantity
+          ? _value.materialQuantity
+          : materialQuantity // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -159,11 +166,12 @@ abstract class _$$MaterialImplCopyWith<$Res>
       User user,
       String name,
       String description,
-      String? imageUrl,
       int quantity,
       MaterialCategory materialCategory,
+      String? imageUrl,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      int? materialQuantity});
 
   @override
   $UserCopyWith<$Res> get user;
@@ -188,11 +196,12 @@ class __$$MaterialImplCopyWithImpl<$Res>
     Object? user = null,
     Object? name = null,
     Object? description = null,
-    Object? imageUrl = freezed,
     Object? quantity = null,
     Object? materialCategory = null,
+    Object? imageUrl = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? materialQuantity = freezed,
   }) {
     return _then(_$MaterialImpl(
       id: null == id
@@ -211,10 +220,6 @@ class __$$MaterialImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      imageUrl: freezed == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
       quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -223,6 +228,10 @@ class __$$MaterialImplCopyWithImpl<$Res>
           ? _value.materialCategory
           : materialCategory // ignore: cast_nullable_to_non_nullable
               as MaterialCategory,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -231,6 +240,10 @@ class __$$MaterialImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      materialQuantity: freezed == materialQuantity
+          ? _value.materialQuantity
+          : materialQuantity // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -243,11 +256,12 @@ class _$MaterialImpl implements _Material {
       this.user = const User(),
       this.name = '',
       this.description = '',
-      this.imageUrl,
       this.quantity = 0,
       this.materialCategory = const MaterialCategory(),
+      this.imageUrl,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.materialQuantity});
 
   factory _$MaterialImpl.fromJson(Map<String, dynamic> json) =>
       _$$MaterialImplFromJson(json);
@@ -265,21 +279,23 @@ class _$MaterialImpl implements _Material {
   @JsonKey()
   final String description;
   @override
-  final String? imageUrl;
-  @override
   @JsonKey()
   final int quantity;
   @override
   @JsonKey()
   final MaterialCategory materialCategory;
   @override
+  final String? imageUrl;
+  @override
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
+  @override
+  final int? materialQuantity;
 
   @override
   String toString() {
-    return 'Material(id: $id, user: $user, name: $name, description: $description, imageUrl: $imageUrl, quantity: $quantity, materialCategory: $materialCategory, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Material(id: $id, user: $user, name: $name, description: $description, quantity: $quantity, materialCategory: $materialCategory, imageUrl: $imageUrl, createdAt: $createdAt, updatedAt: $updatedAt, materialQuantity: $materialQuantity)';
   }
 
   @override
@@ -292,22 +308,34 @@ class _$MaterialImpl implements _Material {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
             (identical(other.quantity, quantity) ||
                 other.quantity == quantity) &&
             (identical(other.materialCategory, materialCategory) ||
                 other.materialCategory == materialCategory) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.materialQuantity, materialQuantity) ||
+                other.materialQuantity == materialQuantity));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, user, name, description,
-      imageUrl, quantity, materialCategory, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      user,
+      name,
+      description,
+      quantity,
+      materialCategory,
+      imageUrl,
+      createdAt,
+      updatedAt,
+      materialQuantity);
 
   /// Create a copy of Material
   /// with the given fields replaced by the non-null parameter values.
@@ -331,11 +359,12 @@ abstract class _Material implements Material {
       final User user,
       final String name,
       final String description,
-      final String? imageUrl,
       final int quantity,
       final MaterialCategory materialCategory,
+      final String? imageUrl,
       final DateTime? createdAt,
-      final DateTime? updatedAt}) = _$MaterialImpl;
+      final DateTime? updatedAt,
+      final int? materialQuantity}) = _$MaterialImpl;
 
   factory _Material.fromJson(Map<String, dynamic> json) =
       _$MaterialImpl.fromJson;
@@ -349,15 +378,17 @@ abstract class _Material implements Material {
   @override
   String get description;
   @override
-  String? get imageUrl;
-  @override
   int get quantity;
   @override
   MaterialCategory get materialCategory;
   @override
+  String? get imageUrl;
+  @override
   DateTime? get createdAt;
   @override
   DateTime? get updatedAt;
+  @override
+  int? get materialQuantity;
 
   /// Create a copy of Material
   /// with the given fields replaced by the non-null parameter values.
