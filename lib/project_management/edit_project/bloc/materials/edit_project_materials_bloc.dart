@@ -12,8 +12,10 @@ class EditProjectMaterialsBloc
   EditProjectMaterialsBloc({
     required MaterialRepository materialRepo,
     required int projectId,
+    required bool forStartedProject,
   })  : _materialRepo = materialRepo,
         _projectId = projectId,
+        _forStartedProject = forStartedProject,
         super(const Initial()) {
     on<_Started>(_onStarted);
     on<_AddMaterial>(_onAddMaterial);
@@ -23,6 +25,7 @@ class EditProjectMaterialsBloc
 
   final MaterialRepository _materialRepo;
   final int _projectId;
+  final bool _forStartedProject;
 
   Future<void> _onReloaded(
     _Reloaded event,
@@ -32,7 +35,9 @@ class EditProjectMaterialsBloc
     emit(EditProjectMaterialsState.loading(materials: [...state.materials]));
 
     try {
-      final materials = await _materialRepo.getProjectMaterials(_projectId);
+      final materials = _forStartedProject
+          ? await _materialRepo.getProjectUsedMaterials(_projectId)
+          : await _materialRepo.getProjectMaterials(_projectId);
 
       emit(EditProjectMaterialsState.loaded(materials: materials));
     } on MaterialException catch (e) {
@@ -52,10 +57,15 @@ class EditProjectMaterialsBloc
     emit(EditProjectMaterialsState.deleting(materials: [...state.materials]));
 
     try {
-      final materials = await _materialRepo.deleteProjectMaterials(
-        _projectId,
-        event.materialIds,
-      );
+      final materials = _forStartedProject
+          ? await _materialRepo.deleteProjectUsedMaterials(
+              _projectId,
+              event.materialIds,
+            )
+          : await _materialRepo.deleteProjectMaterials(
+              _projectId,
+              event.materialIds,
+            );
       emit(EditProjectMaterialsState.deleted(materials: materials));
     } on MaterialException catch (e) {
       emit(
@@ -74,8 +84,9 @@ class EditProjectMaterialsBloc
     emit(EditProjectMaterialsState.loading(materials: [...state.materials]));
 
     try {
-      final materials =
-          await _materialRepo.addMaterials(_projectId, event.materialId);
+      final materials = _forStartedProject
+          ? await _materialRepo.addUsedMaterials(_projectId, event.materialId)
+          : await _materialRepo.addMaterials(_projectId, event.materialId);
       emit(EditProjectMaterialsState.loaded(materials: materials));
     } on MaterialException catch (e) {
       emit(
@@ -87,10 +98,26 @@ class EditProjectMaterialsBloc
     }
   }
 
-  void _onStarted(
+  Future<void> _onStarted(
     _Started event,
     Emitter<EditProjectMaterialsState> emit,
-  ) {
-    emit(EditProjectMaterialsState.loaded(materials: event.materials));
+  ) async {
+    logger.info('Loading materials');
+    emit(EditProjectMaterialsState.loading(materials: [...state.materials]));
+
+    try {
+      final materials = _forStartedProject
+          ? await _materialRepo.getProjectUsedMaterials(_projectId)
+          : await _materialRepo.getProjectMaterials(_projectId);
+
+      emit(EditProjectMaterialsState.loaded(materials: materials));
+    } on MaterialException catch (e) {
+      emit(
+        EditProjectMaterialsState.error(
+          materials: [...state.materials],
+          message: e.message,
+        ),
+      );
+    }
   }
 }
