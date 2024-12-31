@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:craftmate_client/globals.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:material_repository/material_repository.dart';
 import 'package:project_repository/project_repository.dart';
 
 part 'start_project_event.dart';
@@ -10,9 +11,11 @@ part 'start_project_bloc.freezed.dart';
 class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
   StartProjectBloc({
     required ProjectRepository projectRepository,
+    required MaterialRepository materialRepository,
     required int projectId,
   })  : _projectRepository = projectRepository,
         _projectId = projectId,
+        _materialRepository = materialRepository,
         super(
           Initial(
             project: Project.empty(),
@@ -26,6 +29,7 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
 
   final ProjectRepository _projectRepository;
   final int _projectId;
+  final MaterialRepository _materialRepository;
 
   Future<void> _onProjectFinished(
     _ProjectFinished event,
@@ -42,7 +46,7 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
 
       emit(
         Finished(
-          project: project,
+          project: project.copyWith(materials: state.project.materials),
           completedSteps: List.generate(
             state.completedSteps.length,
             (index) => true,
@@ -130,6 +134,8 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
 
     try {
       final project = await _projectRepository.tryGetProjectById(_projectId);
+      final usedMaterials =
+          await _materialRepository.getProjectUsedMaterials(_projectId);
       final hasSeenTutorial =
           config.prefs.getBool('hasSeenTrackerTutorial') ?? false;
       final List<bool> completedSteps = project.steps == null
@@ -140,7 +146,7 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
             );
       emit(
         Loaded(
-          project: project,
+          project: project.copyWith(materials: usedMaterials),
           completedSteps: completedSteps,
           showTutorial: !hasSeenTutorial,
         ),
