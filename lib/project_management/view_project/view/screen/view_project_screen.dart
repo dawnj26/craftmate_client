@@ -91,10 +91,23 @@ class ViewProjectScreen extends StatelessWidget {
                   return;
                 }
 
+                // Navigator.push(
+                //   context,
+                //   CompareScreen.route(
+                //     materials: state.project.materials ?? [],
+                //     onStarted: () {
+                //       context
+                //           .read<ViewProjectBloc>()
+                //           .add(ViewProjectStarted(currentUser));
+                //     },
+                //   ),
+                // );
                 Navigator.push(
                   context,
-                  CompareScreen.route(
-                    materials: state.project.materials ?? [],
+                  EditProjectMaterialsPage.route(
+                    state.project.materials ?? [],
+                    state.project.id,
+                    forStartedProject: true,
                     onStarted: () {
                       context
                           .read<ViewProjectBloc>()
