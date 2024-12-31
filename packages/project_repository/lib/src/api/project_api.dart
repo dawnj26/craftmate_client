@@ -392,10 +392,12 @@ final class ProjectApi {
     }
   }
 
-  Future<int> forkProject(int materialId, User user, int ownerId) async {
+  Future<int> forkProject(int materialId, User user, int ownerId,
+      [bool start = false]) async {
     try {
       final response = await _config.makeRequest<Map<String, dynamic>>(
         '/project/$materialId/fork',
+        data: start ? {'start': start} : null,
         method: 'POST',
         withAuthorization: true,
       );

@@ -200,8 +200,9 @@ class ProjectRepository implements IProjectRepository {
   }
 
   @override
-  Future<int> forkProject(int projectId, User user, int ownerId) {
-    return _projectApi.forkProject(projectId, user, ownerId);
+  Future<int> forkProject(int projectId, User user, int ownerId,
+      [bool start = false]) {
+    return _projectApi.forkProject(projectId, user, ownerId, start);
   }
 
   @override
