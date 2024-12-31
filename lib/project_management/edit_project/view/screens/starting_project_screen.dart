@@ -1,4 +1,5 @@
 import 'package:craftmate_client/helpers/components/empty_message.dart';
+
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/material_inventory/user_materials/bloc/selection/material_selection_bloc.dart'
     as s;
@@ -8,11 +9,19 @@ import 'package:craftmate_client/project_management/edit_project/bloc/materials/
 import 'package:craftmate_client/project_management/edit_project/view/screens/select_materials_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:material_repository/material_repository.dart' as m;
 
-class EditProjectMaterialsScreen extends StatelessWidget {
-  const EditProjectMaterialsScreen({super.key, required this.projectId});
+class StartingProjectScreen extends StatelessWidget {
+  const StartingProjectScreen({
+    super.key,
+    required this.projectId,
+    required this.originalMaterials,
+    this.onStarted,
+  });
 
   final int projectId;
+  final List<m.Material> originalMaterials;
+  final void Function()? onStarted;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +83,21 @@ class EditProjectMaterialsScreen extends StatelessWidget {
           default:
             return Scaffold(
               appBar: AppBar(
-                title: const Text('Edit materials'),
+                title: const Text('Starting project'),
+                actions: [
+                  BlocBuilder<EditProjectMaterialsBloc,
+                      EditProjectMaterialsState>(
+                    builder: (context, state) {
+                      final validToStart =
+                          originalMaterials.length <= state.materials.length;
+
+                      return TextButton(
+                        onPressed: validToStart ? onStarted : null,
+                        child: const Text('Start'),
+                      );
+                    },
+                  ),
+                ],
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () => _handleAdd(context),
@@ -105,10 +128,77 @@ class EditProjectMaterialsScreen extends StatelessWidget {
         );
       case Deleted(materials: final materials) when materials.isEmpty:
       case Loaded(materials: final materials) when materials.isEmpty:
-        return const EmptyMessage(emptyMessage: 'No materials found');
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Instruction materials'),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  ...originalMaterials.map(
+                    (m) => MaterialCard(
+                      material: m,
+                      trailing: const SizedBox.shrink(),
+                    ),
+                  ),
+                ],
+              ),
+              const Divider(
+                height: 12.0,
+              ),
+              const SizedBox(
+                height: 12.0,
+              ),
+              const Text('Your materials'),
+              const SizedBox(
+                height: 12,
+              ),
+              const Expanded(
+                child: EmptyMessage(emptyMessage: 'Add your materials'),
+              ),
+            ],
+          ),
+        );
       default:
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Instruction materials'),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  ...originalMaterials.map(
+                    (m) => MaterialCard(
+                      material: m,
+                      trailing: const SizedBox.shrink(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(
+              height: 12.0,
+            ),
+            const SizedBox(
+              height: 12.0,
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text('Your materials'),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(8),
@@ -249,7 +339,10 @@ class EditProjectMaterialsScreen extends StatelessWidget {
                 Navigator.pop(context1);
                 Navigator.push(
                   context1,
-                  SelectMaterialsScreen.route(projectId),
+                  SelectMaterialsScreen.route(
+                    projectId,
+                    forStartedProject: true,
+                  ),
                 ).then((_) {
                   if (context.mounted) {
                     context.read<EditProjectMaterialsBloc>().add(

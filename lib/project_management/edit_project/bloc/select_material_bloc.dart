@@ -12,8 +12,10 @@ class SelectMaterialBloc
   SelectMaterialBloc({
     required MaterialRepository materialRepository,
     required int projectId,
+    required bool forStartedProject,
   })  : _materialRepository = materialRepository,
         _projectId = projectId,
+        _forStartedProject = forStartedProject,
         super(const Initial()) {
     on<_Started>(_onStarted);
     on<_MaterialSelected>(_onMaterialSelected);
@@ -29,6 +31,7 @@ class SelectMaterialBloc
   final MaterialRepository _materialRepository;
   final int _projectId;
   late final List<Material> _materials;
+  final bool _forStartedProject;
 
   void _onSearch(
     _Search event,
@@ -43,7 +46,7 @@ class SelectMaterialBloc
                   .contains(event.query.toLowerCase()),
             )
             .toList(),
-        selectedMaterials: {...state.selectedMaterials},
+        selectedMaterials: [...state.selectedMaterials],
       ),
     );
   }
@@ -55,7 +58,7 @@ class SelectMaterialBloc
     emit(
       Loaded(
         materials: [..._materials],
-        selectedMaterials: {...state.selectedMaterials},
+        selectedMaterials: [...state.selectedMaterials],
       ),
     );
   }
@@ -67,7 +70,7 @@ class SelectMaterialBloc
     emit(
       Searching(
         materials: [...state.materials],
-        selectedMaterials: {...state.selectedMaterials},
+        selectedMaterials: [...state.selectedMaterials],
       ),
     );
   }
@@ -79,23 +82,33 @@ class SelectMaterialBloc
     emit(
       Adding(
         materials: [...state.materials],
-        selectedMaterials: {...state.selectedMaterials},
+        selectedMaterials: [...state.selectedMaterials],
       ),
     );
     try {
-      final selectedMaterials = state.selectedMaterials.entries
-          .where((element) => element.value)
-          .map((e) => e.key)
+      final selectedMaterials =
+          state.selectedMaterials.map((material) => material.id).toList();
+      final quantities = state.selectedMaterials
+          .map((material) => material.materialQuantity ?? 1)
           .toList();
-      await _materialRepository.saveProjectMaterials(
-        _projectId,
-        selectedMaterials,
-      );
+      if (_forStartedProject) {
+        await _materialRepository.saveProjectUsedMaterials(
+          _projectId,
+          selectedMaterials,
+          quantities,
+        );
+      } else {
+        await _materialRepository.saveProjectMaterials(
+          _projectId,
+          selectedMaterials,
+          quantities,
+        );
+      }
 
       emit(
         Added(
           materials: [...state.materials],
-          selectedMaterials: {...state.selectedMaterials},
+          selectedMaterials: [...state.selectedMaterials],
         ),
       );
     } catch (e) {
@@ -103,7 +116,7 @@ class SelectMaterialBloc
         Error(
           message: e.toString(),
           materials: [...state.materials],
-          selectedMaterials: {...state.selectedMaterials},
+          selectedMaterials: [...state.selectedMaterials],
         ),
       );
     }
@@ -113,15 +126,21 @@ class SelectMaterialBloc
     _MaterialSelected event,
     Emitter<SelectMaterialState> emit,
   ) {
+    final selectedMaterials = event.isSelected
+        ? state.selectedMaterials
+            .where((m) => m.id != event.material.id)
+            .toList()
+        : [
+            ...state.selectedMaterials,
+            event.material.copyWith(materialQuantity: event.quantity),
+          ];
+
     switch (state) {
       case Searching():
         return emit(
           Searching(
             materials: [...state.materials],
-            selectedMaterials: {
-              ...state.selectedMaterials,
-              event.materialId: !state.selectedMaterials[event.materialId]!,
-            },
+            selectedMaterials: selectedMaterials,
           ),
         );
     }
@@ -129,10 +148,7 @@ class SelectMaterialBloc
     emit(
       Loaded(
         materials: [...state.materials],
-        selectedMaterials: {
-          ...state.selectedMaterials,
-          event.materialId: !state.selectedMaterials[event.materialId]!,
-        },
+        selectedMaterials: selectedMaterials,
       ),
     );
   }
@@ -144,23 +160,16 @@ class SelectMaterialBloc
     emit(const Loading());
     try {
       _materials = await _materialRepository.getMaterials();
-      final projectsMaterials = await _materialRepository.getProjectMaterials(
-        _projectId,
-      );
-      final selectedMaterials = <int, bool>{};
-
-      for (final material in _materials) {
-        selectedMaterials[material.id] = false;
-      }
-
-      for (final material in projectsMaterials) {
-        selectedMaterials[material.id] = true;
-      }
+      final projectsMaterials = _forStartedProject
+          ? await _materialRepository.getProjectUsedMaterials(_projectId)
+          : await _materialRepository.getProjectMaterials(
+              _projectId,
+            );
 
       emit(
         Loaded(
           materials: _materials,
-          selectedMaterials: selectedMaterials,
+          selectedMaterials: [...projectsMaterials],
         ),
       );
     } catch (e) {
@@ -168,7 +177,7 @@ class SelectMaterialBloc
         Error(
           message: e.toString(),
           materials: [],
-          selectedMaterials: {},
+          selectedMaterials: [],
         ),
       );
     }

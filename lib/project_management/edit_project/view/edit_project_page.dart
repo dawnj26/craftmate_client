@@ -5,6 +5,7 @@ import 'package:craftmate_client/project_management/edit_project/bloc/materials/
 import 'package:craftmate_client/project_management/edit_project/bloc/recipe/edit_project_bloc.dart';
 import 'package:craftmate_client/project_management/edit_project/view/screens/edit_project_materials_screen.dart';
 import 'package:craftmate_client/project_management/edit_project/view/screens/edit_recipe_screen.dart';
+import 'package:craftmate_client/project_management/edit_project/view/screens/starting_project_screen.dart';
 import 'package:craftmate_client/project_management/text_editor/bloc/text_editor_bloc.dart'
     as t;
 import 'package:flutter/material.dart';
@@ -72,16 +73,27 @@ class EditProjectMaterialsPage extends StatelessWidget {
     super.key,
     required this.materials,
     required this.projectId,
+    this.forStartedProject = false,
+    this.onStarted,
   });
 
   final List<m.Material> materials;
   final int projectId;
+  final bool forStartedProject;
+  final void Function()? onStarted;
 
-  static Route<void> route(List<m.Material> materials, int projectId) {
+  static Route<void> route(
+    List<m.Material> materials,
+    int projectId, {
+    bool forStartedProject = false,
+    void Function()? onStarted,
+  }) {
     return PageTransition.effect.slideFromRightToLeft(
       EditProjectMaterialsPage(
         materials: materials,
         projectId: projectId,
+        forStartedProject: forStartedProject,
+        onStarted: onStarted,
       ),
     );
   }
@@ -94,7 +106,8 @@ class EditProjectMaterialsPage extends StatelessWidget {
           create: (context) => EditProjectMaterialsBloc(
             materialRepo: context.read<m.MaterialRepository>(),
             projectId: projectId,
-          )..add(EditProjectMaterialsEvent.started(materials: materials)),
+            forStartedProject: forStartedProject,
+          )..add(EditProjectMaterialsEvent.started(materials: [...materials])),
         ),
         BlocProvider(
           create: (context) => MaterialSelectionBloc(),
@@ -125,9 +138,15 @@ class EditProjectMaterialsPage extends StatelessWidget {
               );
           }
         },
-        child: EditProjectMaterialsScreen(
-          projectId: projectId,
-        ),
+        child: forStartedProject
+            ? StartingProjectScreen(
+                projectId: projectId,
+                originalMaterials: materials,
+                onStarted: onStarted,
+              )
+            : EditProjectMaterialsScreen(
+                projectId: projectId,
+              ),
       ),
     );
   }

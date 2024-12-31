@@ -5,18 +5,25 @@ import 'package:craftmate_client/helpers/transition/page_transition.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/screens/user_materials_screen.dart';
 import 'package:craftmate_client/project_management/edit_project/bloc/select_material_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_repository/material_repository.dart' as m;
 
 class SelectMaterialsScreen extends StatelessWidget {
-  const SelectMaterialsScreen({super.key, required this.projectId});
+  const SelectMaterialsScreen({
+    super.key,
+    required this.projectId,
+    this.forStartedProject = false,
+  });
 
   final int projectId;
+  final bool forStartedProject;
 
-  static Route<void> route(int projectId) {
+  static Route<void> route(int projectId, {bool forStartedProject = false}) {
     return PageTransition.effect.slideFromRightToLeft(
       SelectMaterialsScreen(
         projectId: projectId,
+        forStartedProject: forStartedProject,
       ),
     );
   }
@@ -27,6 +34,7 @@ class SelectMaterialsScreen extends StatelessWidget {
       create: (context) => SelectMaterialBloc(
         materialRepository: context.read(),
         projectId: projectId,
+        forStartedProject: forStartedProject,
       )..add(
           const SelectMaterialEvent.started(),
         ),
@@ -149,9 +157,7 @@ class _SelectMaterialBody extends StatelessWidget {
               child: Text(state.message),
             );
           case Searching(:final materials) when materials.isEmpty:
-            final selectedCount = state.selectedMaterials.values
-                .where((element) => element)
-                .length;
+            final selectedCount = state.selectedMaterials.length;
             final hasSelected = selectedCount == 0;
 
             return Column(
@@ -180,9 +186,7 @@ class _SelectMaterialBody extends StatelessWidget {
               ],
             );
           default:
-            final selectedCount = state.selectedMaterials.values
-                .where((element) => element)
-                .length;
+            final selectedCount = state.selectedMaterials.length;
             final hasSelected = selectedCount == 0;
 
             return Column(
@@ -226,7 +230,7 @@ class MaterialList extends StatelessWidget {
   });
 
   final List<m.Material> materials;
-  final Map<int, bool> selectedMaterials;
+  final List<m.Material> selectedMaterials;
 
   @override
   Widget build(BuildContext context) {
@@ -235,25 +239,115 @@ class MaterialList extends StatelessWidget {
       itemCount: materials.length,
       itemBuilder: (context, index) {
         final material = materials[index];
-        final isSelected = selectedMaterials[material.id] ?? false;
+        final isSelected = selectedMaterials
+            .any((selectedMaterial) => material.id == selectedMaterial.id);
 
         return MaterialCard(
           material: material,
           trailing: Checkbox(
             value: isSelected,
-            onChanged: (value) {
+            onChanged: (value) async {
+              if (!isSelected) {
+                return _showQuantityDialog(
+                  context,
+                  (quantity) {
+                    context.read<SelectMaterialBloc>().add(
+                          SelectMaterialEvent.materialSelected(
+                            material,
+                            isSelected,
+                            quantity,
+                          ),
+                        );
+                  },
+                  material,
+                );
+              }
+
               context.read<SelectMaterialBloc>().add(
-                    SelectMaterialEvent.materialSelected(material.id),
+                    SelectMaterialEvent.materialSelected(material, isSelected),
                   );
             },
           ),
-          onTap: () {
+          onTap: () async {
+            if (!isSelected) {
+              return _showQuantityDialog(
+                context,
+                (quantity) {
+                  context.read<SelectMaterialBloc>().add(
+                        SelectMaterialEvent.materialSelected(
+                          material,
+                          isSelected,
+                          quantity,
+                        ),
+                      );
+                },
+                material,
+              );
+            }
+
             context.read<SelectMaterialBloc>().add(
-                  SelectMaterialEvent.materialSelected(material.id),
+                  SelectMaterialEvent.materialSelected(material, isSelected),
                 );
           },
         );
       },
+    );
+  }
+
+  Future<void> _showQuantityDialog(
+    BuildContext context,
+    void Function(int quantity) onSave,
+    m.Material material,
+  ) async {
+    final controller = TextEditingController(text: '1');
+    bool isValid = true;
+
+    await Modal.instance.showConfirmationModal(
+      key: const ValueKey('select_quantity_dialog'),
+      context: context,
+      content: StatefulBuilder(
+        builder: (context, setState) {
+          return TextField(
+            controller: controller,
+            decoration: InputDecoration(
+              hintText: 'Enter quantity',
+              border: const OutlineInputBorder(),
+              errorText: !isValid
+                  ? 'Quantity cannot exceed ${material.quantity}'
+                  : null,
+            ),
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              FilteringTextInputFormatter.deny(
+                RegExp('^0+'),
+              ),
+            ],
+            onChanged: (value) {
+              setState(() {
+                isValid =
+                    value.isEmpty || int.parse(value) <= material.quantity;
+              });
+            },
+          );
+        },
+      ),
+      title: 'Quantity (${material.quantity})',
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Cancel'),
+        ),
+        FilledButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            onSave(int.tryParse(controller.text) ?? 1);
+          },
+          child: const Text('Add'),
+        ),
+      ],
     );
   }
 }

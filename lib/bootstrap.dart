@@ -30,7 +30,8 @@ class AppBlocObserver extends BlocObserver {
 
 Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   FlutterError.onError = (details) {
-    if (details.exception is SocketException) {
+    if (details.exception is SocketException ||
+        details.exception is NetworkImageLoadException) {
       return;
     }
     logger.error(details.exceptionAsString(), details, details.stack);

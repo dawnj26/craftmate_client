@@ -399,6 +399,7 @@ class MaterialCard extends StatelessWidget {
     this.isSelected = false,
     this.onTap,
     this.onLongPress,
+    this.materialQuantity,
   });
 
   final m.Material material;
@@ -406,6 +407,7 @@ class MaterialCard extends StatelessWidget {
   final void Function()? onLongPress;
   final bool isSelected;
   final Widget trailing;
+  final int? materialQuantity;
 
   @override
   Widget build(BuildContext context) {
@@ -440,6 +442,7 @@ class MaterialCard extends StatelessWidget {
                     Expanded(
                       child: _MaterialInfo(
                         material: material,
+                        materialQuantity: materialQuantity,
                       ),
                     ),
                     trailing,
@@ -521,9 +524,10 @@ class MaterialMenu extends StatelessWidget {
 }
 
 class _MaterialInfo extends StatelessWidget {
-  const _MaterialInfo({required this.material});
+  const _MaterialInfo({required this.material, this.materialQuantity});
 
   final m.Material material;
+  final int? materialQuantity;
 
   @override
   Widget build(BuildContext context) {
@@ -549,7 +553,7 @@ class _MaterialInfo extends StatelessWidget {
           ),
         ),
         Text(
-          '${material.quantity}',
+          '${materialQuantity ?? material.quantity}',
           style: theme.textTheme.titleMedium,
         ),
       ],

@@ -41,6 +41,7 @@ class StartProjectPage extends StatelessWidget {
         return BlocProvider(
           create: (context) => StartProjectBloc(
             projectRepository: context.read(),
+            materialRepository: context.read(),
             projectId: id,
           )..add(const StartProjectEvent.started()),
           child: StartProjectScreen(

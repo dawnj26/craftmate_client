@@ -124,11 +124,11 @@ abstract class _$$MaterialSelectedImplCopyWith<$Res>  {
   factory _$$MaterialSelectedImplCopyWith(_$MaterialSelectedImpl value, $Res Function(_$MaterialSelectedImpl) then) = __$$MaterialSelectedImplCopyWithImpl<$Res>;
 @useResult
 $Res call({
- int materialId
+ Material material, bool isSelected, int quantity
 });
 
 
-
+$MaterialCopyWith<$Res> get material;
 }
 
 /// @nodoc
@@ -139,40 +139,53 @@ class __$$MaterialSelectedImplCopyWithImpl<$Res> extends _$SelectMaterialEventCo
 
 /// Create a copy of SelectMaterialEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? materialId = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? material = null,Object? isSelected = null,Object? quantity = null,}) {
   return _then(_$MaterialSelectedImpl(
-null == materialId ? _value.materialId : materialId // ignore: cast_nullable_to_non_nullable
+null == material ? _value.material : material // ignore: cast_nullable_to_non_nullable
+as Material,null == isSelected ? _value.isSelected : isSelected // ignore: cast_nullable_to_non_nullable
+as bool,null == quantity ? _value.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
 
-
+/// Create a copy of SelectMaterialEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MaterialCopyWith<$Res> get material {
+  
+  return $MaterialCopyWith<$Res>(_value.material, (value) {
+    return _then(_value.copyWith(material: value) );
+  });
+}
 }
 
 /// @nodoc
 
 
 class _$MaterialSelectedImpl  implements _MaterialSelected {
-  const _$MaterialSelectedImpl(this.materialId);
+  const _$MaterialSelectedImpl(this.material, this.isSelected, [this.quantity = 0]);
 
   
 
-@override final  int materialId;
+@override final  Material material;
+@override final  bool isSelected;
+@override@JsonKey() final  int quantity;
 
 @override
 String toString() {
-  return 'SelectMaterialEvent.materialSelected(materialId: $materialId)';
+  return 'SelectMaterialEvent.materialSelected(material: $material, isSelected: $isSelected, quantity: $quantity)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$MaterialSelectedImpl&&(identical(other.materialId, materialId) || other.materialId == materialId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$MaterialSelectedImpl&&(identical(other.material, material) || other.material == material)&&(identical(other.isSelected, isSelected) || other.isSelected == isSelected)&&(identical(other.quantity, quantity) || other.quantity == quantity));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,materialId);
+int get hashCode => Object.hash(runtimeType,material,isSelected,quantity);
 
 /// Create a copy of SelectMaterialEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -192,12 +205,12 @@ _$$MaterialSelectedImplCopyWith<_$MaterialSelectedImpl> get copyWith => __$$Mate
 
 
 abstract class _MaterialSelected implements SelectMaterialEvent {
-  const factory _MaterialSelected(final  int materialId) = _$MaterialSelectedImpl;
+  const factory _MaterialSelected(final  Material material, final  bool isSelected, [final  int quantity]) = _$MaterialSelectedImpl;
   
 
   
 
- int get materialId;
+ Material get material; bool get isSelected; int get quantity;
 /// Create a copy of SelectMaterialEvent
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -495,7 +508,7 @@ _$$SearchImplCopyWith<_$SearchImpl> get copyWith => throw _privateConstructorUse
 /// @nodoc
 mixin _$SelectMaterialState {
 
- List<Material> get materials => throw _privateConstructorUsedError; Map<int, bool> get selectedMaterials => throw _privateConstructorUsedError;
+ List<Material> get materials => throw _privateConstructorUsedError; List<Material> get selectedMaterials => throw _privateConstructorUsedError;
 
 
 
@@ -515,7 +528,7 @@ abstract class $SelectMaterialStateCopyWith<$Res>  {
   factory $SelectMaterialStateCopyWith(SelectMaterialState value, $Res Function(SelectMaterialState) then) = _$SelectMaterialStateCopyWithImpl<$Res, SelectMaterialState>;
 @useResult
 $Res call({
- List<Material> materials, Map<int, bool> selectedMaterials
+ List<Material> materials, List<Material> selectedMaterials
 });
 
 
@@ -537,7 +550,7 @@ class _$SelectMaterialStateCopyWithImpl<$Res,$Val extends SelectMaterialState> i
   return _then(_value.copyWith(
 materials: null == materials ? _value.materials : materials // ignore: cast_nullable_to_non_nullable
 as List<Material>,selectedMaterials: null == selectedMaterials ? _value.selectedMaterials : selectedMaterials // ignore: cast_nullable_to_non_nullable
-as Map<int, bool>,
+as List<Material>,
   )as $Val);
 }
 
@@ -549,7 +562,7 @@ abstract class _$$InitialImplCopyWith<$Res> implements $SelectMaterialStateCopyW
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Material> materials, Map<int, bool> selectedMaterials
+ List<Material> materials, List<Material> selectedMaterials
 });
 
 
@@ -568,7 +581,7 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$SelectMaterialStateCopyWithImp
   return _then(_$InitialImpl(
 materials: null == materials ? _value._materials : materials // ignore: cast_nullable_to_non_nullable
 as List<Material>,selectedMaterials: null == selectedMaterials ? _value._selectedMaterials : selectedMaterials // ignore: cast_nullable_to_non_nullable
-as Map<int, bool>,
+as List<Material>,
   ));
 }
 
@@ -579,7 +592,7 @@ as Map<int, bool>,
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl({final  List<Material> materials = const [], final  Map<int, bool> selectedMaterials = const {}}): _materials = materials,_selectedMaterials = selectedMaterials;
+  const _$InitialImpl({final  List<Material> materials = const [], final  List<Material> selectedMaterials = const []}): _materials = materials,_selectedMaterials = selectedMaterials;
 
   
 
@@ -590,11 +603,11 @@ class _$InitialImpl  implements Initial {
   return EqualUnmodifiableListView(_materials);
 }
 
- final  Map<int, bool> _selectedMaterials;
-@override@JsonKey() Map<int, bool> get selectedMaterials {
-  if (_selectedMaterials is EqualUnmodifiableMapView) return _selectedMaterials;
+ final  List<Material> _selectedMaterials;
+@override@JsonKey() List<Material> get selectedMaterials {
+  if (_selectedMaterials is EqualUnmodifiableListView) return _selectedMaterials;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_selectedMaterials);
+  return EqualUnmodifiableListView(_selectedMaterials);
 }
 
 
@@ -631,12 +644,12 @@ _$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImp
 
 
 abstract class Initial implements SelectMaterialState {
-  const factory Initial({final  List<Material> materials, final  Map<int, bool> selectedMaterials}) = _$InitialImpl;
+  const factory Initial({final  List<Material> materials, final  List<Material> selectedMaterials}) = _$InitialImpl;
   
 
   
 
-@override List<Material> get materials;@override Map<int, bool> get selectedMaterials;
+@override List<Material> get materials;@override List<Material> get selectedMaterials;
 /// Create a copy of SelectMaterialState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -649,7 +662,7 @@ abstract class _$$AddingImplCopyWith<$Res> implements $SelectMaterialStateCopyWi
   factory _$$AddingImplCopyWith(_$AddingImpl value, $Res Function(_$AddingImpl) then) = __$$AddingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Material> materials, Map<int, bool> selectedMaterials
+ List<Material> materials, List<Material> selectedMaterials
 });
 
 
@@ -668,7 +681,7 @@ class __$$AddingImplCopyWithImpl<$Res> extends _$SelectMaterialStateCopyWithImpl
   return _then(_$AddingImpl(
 materials: null == materials ? _value._materials : materials // ignore: cast_nullable_to_non_nullable
 as List<Material>,selectedMaterials: null == selectedMaterials ? _value._selectedMaterials : selectedMaterials // ignore: cast_nullable_to_non_nullable
-as Map<int, bool>,
+as List<Material>,
   ));
 }
 
@@ -679,7 +692,7 @@ as Map<int, bool>,
 
 
 class _$AddingImpl  implements Adding {
-  const _$AddingImpl({final  List<Material> materials = const [], final  Map<int, bool> selectedMaterials = const {}}): _materials = materials,_selectedMaterials = selectedMaterials;
+  const _$AddingImpl({final  List<Material> materials = const [], final  List<Material> selectedMaterials = const []}): _materials = materials,_selectedMaterials = selectedMaterials;
 
   
 
@@ -690,11 +703,11 @@ class _$AddingImpl  implements Adding {
   return EqualUnmodifiableListView(_materials);
 }
 
- final  Map<int, bool> _selectedMaterials;
-@override@JsonKey() Map<int, bool> get selectedMaterials {
-  if (_selectedMaterials is EqualUnmodifiableMapView) return _selectedMaterials;
+ final  List<Material> _selectedMaterials;
+@override@JsonKey() List<Material> get selectedMaterials {
+  if (_selectedMaterials is EqualUnmodifiableListView) return _selectedMaterials;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_selectedMaterials);
+  return EqualUnmodifiableListView(_selectedMaterials);
 }
 
 
@@ -731,12 +744,12 @@ _$$AddingImplCopyWith<_$AddingImpl> get copyWith => __$$AddingImplCopyWithImpl<_
 
 
 abstract class Adding implements SelectMaterialState {
-  const factory Adding({final  List<Material> materials, final  Map<int, bool> selectedMaterials}) = _$AddingImpl;
+  const factory Adding({final  List<Material> materials, final  List<Material> selectedMaterials}) = _$AddingImpl;
   
 
   
 
-@override List<Material> get materials;@override Map<int, bool> get selectedMaterials;
+@override List<Material> get materials;@override List<Material> get selectedMaterials;
 /// Create a copy of SelectMaterialState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -749,7 +762,7 @@ abstract class _$$SearchingImplCopyWith<$Res> implements $SelectMaterialStateCop
   factory _$$SearchingImplCopyWith(_$SearchingImpl value, $Res Function(_$SearchingImpl) then) = __$$SearchingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Material> materials, Map<int, bool> selectedMaterials
+ List<Material> materials, List<Material> selectedMaterials
 });
 
 
@@ -768,7 +781,7 @@ class __$$SearchingImplCopyWithImpl<$Res> extends _$SelectMaterialStateCopyWithI
   return _then(_$SearchingImpl(
 materials: null == materials ? _value._materials : materials // ignore: cast_nullable_to_non_nullable
 as List<Material>,selectedMaterials: null == selectedMaterials ? _value._selectedMaterials : selectedMaterials // ignore: cast_nullable_to_non_nullable
-as Map<int, bool>,
+as List<Material>,
   ));
 }
 
@@ -779,7 +792,7 @@ as Map<int, bool>,
 
 
 class _$SearchingImpl  implements Searching {
-  const _$SearchingImpl({final  List<Material> materials = const [], final  Map<int, bool> selectedMaterials = const {}}): _materials = materials,_selectedMaterials = selectedMaterials;
+  const _$SearchingImpl({final  List<Material> materials = const [], final  List<Material> selectedMaterials = const []}): _materials = materials,_selectedMaterials = selectedMaterials;
 
   
 
@@ -790,11 +803,11 @@ class _$SearchingImpl  implements Searching {
   return EqualUnmodifiableListView(_materials);
 }
 
- final  Map<int, bool> _selectedMaterials;
-@override@JsonKey() Map<int, bool> get selectedMaterials {
-  if (_selectedMaterials is EqualUnmodifiableMapView) return _selectedMaterials;
+ final  List<Material> _selectedMaterials;
+@override@JsonKey() List<Material> get selectedMaterials {
+  if (_selectedMaterials is EqualUnmodifiableListView) return _selectedMaterials;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_selectedMaterials);
+  return EqualUnmodifiableListView(_selectedMaterials);
 }
 
 
@@ -831,12 +844,12 @@ _$$SearchingImplCopyWith<_$SearchingImpl> get copyWith => __$$SearchingImplCopyW
 
 
 abstract class Searching implements SelectMaterialState {
-  const factory Searching({final  List<Material> materials, final  Map<int, bool> selectedMaterials}) = _$SearchingImpl;
+  const factory Searching({final  List<Material> materials, final  List<Material> selectedMaterials}) = _$SearchingImpl;
   
 
   
 
-@override List<Material> get materials;@override Map<int, bool> get selectedMaterials;
+@override List<Material> get materials;@override List<Material> get selectedMaterials;
 /// Create a copy of SelectMaterialState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -849,7 +862,7 @@ abstract class _$$AddedImplCopyWith<$Res> implements $SelectMaterialStateCopyWit
   factory _$$AddedImplCopyWith(_$AddedImpl value, $Res Function(_$AddedImpl) then) = __$$AddedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Material> materials, Map<int, bool> selectedMaterials
+ List<Material> materials, List<Material> selectedMaterials
 });
 
 
@@ -868,7 +881,7 @@ class __$$AddedImplCopyWithImpl<$Res> extends _$SelectMaterialStateCopyWithImpl<
   return _then(_$AddedImpl(
 materials: null == materials ? _value._materials : materials // ignore: cast_nullable_to_non_nullable
 as List<Material>,selectedMaterials: null == selectedMaterials ? _value._selectedMaterials : selectedMaterials // ignore: cast_nullable_to_non_nullable
-as Map<int, bool>,
+as List<Material>,
   ));
 }
 
@@ -879,7 +892,7 @@ as Map<int, bool>,
 
 
 class _$AddedImpl  implements Added {
-  const _$AddedImpl({final  List<Material> materials = const [], final  Map<int, bool> selectedMaterials = const {}}): _materials = materials,_selectedMaterials = selectedMaterials;
+  const _$AddedImpl({final  List<Material> materials = const [], final  List<Material> selectedMaterials = const []}): _materials = materials,_selectedMaterials = selectedMaterials;
 
   
 
@@ -890,11 +903,11 @@ class _$AddedImpl  implements Added {
   return EqualUnmodifiableListView(_materials);
 }
 
- final  Map<int, bool> _selectedMaterials;
-@override@JsonKey() Map<int, bool> get selectedMaterials {
-  if (_selectedMaterials is EqualUnmodifiableMapView) return _selectedMaterials;
+ final  List<Material> _selectedMaterials;
+@override@JsonKey() List<Material> get selectedMaterials {
+  if (_selectedMaterials is EqualUnmodifiableListView) return _selectedMaterials;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_selectedMaterials);
+  return EqualUnmodifiableListView(_selectedMaterials);
 }
 
 
@@ -931,12 +944,12 @@ _$$AddedImplCopyWith<_$AddedImpl> get copyWith => __$$AddedImplCopyWithImpl<_$Ad
 
 
 abstract class Added implements SelectMaterialState {
-  const factory Added({final  List<Material> materials, final  Map<int, bool> selectedMaterials}) = _$AddedImpl;
+  const factory Added({final  List<Material> materials, final  List<Material> selectedMaterials}) = _$AddedImpl;
   
 
   
 
-@override List<Material> get materials;@override Map<int, bool> get selectedMaterials;
+@override List<Material> get materials;@override List<Material> get selectedMaterials;
 /// Create a copy of SelectMaterialState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -949,7 +962,7 @@ abstract class _$$LoadingImplCopyWith<$Res> implements $SelectMaterialStateCopyW
   factory _$$LoadingImplCopyWith(_$LoadingImpl value, $Res Function(_$LoadingImpl) then) = __$$LoadingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Material> materials, Map<int, bool> selectedMaterials
+ List<Material> materials, List<Material> selectedMaterials
 });
 
 
@@ -968,7 +981,7 @@ class __$$LoadingImplCopyWithImpl<$Res> extends _$SelectMaterialStateCopyWithImp
   return _then(_$LoadingImpl(
 materials: null == materials ? _value._materials : materials // ignore: cast_nullable_to_non_nullable
 as List<Material>,selectedMaterials: null == selectedMaterials ? _value._selectedMaterials : selectedMaterials // ignore: cast_nullable_to_non_nullable
-as Map<int, bool>,
+as List<Material>,
   ));
 }
 
@@ -979,7 +992,7 @@ as Map<int, bool>,
 
 
 class _$LoadingImpl  implements Loading {
-  const _$LoadingImpl({final  List<Material> materials = const [], final  Map<int, bool> selectedMaterials = const {}}): _materials = materials,_selectedMaterials = selectedMaterials;
+  const _$LoadingImpl({final  List<Material> materials = const [], final  List<Material> selectedMaterials = const []}): _materials = materials,_selectedMaterials = selectedMaterials;
 
   
 
@@ -990,11 +1003,11 @@ class _$LoadingImpl  implements Loading {
   return EqualUnmodifiableListView(_materials);
 }
 
- final  Map<int, bool> _selectedMaterials;
-@override@JsonKey() Map<int, bool> get selectedMaterials {
-  if (_selectedMaterials is EqualUnmodifiableMapView) return _selectedMaterials;
+ final  List<Material> _selectedMaterials;
+@override@JsonKey() List<Material> get selectedMaterials {
+  if (_selectedMaterials is EqualUnmodifiableListView) return _selectedMaterials;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_selectedMaterials);
+  return EqualUnmodifiableListView(_selectedMaterials);
 }
 
 
@@ -1031,12 +1044,12 @@ _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => __$$LoadingImplCopyWithImp
 
 
 abstract class Loading implements SelectMaterialState {
-  const factory Loading({final  List<Material> materials, final  Map<int, bool> selectedMaterials}) = _$LoadingImpl;
+  const factory Loading({final  List<Material> materials, final  List<Material> selectedMaterials}) = _$LoadingImpl;
   
 
   
 
-@override List<Material> get materials;@override Map<int, bool> get selectedMaterials;
+@override List<Material> get materials;@override List<Material> get selectedMaterials;
 /// Create a copy of SelectMaterialState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1049,7 +1062,7 @@ abstract class _$$LoadedImplCopyWith<$Res> implements $SelectMaterialStateCopyWi
   factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- List<Material> materials, Map<int, bool> selectedMaterials
+ List<Material> materials, List<Material> selectedMaterials
 });
 
 
@@ -1068,7 +1081,7 @@ class __$$LoadedImplCopyWithImpl<$Res> extends _$SelectMaterialStateCopyWithImpl
   return _then(_$LoadedImpl(
 materials: null == materials ? _value._materials : materials // ignore: cast_nullable_to_non_nullable
 as List<Material>,selectedMaterials: null == selectedMaterials ? _value._selectedMaterials : selectedMaterials // ignore: cast_nullable_to_non_nullable
-as Map<int, bool>,
+as List<Material>,
   ));
 }
 
@@ -1079,7 +1092,7 @@ as Map<int, bool>,
 
 
 class _$LoadedImpl  implements Loaded {
-  const _$LoadedImpl({required final  List<Material> materials, required final  Map<int, bool> selectedMaterials}): _materials = materials,_selectedMaterials = selectedMaterials;
+  const _$LoadedImpl({required final  List<Material> materials, required final  List<Material> selectedMaterials}): _materials = materials,_selectedMaterials = selectedMaterials;
 
   
 
@@ -1090,11 +1103,11 @@ class _$LoadedImpl  implements Loaded {
   return EqualUnmodifiableListView(_materials);
 }
 
- final  Map<int, bool> _selectedMaterials;
-@override Map<int, bool> get selectedMaterials {
-  if (_selectedMaterials is EqualUnmodifiableMapView) return _selectedMaterials;
+ final  List<Material> _selectedMaterials;
+@override List<Material> get selectedMaterials {
+  if (_selectedMaterials is EqualUnmodifiableListView) return _selectedMaterials;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_selectedMaterials);
+  return EqualUnmodifiableListView(_selectedMaterials);
 }
 
 
@@ -1131,12 +1144,12 @@ _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_
 
 
 abstract class Loaded implements SelectMaterialState {
-  const factory Loaded({required final  List<Material> materials, required final  Map<int, bool> selectedMaterials}) = _$LoadedImpl;
+  const factory Loaded({required final  List<Material> materials, required final  List<Material> selectedMaterials}) = _$LoadedImpl;
   
 
   
 
-@override List<Material> get materials;@override Map<int, bool> get selectedMaterials;
+@override List<Material> get materials;@override List<Material> get selectedMaterials;
 /// Create a copy of SelectMaterialState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1149,7 +1162,7 @@ abstract class _$$ErrorImplCopyWith<$Res> implements $SelectMaterialStateCopyWit
   factory _$$ErrorImplCopyWith(_$ErrorImpl value, $Res Function(_$ErrorImpl) then) = __$$ErrorImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- String message, List<Material> materials, Map<int, bool> selectedMaterials
+ String message, List<Material> materials, List<Material> selectedMaterials
 });
 
 
@@ -1169,7 +1182,7 @@ class __$$ErrorImplCopyWithImpl<$Res> extends _$SelectMaterialStateCopyWithImpl<
 message: null == message ? _value.message : message // ignore: cast_nullable_to_non_nullable
 as String,materials: null == materials ? _value._materials : materials // ignore: cast_nullable_to_non_nullable
 as List<Material>,selectedMaterials: null == selectedMaterials ? _value._selectedMaterials : selectedMaterials // ignore: cast_nullable_to_non_nullable
-as Map<int, bool>,
+as List<Material>,
   ));
 }
 
@@ -1180,7 +1193,7 @@ as Map<int, bool>,
 
 
 class _$ErrorImpl  implements Error {
-  const _$ErrorImpl({required this.message, final  List<Material> materials = const [], final  Map<int, bool> selectedMaterials = const {}}): _materials = materials,_selectedMaterials = selectedMaterials;
+  const _$ErrorImpl({required this.message, final  List<Material> materials = const [], final  List<Material> selectedMaterials = const []}): _materials = materials,_selectedMaterials = selectedMaterials;
 
   
 
@@ -1192,11 +1205,11 @@ class _$ErrorImpl  implements Error {
   return EqualUnmodifiableListView(_materials);
 }
 
- final  Map<int, bool> _selectedMaterials;
-@override@JsonKey() Map<int, bool> get selectedMaterials {
-  if (_selectedMaterials is EqualUnmodifiableMapView) return _selectedMaterials;
+ final  List<Material> _selectedMaterials;
+@override@JsonKey() List<Material> get selectedMaterials {
+  if (_selectedMaterials is EqualUnmodifiableListView) return _selectedMaterials;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableMapView(_selectedMaterials);
+  return EqualUnmodifiableListView(_selectedMaterials);
 }
 
 
@@ -1233,12 +1246,12 @@ _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith => __$$ErrorImplCopyWithImpl<_$Er
 
 
 abstract class Error implements SelectMaterialState {
-  const factory Error({required final  String message, final  List<Material> materials, final  Map<int, bool> selectedMaterials}) = _$ErrorImpl;
+  const factory Error({required final  String message, final  List<Material> materials, final  List<Material> selectedMaterials}) = _$ErrorImpl;
   
 
   
 
- String get message;@override List<Material> get materials;@override Map<int, bool> get selectedMaterials;
+ String get message;@override List<Material> get materials;@override List<Material> get selectedMaterials;
 /// Create a copy of SelectMaterialState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
