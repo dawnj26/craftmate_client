@@ -12,8 +12,10 @@ class SelectMaterialBloc
   SelectMaterialBloc({
     required MaterialRepository materialRepository,
     required int projectId,
+    required bool forStartedProject,
   })  : _materialRepository = materialRepository,
         _projectId = projectId,
+        _forStartedProject = forStartedProject,
         super(const Initial()) {
     on<_Started>(_onStarted);
     on<_MaterialSelected>(_onMaterialSelected);
@@ -29,6 +31,7 @@ class SelectMaterialBloc
   final MaterialRepository _materialRepository;
   final int _projectId;
   late final List<Material> _materials;
+  final bool _forStartedProject;
 
   void _onSearch(
     _Search event,
@@ -88,11 +91,19 @@ class SelectMaterialBloc
       final quantities = state.selectedMaterials
           .map((material) => material.materialQuantity ?? 1)
           .toList();
-      await _materialRepository.saveProjectMaterials(
-        _projectId,
-        selectedMaterials,
-        quantities,
-      );
+      if (_forStartedProject) {
+        await _materialRepository.saveProjectUsedMaterials(
+          _projectId,
+          selectedMaterials,
+          quantities,
+        );
+      } else {
+        await _materialRepository.saveProjectMaterials(
+          _projectId,
+          selectedMaterials,
+          quantities,
+        );
+      }
 
       emit(
         Added(
@@ -149,9 +160,11 @@ class SelectMaterialBloc
     emit(const Loading());
     try {
       _materials = await _materialRepository.getMaterials();
-      final projectsMaterials = await _materialRepository.getProjectMaterials(
-        _projectId,
-      );
+      final projectsMaterials = _forStartedProject
+          ? await _materialRepository.getProjectUsedMaterials(_projectId)
+          : await _materialRepository.getProjectMaterials(
+              _projectId,
+            );
 
       emit(
         Loaded(
