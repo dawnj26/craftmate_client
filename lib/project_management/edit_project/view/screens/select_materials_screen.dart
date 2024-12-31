@@ -10,14 +10,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_repository/material_repository.dart' as m;
 
 class SelectMaterialsScreen extends StatelessWidget {
-  const SelectMaterialsScreen({super.key, required this.projectId});
+  const SelectMaterialsScreen({
+    super.key,
+    required this.projectId,
+    this.forStartedProject = false,
+  });
 
   final int projectId;
+  final bool forStartedProject;
 
-  static Route<void> route(int projectId) {
+  static Route<void> route(int projectId, {bool forStartedProject = false}) {
     return PageTransition.effect.slideFromRightToLeft(
       SelectMaterialsScreen(
         projectId: projectId,
+        forStartedProject: forStartedProject,
       ),
     );
   }
@@ -28,6 +34,7 @@ class SelectMaterialsScreen extends StatelessWidget {
       create: (context) => SelectMaterialBloc(
         materialRepository: context.read(),
         projectId: projectId,
+        forStartedProject: forStartedProject,
       )..add(
           const SelectMaterialEvent.started(),
         ),
