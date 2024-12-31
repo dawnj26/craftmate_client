@@ -79,6 +79,7 @@ class ViewProjectBloc extends Bloc<ViewProjectEvent, ViewProjectState> {
               state.project.id,
               event.user,
               state.project.creator.id,
+              true,
             );
 
       final project = await _projectRepository.startProject(projectId);
