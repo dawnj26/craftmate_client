@@ -7,6 +7,7 @@ import 'package:craftmate_client/material_inventory/user_materials/views/screens
 import 'package:craftmate_client/material_inventory/user_materials/views/screens/user_materials_screen.dart';
 import 'package:craftmate_client/project_management/edit_project/bloc/materials/edit_project_materials_bloc.dart';
 import 'package:craftmate_client/project_management/edit_project/view/screens/select_materials_screen.dart';
+import 'package:craftmate_client/project_management/view_project/view/screen/compare_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_repository/material_repository.dart' as m;
@@ -17,11 +18,13 @@ class StartingProjectScreen extends StatelessWidget {
     required this.projectId,
     required this.originalMaterials,
     this.onStarted,
+    this.editUsedMaterials = false,
   });
 
   final int projectId;
   final List<m.Material> originalMaterials;
   final void Function()? onStarted;
+  final bool editUsedMaterials;
 
   @override
   Widget build(BuildContext context) {
@@ -83,11 +86,17 @@ class StartingProjectScreen extends StatelessWidget {
           default:
             return Scaffold(
               appBar: AppBar(
-                title: const Text('Starting project'),
+                title: Text(
+                  editUsedMaterials ? 'Edit materials' : 'Starting project',
+                ),
                 actions: [
                   BlocBuilder<EditProjectMaterialsBloc,
                       EditProjectMaterialsState>(
                     builder: (context, state) {
+                      if (editUsedMaterials) {
+                        return const SizedBox.shrink();
+                      }
+
                       final validToStart =
                           originalMaterials.length <= state.materials.length;
 
@@ -133,6 +142,7 @@ class StartingProjectScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const ForkNote(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -168,6 +178,7 @@ class StartingProjectScreen extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const ForkNote(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
