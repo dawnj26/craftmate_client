@@ -62,40 +62,12 @@ class _ScreenState extends State<_Screen> {
   @override
   Widget build(BuildContext context) {
     final bool isAllSelected = _selected.every((element) => element);
-    final theme = Theme.of(context);
 
     return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            margin: const EdgeInsets.all(12),
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.info_outline,
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      'Note',
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Starting this project will automatically template this project.',
-                ),
-              ],
-            ),
-          ),
+          ForkNote(),
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(12),
@@ -152,6 +124,46 @@ class _ScreenState extends State<_Screen> {
                   : null,
               child: const Text('Start project'),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ForkNote extends StatelessWidget {
+  const ForkNote({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      margin: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.info_outline,
+              ),
+              SizedBox(width: 8),
+              Text(
+                'Note',
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
+          Text(
+            'Starting this project will automatically template this project.',
           ),
         ],
       ),
