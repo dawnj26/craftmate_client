@@ -74,18 +74,21 @@ class EditProjectMaterialsPage extends StatelessWidget {
     required this.materials,
     required this.projectId,
     this.forStartedProject = false,
+    this.editUsedMaterials = false,
     this.onStarted,
   });
 
   final List<m.Material> materials;
   final int projectId;
   final bool forStartedProject;
+  final bool editUsedMaterials;
   final void Function()? onStarted;
 
   static Route<void> route(
     List<m.Material> materials,
     int projectId, {
     bool forStartedProject = false,
+    bool editUsedMaterials = false,
     void Function()? onStarted,
   }) {
     return PageTransition.effect.slideFromRightToLeft(
@@ -94,6 +97,7 @@ class EditProjectMaterialsPage extends StatelessWidget {
         projectId: projectId,
         forStartedProject: forStartedProject,
         onStarted: onStarted,
+        editUsedMaterials: editUsedMaterials,
       ),
     );
   }
@@ -143,6 +147,7 @@ class EditProjectMaterialsPage extends StatelessWidget {
                 projectId: projectId,
                 originalMaterials: materials,
                 onStarted: onStarted,
+                editUsedMaterials: editUsedMaterials,
               )
             : EditProjectMaterialsScreen(
                 projectId: projectId,
