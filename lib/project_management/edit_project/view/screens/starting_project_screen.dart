@@ -142,7 +142,7 @@ class StartingProjectScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const ForkNote(),
+              if (!editUsedMaterials) const ForkNote(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -178,7 +178,7 @@ class StartingProjectScreen extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ForkNote(),
+            if (!editUsedMaterials) const ForkNote(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
