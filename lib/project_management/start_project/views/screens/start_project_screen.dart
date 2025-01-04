@@ -1,11 +1,13 @@
 import 'package:craftmate_client/helpers/components/empty_message.dart';
 import 'package:craftmate_client/helpers/modal/modal.dart';
 import 'package:craftmate_client/material_inventory/user_materials/views/screens/user_materials_screen.dart';
+import 'package:craftmate_client/project_management/edit_project/view/edit_project_page.dart';
 import 'package:craftmate_client/project_management/start_project/bloc/start/start_project_bloc.dart';
 import 'package:craftmate_client/project_management/view_project/view/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:material_repository/material_repository.dart' as m;
 import 'package:project_repository/project_repository.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -69,6 +71,7 @@ class _StartProjectScreenState extends State<StartProjectScreen> {
               descriptionKey: _descriptionKey,
               materialsKey: _materialsKey,
               procedureKey: _procedureKey,
+              usedMaterials: state.usedMaterials,
             );
           },
         ),
@@ -176,10 +179,12 @@ class _Body extends StatefulWidget {
     required this.descriptionKey,
     required this.materialsKey,
     required this.procedureKey,
+    required this.usedMaterials,
   });
 
   final ItemScrollController controller;
   final Project project;
+  final List<m.Material> usedMaterials;
   final GlobalKey descriptionKey;
   final GlobalKey materialsKey;
   final GlobalKey procedureKey;
@@ -207,6 +212,7 @@ class _BodyState extends State<_Body> {
         description: 'These are the materials you need',
         child: _Materials(
           project: widget.project,
+          usedMaterials: widget.usedMaterials,
         ),
       ),
       Showcase(
@@ -271,19 +277,48 @@ class _BodyState extends State<_Body> {
 class _Materials extends StatelessWidget {
   const _Materials({
     required this.project,
+    required this.usedMaterials,
   });
 
   final Project project;
+  final List<m.Material> usedMaterials;
 
   @override
   Widget build(BuildContext context) {
-    final materialsLength = project.materials?.length ?? 0;
+    final materialsLength = usedMaterials.length;
     final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Label(title: 'Materials'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Label(title: 'Materials'),
+            TextButton(
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  EditProjectMaterialsPage.route(
+                    project.materials ?? [],
+                    project.id,
+                    forStartedProject: true,
+                    editUsedMaterials: true,
+                  ),
+                );
+
+                if (!context.mounted) {
+                  return;
+                }
+
+                context.read<StartProjectBloc>().add(
+                      const StartProjectEvent.materialsReloaded(),
+                    );
+              },
+              child: const Text('Edit'),
+            ),
+          ],
+        ),
         const SizedBox(height: 12),
         if (materialsLength == 0)
           Text(
@@ -299,7 +334,7 @@ class _Materials extends StatelessWidget {
             children: List.generate(
               materialsLength,
               (index) {
-                final material = project.materials![index];
+                final material = usedMaterials[index];
                 return MaterialCard(
                   material: material,
                   materialQuantity: material.materialQuantity,
