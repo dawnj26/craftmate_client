@@ -7,4 +7,5 @@ class StartProjectEvent with _$StartProjectEvent {
       _StepCompleteToggled;
   const factory StartProjectEvent.allStepsCompleted() = _AllStepsCompleted;
   const factory StartProjectEvent.projectFinished() = _ProjectFinished;
+  const factory StartProjectEvent.materialsReloaded() = _MaterialsReloaded;
 }

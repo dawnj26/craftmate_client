@@ -340,9 +340,76 @@ abstract class _ProjectFinished implements StartProjectEvent {
 }
 
 /// @nodoc
+abstract class _$$MaterialsReloadedImplCopyWith<$Res>  {
+  factory _$$MaterialsReloadedImplCopyWith(_$MaterialsReloadedImpl value, $Res Function(_$MaterialsReloadedImpl) then) = __$$MaterialsReloadedImplCopyWithImpl<$Res>;
+
+
+
+}
+
+/// @nodoc
+class __$$MaterialsReloadedImplCopyWithImpl<$Res> extends _$StartProjectEventCopyWithImpl<$Res, _$MaterialsReloadedImpl> implements _$$MaterialsReloadedImplCopyWith<$Res> {
+  __$$MaterialsReloadedImplCopyWithImpl(_$MaterialsReloadedImpl _value, $Res Function(_$MaterialsReloadedImpl) _then)
+      : super(_value, _then);
+
+
+/// Create a copy of StartProjectEvent
+/// with the given fields replaced by the non-null parameter values.
+
+
+
+}
+
+/// @nodoc
+
+
+class _$MaterialsReloadedImpl  implements _MaterialsReloaded {
+  const _$MaterialsReloadedImpl();
+
+  
+
+
+
+@override
+String toString() {
+  return 'StartProjectEvent.materialsReloaded()';
+}
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$MaterialsReloadedImpl);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+
+
+
+
+
+
+
+
+}
+
+
+abstract class _MaterialsReloaded implements StartProjectEvent {
+  const factory _MaterialsReloaded() = _$MaterialsReloadedImpl;
+  
+
+  
+
+
+
+}
+
+/// @nodoc
 mixin _$StartProjectState {
 
- Project get project => throw _privateConstructorUsedError; List<bool> get completedSteps => throw _privateConstructorUsedError;
+ Project get project => throw _privateConstructorUsedError; List<Material> get usedMaterials => throw _privateConstructorUsedError; List<bool> get completedSteps => throw _privateConstructorUsedError;
 
 
 
@@ -362,7 +429,7 @@ abstract class $StartProjectStateCopyWith<$Res>  {
   factory $StartProjectStateCopyWith(StartProjectState value, $Res Function(StartProjectState) then) = _$StartProjectStateCopyWithImpl<$Res, StartProjectState>;
 @useResult
 $Res call({
- Project project, List<bool> completedSteps
+ Project project, List<Material> usedMaterials, List<bool> completedSteps
 });
 
 
@@ -380,10 +447,11 @@ class _$StartProjectStateCopyWithImpl<$Res,$Val extends StartProjectState> imple
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? completedSteps = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? usedMaterials = null,Object? completedSteps = null,}) {
   return _then(_value.copyWith(
 project: null == project ? _value.project : project // ignore: cast_nullable_to_non_nullable
-as Project,completedSteps: null == completedSteps ? _value.completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
+as Project,usedMaterials: null == usedMaterials ? _value.usedMaterials : usedMaterials // ignore: cast_nullable_to_non_nullable
+as List<Material>,completedSteps: null == completedSteps ? _value.completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
 as List<bool>,
   )as $Val);
 }
@@ -405,7 +473,7 @@ abstract class _$$InitialImplCopyWith<$Res> implements $StartProjectStateCopyWit
   factory _$$InitialImplCopyWith(_$InitialImpl value, $Res Function(_$InitialImpl) then) = __$$InitialImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- Project project, List<bool> completedSteps
+ Project project, List<Material> usedMaterials, List<bool> completedSteps
 });
 
 
@@ -420,10 +488,11 @@ class __$$InitialImplCopyWithImpl<$Res> extends _$StartProjectStateCopyWithImpl<
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? completedSteps = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? usedMaterials = null,Object? completedSteps = null,}) {
   return _then(_$InitialImpl(
 project: null == project ? _value.project : project // ignore: cast_nullable_to_non_nullable
-as Project,completedSteps: null == completedSteps ? _value._completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
+as Project,usedMaterials: null == usedMaterials ? _value._usedMaterials : usedMaterials // ignore: cast_nullable_to_non_nullable
+as List<Material>,completedSteps: null == completedSteps ? _value._completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
 as List<bool>,
   ));
 }
@@ -435,11 +504,18 @@ as List<bool>,
 
 
 class _$InitialImpl  implements Initial {
-  const _$InitialImpl({required this.project, final  List<bool> completedSteps = const []}): _completedSteps = completedSteps;
+  const _$InitialImpl({required this.project, required final  List<Material> usedMaterials, final  List<bool> completedSteps = const []}): _usedMaterials = usedMaterials,_completedSteps = completedSteps;
 
   
 
 @override final  Project project;
+ final  List<Material> _usedMaterials;
+@override List<Material> get usedMaterials {
+  if (_usedMaterials is EqualUnmodifiableListView) return _usedMaterials;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_usedMaterials);
+}
+
  final  List<bool> _completedSteps;
 @override@JsonKey() List<bool> get completedSteps {
   if (_completedSteps is EqualUnmodifiableListView) return _completedSteps;
@@ -450,18 +526,18 @@ class _$InitialImpl  implements Initial {
 
 @override
 String toString() {
-  return 'StartProjectState.initial(project: $project, completedSteps: $completedSteps)';
+  return 'StartProjectState.initial(project: $project, usedMaterials: $usedMaterials, completedSteps: $completedSteps)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$InitialImpl&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._usedMaterials, _usedMaterials)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(_completedSteps));
+int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(_usedMaterials),const DeepCollectionEquality().hash(_completedSteps));
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
@@ -481,12 +557,12 @@ _$$InitialImplCopyWith<_$InitialImpl> get copyWith => __$$InitialImplCopyWithImp
 
 
 abstract class Initial implements StartProjectState {
-  const factory Initial({required final  Project project, final  List<bool> completedSteps}) = _$InitialImpl;
+  const factory Initial({required final  Project project, required final  List<Material> usedMaterials, final  List<bool> completedSteps}) = _$InitialImpl;
   
 
   
 
-@override Project get project;@override List<bool> get completedSteps;
+@override Project get project;@override List<Material> get usedMaterials;@override List<bool> get completedSteps;
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -499,7 +575,7 @@ abstract class _$$SavingImplCopyWith<$Res> implements $StartProjectStateCopyWith
   factory _$$SavingImplCopyWith(_$SavingImpl value, $Res Function(_$SavingImpl) then) = __$$SavingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- Project project, List<bool> completedSteps
+ Project project, List<Material> usedMaterials, List<bool> completedSteps
 });
 
 
@@ -514,10 +590,11 @@ class __$$SavingImplCopyWithImpl<$Res> extends _$StartProjectStateCopyWithImpl<$
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? completedSteps = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? usedMaterials = null,Object? completedSteps = null,}) {
   return _then(_$SavingImpl(
 project: null == project ? _value.project : project // ignore: cast_nullable_to_non_nullable
-as Project,completedSteps: null == completedSteps ? _value._completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
+as Project,usedMaterials: null == usedMaterials ? _value._usedMaterials : usedMaterials // ignore: cast_nullable_to_non_nullable
+as List<Material>,completedSteps: null == completedSteps ? _value._completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
 as List<bool>,
   ));
 }
@@ -529,11 +606,18 @@ as List<bool>,
 
 
 class _$SavingImpl  implements Saving {
-  const _$SavingImpl({required this.project, final  List<bool> completedSteps = const []}): _completedSteps = completedSteps;
+  const _$SavingImpl({required this.project, required final  List<Material> usedMaterials, final  List<bool> completedSteps = const []}): _usedMaterials = usedMaterials,_completedSteps = completedSteps;
 
   
 
 @override final  Project project;
+ final  List<Material> _usedMaterials;
+@override List<Material> get usedMaterials {
+  if (_usedMaterials is EqualUnmodifiableListView) return _usedMaterials;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_usedMaterials);
+}
+
  final  List<bool> _completedSteps;
 @override@JsonKey() List<bool> get completedSteps {
   if (_completedSteps is EqualUnmodifiableListView) return _completedSteps;
@@ -544,18 +628,18 @@ class _$SavingImpl  implements Saving {
 
 @override
 String toString() {
-  return 'StartProjectState.saving(project: $project, completedSteps: $completedSteps)';
+  return 'StartProjectState.saving(project: $project, usedMaterials: $usedMaterials, completedSteps: $completedSteps)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SavingImpl&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$SavingImpl&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._usedMaterials, _usedMaterials)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(_completedSteps));
+int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(_usedMaterials),const DeepCollectionEquality().hash(_completedSteps));
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
@@ -575,12 +659,12 @@ _$$SavingImplCopyWith<_$SavingImpl> get copyWith => __$$SavingImplCopyWithImpl<_
 
 
 abstract class Saving implements StartProjectState {
-  const factory Saving({required final  Project project, final  List<bool> completedSteps}) = _$SavingImpl;
+  const factory Saving({required final  Project project, required final  List<Material> usedMaterials, final  List<bool> completedSteps}) = _$SavingImpl;
   
 
   
 
-@override Project get project;@override List<bool> get completedSteps;
+@override Project get project;@override List<Material> get usedMaterials;@override List<bool> get completedSteps;
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -593,7 +677,7 @@ abstract class _$$FinishedImplCopyWith<$Res> implements $StartProjectStateCopyWi
   factory _$$FinishedImplCopyWith(_$FinishedImpl value, $Res Function(_$FinishedImpl) then) = __$$FinishedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- Project project, List<bool> completedSteps
+ Project project, List<Material> usedMaterials, List<bool> completedSteps
 });
 
 
@@ -608,10 +692,11 @@ class __$$FinishedImplCopyWithImpl<$Res> extends _$StartProjectStateCopyWithImpl
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? completedSteps = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? usedMaterials = null,Object? completedSteps = null,}) {
   return _then(_$FinishedImpl(
 project: null == project ? _value.project : project // ignore: cast_nullable_to_non_nullable
-as Project,completedSteps: null == completedSteps ? _value._completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
+as Project,usedMaterials: null == usedMaterials ? _value._usedMaterials : usedMaterials // ignore: cast_nullable_to_non_nullable
+as List<Material>,completedSteps: null == completedSteps ? _value._completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
 as List<bool>,
   ));
 }
@@ -623,11 +708,18 @@ as List<bool>,
 
 
 class _$FinishedImpl  implements Finished {
-  const _$FinishedImpl({required this.project, final  List<bool> completedSteps = const []}): _completedSteps = completedSteps;
+  const _$FinishedImpl({required this.project, required final  List<Material> usedMaterials, final  List<bool> completedSteps = const []}): _usedMaterials = usedMaterials,_completedSteps = completedSteps;
 
   
 
 @override final  Project project;
+ final  List<Material> _usedMaterials;
+@override List<Material> get usedMaterials {
+  if (_usedMaterials is EqualUnmodifiableListView) return _usedMaterials;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_usedMaterials);
+}
+
  final  List<bool> _completedSteps;
 @override@JsonKey() List<bool> get completedSteps {
   if (_completedSteps is EqualUnmodifiableListView) return _completedSteps;
@@ -638,18 +730,18 @@ class _$FinishedImpl  implements Finished {
 
 @override
 String toString() {
-  return 'StartProjectState.finished(project: $project, completedSteps: $completedSteps)';
+  return 'StartProjectState.finished(project: $project, usedMaterials: $usedMaterials, completedSteps: $completedSteps)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$FinishedImpl&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$FinishedImpl&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._usedMaterials, _usedMaterials)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(_completedSteps));
+int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(_usedMaterials),const DeepCollectionEquality().hash(_completedSteps));
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
@@ -669,12 +761,12 @@ _$$FinishedImplCopyWith<_$FinishedImpl> get copyWith => __$$FinishedImplCopyWith
 
 
 abstract class Finished implements StartProjectState {
-  const factory Finished({required final  Project project, final  List<bool> completedSteps}) = _$FinishedImpl;
+  const factory Finished({required final  Project project, required final  List<Material> usedMaterials, final  List<bool> completedSteps}) = _$FinishedImpl;
   
 
   
 
-@override Project get project;@override List<bool> get completedSteps;
+@override Project get project;@override List<Material> get usedMaterials;@override List<bool> get completedSteps;
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -687,7 +779,7 @@ abstract class _$$LoadingImplCopyWith<$Res> implements $StartProjectStateCopyWit
   factory _$$LoadingImplCopyWith(_$LoadingImpl value, $Res Function(_$LoadingImpl) then) = __$$LoadingImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- Project project, List<bool> completedSteps
+ Project project, List<Material> usedMaterials, List<bool> completedSteps
 });
 
 
@@ -702,10 +794,11 @@ class __$$LoadingImplCopyWithImpl<$Res> extends _$StartProjectStateCopyWithImpl<
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? completedSteps = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? usedMaterials = null,Object? completedSteps = null,}) {
   return _then(_$LoadingImpl(
 project: null == project ? _value.project : project // ignore: cast_nullable_to_non_nullable
-as Project,completedSteps: null == completedSteps ? _value._completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
+as Project,usedMaterials: null == usedMaterials ? _value._usedMaterials : usedMaterials // ignore: cast_nullable_to_non_nullable
+as List<Material>,completedSteps: null == completedSteps ? _value._completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
 as List<bool>,
   ));
 }
@@ -717,11 +810,18 @@ as List<bool>,
 
 
 class _$LoadingImpl  implements Loading {
-  const _$LoadingImpl({required this.project, final  List<bool> completedSteps = const []}): _completedSteps = completedSteps;
+  const _$LoadingImpl({required this.project, required final  List<Material> usedMaterials, final  List<bool> completedSteps = const []}): _usedMaterials = usedMaterials,_completedSteps = completedSteps;
 
   
 
 @override final  Project project;
+ final  List<Material> _usedMaterials;
+@override List<Material> get usedMaterials {
+  if (_usedMaterials is EqualUnmodifiableListView) return _usedMaterials;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_usedMaterials);
+}
+
  final  List<bool> _completedSteps;
 @override@JsonKey() List<bool> get completedSteps {
   if (_completedSteps is EqualUnmodifiableListView) return _completedSteps;
@@ -732,18 +832,18 @@ class _$LoadingImpl  implements Loading {
 
 @override
 String toString() {
-  return 'StartProjectState.loading(project: $project, completedSteps: $completedSteps)';
+  return 'StartProjectState.loading(project: $project, usedMaterials: $usedMaterials, completedSteps: $completedSteps)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadingImpl&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._usedMaterials, _usedMaterials)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(_completedSteps));
+int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(_usedMaterials),const DeepCollectionEquality().hash(_completedSteps));
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
@@ -763,12 +863,12 @@ _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith => __$$LoadingImplCopyWithImp
 
 
 abstract class Loading implements StartProjectState {
-  const factory Loading({required final  Project project, final  List<bool> completedSteps}) = _$LoadingImpl;
+  const factory Loading({required final  Project project, required final  List<Material> usedMaterials, final  List<bool> completedSteps}) = _$LoadingImpl;
   
 
   
 
-@override Project get project;@override List<bool> get completedSteps;
+@override Project get project;@override List<Material> get usedMaterials;@override List<bool> get completedSteps;
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -781,7 +881,7 @@ abstract class _$$LoadedImplCopyWith<$Res> implements $StartProjectStateCopyWith
   factory _$$LoadedImplCopyWith(_$LoadedImpl value, $Res Function(_$LoadedImpl) then) = __$$LoadedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- Project project, List<bool> completedSteps, bool showTutorial
+ Project project, List<Material> usedMaterials, List<bool> completedSteps, bool showTutorial
 });
 
 
@@ -796,10 +896,11 @@ class __$$LoadedImplCopyWithImpl<$Res> extends _$StartProjectStateCopyWithImpl<$
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? completedSteps = null,Object? showTutorial = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? project = null,Object? usedMaterials = null,Object? completedSteps = null,Object? showTutorial = null,}) {
   return _then(_$LoadedImpl(
 project: null == project ? _value.project : project // ignore: cast_nullable_to_non_nullable
-as Project,completedSteps: null == completedSteps ? _value._completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
+as Project,usedMaterials: null == usedMaterials ? _value._usedMaterials : usedMaterials // ignore: cast_nullable_to_non_nullable
+as List<Material>,completedSteps: null == completedSteps ? _value._completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
 as List<bool>,showTutorial: null == showTutorial ? _value.showTutorial : showTutorial // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
@@ -812,11 +913,18 @@ as bool,
 
 
 class _$LoadedImpl  implements Loaded {
-  const _$LoadedImpl({required this.project, final  List<bool> completedSteps = const [], this.showTutorial = false}): _completedSteps = completedSteps;
+  const _$LoadedImpl({required this.project, required final  List<Material> usedMaterials, final  List<bool> completedSteps = const [], this.showTutorial = false}): _usedMaterials = usedMaterials,_completedSteps = completedSteps;
 
   
 
 @override final  Project project;
+ final  List<Material> _usedMaterials;
+@override List<Material> get usedMaterials {
+  if (_usedMaterials is EqualUnmodifiableListView) return _usedMaterials;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_usedMaterials);
+}
+
  final  List<bool> _completedSteps;
 @override@JsonKey() List<bool> get completedSteps {
   if (_completedSteps is EqualUnmodifiableListView) return _completedSteps;
@@ -828,18 +936,18 @@ class _$LoadedImpl  implements Loaded {
 
 @override
 String toString() {
-  return 'StartProjectState.loaded(project: $project, completedSteps: $completedSteps, showTutorial: $showTutorial)';
+  return 'StartProjectState.loaded(project: $project, usedMaterials: $usedMaterials, completedSteps: $completedSteps, showTutorial: $showTutorial)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps)&&(identical(other.showTutorial, showTutorial) || other.showTutorial == showTutorial));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$LoadedImpl&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._usedMaterials, _usedMaterials)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps)&&(identical(other.showTutorial, showTutorial) || other.showTutorial == showTutorial));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(_completedSteps),showTutorial);
+int get hashCode => Object.hash(runtimeType,project,const DeepCollectionEquality().hash(_usedMaterials),const DeepCollectionEquality().hash(_completedSteps),showTutorial);
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
@@ -859,12 +967,12 @@ _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith => __$$LoadedImplCopyWithImpl<_
 
 
 abstract class Loaded implements StartProjectState {
-  const factory Loaded({required final  Project project, final  List<bool> completedSteps, final  bool showTutorial}) = _$LoadedImpl;
+  const factory Loaded({required final  Project project, required final  List<Material> usedMaterials, final  List<bool> completedSteps, final  bool showTutorial}) = _$LoadedImpl;
   
 
   
 
-@override Project get project;@override List<bool> get completedSteps; bool get showTutorial;
+@override Project get project;@override List<Material> get usedMaterials;@override List<bool> get completedSteps; bool get showTutorial;
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
@@ -877,7 +985,7 @@ abstract class _$$FailedImplCopyWith<$Res> implements $StartProjectStateCopyWith
   factory _$$FailedImplCopyWith(_$FailedImpl value, $Res Function(_$FailedImpl) then) = __$$FailedImplCopyWithImpl<$Res>;
 @override @useResult
 $Res call({
- String errMessage, Project project, List<bool> completedSteps
+ String errMessage, Project project, List<Material> usedMaterials, List<bool> completedSteps
 });
 
 
@@ -892,11 +1000,12 @@ class __$$FailedImplCopyWithImpl<$Res> extends _$StartProjectStateCopyWithImpl<$
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? errMessage = null,Object? project = null,Object? completedSteps = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? errMessage = null,Object? project = null,Object? usedMaterials = null,Object? completedSteps = null,}) {
   return _then(_$FailedImpl(
 errMessage: null == errMessage ? _value.errMessage : errMessage // ignore: cast_nullable_to_non_nullable
 as String,project: null == project ? _value.project : project // ignore: cast_nullable_to_non_nullable
-as Project,completedSteps: null == completedSteps ? _value._completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
+as Project,usedMaterials: null == usedMaterials ? _value._usedMaterials : usedMaterials // ignore: cast_nullable_to_non_nullable
+as List<Material>,completedSteps: null == completedSteps ? _value._completedSteps : completedSteps // ignore: cast_nullable_to_non_nullable
 as List<bool>,
   ));
 }
@@ -908,12 +1017,19 @@ as List<bool>,
 
 
 class _$FailedImpl  implements Failed {
-  const _$FailedImpl({required this.errMessage, required this.project, final  List<bool> completedSteps = const []}): _completedSteps = completedSteps;
+  const _$FailedImpl({required this.errMessage, required this.project, required final  List<Material> usedMaterials, final  List<bool> completedSteps = const []}): _usedMaterials = usedMaterials,_completedSteps = completedSteps;
 
   
 
 @override final  String errMessage;
 @override final  Project project;
+ final  List<Material> _usedMaterials;
+@override List<Material> get usedMaterials {
+  if (_usedMaterials is EqualUnmodifiableListView) return _usedMaterials;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_usedMaterials);
+}
+
  final  List<bool> _completedSteps;
 @override@JsonKey() List<bool> get completedSteps {
   if (_completedSteps is EqualUnmodifiableListView) return _completedSteps;
@@ -924,18 +1040,18 @@ class _$FailedImpl  implements Failed {
 
 @override
 String toString() {
-  return 'StartProjectState.failed(errMessage: $errMessage, project: $project, completedSteps: $completedSteps)';
+  return 'StartProjectState.failed(errMessage: $errMessage, project: $project, usedMaterials: $usedMaterials, completedSteps: $completedSteps)';
 }
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$FailedImpl&&(identical(other.errMessage, errMessage) || other.errMessage == errMessage)&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _$FailedImpl&&(identical(other.errMessage, errMessage) || other.errMessage == errMessage)&&(identical(other.project, project) || other.project == project)&&const DeepCollectionEquality().equals(other._usedMaterials, _usedMaterials)&&const DeepCollectionEquality().equals(other._completedSteps, _completedSteps));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,errMessage,project,const DeepCollectionEquality().hash(_completedSteps));
+int get hashCode => Object.hash(runtimeType,errMessage,project,const DeepCollectionEquality().hash(_usedMaterials),const DeepCollectionEquality().hash(_completedSteps));
 
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
@@ -955,12 +1071,12 @@ _$$FailedImplCopyWith<_$FailedImpl> get copyWith => __$$FailedImplCopyWithImpl<_
 
 
 abstract class Failed implements StartProjectState {
-  const factory Failed({required final  String errMessage, required final  Project project, final  List<bool> completedSteps}) = _$FailedImpl;
+  const factory Failed({required final  String errMessage, required final  Project project, required final  List<Material> usedMaterials, final  List<bool> completedSteps}) = _$FailedImpl;
   
 
   
 
- String get errMessage;@override Project get project;@override List<bool> get completedSteps;
+ String get errMessage;@override Project get project;@override List<Material> get usedMaterials;@override List<bool> get completedSteps;
 /// Create a copy of StartProjectState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)

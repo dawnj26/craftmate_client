@@ -19,17 +19,52 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
         super(
           Initial(
             project: Project.empty(),
+            usedMaterials: [],
           ),
         ) {
     on<_Started>(_onStarted);
     on<_StepCompleteToggled>(_onStepCompleteToggled);
     on<_AllStepsCompleted>(_onAllStepsCompleted);
     on<_ProjectFinished>(_onProjectFinished);
+    on<_MaterialsReloaded>(_onMaterialsReloaded);
   }
 
   final ProjectRepository _projectRepository;
   final int _projectId;
   final MaterialRepository _materialRepository;
+
+  Future<void> _onMaterialsReloaded(
+    _MaterialsReloaded event,
+    Emitter<StartProjectState> emit,
+  ) async {
+    emit(
+      Loading(
+        project: state.project.copyWith(),
+        completedSteps: [...state.completedSteps],
+        usedMaterials: [...state.usedMaterials],
+      ),
+    );
+    try {
+      final usedMaterials =
+          await _materialRepository.getProjectUsedMaterials(_projectId);
+      emit(
+        Loaded(
+          project: state.project.copyWith(),
+          completedSteps: [...state.completedSteps],
+          usedMaterials: usedMaterials,
+        ),
+      );
+    } on ProjectException catch (e) {
+      emit(
+        Failed(
+          errMessage: e.message,
+          project: state.project.copyWith(),
+          completedSteps: [...state.completedSteps],
+          usedMaterials: [...state.usedMaterials],
+        ),
+      );
+    }
+  }
 
   Future<void> _onProjectFinished(
     _ProjectFinished event,
@@ -39,6 +74,7 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
       Saving(
         project: state.project.copyWith(),
         completedSteps: [...state.completedSteps],
+        usedMaterials: [...state.usedMaterials],
       ),
     );
     try {
@@ -51,6 +87,7 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
             state.completedSteps.length,
             (index) => true,
           ),
+          usedMaterials: [...state.usedMaterials],
         ),
       );
     } on ProjectException catch (e) {
@@ -58,6 +95,7 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
         Failed(
           errMessage: e.message,
           project: state.project.copyWith(),
+          usedMaterials: [...state.usedMaterials],
           completedSteps: [...state.completedSteps],
         ),
       );
@@ -80,12 +118,14 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
             state.completedSteps.length,
             (index) => !isCompleted,
           ),
+          usedMaterials: [...state.usedMaterials],
         ),
       );
     } on ProjectException catch (e) {
       emit(
         Failed(
           errMessage: e.message,
+          usedMaterials: [...state.usedMaterials],
           project: state.project.copyWith(),
           completedSteps: [...state.completedSteps],
         ),
@@ -109,12 +149,14 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
         Loaded(
           project: state.project.copyWith(),
           completedSteps: completedSteps,
+          usedMaterials: [...state.usedMaterials],
         ),
       );
     } on ProjectException catch (e) {
       emit(
         Failed(
           errMessage: e.message,
+          usedMaterials: [...state.usedMaterials],
           project: state.project.copyWith(),
           completedSteps: [...state.completedSteps],
         ),
@@ -129,6 +171,8 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
     emit(
       Loading(
         project: state.project.copyWith(),
+        completedSteps: [...state.completedSteps],
+        usedMaterials: [],
       ),
     );
 
@@ -146,7 +190,8 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
             );
       emit(
         Loaded(
-          project: project.copyWith(materials: usedMaterials),
+          project: project,
+          usedMaterials: usedMaterials,
           completedSteps: completedSteps,
           showTutorial: !hasSeenTutorial,
         ),
@@ -154,8 +199,10 @@ class StartProjectBloc extends Bloc<StartProjectEvent, StartProjectState> {
     } on ProjectException catch (e) {
       emit(
         Failed(
+          usedMaterials: [...state.usedMaterials],
           errMessage: e.message,
           project: state.project.copyWith(),
+          completedSteps: [...state.completedSteps],
         ),
       );
     }
